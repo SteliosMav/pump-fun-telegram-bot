@@ -1,9 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 import TelegramBot from "node-telegram-bot-api";
 import { CallbackData } from "./types";
 import { startHandler } from "./handlers/start.handler";
 import { getBalanceHandler } from "./handlers/get-balance.handler";
 import { buyHandler } from "./handlers/buy.handler";
-import { TELEGRAM_BOT_TOKEN } from "src/constants";
+import { TELEGRAM_BOT_TOKEN } from "../constants";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });

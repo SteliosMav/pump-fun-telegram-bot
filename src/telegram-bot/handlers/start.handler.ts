@@ -1,6 +1,9 @@
 import { BasicHandlerArguments } from "../types";
 
 export async function startHandler({ bot, msg }: BasicHandlerArguments) {
+  console.log("Bot: ", bot);
+  console.log("Msg: ", msg);
+
   const options = {
     reply_markup: {
       inline_keyboard: [

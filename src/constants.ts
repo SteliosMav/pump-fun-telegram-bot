@@ -1,5 +1,14 @@
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 
+// Environment variables
+export const SOLANA_BOT_PRIVATE_KEY = process.env
+  .SOLANA_PRIVATE_KEY_1 as string;
+export const SOLANA_PAYER_PRIVATE_KEY = process.env
+  .SOLANA_PRIVATE_KEY_2 as string;
+export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
+export const HELIUS_API = process.env.HELIUS_API as string;
+export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
+
 export const GLOBAL = new PublicKey(
   "4wTV1YmiEkRvAtNtsSGPtUrqRYQMe5SKy2uB4Jjaxnjf"
 );
@@ -25,14 +34,6 @@ export const PUMP_FUN_SWAP_FEE_PERCENT = 0.01;
 export const ASSOCIATED_TOKEN_ACC_SIZE = 165;
 export const SIGNATURE_FEE_LAMPORTS = 5000;
 export const SYSTEM_PROGRAM_ID = SystemProgram.programId;
-
-// Environment variables
-export const SOLANA_BOT_PRIVATE_KEY = process.env
-  .SOLANA_PRIVATE_KEY_1 as string;
-export const SOLANA_PAYER_PRIVATE_KEY = process.env
-  .SOLANA_PRIVATE_KEY_2 as string;
-export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
-export const HELIUS_API = process.env.HELIUS_API as string;
 
 // Telegram bot
 export const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN as string;
