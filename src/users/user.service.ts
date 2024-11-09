@@ -1,33 +1,48 @@
 import CryptoJS from "crypto-js";
 import { ENCRYPTION_KEY } from "src/constants";
+import { User } from "./types";
+import { Database } from "sqlite3";
 
 export class UserService {
-  encryptPrivateKey(privateKey: string) {
-    return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
-  }
+  constructor(private db: Database) {}
 
-  //   async createAndStoreNewAccount(telegramId) {
-  //     const newAccountKeypair = Keypair.generate();
-  //     const publicKey = newAccountKeypair.publicKey.toBase58();
-  //     const privateKey = Buffer.from(newAccountKeypair.secretKey).toString(
-  //       "base58"
-  //     );
+  create(user: User): any {
+    // Calculate the current date once in ISO format
+    const IsoDate = new Date().toISOString();
 
-  //     // Encrypt the private key
-  //     const encryptedPrivateKey = encryptPrivateKey(privateKey);
+    // Encrypt the private key
+    const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
-  //     // Store in SQLite
-  //     const stmt = db.prepare(
-  //       "INSERT OR REPLACE INTO users (telegramId, publicKey, encryptedPrivateKey) VALUES (?, ?, ?)"
-  //     );
-  //     stmt.run(telegramId, publicKey, encryptedPrivateKey);
+    // SQLite command to insert user with encrypted private key and single IsoDate
+    let error = null;
+    this.db.run(
+      `INSERT INTO users (
+          telegramId, encryptedPrivateKey, firstName, isBot, pumpsCounter, createdAt, updatedAt, lastName, username
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        user.telegramId,
+        encryptedPrivateKey,
+        user.firstName,
+        user.isBot ? 1 : 0, // SQLite boolean workaround
+        user.pumpsCounter,
+        IsoDate, // `createdAt` uses calculated IsoDate
+        IsoDate, // `updatedAt` also uses the same IsoDate
+        user.lastName,
+        user.username,
+      ],
+      (err) => {
+        console.log("Create response: ", err);
+        error = err;
+      }
+    );
 
-  //     return publicKey; // Return public key to provide to the user
-  //   }
+    const newUser = {
+      ...user,
+      createdAt: IsoDate,
+      updatedAt: IsoDate,
+    };
 
-  decryptPrivateKey(encryptedPrivateKey: string) {
-    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, ENCRYPTION_KEY);
-    return bytes.toString(CryptoJS.enc.Utf8);
+    return error ? error : newUser;
   }
 
   //   async getPrivateKey(telegramId) {
@@ -42,4 +57,13 @@ export class UserService {
   //       throw new Error("User not found");
   //     }
   //   }
+
+  private _encryptPrivateKey(privateKey: string) {
+    return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
+  }
+
+  private _decryptPrivateKey(encryptedPrivateKey: string) {
+    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, ENCRYPTION_KEY);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  }
 }

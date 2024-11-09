@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn src/telegram-bot/bot.ts",
-    "draft": "ts-node-dev draft.ts",
+    "start": "ts-node-dev --require tsconfig-paths/register --respawn src/telegram-bot/bot.ts",
+    "draft": "ts-node-dev --require tsconfig-paths/register draft.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/dotenv": "^6.1.1"
+    "@types/dotenv": "^6.1.1",
+    "tsconfig-paths": "^4.2.0"
   }
 }
