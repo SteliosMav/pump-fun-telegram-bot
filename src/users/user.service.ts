@@ -7,25 +7,31 @@ export class UserService {
   constructor(private _db: Database) {}
 
   async create(user: User): Promise<User | null> {
-    // Calculate the current date once in ISO format
-    const isoDate = new Date().toISOString();
-
     // Encrypt the private key
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
     return new Promise((resolve, reject) => {
       this._db.run(
         `INSERT INTO users (
-            telegramId, encryptedPrivateKey, firstName, isBot, pumpsCounter, createdAt, updatedAt, lastName, username
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            telegramId, encryptedPrivateKey, firstName, isBot, 
+            bumpsCounter, freePassesTotal, freePassesUsed,
+            bumpIntervalInSeconds, bumpAmount, slippagePercentage, 
+            priorityFee, createdAt, updatedAt, lastName, username
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           user.telegramId,
           encryptedPrivateKey,
           user.firstName,
           user.isBot ? 1 : 0,
           user.bumpsCounter,
-          isoDate,
-          isoDate,
+          user.freePassesTotal,
+          user.freePassesUsed,
+          user.bumpIntervalInSeconds,
+          user.bumpAmount,
+          user.slippagePercentage,
+          user.priorityFee,
+          user.createdAt,
+          user.updatedAt,
           user.lastName,
           user.username,
         ],
@@ -34,12 +40,7 @@ export class UserService {
             console.error("Error creating user:", err.message);
             reject(err);
           } else {
-            const newUser: User = {
-              ...user,
-              createdAt: isoDate,
-              updatedAt: isoDate,
-            };
-            resolve(newUser);
+            resolve(user);
           }
         }
       );

@@ -1,21 +1,26 @@
-// Aliasing the User type from "node-telegram-bot-api"
-import TelegramBot, { User as TelegramUser } from "node-telegram-bot-api";
-import { User as CustomUser } from "src/users/types";
+import TelegramBot from "node-telegram-bot-api";
+import { User } from "src/users/types";
+import { CallbackType } from "./types";
 
-export function getUserByMsg(
-  msg: TelegramUser,
-  privateKey: string
-): CustomUser {
-  const user: CustomUser = {
-    telegramId: msg.id,
-    privateKey,
-    firstName: msg.first_name,
-    isBot: msg.is_bot,
-    pumpsCounter: 0,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    lastName: msg.last_name,
-    username: msg.username,
+export function getStartingInlineKeyboard(
+  user: User
+): TelegramBot.InlineKeyboardMarkup {
+  return {
+    inline_keyboard: [
+      [
+        {
+          text: `💰 ${user.bumpAmount} Amount`,
+          callback_data: CallbackType.SET_AMOUNT,
+        },
+        {
+          text: `🕑 ${user.bumpIntervalInSeconds}s Frequency`,
+          callback_data: CallbackType.SET_INTERVAL,
+        },
+        {
+          text: `🔥 Start Bumping`,
+          callback_data: CallbackType.START_BUMPING,
+        },
+      ],
+    ],
   };
-  return user;
 }
