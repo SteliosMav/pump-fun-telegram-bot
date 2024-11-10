@@ -23,7 +23,7 @@ export class UserService {
           encryptedPrivateKey,
           user.firstName,
           user.isBot ? 1 : 0,
-          user.pumpsCounter,
+          user.bumpsCounter,
           isoDate,
           isoDate,
           user.lastName,
@@ -40,6 +40,34 @@ export class UserService {
               updatedAt: isoDate,
             };
             resolve(newUser);
+          }
+        }
+      );
+    });
+  }
+
+  async getUser(telegramId: number): Promise<User | null> {
+    return new Promise((resolve, reject) => {
+      this._db.get<UserModel>(
+        "SELECT * FROM users WHERE telegramId = ?",
+        [telegramId],
+        (err, row) => {
+          if (err) {
+            console.error("Error executing query:", err.message);
+            reject(err);
+          } else {
+            if (row) {
+              // Decrypt the private key if the row is found
+              const { encryptedPrivateKey, ...userWithoutPrivateKey } = row;
+              const privateKey = this._decryptPrivateKey(encryptedPrivateKey);
+              const user: User = {
+                ...userWithoutPrivateKey,
+                privateKey,
+              };
+              resolve(user);
+            } else {
+              resolve(null);
+            }
           }
         }
       );

@@ -66,7 +66,7 @@ export class PumpFunService {
 
   constructor() {}
 
-  async pump(mintStr: string, solIn: number = 0.0107) {
+  async bump(mintStr: string, solIn: number = 0.0107) {
     try {
       const connection = new Connection(HELIUS_API, "confirmed");
 

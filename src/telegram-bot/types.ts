@@ -1,10 +1,10 @@
 import TelegramBot from "node-telegram-bot-api";
 
-export type CallbackData =
-  | "get_balance"
-  | "get_coin_data"
-  | "buy_token"
-  | "sell_token";
+export enum CallbackType {
+  SET_AMOUNT = "set_amount",
+  SET_INTERVAL = "set_interval",
+  START_BUMPING = "start_bumping",
+}
 export interface BasicHandlerArguments {
   bot: TelegramBot;
   msg: TelegramBot.Message;
