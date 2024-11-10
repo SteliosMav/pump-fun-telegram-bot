@@ -1,62 +1,145 @@
 import CryptoJS from "crypto-js";
 import { ENCRYPTION_KEY } from "src/constants";
-import { User } from "./types";
+import { User, UserModel } from "./types";
 import { Database } from "sqlite3";
 
 export class UserService {
-  constructor(private db: Database) {}
+  constructor(private _db: Database) {}
 
-  create(user: User): any {
+  async create(user: User): Promise<User | null> {
     // Calculate the current date once in ISO format
-    const IsoDate = new Date().toISOString();
+    const isoDate = new Date().toISOString();
 
     // Encrypt the private key
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
-    // SQLite command to insert user with encrypted private key and single IsoDate
-    let error = null;
-    this.db.run(
-      `INSERT INTO users (
-          telegramId, encryptedPrivateKey, firstName, isBot, pumpsCounter, createdAt, updatedAt, lastName, username
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        user.telegramId,
-        encryptedPrivateKey,
-        user.firstName,
-        user.isBot ? 1 : 0, // SQLite boolean workaround
-        user.pumpsCounter,
-        IsoDate, // `createdAt` uses calculated IsoDate
-        IsoDate, // `updatedAt` also uses the same IsoDate
-        user.lastName,
-        user.username,
-      ],
-      (err) => {
-        console.log("Create response: ", err);
-        error = err;
-      }
-    );
-
-    const newUser = {
-      ...user,
-      createdAt: IsoDate,
-      updatedAt: IsoDate,
-    };
-
-    return error ? error : newUser;
+    return new Promise((resolve, reject) => {
+      this._db.run(
+        `INSERT INTO users (
+            telegramId, encryptedPrivateKey, firstName, isBot, pumpsCounter, createdAt, updatedAt, lastName, username
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          user.telegramId,
+          encryptedPrivateKey,
+          user.firstName,
+          user.isBot ? 1 : 0,
+          user.pumpsCounter,
+          isoDate,
+          isoDate,
+          user.lastName,
+          user.username,
+        ],
+        (err) => {
+          if (err) {
+            console.error("Error creating user:", err.message);
+            reject(err);
+          } else {
+            const newUser: User = {
+              ...user,
+              createdAt: isoDate,
+              updatedAt: isoDate,
+            };
+            resolve(newUser);
+          }
+        }
+      );
+    });
   }
 
-  //   async getPrivateKey(telegramId) {
-  //     const stmt = db.prepare(
-  //       "SELECT encryptedPrivateKey FROM users WHERE telegramId = ?"
-  //     );
-  //     const row = stmt.get(telegramId);
+  async getPrivateKey(telegramId: number): Promise<string | null> {
+    // Return a promise to handle asynchronous behavior
+    return new Promise((resolve, reject) => {
+      this._db.get<UserModel>(
+        "SELECT encryptedPrivateKey FROM users WHERE telegramId = ?",
+        [telegramId],
+        (err, row) => {
+          if (err) {
+            console.error("Error executing query:", err.message);
+            return reject(err);
+          }
 
-  //     if (row) {
-  //       return decryptPrivateKey(row.encryptedPrivateKey);
-  //     } else {
-  //       throw new Error("User not found");
-  //     }
-  //   }
+          if (row) {
+            // Decrypt the private key if the row is found
+            const privateKey = this._decryptPrivateKey(row.encryptedPrivateKey);
+            resolve(privateKey);
+          } else {
+            resolve(null); // Resolve as null if user is not found
+          }
+        }
+      );
+    });
+  }
+
+  async getFreePasses(telegramId: number): Promise<number | null> {
+    try {
+      // Fetch the user from the database
+      const row = await new Promise<UserModel | undefined>(
+        (resolve, reject) => {
+          this._db.get<UserModel>(
+            "SELECT freePassesTotal, freePassesUsed FROM users WHERE telegramId = ?",
+            [telegramId],
+            (err, row) => {
+              if (err) reject(err);
+              else resolve(row);
+            }
+          );
+        }
+      );
+
+      // If the user is not found, return null
+      if (!row) return null;
+
+      // Calculate the free passes left
+      const freePassesLeft = row.freePassesTotal - row.freePassesUsed;
+      return freePassesLeft;
+    } catch (err) {
+      console.error("Error in getFreePasses:", err);
+      return null;
+    }
+  }
+
+  async giveFreePass(telegramId: number): Promise<number | null> {
+    try {
+      // Fetch the user from the database
+      const row = await new Promise<UserModel | undefined>(
+        (resolve, reject) => {
+          this._db.get<UserModel>(
+            "SELECT * FROM users WHERE telegramId = ?",
+            [telegramId],
+            (err, row) => {
+              if (err) reject(err);
+              else resolve(row);
+            }
+          );
+        }
+      );
+
+      // If the user is not found, return null
+      if (!row) return null;
+
+      // Update the freePassesTotal
+      const updatedFreePassesTotal = row.freePassesTotal + 1;
+
+      // Perform the update query
+      await new Promise<void>((resolve, reject) => {
+        this._db.run(
+          `UPDATE users SET freePassesTotal = ? WHERE telegramId = ?`,
+          [updatedFreePassesTotal, telegramId],
+          (err) => {
+            if (err) reject(err);
+            else resolve();
+          }
+        );
+      });
+
+      // Free passes left
+      const freePassesLeft = updatedFreePassesTotal - row.freePassesUsed;
+      return freePassesLeft;
+    } catch (err) {
+      console.error("Error in giveFreePass:", err);
+      return null;
+    }
+  }
 
   private _encryptPrivateKey(privateKey: string) {
     return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
