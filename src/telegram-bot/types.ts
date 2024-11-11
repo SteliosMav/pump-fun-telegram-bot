@@ -11,3 +11,6 @@ export interface BasicCtrlArgs {
   bot: TelegramBot;
   msg: TelegramBot.Message;
 }
+export interface ControllersMap {
+  [key: string]: (args: BasicCtrlArgs) => Promise<void>;
+}
