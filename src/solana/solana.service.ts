@@ -2,6 +2,7 @@ import {
   Connection,
   Keypair,
   LAMPORTS_PER_SOL,
+  PublicKey,
   sendAndConfirmTransaction,
   SystemProgram,
   Transaction,
@@ -69,5 +70,18 @@ export class SolanaService {
 
     // Step 5: Return the private key of the newly created account as a base58 string
     return bs58.encode(newAccountPrivateKey);
+  }
+
+  async getBalance(publicKey: string): Promise<number> {
+    // Open connection
+    const connection = new Connection(HELIUS_API, "confirmed");
+
+    // Convert the publicKey string to a PublicKey object
+    const publicKeyObj = new PublicKey(publicKey);
+
+    // Get balance
+    const balance = await connection.getBalance(publicKeyObj);
+
+    return balance / LAMPORTS_PER_SOL;
   }
 }

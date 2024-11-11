@@ -1,4 +1,4 @@
-import { BasicHandlerArguments } from "../types";
+import { BasicHandlerArguments } from "../../types";
 
 export async function bumpAmountController({
   bot,

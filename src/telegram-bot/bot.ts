@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import TelegramBot from "node-telegram-bot-api";
 import { CallbackType } from "./types";
-import { startController } from "./controllers/start.controller";
+import { startController } from "./controllers/start/start.controller";
 import { TELEGRAM_BOT_TOKEN } from "../constants";
-import { bumpAmountController } from "./controllers/bump-amount.controller";
+import { bumpAmountController } from "./controllers/bump-amount/bump-amount.controller";
 import { catchErrors } from "./middleware";
 
 // Initialize bot

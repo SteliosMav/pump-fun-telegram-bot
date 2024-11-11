@@ -1,11 +1,13 @@
 import { User } from "src/users/types";
-import { BasicHandlerArguments, CallbackType } from "../types";
+import { BasicHandlerArguments, CallbackType } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "src/users/user.service";
 import { Database } from "sqlite3";
 import { SolanaService } from "src/solana/solana.service";
 import { USER_DEFAULT_VALUES, USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
-import { getStartingInlineKeyboard } from "../utils";
+import { getStartingInlineKeyboard, getStartingMsg } from "./view";
+import { get } from "http";
+import { pubKeyByPrivKey } from "src/solana/utils";
 
 export async function startController({ bot, msg }: BasicHandlerArguments) {
   // Initialize dependencies
@@ -54,23 +56,22 @@ export async function startController({ bot, msg }: BasicHandlerArguments) {
   // Otherwise, send the starting message directly.
   if (loadingMessage) {
     // Edit the initial "loading" message with the final options inline keyboard
-    await bot.editMessageText(
-      "Welcome to the Solana Trading Bot! Please select an option:",
-      {
-        chat_id: msg.chat.id,
-        message_id: loadingMessage.message_id as number,
-        reply_markup: inlineKeyboard,
-      }
-    );
+    await bot.editMessageText(getStartingMsg(user, 0), {
+      chat_id: msg.chat.id,
+      message_id: loadingMessage.message_id as number,
+      reply_markup: inlineKeyboard,
+      parse_mode: "Markdown",
+    });
   } else {
+    // Get user's balance
+    const pubKey = pubKeyByPrivKey(user.privateKey);
+    const balance = await solanaService.getBalance(pubKey);
+
     const options: TelegramBot.SendMessageOptions = {
       reply_markup: inlineKeyboard,
+      parse_mode: "Markdown",
     };
-    bot.sendMessage(
-      msg.chat.id,
-      "Welcome to the Solana Trading Bot! Please select an option:",
-      options
-    );
+    bot.sendMessage(msg.chat.id, getStartingMsg(user, balance), options);
   }
 }
 
