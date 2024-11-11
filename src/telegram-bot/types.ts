@@ -5,8 +5,9 @@ export enum CallbackType {
   SET_INTERVAL = "set_interval",
   SET_SLIPPAGE = "set_slippage",
   START_BUMPING = "start_bumping",
+  DISMISS_ERROR = "dismiss_error",
 }
-export interface BasicHandlerArguments {
+export interface BasicCtrlArgs {
   bot: TelegramBot;
   msg: TelegramBot.Message;
 }

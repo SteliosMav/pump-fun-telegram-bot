@@ -1,5 +1,5 @@
 import { User } from "src/users/types";
-import { BasicHandlerArguments, CallbackType } from "../../types";
+import { BasicCtrlArgs, CallbackType } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "src/users/user.service";
 import { Database } from "sqlite3";
@@ -9,7 +9,7 @@ import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { get } from "http";
 import { pubKeyByPrivKey } from "src/solana/utils";
 
-export async function startController({ bot, msg }: BasicHandlerArguments) {
+export async function startController({ bot, msg }: BasicCtrlArgs) {
   // Initialize dependencies
   const db = new Database("telegram_bot.db");
   const userService = new UserService(db);
@@ -18,6 +18,8 @@ export async function startController({ bot, msg }: BasicHandlerArguments) {
   // User should have already been validated by the middleware at this point
   const from = msg.from as TelegramBot.User;
   let user = await userService.getUser(from.id);
+
+  console.log("From Bot: ", user?.isBot ? "Yes" : "No");
 
   // Incase of new user, it takes time to respond, thus a loading message is sent
   let loadingMessage: TelegramBot.Message | undefined;

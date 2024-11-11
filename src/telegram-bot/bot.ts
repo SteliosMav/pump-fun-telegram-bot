@@ -33,8 +33,23 @@ bot.on(
       case CallbackType.SET_AMOUNT:
         await bumpAmountController({ msg, bot });
         break;
+      case CallbackType.DISMISS_ERROR:
+        break;
       default:
         break;
+    }
+
+    if (callbackQuery.data === "dismiss_error") {
+      // Delete the message with the error and button, ensuring message_id is treated as a number
+      const chatId = callbackQuery.message?.chat.id;
+      const messageId = callbackQuery.message?.message_id;
+
+      if (chatId && messageId) {
+        bot.deleteMessage(chatId, messageId);
+      }
+
+      // // Optionally, send the prompt message again after clearing the error
+      // bot.sendMessage(msg.chat.id, "userMessage");
     }
 
     // Acknowledge the callback
