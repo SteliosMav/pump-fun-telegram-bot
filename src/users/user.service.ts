@@ -170,6 +170,32 @@ export class UserService {
     }
   }
 
+  /**
+   * Update the bump amount for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param newBumpAmount - The new bump amount to set.
+   * @returns A boolean indicating if the update was successful.
+   */
+  async updateBumpAmount(
+    telegramId: number,
+    newBumpAmount: number
+  ): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this._db.run(
+        `UPDATE users SET bumpAmount = ?, updatedAt = ? WHERE telegramId = ?`,
+        [newBumpAmount, new Date().toISOString(), telegramId],
+        (err) => {
+          if (err) {
+            console.error("Error updating bump amount:", err.message);
+            reject(err);
+          } else {
+            resolve(newBumpAmount);
+          }
+        }
+      );
+    });
+  }
+
   private _encryptPrivateKey(privateKey: string) {
     return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
   }
