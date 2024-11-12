@@ -1,12 +1,4 @@
-import { UserService } from "src/users/user.service";
-import { CBQueryCtrlArgs, CtrlArgs } from "../../types";
-import { getStartingMsg, getStartingInlineKeyboard } from "../start/view";
-import { Database } from "sqlite3";
-import TelegramBot from "node-telegram-bot-api";
-import { SolanaService } from "src/solana/solana.service";
-import { pubKeyByPrivKey } from "src/solana/utils";
-import { startController } from "../start/start.controller";
-import { isValidSol } from "src/telegram-bot/validators";
+import { CBQueryCtrlArgs } from "../../types";
 
 // Controller function
 export async function errorController({

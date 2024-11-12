@@ -11,6 +11,7 @@ import { errorController } from "../events/error.controller";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
 import { PUMP_FUN_URL } from "src/constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { loadingController } from "../events/loading.controller";
 
 // Controller function
 export async function startBumpingController({
@@ -45,6 +46,14 @@ export async function startBumpingController({
     const user = await userService.getUser(from.id);
     if (!user) return;
 
+    // Start loading
+    const sentLoading = await loadingController({
+      bot,
+      callbackQuery,
+      loadingMsg: "Analyzing data...  🔄",
+    });
+    const loadingMsgId = sentLoading?.message_id;
+
     const pumpFunService = new PumpFunService(
       user.privateKey,
       user.priorityFee,
@@ -75,6 +84,13 @@ export async function startBumpingController({
     const { totalRequiredBalance, payerBalance } =
       await pumpFunService.getRequiredBalance(coinData.mint);
     const hasSufficientBalance = payerBalance >= totalRequiredBalance;
+
+    // Stop loading
+    loadingController({
+      bot,
+      callbackQuery,
+      msgId: loadingMsgId,
+    });
 
     if (!hasSufficientBalance) {
       startController({
