@@ -2,7 +2,7 @@ import { UserService } from "src/users/user.service";
 import { CBQueryCtrlArgs } from "../../types";
 import { Database } from "sqlite3";
 import { startController } from "../start/start.controller";
-import { isValidSlippage, isValidSol } from "src/telegram-bot/validators";
+import { isValidSol } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
 
 // Controller function

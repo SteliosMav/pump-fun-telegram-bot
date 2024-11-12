@@ -10,6 +10,7 @@ import {
 import { errorController } from "../events/error.controller";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
 import { PUMP_FUN_URL } from "src/constants";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 // Controller function
 export async function startBumpingController({
@@ -19,10 +20,6 @@ export async function startBumpingController({
 }: CBQueryCtrlArgs) {
   const { message, from } = callbackQuery;
   if (!message || !from) return;
-
-  // Add user balance validation. If the user doesn't have enough balance,
-  // send an error message and return right away.
-  // ...
 
   // Send error message with a "Got it" button if there's a validation error
   if (errMsg) {
@@ -38,9 +35,22 @@ export async function startBumpingController({
 
   // Listen for a response from the user
   bot.once("message", async (response) => {
+    // Initialize services
     const db = new Database("telegram_bot.db");
     const userService = new UserService(db);
-    const pumpFunService = new PumpFunService();
+
+    // Add user balance validation. If the user doesn't have enough balance,
+    // send an error message and return right away.
+    // ...
+    const user = await userService.getUser(from.id);
+    if (!user) return;
+
+    const pumpFunService = new PumpFunService(
+      user.privateKey,
+      user.priorityFee,
+      user.slippage,
+      user.bumpAmount
+    );
 
     // Parse the priority fee as a number
     const text = response.text as string;
@@ -61,6 +71,26 @@ export async function startBumpingController({
       return;
     }
 
+    // const sufficientBalance = await pumpFunService.hasSufficientBalance(ca);
+    const { totalRequiredBalance, payerBalance } =
+      await pumpFunService.getRequiredBalance(coinData.mint);
+    const hasSufficientBalance = payerBalance >= totalRequiredBalance;
+
+    if (!hasSufficientBalance) {
+      startController({
+        bot,
+        callbackQuery,
+        errMsg: `*Insufficient balance.* 
+        
+Based on the current *amount* you've chosen to bump with, your *priority fees*, your *slippage* tolerance, and the current *price* of the coin, you need at least *${
+          totalRequiredBalance / LAMPORTS_PER_SOL
+        } SOL* to bump *${coinData.name}*. 
+        
+Please add some *SOL* to your wallet and try again.`,
+      });
+      return;
+    }
+
     // Start bumping. Respond with the coin name and a "started bumping" message.
     // Once the interval is done, let the start controller handle the rest.
     // ...
@@ -75,7 +105,7 @@ export async function startBumpingController({
 
     return;
 
-    // Redirect to start controller
+    // Redirect to start controller once the interval is done
     startController({ bot, callbackQuery });
   });
 }

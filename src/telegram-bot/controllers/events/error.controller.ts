@@ -32,6 +32,7 @@ export async function errorController({
           ],
         ],
       },
+      parse_mode: "Markdown",
     });
   } else {
     bot.deleteMessage(chatId, messageId);

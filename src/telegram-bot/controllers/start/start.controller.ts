@@ -8,6 +8,7 @@ import { USER_DEFAULT_VALUES, USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { get } from "http";
 import { pubKeyByPrivKey } from "src/solana/utils";
+import { errorController } from "../events/error.controller";
 
 export async function startController({ bot, ...rest }: CtrlArgs) {
   // Initialize dependencies
@@ -83,6 +84,23 @@ export async function startController({ bot, ...rest }: CtrlArgs) {
       disable_web_page_preview: true,
     };
     bot.sendMessage(message.chat.id, getStartingMsg(user, balance), options);
+  }
+
+  if (rest.errMsg) {
+    // Start controller gives no errors. If there's an error, it's from another controller
+    // thus from a callback query. The below error should never be reached.
+    if (!calledFromCallback) {
+      console.error(
+        "Start controller was called with errMsg from a non callbackQueryController"
+      );
+      return;
+    }
+
+    errorController({
+      bot,
+      callbackQuery: rest.callbackQuery,
+      errMsg: rest.errMsg,
+    });
   }
 }
 

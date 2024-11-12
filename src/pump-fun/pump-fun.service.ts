@@ -46,9 +46,9 @@ export enum TransactionMode {
 export class PumpFunService {
   private _transactionMode: TransactionMode = TransactionMode.Execution;
   private _botPrivateKey = SOLANA_BOT_PRIVATE_KEY;
-  private _payerPrivateKey = SOLANA_PAYER_PRIVATE_KEY;
-  private _priorityFeeInSol: number = 0.0025;
-  private _slippageDecimal: number = 0.25;
+  // private _payerPrivateKey = SOLANA_PAYER_PRIVATE_KEY;
+  // private _priorityFeeInSol: number = 0.0025;
+  // private _slippageDecimal: number = 0.25;
 
   private _baseUrl = PUMP_FUN_API;
   private _pumpFunHeaders = {
@@ -66,9 +66,14 @@ export class PumpFunService {
     "Sec-Fetch-Site": "cross-site",
   };
 
-  constructor() {}
+  constructor(
+    private _payerPrivateKey: string,
+    private _priorityFeeInSol: number,
+    private _slippageDecimal: number,
+    private _solAmount: number
+  ) {}
 
-  async bump(mintStr: string, solIn: number = 0.0107) {
+  async bump(mintStr: string) {
     try {
       const connection = new Connection(HELIUS_API, "confirmed");
 
@@ -86,8 +91,8 @@ export class PumpFunService {
       const txBuilder = new Transaction();
 
       // Transaction Costs
-      const solInLamports = solIn * LAMPORTS_PER_SOL;
-      const solInWithSlippage = solIn * (1 + this._slippageDecimal);
+      const solInLamports = this._solAmount * LAMPORTS_PER_SOL;
+      const solInWithSlippage = this._solAmount * (1 + this._slippageDecimal);
       const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
 
       // Rent Exemption Check for Token Account
@@ -117,10 +122,9 @@ export class PumpFunService {
       }
 
       // Get the payer's balance
-      const hasSufficientBalance = await this._hasSufficientBalance(
-        mintStr,
-        solIn
-      );
+      const { totalRequiredBalance, payerBalance } =
+        await this.getRequiredBalance(mintStr);
+      const hasSufficientBalance = payerBalance >= totalRequiredBalance;
 
       // Check if payer has enough balance for all costs
       if (!hasSufficientBalance) {
@@ -338,6 +342,61 @@ export class PumpFunService {
     }
   }
 
+  public async getRequiredBalance(mintStr: string) {
+    const connection = new Connection(HELIUS_API, "confirmed");
+    const payer = await this._keyPairFromPrivateKey(this._payerPrivateKey);
+    const owner = payer.publicKey;
+    const mint = new PublicKey(mintStr);
+
+    // Transaction Costs
+    const solInLamports = this._solAmount * LAMPORTS_PER_SOL;
+    const solInWithSlippage = this._solAmount * (1 + this._slippageDecimal);
+    const solInWithSlippageLamports = Math.floor(
+      solInWithSlippage * LAMPORTS_PER_SOL
+    );
+    const swapFee = solInLamports * PUMP_FUN_SWAP_FEE_PERCENT; // 1% swap fee for pump.fun
+    const signatureFee = SIGNATURE_FEE_LAMPORTS; // 5000 lamports per signature
+    const priorityFeeLamports = this._priorityFeeInSol * LAMPORTS_PER_SOL; // priority fee, if applicable
+    let minRentExemption = 0; // rent fee for creating associated token account if it doesn't exist
+    const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
+
+    // Rent Exemption Check for Token Account
+    const tokenAccountAddress = await getAssociatedTokenAddress(
+      mint,
+      owner,
+      false
+    );
+    const tokenAccountInfo = await connection.getAccountInfo(
+      tokenAccountAddress
+    );
+
+    if (!tokenAccountInfo) {
+      // Minimum rent exemption for creating new associated token account
+      minRentExemption = await connection.getMinimumBalanceForRentExemption(
+        ASSOCIATED_TOKEN_ACC_SIZE
+      );
+    }
+    // Calculate total required balance, including slippage and bot fee
+    const totalRequiredBalance =
+      minRentExemption +
+      solInWithSlippageLamports +
+      swapFee +
+      signatureFee +
+      priorityFeeLamports +
+      botFee;
+
+    // Get the payer's balance
+    const payerBalance = await connection.getBalance(payer.publicKey);
+    console.log("Payer balance:", payerBalance / LAMPORTS_PER_SOL);
+    console.log(
+      "Total required balance:",
+      totalRequiredBalance / LAMPORTS_PER_SOL
+    );
+
+    // Check if payer has enough balance for all costs
+    return { payerBalance, totalRequiredBalance };
+  }
+
   private async _keyPairFromPrivateKey(privateKey: string) {
     return Keypair.fromSecretKey(new Uint8Array(bs58.decode(privateKey)));
   }
@@ -395,60 +454,5 @@ export class PumpFunService {
       console.error("Error sending transaction:", error);
       return null;
     }
-  }
-
-  private async _hasSufficientBalance(mintStr: string, solIn: number) {
-    const connection = new Connection(HELIUS_API, "confirmed");
-    const payer = await this._keyPairFromPrivateKey(this._payerPrivateKey);
-    const owner = payer.publicKey;
-    const mint = new PublicKey(mintStr);
-
-    // Transaction Costs
-    const solInLamports = solIn * LAMPORTS_PER_SOL;
-    const solInWithSlippage = solIn * (1 + this._slippageDecimal);
-    const solInWithSlippageLamports = Math.floor(
-      solInWithSlippage * LAMPORTS_PER_SOL
-    );
-    const swapFee = solInLamports * PUMP_FUN_SWAP_FEE_PERCENT; // 1% swap fee for pump.fun
-    const signatureFee = SIGNATURE_FEE_LAMPORTS; // 5000 lamports per signature
-    const priorityFeeLamports = this._priorityFeeInSol * LAMPORTS_PER_SOL; // priority fee, if applicable
-    let minRentExemption = 0; // rent fee for creating associated token account if it doesn't exist
-    const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
-
-    // Rent Exemption Check for Token Account
-    const tokenAccountAddress = await getAssociatedTokenAddress(
-      mint,
-      owner,
-      false
-    );
-    const tokenAccountInfo = await connection.getAccountInfo(
-      tokenAccountAddress
-    );
-
-    if (!tokenAccountInfo) {
-      // Minimum rent exemption for creating new associated token account
-      minRentExemption = await connection.getMinimumBalanceForRentExemption(
-        ASSOCIATED_TOKEN_ACC_SIZE
-      );
-    }
-    // Calculate total required balance, including slippage and bot fee
-    const totalRequiredBalance =
-      minRentExemption +
-      solInWithSlippageLamports +
-      swapFee +
-      signatureFee +
-      priorityFeeLamports +
-      botFee;
-
-    // Get the payer's balance
-    const payerBalance = await connection.getBalance(payer.publicKey);
-    console.log("Payer balance:", payerBalance / LAMPORTS_PER_SOL);
-    console.log(
-      "Total required balance:",
-      totalRequiredBalance / LAMPORTS_PER_SOL
-    );
-
-    // Check if payer has enough balance for all costs
-    return payerBalance >= totalRequiredBalance;
   }
 }
