@@ -102,7 +102,9 @@ Based on the current *amount* you've chosen to bump with, your *priority fees*, 
           totalRequiredBalance / LAMPORTS_PER_SOL
         } SOL* to bump *${coinData.name}*. 
         
-Please add some *SOL* to your wallet and try again.`,
+Please add some *SOL* to your wallet and try again.
+
+_Once done, press Refresh Balance to check your updated balance._`,
       });
       return;
     }

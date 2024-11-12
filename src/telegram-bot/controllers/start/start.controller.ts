@@ -10,7 +10,10 @@ import { get } from "http";
 import { pubKeyByPrivKey } from "src/solana/utils";
 import { errorController } from "../events/error.controller";
 
-export async function startController({ bot, ...rest }: CtrlArgs) {
+export async function startController({
+  bot,
+  ...rest
+}: CtrlArgs & { refresh?: boolean }) {
   // Initialize dependencies
   const db = new Database("telegram_bot.db");
   const userService = new UserService(db);
@@ -78,12 +81,26 @@ export async function startController({ bot, ...rest }: CtrlArgs) {
     const pubKey = pubKeyByPrivKey(user.privateKey);
     const balance = await solanaService.getBalance(pubKey);
 
-    const options: TelegramBot.SendMessageOptions = {
-      reply_markup: inlineKeyboard,
-      parse_mode: "Markdown",
-      disable_web_page_preview: true,
-    };
-    bot.sendMessage(message.chat.id, getStartingMsg(user, balance), options);
+    if (rest.refresh) {
+      try {
+        await bot.editMessageText(getStartingMsg(user, balance), {
+          chat_id: message.chat.id,
+          message_id: message.message_id as number,
+          reply_markup: inlineKeyboard,
+          parse_mode: "Markdown",
+          disable_web_page_preview: true,
+        });
+      } catch (e) {
+        console.error("Error editing message: ", e);
+      }
+    } else {
+      const options: TelegramBot.SendMessageOptions = {
+        reply_markup: inlineKeyboard,
+        parse_mode: "Markdown",
+        disable_web_page_preview: true,
+      };
+      bot.sendMessage(message.chat.id, getStartingMsg(user, balance), options);
+    }
   }
 
   if (rest.errMsg) {

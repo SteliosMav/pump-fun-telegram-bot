@@ -5,6 +5,7 @@ export enum CallbackType {
   SET_INTERVAL = "set_interval",
   SET_SLIPPAGE = "set_slippage",
   SET_PRIORITY_FEE = "set_priority_fee",
+  REFRESH_BALANCE = "refresh_balance",
   START_BUMPING = "start_bumping",
   DISMISS_ERROR = "dismiss_error",
 }
@@ -12,7 +13,6 @@ interface BasicCtrlArgs {
   bot: TelegramBot;
   errMsg?: string;
 }
-type CtrlType = "CALLBACK_QUERY" | "MESSAGE";
 export interface CBQueryCtrlArgs extends BasicCtrlArgs {
   callbackQuery: TelegramBot.CallbackQuery;
 }

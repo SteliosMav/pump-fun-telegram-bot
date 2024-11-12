@@ -58,6 +58,12 @@ export function getStartingInlineKeyboard(
       ],
       [
         {
+          text: `🔄  Refresh Wallet's Balance`,
+          callback_data: CallbackType.REFRESH_BALANCE,
+        },
+      ],
+      [
+        {
           text: `🔥  ${START_BUMPING_BTN_WORDING}`,
           callback_data: CallbackType.START_BUMPING,
         },

@@ -18,7 +18,7 @@ export async function errorController({
         inline_keyboard: [
           [
             {
-              text: "Got it ✔️",
+              text: "OK ✔️",
               callback_data: "dismiss_error", // Identifier for callback
             },
           ],
