@@ -4,6 +4,7 @@ export enum CallbackType {
   SET_AMOUNT = "set_amount",
   SET_INTERVAL = "set_interval",
   SET_SLIPPAGE = "set_slippage",
+  SET_PRIORITY_FEE = "set_priority_fee",
   START_BUMPING = "start_bumping",
   DISMISS_ERROR = "dismiss_error",
 }

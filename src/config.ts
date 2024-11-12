@@ -8,7 +8,7 @@ export const USER_DEFAULT_VALUES: UserDefaultValues = {
   bumpAmount: 0.0123, // 0.012 is the minimum amount to be shown in pump.fun history
   priorityFee: 0.01,
   bumpIntervalInSeconds: 1,
-  slippagePercentage: 0.25,
+  slippage: 0.25,
 };
 
 export const USER_FRIENDLY_ERROR_MESSAGE =

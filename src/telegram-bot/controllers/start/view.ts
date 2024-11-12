@@ -4,19 +4,31 @@ import { CallbackType } from "../../types";
 import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import { pubKeyByPrivKey } from "src/solana/utils";
+import { WEBSITE_URL } from "src/constants";
 
-const START_BUMPING_BTN_WORDING = "🔥 Start Bumping";
+const START_BUMPING_BTN_WORDING = "Start Bumping";
 
 export function getStartingMsg(user: User, balance: number): string {
   const publicKey = pubKeyByPrivKey(user.privateKey);
 
-  return `👋 Welcome to **Solana Bump Bot** 🚀
-  
-  💼 **Wallet**: \`${publicKey}\` 
+  return `👋   Welcome to *Solana Bump Bot*   🚀
 
-  💰 **Balance**: \`${balance}\` SOL
-  
-  To get started, deposit some SOL into your wallet above and press "${START_BUMPING_BTN_WORDING}" to ignite your trading journey! 🔥`;
+
+💼 *Wallet*: \`${publicKey}\`
+
+💰 *Balance*: \`${balance}\` SOL
+
+
+*To get started:*
+
+1️⃣ Deposit some *SOL* into your *wallet* address shown above.
+
+2️⃣ Press the *${START_BUMPING_BTN_WORDING}* button to initiate bumping.
+
+3️⃣ Enter meme coin's *CA* and enjoy bumping! 🔥
+
+
+For any help, visit us on [website.com](${WEBSITE_URL})`;
 }
 
 export function getStartingInlineKeyboard(
@@ -30,7 +42,7 @@ export function getStartingInlineKeyboard(
           callback_data: CallbackType.SET_AMOUNT,
         },
         {
-          text: `📈 ${user.slippagePercentage * 100}% Slippage`,
+          text: `📈 ${user.slippage * 100}% Slippage`,
           callback_data: CallbackType.SET_SLIPPAGE,
         },
       ],
@@ -40,7 +52,13 @@ export function getStartingInlineKeyboard(
           callback_data: CallbackType.SET_INTERVAL,
         },
         {
-          text: START_BUMPING_BTN_WORDING,
+          text: `⚡ 0.01 Priority Fee`,
+          callback_data: CallbackType.SET_PRIORITY_FEE,
+        },
+      ],
+      [
+        {
+          text: `🔥 ${START_BUMPING_BTN_WORDING}`,
           callback_data: CallbackType.START_BUMPING,
         },
       ],

@@ -70,6 +70,7 @@ export async function startController({ bot, ...rest }: CtrlArgs) {
       message_id: loadingMessage.message_id as number,
       reply_markup: inlineKeyboard,
       parse_mode: "Markdown",
+      disable_web_page_preview: true,
     });
   } else {
     // Get user's balance
@@ -79,6 +80,7 @@ export async function startController({ bot, ...rest }: CtrlArgs) {
     const options: TelegramBot.SendMessageOptions = {
       reply_markup: inlineKeyboard,
       parse_mode: "Markdown",
+      disable_web_page_preview: true,
     };
     bot.sendMessage(message.chat.id, getStartingMsg(user, balance), options);
   }
@@ -102,7 +104,7 @@ function _userByTelegramUser(
     bumpAmount: USER_DEFAULT_VALUES.bumpAmount,
     priorityFee: USER_DEFAULT_VALUES.priorityFee,
     bumpIntervalInSeconds: USER_DEFAULT_VALUES.bumpIntervalInSeconds,
-    slippagePercentage: USER_DEFAULT_VALUES.slippagePercentage,
+    slippage: USER_DEFAULT_VALUES.slippage,
     createdAt: dateISO,
     updatedAt: dateISO,
   };

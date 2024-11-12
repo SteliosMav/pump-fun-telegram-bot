@@ -9,6 +9,9 @@ export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
 export const HELIUS_API = process.env.HELIUS_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 
+// Website
+export const WEBSITE_URL = "https://website.com";
+
 export const GLOBAL = new PublicKey(
   "4wTV1YmiEkRvAtNtsSGPtUrqRYQMe5SKy2uB4Jjaxnjf"
 );
