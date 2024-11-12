@@ -14,16 +14,16 @@ export function getStartingMsg(user: User, balance: number): string {
   return `👋   Welcome to *Solana Bump Bot*   🚀
 
 
-💼 *Wallet*: \`${publicKey}\`
+💳   *Wallet*: \`${publicKey}\`
 
-💰 *Balance*: \`${balance}\` SOL
+💰   *Balance*: \`${balance}\` SOL
 
 
 *To get started:*
 
-1️⃣ Deposit some *SOL* into your *wallet* address shown above.
+1️⃣ Deposit some *SOL* into your *wallet* address shown above
 
-2️⃣ Press the *${START_BUMPING_BTN_WORDING}* button to initiate bumping.
+2️⃣ Press the *${START_BUMPING_BTN_WORDING}* button
 
 3️⃣ Enter meme coin's *CA* and enjoy bumping! 🔥
 
@@ -38,27 +38,27 @@ export function getStartingInlineKeyboard(
     inline_keyboard: [
       [
         {
-          text: `💰 ${user.bumpAmount} Amount`,
+          text: `💰  ${user.bumpAmount} Amount`,
           callback_data: CallbackType.SET_AMOUNT,
         },
         {
-          text: `📈 ${user.slippage * 100}% Slippage`,
+          text: `📈   ${user.slippage * 100}% Slippage`,
           callback_data: CallbackType.SET_SLIPPAGE,
         },
       ],
       [
         {
-          text: `🕑 ${user.bumpIntervalInSeconds}s Frequency`,
+          text: `🕑   ${user.bumpIntervalInSeconds}s Frequency`,
           callback_data: CallbackType.SET_INTERVAL,
         },
         {
-          text: `⚡ 0.01 Priority Fee`,
+          text: `⚡  0.01 Priority Fee`,
           callback_data: CallbackType.SET_PRIORITY_FEE,
         },
       ],
       [
         {
-          text: `🔥 ${START_BUMPING_BTN_WORDING}`,
+          text: `🔥  ${START_BUMPING_BTN_WORDING}`,
           callback_data: CallbackType.START_BUMPING,
         },
       ],
