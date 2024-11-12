@@ -263,6 +263,36 @@ export class UserService {
     });
   }
 
+  /**
+   * Update the priority fee for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param newPriorityFee - The new priority fee value to set.
+   * @returns A boolean indicating if the update was successful.
+   */
+  async updatePriorityFee(
+    telegramId: number,
+    newPriorityFee: number
+  ): Promise<number> {
+    // Define the keys to update with type safety
+    const keyToUpdate: keyof User = "priorityFee";
+    const updatedAtKey: keyof User = "updatedAt";
+
+    return new Promise((resolve, reject) => {
+      this._db.run(
+        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
+        [newPriorityFee, new Date().toISOString(), telegramId],
+        (err) => {
+          if (err) {
+            console.error(`Error updating ${keyToUpdate}:`, err.message);
+            reject(err);
+          } else {
+            resolve(newPriorityFee);
+          }
+        }
+      );
+    });
+  }
+
   private _encryptPrivateKey(privateKey: string) {
     return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
   }

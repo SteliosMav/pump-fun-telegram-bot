@@ -52,7 +52,7 @@ export function getStartingInlineKeyboard(
           callback_data: CallbackType.SET_INTERVAL,
         },
         {
-          text: `⚡  0.01 Priority Fee`,
+          text: `⚡  ${user.priorityFee} Priority Fee`,
           callback_data: CallbackType.SET_PRIORITY_FEE,
         },
       ],
