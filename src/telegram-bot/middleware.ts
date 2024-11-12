@@ -1,10 +1,9 @@
 import TelegramBot from "node-telegram-bot-api";
 import { USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
+import { CtrlArgs } from "./types";
 
 export function catchErrors(bot: TelegramBot, handler: Function) {
-  return async function (
-    args: TelegramBot.CallbackQuery | TelegramBot.Message
-  ) {
+  return async function (args: any) {
     try {
       await handler(args);
     } catch (error) {

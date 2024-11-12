@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import TelegramBot from "node-telegram-bot-api";
-import { CallbackType, ControllersMap } from "./types";
+import { CallbackType, CBQueryCtrlMap } from "./types";
 import { TELEGRAM_BOT_TOKEN } from "../constants";
 import { catchErrors } from "./middleware";
 import { startController } from "./controllers/start/start.controller";
@@ -16,14 +16,14 @@ const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
 function handleStartCommand() {
   bot.onText(
     /\/start/,
-    catchErrors(bot, (msg: TelegramBot.Message) =>
-      startController({ bot, msg })
+    catchErrors(bot, (message: TelegramBot.Message) =>
+      startController({ bot, message })
     )
   );
 }
 
 // Define callback controllers
-const controllersMap: ControllersMap = {
+const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_AMOUNT]: bumpAmountController,
   [CallbackType.DISMISS_ERROR]: errorController,
 };
@@ -33,14 +33,13 @@ function handleCallbackQuery() {
   bot.on(
     "callback_query",
     catchErrors(bot, async (callbackQuery: TelegramBot.CallbackQuery) => {
-      const msg = callbackQuery.message;
       const data = callbackQuery.data as CallbackType | undefined;
 
-      if (!msg || !data) return;
+      if (!data) return;
 
       const controller = controllersMap[data];
       if (controller) {
-        await controller({ bot, msg });
+        await controller({ bot, callbackQuery });
       }
 
       bot.answerCallbackQuery(callbackQuery.id);

@@ -1,5 +1,5 @@
 import { UserService } from "src/users/user.service";
-import { BasicCtrlArgs } from "../../types";
+import { CBQueryCtrlArgs, CtrlArgs } from "../../types";
 import { getStartingMsg, getStartingInlineKeyboard } from "../start/view";
 import { Database } from "sqlite3";
 import TelegramBot from "node-telegram-bot-api";
@@ -8,17 +8,19 @@ import { pubKeyByPrivKey } from "src/solana/utils";
 import { startController } from "../start/start.controller";
 import { isValidSol } from "src/telegram-bot/validators";
 
-export interface ErrCtrlArgs extends BasicCtrlArgs {
-  errorMessage?: string;
-}
-
 // Controller function
-export async function errorController({ bot, msg, errorMessage }: ErrCtrlArgs) {
-  const chatId = msg?.chat.id;
-  const messageId = msg.message_id;
+export async function errorController({
+  bot,
+  callbackQuery,
+  errMsg,
+}: CBQueryCtrlArgs) {
+  const { message, from } = callbackQuery;
+  if (!message || !from) return;
 
-  if (errorMessage) {
-    bot.sendMessage(msg.chat.id, errorMessage, {
+  const chatId = message.chat.id;
+
+  if (errMsg) {
+    bot.sendMessage(chatId, errMsg, {
       reply_markup: {
         inline_keyboard: [
           [
@@ -31,9 +33,9 @@ export async function errorController({ bot, msg, errorMessage }: ErrCtrlArgs) {
       },
     });
   } else {
-    bot.deleteMessage(chatId, messageId);
+    bot.deleteMessage(chatId, chatId);
   }
 
-  // // Optionally, send the prompt message again after clearing the error
-  // bot.sendMessage(msg.chat.id, "userMessage");
+  // Optionally, send the prompt message again after clearing the error
+  bot.sendMessage(chatId, "userMessage");
 }

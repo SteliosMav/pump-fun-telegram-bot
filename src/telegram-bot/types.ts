@@ -7,10 +7,18 @@ export enum CallbackType {
   START_BUMPING = "start_bumping",
   DISMISS_ERROR = "dismiss_error",
 }
-export interface BasicCtrlArgs {
+interface BasicCtrlArgs {
   bot: TelegramBot;
-  msg: TelegramBot.Message;
+  errMsg?: string;
 }
-export interface ControllersMap {
-  [key: string]: (args: BasicCtrlArgs) => Promise<void>;
+type CtrlType = "CALLBACK_QUERY" | "MESSAGE";
+export interface CBQueryCtrlArgs extends BasicCtrlArgs {
+  callbackQuery: TelegramBot.CallbackQuery;
+}
+export interface MsgCtrlArgs extends BasicCtrlArgs {
+  message: TelegramBot.Message;
+}
+export type CtrlArgs = CBQueryCtrlArgs | MsgCtrlArgs;
+export interface CBQueryCtrlMap {
+  [key: string]: (args: CBQueryCtrlArgs) => Promise<void>;
 }

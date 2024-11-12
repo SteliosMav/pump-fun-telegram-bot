@@ -1,5 +1,5 @@
 import { User } from "src/users/types";
-import { BasicCtrlArgs, CallbackType } from "../../types";
+import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "src/users/user.service";
 import { Database } from "sqlite3";
@@ -9,17 +9,24 @@ import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { get } from "http";
 import { pubKeyByPrivKey } from "src/solana/utils";
 
-export async function startController({ bot, msg }: BasicCtrlArgs) {
+export async function startController({ bot, ...rest }: CtrlArgs) {
   // Initialize dependencies
   const db = new Database("telegram_bot.db");
   const userService = new UserService(db);
   const solanaService = new SolanaService();
 
   // User should have already been validated by the middleware at this point
-  const from = msg.from as TelegramBot.User;
-  let user = await userService.getUser(from.id);
+  const calledFromCallback = "callbackQuery" in rest;
+  const from = calledFromCallback
+    ? rest.callbackQuery.from
+    : (rest.message.from as TelegramBot.User);
+  const message = calledFromCallback
+    ? rest.callbackQuery.message
+    : rest.message;
 
-  console.log("From Bot: ", user?.isBot ? "Yes" : "No");
+  if (!message) return;
+
+  let user = await userService.getUser(from.id);
 
   // Incase of new user, it takes time to respond, thus a loading message is sent
   let loadingMessage: TelegramBot.Message | undefined;
@@ -28,7 +35,7 @@ export async function startController({ bot, msg }: BasicCtrlArgs) {
   if (!user) {
     // Send initial "loading" message
     loadingMessage = await bot.sendMessage(
-      msg.chat.id,
+      message.chat.id,
       "Setting up your personal wallet, please wait a moment..."
     );
 
@@ -37,7 +44,7 @@ export async function startController({ bot, msg }: BasicCtrlArgs) {
 
     if (!privateKey) {
       console.error("Error creating Solana account");
-      bot.sendMessage(msg.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
+      bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }
 
@@ -47,7 +54,7 @@ export async function startController({ bot, msg }: BasicCtrlArgs) {
 
     if (!newUserRes) {
       console.error("Error creating user");
-      bot.sendMessage(msg.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
+      bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }
   }
@@ -59,7 +66,7 @@ export async function startController({ bot, msg }: BasicCtrlArgs) {
   if (loadingMessage) {
     // Edit the initial "loading" message with the final options inline keyboard
     await bot.editMessageText(getStartingMsg(user, 0), {
-      chat_id: msg.chat.id,
+      chat_id: message.chat.id,
       message_id: loadingMessage.message_id as number,
       reply_markup: inlineKeyboard,
       parse_mode: "Markdown",
@@ -73,7 +80,7 @@ export async function startController({ bot, msg }: BasicCtrlArgs) {
       reply_markup: inlineKeyboard,
       parse_mode: "Markdown",
     };
-    bot.sendMessage(msg.chat.id, getStartingMsg(user, balance), options);
+    bot.sendMessage(message.chat.id, getStartingMsg(user, balance), options);
   }
 }
 
