@@ -233,6 +233,37 @@ export class UserService {
     });
   }
 
+  /**
+ * Update the slippage value for a user.
+ * @param telegramId - The user's Telegram ID.
+ * @param newSlippage - The new slippage value to set.
+ * @returns A boolean indicating if the update was successful.
+ */
+async updateSlippage(
+  telegramId: number,
+  newSlippage: number
+): Promise<number> {
+  // Define the keys to update with type safety
+  const keyToUpdate: keyof User = "slippagePercentage";
+  const updatedAtKey: keyof User = "updatedAt";
+
+  return new Promise((resolve, reject) => {
+    this._db.run(
+      `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
+      [newSlippage, new Date().toISOString(), telegramId],
+      (err) => {
+        if (err) {
+          console.error(`Error updating ${keyToUpdate}:`, err.message);
+          reject(err);
+        } else {
+          resolve(newSlippage);
+        }
+      }
+    );
+  });
+}
+
+
   private _encryptPrivateKey(privateKey: string) {
     return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
   }

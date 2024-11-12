@@ -9,6 +9,7 @@ import { startController } from "./controllers/start/start.controller";
 import { bumpAmountController } from "./controllers/bump-amount/bump-amount.controller";
 import { errorController } from "./controllers/events/error.controller";
 import { intervalController } from "./controllers/interval/interval.controller";
+import { slippageController } from "./controllers/slippage/slippage.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -28,6 +29,7 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_AMOUNT]: bumpAmountController,
   [CallbackType.DISMISS_ERROR]: errorController,
   [CallbackType.SET_INTERVAL]: intervalController,
+  [CallbackType.SET_SLIPPAGE]: slippageController,
 };
 
 // Handle callback queries

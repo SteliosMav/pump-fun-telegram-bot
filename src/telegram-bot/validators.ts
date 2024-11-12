@@ -36,3 +36,23 @@ export function isValidInterval(interval: unknown): string | null {
   // Interval is valid
   return null;
 }
+
+export function isValidSlippage(slippage: unknown): string | null {
+  // Check if it's a valid number
+  if (typeof slippage !== "number" || isNaN(slippage)) {
+    return "Invalid input. Please enter a valid number.";
+  }
+
+  // Check if decimal
+  if (slippage % 1 !== 0) {
+    return "Invalid input. Please enter a whole number.";
+  }
+
+  // Check for valid range
+  if (slippage < 1) {
+    return "Invalid slippage. Please enter a number bigger than 1.";
+  }
+
+  // Slippage is valid
+  return null;
+}

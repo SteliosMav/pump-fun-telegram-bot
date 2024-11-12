@@ -30,7 +30,7 @@ export function getStartingInlineKeyboard(
           callback_data: CallbackType.SET_AMOUNT,
         },
         {
-          text: `📈 ${user.bumpIntervalInSeconds}% Slippage`,
+          text: `📈 ${user.slippagePercentage * 100}% Slippage`,
           callback_data: CallbackType.SET_SLIPPAGE,
         },
       ],
