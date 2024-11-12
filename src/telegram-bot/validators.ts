@@ -56,3 +56,12 @@ export function isValidSlippage(slippage: unknown): string | null {
   // Slippage is valid
   return null;
 }
+
+export function isUrl(input: string) {
+  try {
+    new URL(input);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

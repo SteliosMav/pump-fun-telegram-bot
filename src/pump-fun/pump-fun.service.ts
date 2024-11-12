@@ -13,6 +13,7 @@ import {
 import {
   BOT_SOL_FEE,
   HELIUS_API,
+  PUMP_FUN_API,
   SOLANA_BOT_PRIVATE_KEY,
   SOLANA_PAYER_PRIVATE_KEY,
 } from "../constants";
@@ -35,6 +36,7 @@ import {
   SYSTEM_PROGRAM_ID,
 } from "../constants";
 import nacl from "tweetnacl";
+import { CoinData } from "./types";
 
 export enum TransactionMode {
   Simulation,
@@ -48,7 +50,7 @@ export class PumpFunService {
   private _priorityFeeInSol: number = 0.0025;
   private _slippageDecimal: number = 0.25;
 
-  private _baseUrl = "https://frontend-api.pump.fun";
+  private _baseUrl = PUMP_FUN_API;
   private _pumpFunHeaders = {
     "Content-Type": "application/json",
     "User-Agent":
@@ -71,7 +73,7 @@ export class PumpFunService {
       const connection = new Connection(HELIUS_API, "confirmed");
 
       // Fetch coin data, shared for both buy and sell
-      const coinData = await this._getCoinData(mintStr);
+      const coinData = await this.getCoinData(mintStr);
       if (!coinData) {
         console.error("Failed to retrieve coin data...");
         return;
@@ -317,7 +319,8 @@ export class PumpFunService {
     }
   }
 
-  private async _getCoinData(mintStr: string) {
+  async getCoinData(mintStr: string): Promise<CoinData | null> {
+    console.log("Mint String: ", mintStr);
     const url = `${this._baseUrl}/coins/${mintStr}`;
 
     try {
