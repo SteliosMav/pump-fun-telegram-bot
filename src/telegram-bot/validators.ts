@@ -16,3 +16,23 @@ export function isValidSol(amount: unknown): string | null {
   // Amount is valid
   return null;
 }
+
+export function isValidInterval(interval: unknown): string | null {
+  // Check if it's a valid number
+  if (typeof interval !== "number" || isNaN(interval)) {
+    return "Invalid input. Please enter a valid number.";
+  }
+
+  // Check if decimal
+  if (interval % 1 !== 0) {
+    return "Invalid input. Please enter a whole number.";
+  }
+
+  // Check for valid range
+  if (interval < 1 || interval > 60) {
+    return "Invalid frequency. Please enter a number between 1 and 60.";
+  }
+
+  // Interval is valid
+  return null;
+}

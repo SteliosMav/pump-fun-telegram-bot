@@ -8,6 +8,7 @@ import { catchErrors } from "./middleware";
 import { startController } from "./controllers/start/start.controller";
 import { bumpAmountController } from "./controllers/bump-amount/bump-amount.controller";
 import { errorController } from "./controllers/events/error.controller";
+import { intervalController } from "./controllers/interval/interval.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -26,6 +27,7 @@ function handleStartCommand() {
 const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_AMOUNT]: bumpAmountController,
   [CallbackType.DISMISS_ERROR]: errorController,
+  [CallbackType.SET_INTERVAL]: intervalController,
 };
 
 // Handle callback queries

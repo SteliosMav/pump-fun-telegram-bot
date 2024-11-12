@@ -1,16 +1,12 @@
 import { UserService } from "src/users/user.service";
-import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
-import { getStartingMsg, getStartingInlineKeyboard } from "../start/view";
+import { CBQueryCtrlArgs } from "../../types";
 import { Database } from "sqlite3";
-import TelegramBot from "node-telegram-bot-api";
-import { SolanaService } from "src/solana/solana.service";
-import { pubKeyByPrivKey } from "src/solana/utils";
 import { startController } from "../start/start.controller";
-import { isValidSol } from "src/telegram-bot/validators";
+import { isValidInterval, isValidSol } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
 
 // Controller function
-export async function bumpAmountController({
+export async function intervalController({
   bot,
   errMsg,
   callbackQuery,
@@ -19,13 +15,13 @@ export async function bumpAmountController({
   if (!message || !from) return;
 
   const userMessage =
-    "Enter the desired SOL amount you want to bump with (e.g. 0.05):";
+    "Enter how often you want to bump in seconds from 1 to 60";
 
-  // Send error message with a "Got it" button if there's a validation error
+  // Send error message with an "OK, GOT IT" button if there's a validation error
   if (errMsg) {
     errorController({ bot, callbackQuery, errMsg });
   } else {
-    // Prompt for the initial amount if there's no error
+    // Prompt for the desired interval if there's no error
     bot.sendMessage(message.chat.id, userMessage);
   }
 
@@ -34,13 +30,13 @@ export async function bumpAmountController({
     const db = new Database("telegram_bot.db");
     const userService = new UserService(db);
 
-    // Parse the bump amount as a number
-    const amount = +(response.text as string);
+    // Parse the bump interval as a number
+    const interval = +(response.text as string);
 
-    // Validate the SOL amount
-    const validationError = isValidSol(amount);
+    // Validate the interval
+    const validationError = isValidInterval(interval);
     if (validationError) {
-      bumpAmountController({
+      intervalController({
         bot,
         callbackQuery,
         errMsg: validationError,
@@ -49,8 +45,8 @@ export async function bumpAmountController({
       return;
     }
 
-    // Update the bump amount in the database
-    await userService.updateBumpAmount(from.id, amount);
+    // Update the interval in the database
+    await userService.updateInterval(from.id, interval);
 
     // Redirect to start controller
     startController({ bot, callbackQuery });

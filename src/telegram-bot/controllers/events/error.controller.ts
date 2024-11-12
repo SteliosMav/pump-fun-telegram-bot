@@ -18,6 +18,7 @@ export async function errorController({
   if (!message || !from) return;
 
   const chatId = message.chat.id;
+  const messageId = message.message_id;
 
   if (errMsg) {
     bot.sendMessage(chatId, errMsg, {
@@ -33,9 +34,9 @@ export async function errorController({
       },
     });
   } else {
-    bot.deleteMessage(chatId, chatId);
+    bot.deleteMessage(chatId, messageId);
   }
 
-  // Optionally, send the prompt message again after clearing the error
-  bot.sendMessage(chatId, "userMessage");
+  // // Optionally, send the prompt message again after clearing the error
+  // bot.sendMessage(chatId, "userMessage");
 }

@@ -180,9 +180,16 @@ export class UserService {
     telegramId: number,
     newBumpAmount: number
   ): Promise<number> {
+    // Define the keys to update with type safety
+    const keyToUpdate: keyof User = "bumpAmount";
+    const updatedAtKey: keyof User = "updatedAt";
+
+    console.log("Telegram ID: ", telegramId);
+    console.log("New bump amount: ", newBumpAmount);
+
     return new Promise((resolve, reject) => {
       this._db.run(
-        `UPDATE users SET bumpAmount = ?, updatedAt = ? WHERE telegramId = ?`,
+        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
         [newBumpAmount, new Date().toISOString(), telegramId],
         (err) => {
           if (err) {
@@ -190,6 +197,36 @@ export class UserService {
             reject(err);
           } else {
             resolve(newBumpAmount);
+          }
+        }
+      );
+    });
+  }
+
+  /**
+   * Update the interval value for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param newInterval - The new interval to set.
+   * @returns A boolean indicating if the update was successful.
+   */
+  async updateInterval(
+    telegramId: number,
+    newInterval: number
+  ): Promise<number> {
+    // Define the keys to update with type safety
+    const keyToUpdate: keyof User = "bumpIntervalInSeconds";
+    const updatedAtKey: keyof User = "updatedAt";
+
+    return new Promise((resolve, reject) => {
+      this._db.run(
+        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
+        [newInterval, new Date().toISOString(), telegramId],
+        (err) => {
+          if (err) {
+            console.error(`Error updating ${keyToUpdate}:`, err.message);
+            reject(err);
+          } else {
+            resolve(newInterval);
           }
         }
       );
