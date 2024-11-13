@@ -13,6 +13,7 @@ import { PUMP_FUN_URL } from "src/constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "src/shared/types";
+import { USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
 
 // Controller function
 export async function startBumpingController({
@@ -93,22 +94,22 @@ export async function startBumpingController({
       msgId: loadingMsgId,
     });
 
-    //     if (!hasSufficientBalance) {
-    //       startController({
-    //         bot,
-    //         callbackQuery,
-    //         errMsg: `*Insufficient balance.*
+    if (!hasSufficientBalance) {
+      startController({
+        bot,
+        callbackQuery,
+        errMsg: `*Insufficient balance.*
 
-    // Based on the current *amount* you've chosen to bump with, your *priority fees*, your *slippage* tolerance, and the current *price* of the coin, you need at least *${
-    //           totalRequiredBalance / LAMPORTS_PER_SOL
-    //         } SOL* to bump *${coinData.name}*.
+Based on the current *amount* you've chosen to bump with, your *priority fees*, your *slippage* tolerance, and the current *price* of the coin, you need at least *${
+          totalRequiredBalance / LAMPORTS_PER_SOL
+        } SOL* to bump *${coinData.name}*.
 
-    // Please add some *SOL* to your wallet and try again.
+Please add some *SOL* to your wallet and try again.
 
-    // _Once done, press Refresh Balance to check your updated balance._`,
-    //       });
-    //       return;
-    //     }
+_Once done, press Refresh Balance to check your updated balance._`,
+      });
+      return;
+    }
 
     // Start bumping. Respond with the coin name and a "started bumping" message.
     // Once the interval is done, let the start controller handle the rest.
@@ -144,11 +145,17 @@ export async function startBumpingController({
         callbackQuery,
         errMsg: `You don't have enough balance to bump *${coinData.name}*. Please add some *SOL* to your wallet and try again.`,
       });
-    } else {
+    } else if (bumpResponse.code === "TRANSACTION_FAILED") {
       errorController({
         bot,
         callbackQuery,
         errMsg: `An error occurred while bumping *${coinData.name}*. Try increasing your transaction fee and try again.`,
+      });
+    } else {
+      errorController({
+        bot,
+        callbackQuery,
+        errMsg: USER_FRIENDLY_ERROR_MESSAGE,
       });
     }
 

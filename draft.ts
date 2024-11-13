@@ -1,54 +1,49 @@
-import { Keypair } from "@solana/web3.js";
+import { Connection, Keypair } from "@solana/web3.js";
 import dotenv from "dotenv";
 import { Database } from "sqlite3";
 import { User } from "src/users/types";
 dotenv.config();
 import { UserService } from "src/users/user.service";
 import bs58 from "bs58";
+import { CustomResponse } from "src/shared/types";
+import { RPC_API, SOLANA_BOT_PRIVATE_KEY } from "src/constants";
+import { PumpFunService } from "src/pump-fun/pump-fun.service";
 
 console.log("Running draft file...");
 
+const signature =
+  // "2YnnZP6UqBGnEowCzFpErfPdegiV8tTAYcoajRvjuKdzsKJnKTYwgDRquSb5uTGweQavYG1xzNCoh7yZXKFSpDrW";
+  "2Ny9Fj2AmWcjZjqET7REAVEqwnuhEo8aqQgYScFLuRcUGE15e5ScVRHsczk3JJ4SbJNgN7Pg2ERafWLKDTHfksnz";
+
 (async () => {
-  const db = new Database("telegram_bot.db");
-  const userService = new UserService(db);
-
-  const privateKey = await userService.getPrivateKey(7637618506);
-  if (!privateKey) {
-    console.log("User not found");
-    return;
-  }
-  const publicKey = Keypair.fromSecretKey(
-    new Uint8Array(bs58.decode(privateKey))
-  ).publicKey;
-  console.log("Public key: ", publicKey.toBase58());
-
-  //   const freePasses = await userService.getFreePasses(123456787);
-  //   console.log("Free passes: ", freePasses);
-
-  //   const freePasses = await userService.giveFreePass(123456789);
-  //   console.log("Free passes: ", freePasses);
-
-  //   const privateKey = await userService.getPrivateKey(123456787);
-  //   console.log("Private key: ", privateKey);
-
-  // const dateISO = new Date().toISOString();
-  // const user: User = {
-  //   telegramId: 123456789, // identifier
-  //   privateKey: "my-private",
-  //   firstName: "John",
-  //   lastName: "Doe",
-  //   isBot: false,
-  //   bumpsCounter: 0,
-  //   username: "johndoe",
-  //   freePassesTotal: 0,
-  //   freePassesUsed: 0,
-  //   bumpAmount: 0.0103,
-  //   priorityFee: 0.02,
-  //   bumpIntervalInSeconds: 1,
-  //   slippagePercentage: 0.3,
-  //   createdAt: dateISO,
-  //   updatedAt: dateISO,
-  // };
-  // const newUser = await userService.create(user);
-  // console.log("New user: ", newUser);
+  // const connection = new Connection(RPC_API, "confirmed");
+  // const transactionDetails = await connection.getTransaction(signature, {
+  //   commitment: "confirmed",
+  // });
+  // if (transactionDetails) {
+  //   const logs = transactionDetails.meta?.logMessages;
+  //   const insufficientSol = logs?.some((log) =>
+  //     log.toLowerCase().includes("insufficient lamports")
+  //   );
+  //   console.log("Transaction logs:", logs);
+  //   console.log("Insufficient SOL:", insufficientSol);
+  //   // You can process the logs here to analyze specific errors
+  // } else {
+  //   console.log(
+  //     "No transaction details found, or transaction was not confirmed."
+  //   );
+  // }
+  // const payerPrivateKey = SOLANA_BOT_PRIVATE_KEY;
+  // const priorityFeeInSol = 0.01;
+  // const slippage = 0.25;
+  // const solAmount = 0.0522;
+  // const pumpFunService = new PumpFunService(
+  //   payerPrivateKey,
+  //   priorityFeeInSol,
+  //   slippage,
+  //   solAmount
+  // );
+  // const CA = "BY1SwWm5bfiTruq5gPjELbAQobRc26UzZFHXuMt2pump";
+  // const res = await pumpFunService.bump(CA);
+  // console.log("Bump response:", res);
 })();

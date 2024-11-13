@@ -6,7 +6,7 @@ export const SOLANA_BOT_PRIVATE_KEY = process.env
 export const SOLANA_PAYER_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_2 as string;
 export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
-export const HELIUS_API = process.env.HELIUS_API as string;
+export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 
 // Bot's Website

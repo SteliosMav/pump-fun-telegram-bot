@@ -1,7 +1,11 @@
 interface BasicResponse<T extends boolean> {
   success: T;
 }
-type ErrorCodes = "INSUFFICIENT_BALANCE" | "UNKNOWN_ERROR";
+type ErrorCodes =
+  | "INSUFFICIENT_BALANCE"
+  | "UNKNOWN_ERROR"
+  | "FAILED_RETRIEVE_COIN_DATA"
+  | "TRANSACTION_FAILED";
 export interface SuccessResponse<T> extends BasicResponse<true> {
   data: T;
 }

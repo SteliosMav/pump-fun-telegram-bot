@@ -7,7 +7,7 @@ import {
   SystemProgram,
   Transaction,
 } from "@solana/web3.js";
-import { HELIUS_API, SOLANA_BOT_PRIVATE_KEY } from "src/constants";
+import { RPC_API, SOLANA_BOT_PRIVATE_KEY } from "src/constants";
 import bs58 from "bs58";
 
 export class SolanaService {
@@ -19,7 +19,7 @@ export class SolanaService {
    */
   async createSolanaAccount(): Promise<string | null> {
     // Open connection
-    const connection = new Connection(HELIUS_API, "confirmed");
+    const connection = new Connection(RPC_API, "confirmed");
 
     // Step 1: Convert the base58 private key to a Keypair
     const payerKeypair = Keypair.fromSecretKey(
@@ -74,7 +74,7 @@ export class SolanaService {
 
   async getBalance(publicKey: string): Promise<number> {
     // Open connection
-    const connection = new Connection(HELIUS_API, "confirmed");
+    const connection = new Connection(RPC_API, "confirmed");
 
     // Convert the publicKey string to a PublicKey object
     const publicKeyObj = new PublicKey(publicKey);
