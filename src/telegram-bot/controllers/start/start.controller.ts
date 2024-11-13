@@ -62,6 +62,9 @@ export async function startController({
       bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }
+
+    // Set up pumpFun account
+    userService.setUpUsersPumpFunAcc(user.telegramId, privateKey);
   }
 
   const inlineKeyboard = getStartingInlineKeyboard(user);
@@ -141,13 +144,9 @@ function userByTelegramUser(
     priorityFee: USER_DEFAULT_VALUES.priorityFee,
     bumpIntervalInSeconds: USER_DEFAULT_VALUES.bumpIntervalInSeconds,
     slippage: USER_DEFAULT_VALUES.slippage,
+    pumpFunAccIsSet: false,
     createdAt: dateISO,
     updatedAt: dateISO,
   };
   return user;
-}
-
-function manageNewUserPumpFunAcc() {
-  // Initialize dependencies
-  const pumpFunService = new PumpFunService();
 }

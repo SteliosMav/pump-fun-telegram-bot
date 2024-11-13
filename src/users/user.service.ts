@@ -299,7 +299,10 @@ export class UserService {
     });
   }
 
-  async setUsersPumpFunAcc(telegramId: string, privateKey: string) {
+  async setUpUsersPumpFunAcc(
+    telegramId: number,
+    privateKey: string
+  ): Promise<void> {
     try {
       const pumpFunService = new PumpFunService();
       const authCookie = await pumpFunService.login(privateKey);
@@ -314,8 +317,61 @@ export class UserService {
 
       // Update user in db that pump fun account is set
       // ...
+      // Define the keys to update with type safety
+      const keyToUpdate: keyof User = "pumpFunAccIsSet";
+      const updatedAtKey: keyof User = "updatedAt";
+
+      await new Promise((resolve, reject) => {
+        this._db.run(
+          `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
+          [1, new Date().toISOString(), telegramId],
+          (err) => {
+            if (err) {
+              console.error(`Error updating ${keyToUpdate}:`, err.message);
+              reject(err);
+            } else {
+              resolve(true);
+            }
+          }
+        );
+      });
     } catch (error) {
       console.error("Error updating users pump fun account:", error);
+    }
+  }
+
+  /**
+   * Increment the bumps counter by a specified amount for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param bumpAmount - The amount to increment the bumps counter.
+   * @returns A Promise resolving to the new bumpsCounter value.
+   */
+  async incrementBumpsCounter(
+    telegramId: number,
+    bumpAmount: number
+  ): Promise<boolean | null> {
+    const counterKey: keyof User = "bumpsCounter";
+    const updatedAtKey: keyof User = "updatedAt";
+
+    try {
+      const res = await new Promise((resolve, reject) => {
+        this._db.run(
+          `UPDATE users SET ${counterKey} = ${counterKey} + ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
+          [bumpAmount, new Date().toISOString(), telegramId],
+          function (err) {
+            if (err) {
+              console.error(`Error updating ${counterKey}:`, err.message);
+              reject(err);
+            } else {
+              resolve(this.changes ? bumpAmount : 0);
+            }
+          }
+        );
+      });
+      return true;
+    } catch (error) {
+      console.error("Error incrementing bumps counter:", error);
+      return null;
     }
   }
 

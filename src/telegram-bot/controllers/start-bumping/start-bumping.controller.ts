@@ -142,6 +142,12 @@ _Once done, press Refresh Balance to check your updated balance._`;
     );
 
     if (bumpResponse.success) {
+      // Increment the bumps counter
+      await userService.incrementBumpsCounter(
+        user.telegramId,
+        bumpResponse.data
+      );
+
       // Send a success message
       bot.sendMessage(
         message.chat.id,
