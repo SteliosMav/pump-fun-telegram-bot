@@ -37,6 +37,7 @@ import {
 } from "../constants";
 import nacl from "tweetnacl";
 import { CoinData } from "./types";
+import { CustomResponse } from "src/shared/types";
 
 export enum TransactionMode {
   Simulation,
@@ -73,176 +74,205 @@ export class PumpFunService {
     private _solAmount: number
   ) {}
 
-  async bump(mintStr: string) {
-    try {
-      const connection = new Connection(HELIUS_API, "confirmed");
+  async bump(mintStr: string): Promise<CustomResponse<string>> {
+    console.log("Bump!");
+    return {
+      success: true,
+      data: "test",
+    };
 
-      // Fetch coin data, shared for both buy and sell
-      const coinData = await this.getCoinData(mintStr);
-      if (!coinData) {
-        console.error("Failed to retrieve coin data...");
-        return;
-      }
+    // try {
+    //   const connection = new Connection(HELIUS_API, "confirmed");
 
-      const payer = await this._keyPairFromPrivateKey(this._payerPrivateKey);
-      const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
-      const owner = payer.publicKey;
-      const mint = new PublicKey(mintStr);
-      const txBuilder = new Transaction();
+    //   // Fetch coin data, shared for both buy and sell
+    //   const coinData = await this.getCoinData(mintStr);
+    //   if (!coinData) {
+    //     console.error("Failed to retrieve coin data...");
+    //     return {
+    //       success: false,
+    //       message: "Failed to retrieve coin data...",
+    //     };
+    //   }
 
-      // Transaction Costs
-      const solInLamports = this._solAmount * LAMPORTS_PER_SOL;
-      const solInWithSlippage = this._solAmount * (1 + this._slippageDecimal);
-      const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
+    //   const payer = await this._keyPairFromPrivateKey(this._payerPrivateKey);
+    //   const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
+    //   const owner = payer.publicKey;
+    //   const mint = new PublicKey(mintStr);
+    //   const txBuilder = new Transaction();
 
-      // Rent Exemption Check for Token Account
-      const tokenAccountAddress = await getAssociatedTokenAddress(
-        mint,
-        owner,
-        false
-      );
-      const tokenAccountInfo = await connection.getAccountInfo(
-        tokenAccountAddress
-      );
-      let tokenAccount: PublicKey;
+    //   // Transaction Costs
+    //   const solInLamports = this._solAmount * LAMPORTS_PER_SOL;
+    //   const solInWithSlippage = this._solAmount * (1 + this._slippageDecimal);
+    //   const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
 
-      if (!tokenAccountInfo) {
-        // Add instruction to create the associated token account if it doesn't exist
-        txBuilder.add(
-          createAssociatedTokenAccountInstruction(
-            payer.publicKey,
-            tokenAccountAddress,
-            payer.publicKey,
-            mint
-          )
-        );
-        tokenAccount = tokenAccountAddress;
-      } else {
-        tokenAccount = tokenAccountAddress;
-      }
+    //   // Rent Exemption Check for Token Account
+    //   const tokenAccountAddress = await getAssociatedTokenAddress(
+    //     mint,
+    //     owner,
+    //     false
+    //   );
+    //   const tokenAccountInfo = await connection.getAccountInfo(
+    //     tokenAccountAddress
+    //   );
+    //   let tokenAccount: PublicKey;
 
-      // Get the payer's balance
-      const { totalRequiredBalance, payerBalance } =
-        await this.getRequiredBalance(mintStr);
-      const hasSufficientBalance = payerBalance >= totalRequiredBalance;
+    //   if (!tokenAccountInfo) {
+    //     // Add instruction to create the associated token account if it doesn't exist
+    //     txBuilder.add(
+    //       createAssociatedTokenAccountInstruction(
+    //         payer.publicKey,
+    //         tokenAccountAddress,
+    //         payer.publicKey,
+    //         mint
+    //       )
+    //     );
+    //     tokenAccount = tokenAccountAddress;
+    //   } else {
+    //     tokenAccount = tokenAccountAddress;
+    //   }
 
-      // Check if payer has enough balance for all costs
-      if (!hasSufficientBalance) {
-        console.error(
-          "Insufficient balance for rent exemption, transaction, and fees."
-        );
-        return;
-      }
+    //   // Get the payer's balance
+    //   const { totalRequiredBalance, payerBalance } =
+    //     await this.getRequiredBalance(mintStr);
+    //   const hasSufficientBalance = payerBalance >= totalRequiredBalance;
 
-      // Step 1: Transfer bot fee to the bot
-      const botFeeTransferInstruction = SystemProgram.transfer({
-        fromPubkey: payer.publicKey,
-        toPubkey: bot.publicKey,
-        lamports: botFee,
-      });
-      txBuilder.add(botFeeTransferInstruction);
+    //   // Check if payer has enough balance for all costs
+    //   if (!hasSufficientBalance) {
+    //     console.error(
+    //       "Insufficient balance for rent exemption, transaction, and fees."
+    //     );
+    //     return {
+    //       success: false,
+    //       message: "Insufficient balance.",
+    //     };
+    //   }
 
-      // Step 2: Buy instructions
-      const tokenOut = Math.floor(
-        (solInLamports * coinData["virtual_token_reserves"]) /
-          coinData["virtual_sol_reserves"]
-      );
-      const maxSolCost = Math.floor(solInWithSlippage * LAMPORTS_PER_SOL);
-      const ASSOCIATED_USER = tokenAccount;
-      const USER = owner;
-      const BONDING_CURVE = new PublicKey(coinData["bonding_curve"]);
-      const ASSOCIATED_BONDING_CURVE = new PublicKey(
-        coinData["associated_bonding_curve"]
-      );
+    //   // Step 1: Transfer bot fee to the bot
+    //   const botFeeTransferInstruction = SystemProgram.transfer({
+    //     fromPubkey: payer.publicKey,
+    //     toPubkey: bot.publicKey,
+    //     lamports: botFee,
+    //   });
+    //   txBuilder.add(botFeeTransferInstruction);
 
-      const buyKeys = [
-        { pubkey: GLOBAL, isSigner: false, isWritable: false },
-        { pubkey: FEE_RECIPIENT, isSigner: false, isWritable: true },
-        { pubkey: mint, isSigner: false, isWritable: false },
-        { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
-        { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
-        { pubkey: ASSOCIATED_USER, isSigner: false, isWritable: true },
-        { pubkey: USER, isSigner: false, isWritable: true },
-        { pubkey: SYSTEM_PROGRAM_ID, isSigner: false, isWritable: false },
-        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-        { pubkey: RENT, isSigner: false, isWritable: false },
-        { pubkey: PUMP_FUN_ACCOUNT, isSigner: false, isWritable: false },
-        { pubkey: PUMP_FUN_PROGRAM, isSigner: false, isWritable: false },
-      ];
+    //   // Step 2: Buy instructions
+    //   const tokenOut = Math.floor(
+    //     (solInLamports * coinData["virtual_token_reserves"]) /
+    //       coinData["virtual_sol_reserves"]
+    //   );
+    //   const maxSolCost = Math.floor(solInWithSlippage * LAMPORTS_PER_SOL);
+    //   const ASSOCIATED_USER = tokenAccount;
+    //   const USER = owner;
+    //   const BONDING_CURVE = new PublicKey(coinData["bonding_curve"]);
+    //   const ASSOCIATED_BONDING_CURVE = new PublicKey(
+    //     coinData["associated_bonding_curve"]
+    //   );
 
-      const buyData = Buffer.concat([
-        this._bufferFromUInt64("16927863322537952870"), // Buy operation ID
-        this._bufferFromUInt64(tokenOut),
-        this._bufferFromUInt64(maxSolCost),
-      ]);
+    //   const buyKeys = [
+    //     { pubkey: GLOBAL, isSigner: false, isWritable: false },
+    //     { pubkey: FEE_RECIPIENT, isSigner: false, isWritable: true },
+    //     { pubkey: mint, isSigner: false, isWritable: false },
+    //     { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
+    //     { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
+    //     { pubkey: ASSOCIATED_USER, isSigner: false, isWritable: true },
+    //     { pubkey: USER, isSigner: false, isWritable: true },
+    //     { pubkey: SYSTEM_PROGRAM_ID, isSigner: false, isWritable: false },
+    //     { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+    //     { pubkey: RENT, isSigner: false, isWritable: false },
+    //     { pubkey: PUMP_FUN_ACCOUNT, isSigner: false, isWritable: false },
+    //     { pubkey: PUMP_FUN_PROGRAM, isSigner: false, isWritable: false },
+    //   ];
 
-      const buyInstruction = new TransactionInstruction({
-        keys: buyKeys,
-        programId: PUMP_FUN_PROGRAM,
-        data: buyData,
-      });
-      txBuilder.add(buyInstruction);
+    //   const buyData = Buffer.concat([
+    //     this._bufferFromUInt64("16927863322537952870"), // Buy operation ID
+    //     this._bufferFromUInt64(tokenOut),
+    //     this._bufferFromUInt64(maxSolCost),
+    //   ]);
 
-      // Step 3: Sell instructions
-      const minSolOutput = Math.floor(
-        (tokenOut *
-          (1 - this._slippageDecimal) *
-          coinData["virtual_sol_reserves"]) /
-          coinData["virtual_token_reserves"]
-      );
+    //   const buyInstruction = new TransactionInstruction({
+    //     keys: buyKeys,
+    //     programId: PUMP_FUN_PROGRAM,
+    //     data: buyData,
+    //   });
+    //   txBuilder.add(buyInstruction);
 
-      const sellKeys = [
-        { pubkey: GLOBAL, isSigner: false, isWritable: false },
-        { pubkey: FEE_RECIPIENT, isSigner: false, isWritable: true },
-        { pubkey: mint, isSigner: false, isWritable: false },
-        { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
-        { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
-        { pubkey: tokenAccount, isSigner: false, isWritable: true },
-        { pubkey: owner, isSigner: false, isWritable: true },
-        { pubkey: SYSTEM_PROGRAM_ID, isSigner: false, isWritable: false },
-        { pubkey: ASSOC_TOKEN_ACC_PROG, isSigner: false, isWritable: false },
-        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-        { pubkey: PUMP_FUN_ACCOUNT, isSigner: false, isWritable: false },
-        { pubkey: PUMP_FUN_PROGRAM, isSigner: false, isWritable: false },
-      ];
+    //   // Step 3: Sell instructions
+    //   const minSolOutput = Math.floor(
+    //     (tokenOut *
+    //       (1 - this._slippageDecimal) *
+    //       coinData["virtual_sol_reserves"]) /
+    //       coinData["virtual_token_reserves"]
+    //   );
 
-      const sellData = Buffer.concat([
-        this._bufferFromUInt64("12502976635542562355"), // Sell operation ID
-        this._bufferFromUInt64(tokenOut),
-        this._bufferFromUInt64(minSolOutput),
-      ]);
+    //   const sellKeys = [
+    //     { pubkey: GLOBAL, isSigner: false, isWritable: false },
+    //     { pubkey: FEE_RECIPIENT, isSigner: false, isWritable: true },
+    //     { pubkey: mint, isSigner: false, isWritable: false },
+    //     { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
+    //     { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
+    //     { pubkey: tokenAccount, isSigner: false, isWritable: true },
+    //     { pubkey: owner, isSigner: false, isWritable: true },
+    //     { pubkey: SYSTEM_PROGRAM_ID, isSigner: false, isWritable: false },
+    //     { pubkey: ASSOC_TOKEN_ACC_PROG, isSigner: false, isWritable: false },
+    //     { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+    //     { pubkey: PUMP_FUN_ACCOUNT, isSigner: false, isWritable: false },
+    //     { pubkey: PUMP_FUN_PROGRAM, isSigner: false, isWritable: false },
+    //   ];
 
-      const sellInstruction = new TransactionInstruction({
-        keys: sellKeys,
-        programId: PUMP_FUN_PROGRAM,
-        data: sellData,
-      });
-      txBuilder.add(sellInstruction);
+    //   const sellData = Buffer.concat([
+    //     this._bufferFromUInt64("12502976635542562355"), // Sell operation ID
+    //     this._bufferFromUInt64(tokenOut),
+    //     this._bufferFromUInt64(minSolOutput),
+    //   ]);
 
-      // Finalize and send transaction
-      const transaction = await this._createTransaction(
-        connection,
-        txBuilder.instructions,
-        payer.publicKey,
-        this._priorityFeeInSol
-      );
+    //   const sellInstruction = new TransactionInstruction({
+    //     keys: sellKeys,
+    //     programId: PUMP_FUN_PROGRAM,
+    //     data: sellData,
+    //   });
+    //   txBuilder.add(sellInstruction);
 
-      if (this._transactionMode === TransactionMode.Execution) {
-        const signature = await this._sendAndConfirmTransactionWrapper(
-          connection,
-          transaction,
-          [payer]
-        );
-        console.log("Pump transaction confirmed:", signature);
-      } else if (this._transactionMode === TransactionMode.Simulation) {
-        const simulatedResult = await connection.simulateTransaction(
-          transaction
-        );
-        console.log("Pump transaction simulation:", simulatedResult);
-      }
-    } catch (error) {
-      console.error("Error in pump transaction:", error);
-    }
+    //   // Finalize and send transaction
+    //   const transaction = await this._createTransaction(
+    //     connection,
+    //     txBuilder.instructions,
+    //     payer.publicKey,
+    //     this._priorityFeeInSol
+    //   );
+
+    //   // if (this._transactionMode === TransactionMode.Execution) {
+    //   const signature = await this._sendAndConfirmTransactionWrapper(
+    //     connection,
+    //     transaction,
+    //     [payer]
+    //   );
+    //   console.log("Pump transaction confirmed:", signature);
+    //   if (signature) {
+    //     return {
+    //       success: true,
+    //       data: signature,
+    //     };
+    //   } else {
+    //     return {
+    //       success: false,
+    //       message: "Transaction failed.",
+    //     };
+    //   }
+    //   // } else if (this._transactionMode === TransactionMode.Simulation) {
+    //   //   const simulatedResult = await connection.simulateTransaction(
+    //   //     transaction
+    //   //   );
+    //   //   console.log("Pump transaction simulation:", simulatedResult);
+    //   // }
+    // } catch (error) {
+    //   console.error("Error in bump transaction:", error);
+    //   return {
+    //     code: "UNKNOWN_ERROR",
+    //     success: false,
+    //     error: error,
+    //     message: "Bump failed.",
+    //   };
+    // }
   }
 
   async login(privateKey: string) {
