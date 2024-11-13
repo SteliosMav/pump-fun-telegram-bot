@@ -95,18 +95,19 @@ export async function startBumpingController({
     });
 
     if (!hasSufficientBalance) {
-      startController({
-        bot,
-        callbackQuery,
-        errMsg: `*Insufficient balance.*
+      const errMsg = `*Insufficient balance.*
 
 Based on the current *amount* you've chosen to bump with, your *priority fees*, your *slippage* tolerance, and the current *price* of the coin, you need at least *${
-          totalRequiredBalance / LAMPORTS_PER_SOL
-        } SOL* to bump *${coinData.name}*.
+        totalRequiredBalance / LAMPORTS_PER_SOL
+      } SOL* to bump *${coinData.name}*.
 
 Please add some *SOL* to your wallet and try again.
 
-_Once done, press Refresh Balance to check your updated balance._`,
+_Once done, press Refresh Balance to check your updated balance._`;
+      startController({
+        bot,
+        callbackQuery,
+        errMsg,
       });
       return;
     }
