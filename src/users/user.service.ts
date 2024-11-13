@@ -1,7 +1,13 @@
 import CryptoJS from "crypto-js";
-import { ENCRYPTION_KEY } from "src/constants";
+import {
+  BOT_DESCRIPTION,
+  BOT_IMAGE,
+  BOT_NAME,
+  ENCRYPTION_KEY,
+} from "src/constants";
 import { User, UserModel } from "./types";
 import { Database } from "sqlite3";
+import { PumpFunService } from "src/pump-fun/pump-fun.service";
 
 export class UserService {
   constructor(private _db: Database) {}
@@ -291,6 +297,26 @@ export class UserService {
         }
       );
     });
+  }
+
+  async setUsersPumpFunAcc(telegramId: string, privateKey: string) {
+    try {
+      const pumpFunService = new PumpFunService();
+      const authCookie = await pumpFunService.login(privateKey);
+      if (!authCookie) return;
+
+      await pumpFunService.updateProfile(
+        BOT_NAME,
+        BOT_IMAGE,
+        BOT_DESCRIPTION,
+        authCookie
+      );
+
+      // Update user in db that pump fun account is set
+      // ...
+    } catch (error) {
+      console.error("Error updating users pump fun account:", error);
+    }
   }
 
   private _encryptPrivateKey(privateKey: string) {

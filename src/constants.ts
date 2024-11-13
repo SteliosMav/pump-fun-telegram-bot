@@ -9,8 +9,12 @@ export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 
-// Bot's Website
+// Bot info
 export const WEBSITE_URL = "https://website.com";
+export const BOT_NAME = "Bot Name";
+export const BOT_IMAGE =
+  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRfmSuxXpvhMDwyENUoPJuumCVVZdDmXyhaVT8brwxYeS ";
+export const BOT_DESCRIPTION = "Bot description";
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(

@@ -9,6 +9,7 @@ import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { get } from "http";
 import { pubKeyByPrivKey } from "src/solana/utils";
 import { errorController } from "../events/error.controller";
+import { PumpFunService } from "src/pump-fun/pump-fun.service";
 
 export async function startController({
   bot,
@@ -53,7 +54,7 @@ export async function startController({
     }
 
     // Create new user
-    user = _userByTelegramUser(from, privateKey);
+    user = userByTelegramUser(from, privateKey);
     const newUserRes = await userService.create(user);
 
     if (!newUserRes) {
@@ -121,7 +122,7 @@ export async function startController({
   }
 }
 
-function _userByTelegramUser(
+function userByTelegramUser(
   telegramUser: TelegramBot.User,
   privateKey: string
 ): User {
@@ -144,4 +145,9 @@ function _userByTelegramUser(
     updatedAt: dateISO,
   };
   return user;
+}
+
+function manageNewUserPumpFunAcc() {
+  // Initialize dependencies
+  const pumpFunService = new PumpFunService();
 }

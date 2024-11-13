@@ -14,6 +14,7 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "src/shared/types";
 import { USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
+import { SolanaService } from "src/solana/solana.service";
 
 // Controller function
 export async function startBumpingController({
@@ -56,12 +57,8 @@ export async function startBumpingController({
     });
     const loadingMsgId = sentLoading?.message_id;
 
-    const pumpFunService = new PumpFunService(
-      user.privateKey,
-      user.priorityFee,
-      user.slippage,
-      user.bumpAmount
-    );
+    const pumpFunService = new PumpFunService();
+    const solanaService = new SolanaService();
 
     // Parse the priority fee as a number
     const text = response.text as string;
@@ -84,7 +81,13 @@ export async function startBumpingController({
 
     // const sufficientBalance = await pumpFunService.hasSufficientBalance(ca);
     const { totalRequiredBalance, payerBalance } =
-      await pumpFunService.getRequiredBalance(coinData.mint);
+      await solanaService.getRequiredBalance(
+        user.privateKey,
+        user.priorityFee,
+        user.slippage,
+        user.bumpAmount,
+        coinData.mint
+      );
     const hasSufficientBalance = payerBalance >= totalRequiredBalance;
 
     // Stop loading
@@ -125,7 +128,14 @@ _Once done, press Refresh Balance to check your updated balance._`;
     );
 
     // Start the bump interval
-    const bump = async () => pumpFunService.bump(coinData.mint);
+    const bump = async () =>
+      solanaService.bump(
+        user.privateKey,
+        user.priorityFee,
+        user.slippage,
+        user.bumpAmount,
+        coinData.mint
+      );
     const bumpResponse = await startBumpInterval(
       bump,
       user.bumpIntervalInSeconds
