@@ -11,10 +11,14 @@ export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 
 // Bot info
 export const WEBSITE_URL = "https://website.com";
-export const BOT_NAME = "Bot Name";
+export const BOT_NAME = "Ez Bump";
+export const BOT_USERNAME_BASE = "EzBmp"; // The whole username must be max 10 characters
 export const BOT_IMAGE =
-  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRfmSuxXpvhMDwyENUoPJuumCVVZdDmXyhaVT8brwxYeS ";
-export const BOT_DESCRIPTION = "Bot description";
+  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZx2WmcHoqSA9HUWx6NYcWc4DDvs7ecnkGZs3Qum4Ytiz";
+export const BOT_IMAGE_GIF =
+  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZdE1FioAhCSLRMjxgC9WByWPJiCm4XDCrsUksXCvaEwE";
+// bot description must be maximum 250 characters
+export const BOT_DESCRIPTION = `🔥 Boost your token with EzBump! 🔥 The simplest, cheapest bump bot for Pump.Fun – just ${BOT_SOL_FEE} SOL per bump. Fast, reliable, and hassle-free visibility with every click! Perfect for affordable boosting.`;
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(

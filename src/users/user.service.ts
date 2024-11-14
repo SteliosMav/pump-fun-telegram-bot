@@ -1,8 +1,8 @@
 import CryptoJS from "crypto-js";
 import {
   BOT_DESCRIPTION,
-  BOT_IMAGE,
-  BOT_NAME,
+  BOT_IMAGE_GIF,
+  BOT_USERNAME_BASE,
   ENCRYPTION_KEY,
 } from "src/constants";
 import { User, UserModel } from "./types";
@@ -17,13 +17,30 @@ export class UserService {
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
     return new Promise((resolve, reject) => {
+      // Define the keys to update with type safety
+      const columnNames: (keyof UserModel)[] = [
+        "telegramId",
+        "encryptedPrivateKey",
+        "firstName",
+        "isBot",
+        "bumpsCounter",
+        "freePassesTotal",
+        "freePassesUsed",
+        "bumpIntervalInSeconds",
+        "bumpAmount",
+        "slippage",
+        "priorityFee",
+        "createdAt",
+        "updatedAt",
+        "lastName",
+        "username",
+      ];
+
+      const placeholders = columnNames.map(() => "?").join(", ");
+      const columns = columnNames.join(", ");
+
       this._db.run(
-        `INSERT INTO users (
-            telegramId, encryptedPrivateKey, firstName, isBot, 
-            bumpsCounter, freePassesTotal, freePassesUsed,
-            bumpIntervalInSeconds, bumpAmount, slippagePercentage, 
-            priorityFee, createdAt, updatedAt, lastName, username
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO users (${columns}) VALUES (${placeholders})`,
         [
           user.telegramId,
           encryptedPrivateKey,
@@ -54,9 +71,10 @@ export class UserService {
   }
 
   async getUser(telegramId: number): Promise<User | null> {
+    const telegramIdKey: keyof UserModel = "telegramId";
     return new Promise((resolve, reject) => {
       this._db.get<UserModel>(
-        "SELECT * FROM users WHERE telegramId = ?",
+        `SELECT * FROM users WHERE ${telegramIdKey} = ?`,
         [telegramId],
         (err, row) => {
           if (err) {
@@ -82,10 +100,13 @@ export class UserService {
   }
 
   async getPrivateKey(telegramId: number): Promise<string | null> {
+    const telegramIdKey: keyof UserModel = "telegramId";
+    const encryptedPrivateKeyKey: keyof UserModel = "encryptedPrivateKey";
+
     // Return a promise to handle asynchronous behavior
     return new Promise((resolve, reject) => {
       this._db.get<UserModel>(
-        "SELECT encryptedPrivateKey FROM users WHERE telegramId = ?",
+        `SELECT ${encryptedPrivateKeyKey} FROM users WHERE ${telegramIdKey} = ?`,
         [telegramId],
         (err, row) => {
           if (err) {
@@ -106,12 +127,16 @@ export class UserService {
   }
 
   async getFreePasses(telegramId: number): Promise<number | null> {
+    const telegramIdKey: keyof UserModel = "telegramId";
+    const freePassesTotalKey: keyof UserModel = "freePassesTotal";
+    const freePassesUsedKey: keyof UserModel = "freePassesUsed";
+
     try {
       // Fetch the user from the database
       const row = await new Promise<UserModel | undefined>(
         (resolve, reject) => {
           this._db.get<UserModel>(
-            "SELECT freePassesTotal, freePassesUsed FROM users WHERE telegramId = ?",
+            `SELECT ${freePassesTotalKey}, ${freePassesUsedKey} FROM users WHERE ${telegramIdKey} = ?`,
             [telegramId],
             (err, row) => {
               if (err) reject(err);
@@ -134,12 +159,13 @@ export class UserService {
   }
 
   async giveFreePass(telegramId: number): Promise<number | null> {
+    const telegramIdKey: keyof UserModel = "telegramId";
     try {
       // Fetch the user from the database
       const row = await new Promise<UserModel | undefined>(
         (resolve, reject) => {
           this._db.get<UserModel>(
-            "SELECT * FROM users WHERE telegramId = ?",
+            `SELECT * FROM users WHERE ${telegramIdKey} = ?`,
             [telegramId],
             (err, row) => {
               if (err) reject(err);
@@ -308,16 +334,44 @@ export class UserService {
       const authCookie = await pumpFunService.login(privateKey);
       if (!authCookie) return;
 
-      await pumpFunService.updateProfile(
-        BOT_NAME,
-        BOT_IMAGE,
+      // Generate unique username
+      function generateCustomID(alphabet: string, length: number): string {
+        let result = "";
+        const characters = alphabet.split("");
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+          result += characters[Math.floor(Math.random() * charactersLength)];
+        }
+        return result;
+      }
+      const alphabet =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const id = generateCustomID(alphabet, 4);
+      const newUserName = `${BOT_USERNAME_BASE}_${id}`; // The whole username must be max 10 characters
+
+      // Update profile promise
+      let success = false;
+      const res = await pumpFunService.updateProfile(
+        newUserName,
+        BOT_IMAGE_GIF,
         BOT_DESCRIPTION,
         authCookie
       );
 
+      // There's a chance the username is taken, so we'll retry once more
+      if (!res) {
+        const secondRes = await pumpFunService.updateProfile(
+          newUserName,
+          BOT_IMAGE_GIF,
+          BOT_DESCRIPTION,
+          authCookie
+        );
+        if (!secondRes) {
+          throw new Error("Error updating users pump fun account");
+        }
+      }
+
       // Update user in db that pump fun account is set
-      // ...
-      // Define the keys to update with type safety
       const keyToUpdate: keyof User = "pumpFunAccIsSet";
       const updatedAtKey: keyof User = "updatedAt";
 

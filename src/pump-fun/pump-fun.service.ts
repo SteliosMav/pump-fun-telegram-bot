@@ -2,7 +2,7 @@ import { Keypair } from "@solana/web3.js";
 import { PUMP_FUN_API } from "../constants";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
-import { CoinData } from "./types";
+import { CoinData, UserUpdateResponse } from "./types";
 
 export enum TransactionMode {
   Simulation,
@@ -96,7 +96,7 @@ export class PumpFunService {
     imageUrl: string,
     bio: string,
     authCookie: string
-  ) {
+  ): Promise<UserUpdateResponse | null> {
     // Step 1: Prepare the payload with the user profile data
     const payload = {
       username,
@@ -116,13 +116,21 @@ export class PumpFunService {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("Profile update successful:", data);
+        const data: UserUpdateResponse = await response.json();
+        if (data.address) {
+          console.log("Profile update successful:", data);
+          return data;
+        } else {
+          console.error("Profile update failed:", data);
+          return null;
+        }
       } else {
         console.error("Profile update failed:", await response.json());
+        return null;
       }
     } catch (error) {
       console.error("Error during profile update:", error);
+      return null;
     }
   }
 }

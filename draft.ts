@@ -6,7 +6,11 @@ dotenv.config();
 import { UserService } from "src/users/user.service";
 import bs58 from "bs58";
 import { CustomResponse } from "src/shared/types";
-import { RPC_API, SOLANA_BOT_PRIVATE_KEY } from "src/constants";
+import {
+  BOT_USERNAME_BASE,
+  RPC_API,
+  SOLANA_BOT_PRIVATE_KEY,
+} from "src/constants";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
 
 console.log("Running draft file...");
@@ -16,6 +20,23 @@ const signature =
   "2Ny9Fj2AmWcjZjqET7REAVEqwnuhEo8aqQgYScFLuRcUGE15e5ScVRHsczk3JJ4SbJNgN7Pg2ERafWLKDTHfksnz";
 
 (async () => {
+  // Generate unique username
+  function generateCustomID(alphabet: string, length: number): string {
+    let result = "";
+    const characters = alphabet.split("");
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters[Math.floor(Math.random() * charactersLength)];
+    }
+    return result;
+  }
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const id = generateCustomID(alphabet, 4);
+  const newUseName = `${BOT_USERNAME_BASE}_${id}`;
+
+  console.log("New username:", newUseName);
+
   // const connection = new Connection(RPC_API, "confirmed");
   // const transactionDetails = await connection.getTransaction(signature, {
   //   commitment: "confirmed",

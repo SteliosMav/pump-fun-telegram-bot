@@ -53,6 +53,8 @@ export async function startController({
       return;
     }
 
+    console.log("New user created with private key: ", privateKey);
+
     // Create new user
     user = userByTelegramUser(from, privateKey);
     const newUserRes = await userService.create(user);
@@ -95,7 +97,7 @@ export async function startController({
           disable_web_page_preview: true,
         });
       } catch (e) {
-        console.error("Error editing message: ", e);
+        // console.error("Error editing message: ", e);
       }
     } else {
       const options: TelegramBot.SendMessageOptions = {
