@@ -193,56 +193,49 @@ async function startBumpInterval(
 ): Promise<CustomResponse<number>> {
   const intervalMillis = intervalInSeconds * 1000;
   let bumpsCounter = 0;
-  const bumpsLimit = 5;
 
   return new Promise(async (resolve, reject) => {
+    // Function to run a single bump cycle
     const runBumpCycle = async () => {
       try {
-        const res = await bump();
+        const res = await bump(); // Call the bump function
 
+        // If the bump was successful
         if (res.success) {
           bumpsCounter++;
-          if (bumpsCounter >= bumpsLimit) {
-            console.log("Bump limit reached. Stopping interval.");
-            clearInterval(bumpInterval);
-            // Try also with INSUFFICIENT_BALANCE code and UNKNOWN_ERROR
-            resolve({
-              success: false,
-              code: "UNKNOWN_ERROR",
-            });
-          }
         } else {
+          // Handle specific failure cases
           if (res.code === "INSUFFICIENT_BALANCE") {
-            if (bumpsCounter > 1) {
-              console.log(
-                "Bump succeeded and ran out of balance. Stopping interval."
-              );
-              clearInterval(bumpInterval);
+            console.log("Bump failed due to insufficient balance.");
 
+            // If we ran out of balance after the first bump, stop the interval
+            if (bumpsCounter > 0) {
+              console.log(
+                "Bump succeeded but ran out of balance. Stopping interval."
+              );
               resolve({
                 success: true,
                 data: bumpsCounter,
               });
             } else {
-              console.log("Bump failed due to insufficient balance.");
-              clearInterval(bumpInterval);
-
               resolve({
                 success: false,
                 code: "INSUFFICIENT_BALANCE",
               });
             }
+            return; // Stop further bumps if there was insufficient balance
           } else {
-            console.log("Bump failed. Stopping interval.");
-            clearInterval(bumpInterval);
-
+            console.log("Bump failed due to an unknown error.");
             resolve({
               success: false,
               code: "UNKNOWN_ERROR",
             });
-            return;
+            return; // Stop further bumps if an unknown error occurred
           }
         }
+
+        // Wait for the next bump after the specified interval (only if previous one succeeded)
+        setTimeout(runBumpCycle, intervalMillis);
       } catch (error) {
         console.error("Error during bump function:", error);
         const errorResponse: ErrorResponse = {
@@ -250,15 +243,11 @@ async function startBumpInterval(
           code: "UNKNOWN_ERROR",
           error,
         };
-        clearInterval(bumpInterval);
-        resolve(errorResponse);
+        resolve(errorResponse); // Resolve the promise with error details
       }
     };
 
     // Start the first bump immediately
-    await runBumpCycle();
-
-    // Set the interval for further cycles
-    const bumpInterval = setInterval(runBumpCycle, intervalMillis);
+    await runBumpCycle(); // Await the first bump to finish before setting the interval
   });
 }

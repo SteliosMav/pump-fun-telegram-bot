@@ -15,56 +15,6 @@ import { PumpFunService } from "src/pump-fun/pump-fun.service";
 
 console.log("Running draft file...");
 
-const signature =
-  // "2YnnZP6UqBGnEowCzFpErfPdegiV8tTAYcoajRvjuKdzsKJnKTYwgDRquSb5uTGweQavYG1xzNCoh7yZXKFSpDrW";
-  "2Ny9Fj2AmWcjZjqET7REAVEqwnuhEo8aqQgYScFLuRcUGE15e5ScVRHsczk3JJ4SbJNgN7Pg2ERafWLKDTHfksnz";
-
 (async () => {
-  // Generate unique username
-  function generateCustomID(alphabet: string, length: number): string {
-    let result = "";
-    const characters = alphabet.split("");
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters[Math.floor(Math.random() * charactersLength)];
-    }
-    return result;
-  }
-  const alphabet =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const id = generateCustomID(alphabet, 4);
-  const newUseName = `${BOT_USERNAME_BASE}_${id}`;
-
-  console.log("New username:", newUseName);
-
-  // const connection = new Connection(RPC_API, "confirmed");
-  // const transactionDetails = await connection.getTransaction(signature, {
-  //   commitment: "confirmed",
-  // });
-  // if (transactionDetails) {
-  //   const logs = transactionDetails.meta?.logMessages;
-  //   const insufficientSol = logs?.some((log) =>
-  //     log.toLowerCase().includes("insufficient lamports")
-  //   );
-  //   console.log("Transaction logs:", logs);
-  //   console.log("Insufficient SOL:", insufficientSol);
-  //   // You can process the logs here to analyze specific errors
-  // } else {
-  //   console.log(
-  //     "No transaction details found, or transaction was not confirmed."
-  //   );
-  // }
-  // const payerPrivateKey = SOLANA_BOT_PRIVATE_KEY;
-  // const priorityFeeInSol = 0.01;
-  // const slippage = 0.25;
-  // const solAmount = 0.0522;
-  // const pumpFunService = new PumpFunService(
-  //   payerPrivateKey,
-  //   priorityFeeInSol,
-  //   slippage,
-  //   solAmount
-  // );
-  // const CA = "BY1SwWm5bfiTruq5gPjELbAQobRc26UzZFHXuMt2pump";
-  // const res = await pumpFunService.bump(CA);
-  // console.log("Bump response:", res);
+  // ...
 })();
