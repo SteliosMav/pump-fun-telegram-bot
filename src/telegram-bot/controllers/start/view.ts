@@ -4,20 +4,15 @@ import { CallbackType } from "../../types";
 import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import { pubKeyByPrivKey } from "src/solana/utils";
-import { WEBSITE_URL } from "src/constants";
+import { BOT_NAME, WEBSITE_URL } from "src/constants";
 
 const START_BUMPING_BTN_WORDING = "Start Bumping";
 
 export function getStartingMsg(user: User, balance: number): string {
   const publicKey = pubKeyByPrivKey(user.privateKey);
 
-  return `👋   Welcome to *Solana Bump Bot*   🚀
-
-
-💳   *Wallet*: \`${publicKey}\`
-
+  return `💳   *Wallet*: \`${publicKey}\`
 💰   *Balance*: \`${balance}\` SOL
-
 
 *To get started:*
 
@@ -26,7 +21,6 @@ export function getStartingMsg(user: User, balance: number): string {
 2️⃣ Press the *${START_BUMPING_BTN_WORDING}* button
 
 3️⃣ Enter meme coin's *CA* and enjoy bumping! 🔥
-
 
 For any help, visit us on [website.com](${WEBSITE_URL})`;
 }
