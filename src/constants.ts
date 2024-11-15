@@ -18,7 +18,7 @@ export const BOT_IMAGE =
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZdE1FioAhCSLRMjxgC9WByWPJiCm4XDCrsUksXCvaEwE";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🔥 Boost your token with EzBump! 🔥 The simplest, cheapest bump bot for Pump.Fun – just ${BOT_SOL_FEE} SOL per bump. Fast, reliable, and hassle-free visibility with every click! Perfect for affordable boosting.`;
+export const BOT_DESCRIPTION = `🔥 Boost your token with EzBump - https://t.me/ez_bump_bot! 🔥 The simplest, cheapest bump bot for Pump.Fun - just ${BOT_SOL_FEE} SOL per bump. Fast, reliable, and hassle-free visibility with every click!`;
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(

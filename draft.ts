@@ -16,5 +16,18 @@ import { PumpFunService } from "src/pump-fun/pump-fun.service";
 console.log("Running draft file...");
 
 (async () => {
-  // ...
+  const db = new Database("telegram_bot.db");
+  const userService = new UserService(db);
+
+  const users = await userService.getUsers();
+
+  users.forEach(async (user: User) => {
+    const res = await userService.setUpUsersPumpFunAcc(
+      user.telegramId,
+      user.privateKey
+    );
+    console.log("res:", res);
+  });
+
+  // console.log("Users:", users);
 })();

@@ -99,6 +99,44 @@ export class UserService {
     });
   }
 
+  async getUsers(telegramIds?: number[]): Promise<User[]> {
+    const telegramIdKey: keyof UserModel = "telegramId";
+
+    return new Promise((resolve, reject) => {
+      let query = `SELECT * FROM users`; // Default query to fetch all users
+      let params: any[] = []; // Default params (empty)
+
+      // If telegramIds are provided, update the query and params
+      if (telegramIds && telegramIds.length > 0) {
+        const placeholders = telegramIds.map(() => "?").join(",");
+        query += ` WHERE ${telegramIdKey} IN (${placeholders})`;
+        params = telegramIds;
+      }
+
+      this._db.all<UserModel>(query, params, (err, rows) => {
+        if (err) {
+          console.error("Error executing query:", err.message);
+          reject(err);
+        } else {
+          if (rows && rows.length > 0) {
+            // Decrypt the private keys and map over the rows to return the users
+            const users: User[] = rows.map((row) => {
+              const { encryptedPrivateKey, ...userWithoutPrivateKey } = row;
+              const privateKey = this._decryptPrivateKey(encryptedPrivateKey);
+              return {
+                ...userWithoutPrivateKey,
+                privateKey,
+              };
+            });
+            resolve(users);
+          } else {
+            resolve([]); // Return an empty array if no users are found
+          }
+        }
+      });
+    });
+  }
+
   async getPrivateKey(telegramId: number): Promise<string | null> {
     const telegramIdKey: keyof UserModel = "telegramId";
     const encryptedPrivateKeyKey: keyof UserModel = "encryptedPrivateKey";
