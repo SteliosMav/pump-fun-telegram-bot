@@ -22,7 +22,7 @@ export function getStartingMsg(user: User, balance: number): string {
 
 3️⃣ Enter meme coin's *CA* and enjoy bumping! 🔥
 
-For any help, visit us on [website.com](${WEBSITE_URL})`;
+For any help, visit us on [ezpump.fun](${WEBSITE_URL})`;
 }
 
 export function getStartingInlineKeyboard(

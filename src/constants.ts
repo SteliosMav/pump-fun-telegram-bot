@@ -10,15 +10,15 @@ export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NO
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 
 // Bot info
-export const WEBSITE_URL = "https://website.com";
-export const BOT_NAME = "Ez Bump";
-export const BOT_USERNAME_BASE = "EzBmp"; // The whole username must be max 10 characters
+export const WEBSITE_URL = "https://www.ezpump.fun";
+export const BOT_NAME = "EzPump";
+export const BOT_USERNAME_BASE = "EzPmp"; // The whole username must be max 10 characters
 export const BOT_IMAGE =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZx2WmcHoqSA9HUWx6NYcWc4DDvs7ecnkGZs3Qum4Ytiz";
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZdE1FioAhCSLRMjxgC9WByWPJiCm4XDCrsUksXCvaEwE";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🔥 Boost your token with EzBump - https://t.me/ez_bump_bot! 🔥 The simplest, cheapest bump bot for Pump.Fun - just ${BOT_SOL_FEE} SOL per bump. Fast, reliable, and hassle-free visibility with every click!`;
+export const BOT_DESCRIPTION = `🔥 Boost your token with ${BOT_NAME} - https://t.me/ez_pump_bot! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SOL_FEE} SOL per bump. Fast, reliable, and hassle-free visibility with every click!`;
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(
