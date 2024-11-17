@@ -3,6 +3,7 @@ export type UserModel = Omit<User, "privateKey"> & {
 };
 
 export interface User {
+  _id: string;
   telegramId: number;
   privateKey: string;
   firstName: string;

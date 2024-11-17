@@ -8,237 +8,156 @@ import {
 import { User, UserModel } from "./types";
 import { Database } from "sqlite3";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
+import { IUserModel, UserDoc, UserModel as UserModelV2 } from "./user-model";
+import { docToJSON } from "src/lib/mongo/utils";
 
 export class UserService {
   constructor(private _db: Database) {}
 
-  async create(user: User): Promise<User | null> {
+  async create(user: User): Promise<User> {
     // Encrypt the private key
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
-    return new Promise((resolve, reject) => {
-      // Define the keys to update with type safety
-      const columnNames: (keyof UserModel)[] = [
-        "telegramId",
-        "encryptedPrivateKey",
-        "firstName",
-        "isBot",
-        "bumpsCounter",
-        "freePassesTotal",
-        "freePassesUsed",
-        "bumpIntervalInSeconds",
-        "bumpAmount",
-        "slippage",
-        "priorityFee",
-        "createdAt",
-        "updatedAt",
-        "lastName",
-        "username",
-      ];
+    const newUser: Omit<IUserModel, "_id"> = {
+      telegramId: user.telegramId,
+      encryptedPrivateKey,
+      firstName: user.firstName,
+      isBot: user.isBot,
+      bumpsCounter: user.bumpsCounter,
+      freePassesTotal: user.freePassesTotal,
+      freePassesUsed: user.freePassesUsed,
+      bumpIntervalInSeconds: user.bumpIntervalInSeconds,
+      pumpFunAccIsSet: user.pumpFunAccIsSet,
+      bumpAmount: user.bumpAmount,
+      slippage: user.slippage,
+      priorityFee: user.priorityFee,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      lastName: user.lastName,
+      username: user.username,
+    };
+    const toSave: UserDoc = new UserModelV2(newUser);
 
-      const placeholders = columnNames.map(() => "?").join(", ");
-      const columns = columnNames.join(", ");
-
-      this._db.run(
-        `INSERT INTO users (${columns}) VALUES (${placeholders})`,
-        [
-          user.telegramId,
-          encryptedPrivateKey,
-          user.firstName,
-          user.isBot ? 1 : 0,
-          user.bumpsCounter,
-          user.freePassesTotal,
-          user.freePassesUsed,
-          user.bumpIntervalInSeconds,
-          user.bumpAmount,
-          user.slippage,
-          user.priorityFee,
-          user.createdAt,
-          user.updatedAt,
-          user.lastName,
-          user.username,
-        ],
-        (err) => {
-          if (err) {
-            console.error("Error creating user:", err.message);
-            reject(err);
-          } else {
-            resolve(user);
-          }
-        }
-      );
-    });
+    const userDoc = await toSave.save();
+    return docToJSON<User>(userDoc);
   }
 
   async getUser(telegramId: number): Promise<User | null> {
-    const telegramIdKey: keyof UserModel = "telegramId";
-    return new Promise((resolve, reject) => {
-      this._db.get<UserModel>(
-        `SELECT * FROM users WHERE ${telegramIdKey} = ?`,
-        [telegramId],
-        (err, row) => {
-          if (err) {
-            console.error("Error executing query:", err.message);
-            reject(err);
-          } else {
-            if (row) {
-              // Decrypt the private key if the row is found
-              const { encryptedPrivateKey, ...userWithoutPrivateKey } = row;
-              const privateKey = this._decryptPrivateKey(encryptedPrivateKey);
-              const user: User = {
-                ...userWithoutPrivateKey,
-                privateKey,
-              };
-              resolve(user);
-            } else {
-              resolve(null);
-            }
-          }
-        }
-      );
+    const userDoc = await UserModelV2.findOne({
+      telegramId: telegramId,
     });
+    return userDoc ? docToJSON<User>(userDoc) : null;
   }
 
+  // User only in draft for moving users to new db
   async getUsers(telegramIds?: number[]): Promise<User[]> {
-    const telegramIdKey: keyof UserModel = "telegramId";
-
-    return new Promise((resolve, reject) => {
-      let query = `SELECT * FROM users`; // Default query to fetch all users
-      let params: any[] = []; // Default params (empty)
-
-      // If telegramIds are provided, update the query and params
-      if (telegramIds && telegramIds.length > 0) {
-        const placeholders = telegramIds.map(() => "?").join(",");
-        query += ` WHERE ${telegramIdKey} IN (${placeholders})`;
-        params = telegramIds;
-      }
-
-      this._db.all<UserModel>(query, params, (err, rows) => {
-        if (err) {
-          console.error("Error executing query:", err.message);
-          reject(err);
-        } else {
-          if (rows && rows.length > 0) {
-            // Decrypt the private keys and map over the rows to return the users
-            const users: User[] = rows.map((row) => {
-              const { encryptedPrivateKey, ...userWithoutPrivateKey } = row;
-              const privateKey = this._decryptPrivateKey(encryptedPrivateKey);
-              return {
-                ...userWithoutPrivateKey,
-                privateKey,
-              };
-            });
-            resolve(users);
-          } else {
-            resolve([]); // Return an empty array if no users are found
-          }
-        }
-      });
-    });
+    const query = telegramIds ? { telegramId: { $in: telegramIds } } : {};
+    const userDocs = await UserModelV2.find(query);
+    return userDocs.map((doc) => docToJSON<User>(doc));
   }
 
-  async getPrivateKey(telegramId: number): Promise<string | null> {
-    const telegramIdKey: keyof UserModel = "telegramId";
-    const encryptedPrivateKeyKey: keyof UserModel = "encryptedPrivateKey";
+  // async getPrivateKey(telegramId: number): Promise<string | null> {
+  //   const telegramIdKey: keyof UserModel = "telegramId";
+  //   const encryptedPrivateKeyKey: keyof UserModel = "encryptedPrivateKey";
 
-    // Return a promise to handle asynchronous behavior
-    return new Promise((resolve, reject) => {
-      this._db.get<UserModel>(
-        `SELECT ${encryptedPrivateKeyKey} FROM users WHERE ${telegramIdKey} = ?`,
-        [telegramId],
-        (err, row) => {
-          if (err) {
-            console.error("Error executing query:", err.message);
-            return reject(err);
-          }
+  //   // Return a promise to handle asynchronous behavior
+  //   return new Promise((resolve, reject) => {
+  //     this._db.get<UserModel>(
+  //       `SELECT ${encryptedPrivateKeyKey} FROM users WHERE ${telegramIdKey} = ?`,
+  //       [telegramId],
+  //       (err, row) => {
+  //         if (err) {
+  //           console.error("Error executing query:", err.message);
+  //           return reject(err);
+  //         }
 
-          if (row) {
-            // Decrypt the private key if the row is found
-            const privateKey = this._decryptPrivateKey(row.encryptedPrivateKey);
-            resolve(privateKey);
-          } else {
-            resolve(null); // Resolve as null if user is not found
-          }
-        }
-      );
-    });
-  }
+  //         if (row) {
+  //           // Decrypt the private key if the row is found
+  //           const privateKey = this._decryptPrivateKey(row.encryptedPrivateKey);
+  //           resolve(privateKey);
+  //         } else {
+  //           resolve(null); // Resolve as null if user is not found
+  //         }
+  //       }
+  //     );
+  //   });
+  // }
 
-  async getFreePasses(telegramId: number): Promise<number | null> {
-    const telegramIdKey: keyof UserModel = "telegramId";
-    const freePassesTotalKey: keyof UserModel = "freePassesTotal";
-    const freePassesUsedKey: keyof UserModel = "freePassesUsed";
+  // async getFreePasses(telegramId: number): Promise<number | null> {
+  //   const telegramIdKey: keyof UserModel = "telegramId";
+  //   const freePassesTotalKey: keyof UserModel = "freePassesTotal";
+  //   const freePassesUsedKey: keyof UserModel = "freePassesUsed";
 
-    try {
-      // Fetch the user from the database
-      const row = await new Promise<UserModel | undefined>(
-        (resolve, reject) => {
-          this._db.get<UserModel>(
-            `SELECT ${freePassesTotalKey}, ${freePassesUsedKey} FROM users WHERE ${telegramIdKey} = ?`,
-            [telegramId],
-            (err, row) => {
-              if (err) reject(err);
-              else resolve(row);
-            }
-          );
-        }
-      );
+  //   try {
+  //     // Fetch the user from the database
+  //     const row = await new Promise<UserModel | undefined>(
+  //       (resolve, reject) => {
+  //         this._db.get<UserModel>(
+  //           `SELECT ${freePassesTotalKey}, ${freePassesUsedKey} FROM users WHERE ${telegramIdKey} = ?`,
+  //           [telegramId],
+  //           (err, row) => {
+  //             if (err) reject(err);
+  //             else resolve(row);
+  //           }
+  //         );
+  //       }
+  //     );
 
-      // If the user is not found, return null
-      if (!row) return null;
+  //     // If the user is not found, return null
+  //     if (!row) return null;
 
-      // Calculate the free passes left
-      const freePassesLeft = row.freePassesTotal - row.freePassesUsed;
-      return freePassesLeft;
-    } catch (err) {
-      console.error("Error in getFreePasses:", err);
-      return null;
-    }
-  }
+  //     // Calculate the free passes left
+  //     const freePassesLeft = row.freePassesTotal - row.freePassesUsed;
+  //     return freePassesLeft;
+  //   } catch (err) {
+  //     console.error("Error in getFreePasses:", err);
+  //     return null;
+  //   }
+  // }
 
-  async giveFreePass(telegramId: number): Promise<number | null> {
-    const telegramIdKey: keyof UserModel = "telegramId";
-    try {
-      // Fetch the user from the database
-      const row = await new Promise<UserModel | undefined>(
-        (resolve, reject) => {
-          this._db.get<UserModel>(
-            `SELECT * FROM users WHERE ${telegramIdKey} = ?`,
-            [telegramId],
-            (err, row) => {
-              if (err) reject(err);
-              else resolve(row);
-            }
-          );
-        }
-      );
+  // async giveFreePass(telegramId: number): Promise<number | null> {
+  //   const telegramIdKey: keyof UserModel = "telegramId";
+  //   try {
+  //     // Fetch the user from the database
+  //     const row = await new Promise<UserModel | undefined>(
+  //       (resolve, reject) => {
+  //         this._db.get<UserModel>(
+  //           `SELECT * FROM users WHERE ${telegramIdKey} = ?`,
+  //           [telegramId],
+  //           (err, row) => {
+  //             if (err) reject(err);
+  //             else resolve(row);
+  //           }
+  //         );
+  //       }
+  //     );
 
-      // If the user is not found, return null
-      if (!row) return null;
+  //     // If the user is not found, return null
+  //     if (!row) return null;
 
-      // Update the freePassesTotal
-      const updatedFreePassesTotal = row.freePassesTotal + 1;
+  //     // Update the freePassesTotal
+  //     const updatedFreePassesTotal = row.freePassesTotal + 1;
 
-      // Perform the update query
-      await new Promise<void>((resolve, reject) => {
-        this._db.run(
-          `UPDATE users SET freePassesTotal = ? WHERE telegramId = ?`,
-          [updatedFreePassesTotal, telegramId],
-          (err) => {
-            if (err) reject(err);
-            else resolve();
-          }
-        );
-      });
+  //     // Perform the update query
+  //     await new Promise<void>((resolve, reject) => {
+  //       this._db.run(
+  //         `UPDATE users SET freePassesTotal = ? WHERE telegramId = ?`,
+  //         [updatedFreePassesTotal, telegramId],
+  //         (err) => {
+  //           if (err) reject(err);
+  //           else resolve();
+  //         }
+  //       );
+  //     });
 
-      // Free passes left
-      const freePassesLeft = updatedFreePassesTotal - row.freePassesUsed;
-      return freePassesLeft;
-    } catch (err) {
-      console.error("Error in giveFreePass:", err);
-      return null;
-    }
-  }
+  //     // Free passes left
+  //     const freePassesLeft = updatedFreePassesTotal - row.freePassesUsed;
+  //     return freePassesLeft;
+  //   } catch (err) {
+  //     console.error("Error in giveFreePass:", err);
+  //     return null;
+  //   }
+  // }
 
   /**
    * Update the bump amount for a user.
@@ -249,28 +168,28 @@ export class UserService {
   async updateBumpAmount(
     telegramId: number,
     newBumpAmount: number
-  ): Promise<number> {
-    // Define the keys to update with type safety
-    const keyToUpdate: keyof User = "bumpAmount";
-    const updatedAtKey: keyof User = "updatedAt";
+  ): Promise<number | null> {
+    // Use findOneAndUpdate to find the user and update the bumpAmount and updatedAt fields
+    const updatedUser = await UserModelV2.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      {
+        bumpAmount: newBumpAmount, // Update the bumpAmount field
+        updatedAt: new Date().toISOString(), // Update the updatedAt field
+      },
+      {
+        new: true, // Return the updated document, not the old one
+      }
+    );
 
-    console.log("Telegram ID: ", telegramId);
-    console.log("New bump amount: ", newBumpAmount);
-
-    return new Promise((resolve, reject) => {
-      this._db.run(
-        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
-        [newBumpAmount, new Date().toISOString(), telegramId],
-        (err) => {
-          if (err) {
-            console.error("Error updating bump amount:", err.message);
-            reject(err);
-          } else {
-            resolve(newBumpAmount);
-          }
-        }
+    if (!updatedUser) {
+      console.error(
+        `User with telegram ID: ${telegramId} not found to be updated`
       );
-    });
+      return null; // If the user wasn't found, return null
+    }
+
+    // Return the updated bumpAmount
+    return updatedUser.bumpAmount;
   }
 
   /**

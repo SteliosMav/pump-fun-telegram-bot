@@ -13,9 +13,13 @@ import { slippageController } from "./controllers/slippage/slippage.controller";
 import { priorityFeeController } from "./controllers/priority-fee/priority-fee.controller";
 import { startBumpingController } from "./controllers/start-bumping/start-bumping.controller";
 import { refreshBalanceController } from "./controllers/refresh-balance/refresh-balance.controller";
+import connectDB from "src/lib/mongo";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
+
+// MongoDB connection
+connectDB();
 
 // Handle the /start command
 function handleStartCommand() {

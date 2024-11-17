@@ -8,6 +8,7 @@ export const SOLANA_PAYER_PRIVATE_KEY = process.env
 export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
+export const MONGO_URI = process.env.MONGO_URI as string;
 
 // Bot info
 export const WEBSITE_URL = "https://www.ezpump.fun";
