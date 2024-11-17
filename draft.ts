@@ -29,9 +29,11 @@ connectDB();
 
   // const userDoc = await userService.getUser(7607729063);
 
-  const res = await userService.updateBumpAmount(7607729063, 0.0124 as any);
+  const res = await userService.updateBumpAmount(7607729063, "0.0124" as any);
 
   console.log(res);
+
+  // console.log(new Date().toISOString());
 
   return;
   // users.forEach(async (user: User) => {

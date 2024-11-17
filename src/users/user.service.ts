@@ -9,7 +9,7 @@ import { User, UserModel } from "./types";
 import { Database } from "sqlite3";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
 import { IUserModel, UserDoc, UserModel as UserModelV2 } from "./user-model";
-import { docToJSON } from "src/lib/mongo/utils";
+import { Document, ObjectId } from "mongoose";
 
 export class UserService {
   constructor(private _db: Database) {}
@@ -39,21 +39,21 @@ export class UserService {
     const toSave: UserDoc = new UserModelV2(newUser);
 
     const userDoc = await toSave.save();
-    return docToJSON<User>(userDoc);
+    return this._docToJSON(userDoc);
   }
 
   async getUser(telegramId: number): Promise<User | null> {
     const userDoc = await UserModelV2.findOne({
       telegramId: telegramId,
     });
-    return userDoc ? docToJSON<User>(userDoc) : null;
+    return userDoc ? this._docToJSON(userDoc) : null;
   }
 
   // User only in draft for moving users to new db
   async getUsers(telegramIds?: number[]): Promise<User[]> {
     const query = telegramIds ? { telegramId: { $in: telegramIds } } : {};
     const userDocs = await UserModelV2.find(query);
-    return userDocs.map((doc) => docToJSON<User>(doc));
+    return userDocs.map((doc) => this._docToJSON(doc));
   }
 
   // async getPrivateKey(telegramId: number): Promise<string | null> {
@@ -174,22 +174,13 @@ export class UserService {
       { telegramId }, // Query to find the user by telegramId
       {
         bumpAmount: newBumpAmount, // Update the bumpAmount field
-        updatedAt: new Date().toISOString(), // Update the updatedAt field
       },
       {
         new: true, // Return the updated document, not the old one
       }
     );
 
-    if (!updatedUser) {
-      console.error(
-        `User with telegram ID: ${telegramId} not found to be updated`
-      );
-      return null; // If the user wasn't found, return null
-    }
-
-    // Return the updated bumpAmount
-    return updatedUser.bumpAmount;
+    return updatedUser ? updatedUser.bumpAmount : null;
   }
 
   /**
@@ -198,28 +189,29 @@ export class UserService {
    * @param newInterval - The new interval to set.
    * @returns A boolean indicating if the update was successful.
    */
+  /**
+   * Update the interval value for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param newInterval - The new interval to set.
+   * @returns A number indicating the updated interval value.
+   */
   async updateInterval(
     telegramId: number,
     newInterval: number
-  ): Promise<number> {
-    // Define the keys to update with type safety
-    const keyToUpdate: keyof User = "bumpIntervalInSeconds";
-    const updatedAtKey: keyof User = "updatedAt";
+  ): Promise<number | null> {
+    // Use findOneAndUpdate to find the user and update the bumpIntervalInSeconds and updatedAt fields
+    const updatedUser = await UserModelV2.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      {
+        bumpIntervalInSeconds: newInterval, // Update the bumpIntervalInSeconds field
+      },
+      {
+        new: true, // Return the updated document, not the old one
+      }
+    );
 
-    return new Promise((resolve, reject) => {
-      this._db.run(
-        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
-        [newInterval, new Date().toISOString(), telegramId],
-        (err) => {
-          if (err) {
-            console.error(`Error updating ${keyToUpdate}:`, err.message);
-            reject(err);
-          } else {
-            resolve(newInterval);
-          }
-        }
-      );
-    });
+    // Return the updated bumpIntervalInSeconds
+    return updatedUser ? updatedUser.bumpIntervalInSeconds : null;
   }
 
   /**
@@ -231,25 +223,20 @@ export class UserService {
   async updateSlippage(
     telegramId: number,
     newSlippage: number
-  ): Promise<number> {
-    // Define the keys to update with type safety
-    const keyToUpdate: keyof User = "slippage";
-    const updatedAtKey: keyof User = "updatedAt";
+  ): Promise<number | null> {
+    // Use findOneAndUpdate to find the user and update the slippage and updatedAt fields
+    const updatedUser = await UserModelV2.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      {
+        slippage: newSlippage, // Update the slippage field
+      },
+      {
+        new: true, // Return the updated document, not the old one
+      }
+    );
 
-    return new Promise((resolve, reject) => {
-      this._db.run(
-        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
-        [newSlippage, new Date().toISOString(), telegramId],
-        (err) => {
-          if (err) {
-            console.error(`Error updating ${keyToUpdate}:`, err.message);
-            reject(err);
-          } else {
-            resolve(newSlippage);
-          }
-        }
-      );
-    });
+    // Return the updated slippage
+    return updatedUser ? updatedUser.slippage : null;
   }
 
   /**
@@ -261,25 +248,18 @@ export class UserService {
   async updatePriorityFee(
     telegramId: number,
     newPriorityFee: number
-  ): Promise<number> {
-    // Define the keys to update with type safety
-    const keyToUpdate: keyof User = "priorityFee";
-    const updatedAtKey: keyof User = "updatedAt";
+  ): Promise<number | null> {
+    // Use findOneAndUpdate to find the user and update the priorityFee and updatedAt fields
+    const updatedUser = await UserModelV2.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      { priorityFee: newPriorityFee },
+      {
+        new: true, // Return the updated document, not the old one
+      }
+    );
 
-    return new Promise((resolve, reject) => {
-      this._db.run(
-        `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
-        [newPriorityFee, new Date().toISOString(), telegramId],
-        (err) => {
-          if (err) {
-            console.error(`Error updating ${keyToUpdate}:`, err.message);
-            reject(err);
-          } else {
-            resolve(newPriorityFee);
-          }
-        }
-      );
-    });
+    // Return the updated priorityFee
+    return updatedUser ? updatedUser.priorityFee : null;
   }
 
   async setUpUsersPumpFunAcc(
@@ -329,23 +309,11 @@ export class UserService {
       }
 
       // Update user in db that pump fun account is set
-      const keyToUpdate: keyof User = "pumpFunAccIsSet";
-      const updatedAtKey: keyof User = "updatedAt";
-
-      await new Promise((resolve, reject) => {
-        this._db.run(
-          `UPDATE users SET ${keyToUpdate} = ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
-          [1, new Date().toISOString(), telegramId],
-          (err) => {
-            if (err) {
-              console.error(`Error updating ${keyToUpdate}:`, err.message);
-              reject(err);
-            } else {
-              resolve(true);
-            }
-          }
-        );
-      });
+      await UserModelV2.findOneAndUpdate(
+        { telegramId },
+        { pumpFunAccIsSet: true },
+        { new: true }
+      );
     } catch (error) {
       console.error("Error updating users pump fun account:", error);
     }
@@ -354,36 +322,27 @@ export class UserService {
   /**
    * Increment the bumps counter by a specified amount for a user.
    * @param telegramId - The user's Telegram ID.
-   * @param bumpAmount - The amount to increment the bumps counter.
+   * @param bumpAmountToIncrement - The amount to increment the bumps counter.
    * @returns A Promise resolving to the new bumpsCounter value.
    */
   async incrementBumpsCounter(
     telegramId: number,
-    bumpAmount: number
-  ): Promise<boolean | null> {
-    const counterKey: keyof User = "bumpsCounter";
-    const updatedAtKey: keyof User = "updatedAt";
+    bumpAmountToIncrement: number
+  ): Promise<number | null> {
+    // Use findOneAndUpdate to increment bumpsCounter and update the updatedAt field
+    const updatedUser = await UserModelV2.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      {
+        $inc: { bumpsCounter: bumpAmountToIncrement }, // Increment bumpsCounter by bumpAmountToIncrement
+        updatedAt: new Date().toISOString(), // Update the updatedAt field
+      },
+      {
+        new: true, // Return the updated document, not the old one
+      }
+    );
 
-    try {
-      const res = await new Promise((resolve, reject) => {
-        this._db.run(
-          `UPDATE users SET ${counterKey} = ${counterKey} + ?, ${updatedAtKey} = ? WHERE telegramId = ?`,
-          [bumpAmount, new Date().toISOString(), telegramId],
-          function (err) {
-            if (err) {
-              console.error(`Error updating ${counterKey}:`, err.message);
-              reject(err);
-            } else {
-              resolve(this.changes ? bumpAmount : 0);
-            }
-          }
-        );
-      });
-      return true;
-    } catch (error) {
-      console.error("Error incrementing bumps counter:", error);
-      return null;
-    }
+    // Return the updated bumpsCounter
+    return updatedUser ? updatedUser.bumpsCounter : null;
   }
 
   private _encryptPrivateKey(privateKey: string) {
@@ -393,5 +352,15 @@ export class UserService {
   private _decryptPrivateKey(encryptedPrivateKey: string) {
     const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, ENCRYPTION_KEY);
     return bytes.toString(CryptoJS.enc.Utf8);
+  }
+
+  private _docToJSON(userDoc: UserDoc): User {
+    const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON() as UserModel;
+    const data: User = {
+      ...userJSON,
+      _id: userDoc._id.toString(),
+      privateKey: this._decryptPrivateKey(encryptedPrivateKey),
+    };
+    return data;
   }
 }
