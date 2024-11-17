@@ -8,9 +8,6 @@ export type IUserModel = Omit<User, "privateKey"> & {
 // Updated interface based on the new types
 export type UserDoc = Document & IUserModel;
 
-// Always convert to string when getting an ObjectId
-mongoose.Schema.ObjectId.get((v: any) => v.toString());
-
 const userSchema = new Schema<UserDoc>(
   {
     telegramId: { type: Number, required: true },
@@ -25,8 +22,6 @@ const userSchema = new Schema<UserDoc>(
     slippage: { type: Number, required: true },
     priorityFee: { type: Number, required: true },
     pumpFunAccIsSet: { type: Boolean, required: true },
-    createdAt: { type: String, required: true }, // ISO 8601 date string
-    updatedAt: { type: String, required: true }, // ISO 8601 date string
     lastName: { type: String },
     username: { type: String },
   },

@@ -2,7 +2,6 @@ import { User } from "src/users/types";
 import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "src/users/user.service";
-import { Database } from "sqlite3";
 import { SolanaService } from "src/solana/solana.service";
 import { USER_DEFAULT_VALUES, USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
@@ -16,8 +15,7 @@ export async function startController({
   ...rest
 }: CtrlArgs & { refresh?: boolean }) {
   // Initialize dependencies
-  const db = new Database("telegram_bot.db");
-  const userService = new UserService(db);
+  const userService = new UserService();
   const solanaService = new SolanaService();
 
   // User should have already been validated by the middleware at this point
@@ -56,14 +54,16 @@ export async function startController({
     console.log("New user created with private key: ", privateKey);
 
     // Create new user
-    user = userByTelegramUser(from, privateKey);
-    const newUserRes = await userService.create(user);
+    const userByTelegram = userByTelegramUser(from, privateKey);
+    const newUserRes = await userService.create(userByTelegram);
 
     if (!newUserRes) {
       console.error("Error creating user");
       bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }
+
+    user = newUserRes;
 
     // Set up pumpFun account
     userService.setUpUsersPumpFunAcc(user.telegramId, privateKey);
@@ -130,9 +130,9 @@ export async function startController({
 function userByTelegramUser(
   telegramUser: TelegramBot.User,
   privateKey: string
-): User {
+): Omit<User, "_id"> {
   const dateISO = new Date().toISOString();
-  const user: User = {
+  const user: Omit<User, "_id"> = {
     telegramId: telegramUser.id, // identifier
     firstName: telegramUser.first_name,
     lastName: telegramUser.last_name || "",

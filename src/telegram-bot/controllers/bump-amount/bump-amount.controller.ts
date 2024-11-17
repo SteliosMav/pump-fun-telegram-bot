@@ -1,7 +1,6 @@
 import { UserService } from "src/users/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { getStartingMsg, getStartingInlineKeyboard } from "../start/view";
-import { Database } from "sqlite3";
 import TelegramBot from "node-telegram-bot-api";
 import { SolanaService } from "src/solana/solana.service";
 import { pubKeyByPrivKey } from "src/solana/utils";
@@ -31,8 +30,7 @@ export async function bumpAmountController({
 
   // Listen for a response from the user
   bot.once("message", async (response) => {
-    const db = new Database("telegram_bot.db");
-    const userService = new UserService(db);
+    const userService = new UserService();
 
     // Parse the bump amount as a number
     const amount = +(response.text as string);

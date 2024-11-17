@@ -21,7 +21,6 @@
     "dotenv": "^16.4.5",
     "mongoose": "^8.8.1",
     "node-telegram-bot-api": "^0.66.0",
-    "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },

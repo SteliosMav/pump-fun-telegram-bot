@@ -1,12 +1,7 @@
 import { UserService } from "src/users/user.service";
 import { CBQueryCtrlArgs } from "../../types";
-import { Database } from "sqlite3";
 import { startController } from "../start/start.controller";
-import {
-  isUrl,
-  isValidSlippage,
-  isValidSol,
-} from "src/telegram-bot/validators";
+import { isUrl } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
 import { PUMP_FUN_URL } from "src/constants";
@@ -40,8 +35,7 @@ export async function startBumpingController({
   // Listen for a response from the user
   bot.once("message", async (response) => {
     // Initialize services
-    const db = new Database("telegram_bot.db");
-    const userService = new UserService(db);
+    const userService = new UserService();
 
     // Add user balance validation. If the user doesn't have enough balance,
     // send an error message and return right away.

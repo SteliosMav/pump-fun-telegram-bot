@@ -6,15 +6,13 @@ import {
   ENCRYPTION_KEY,
 } from "src/constants";
 import { User, UserModel } from "./types";
-import { Database } from "sqlite3";
 import { PumpFunService } from "src/pump-fun/pump-fun.service";
 import { IUserModel, UserDoc, UserModel as UserModelV2 } from "./user-model";
-import { Document, ObjectId } from "mongoose";
 
 export class UserService {
-  constructor(private _db: Database) {}
+  constructor() {}
 
-  async create(user: User): Promise<User> {
+  async create(user: Omit<User, "_id">): Promise<User> {
     // Encrypt the private key
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
@@ -49,115 +47,11 @@ export class UserService {
     return userDoc ? this._docToJSON(userDoc) : null;
   }
 
-  // User only in draft for moving users to new db
   async getUsers(telegramIds?: number[]): Promise<User[]> {
     const query = telegramIds ? { telegramId: { $in: telegramIds } } : {};
     const userDocs = await UserModelV2.find(query);
     return userDocs.map((doc) => this._docToJSON(doc));
   }
-
-  // async getPrivateKey(telegramId: number): Promise<string | null> {
-  //   const telegramIdKey: keyof UserModel = "telegramId";
-  //   const encryptedPrivateKeyKey: keyof UserModel = "encryptedPrivateKey";
-
-  //   // Return a promise to handle asynchronous behavior
-  //   return new Promise((resolve, reject) => {
-  //     this._db.get<UserModel>(
-  //       `SELECT ${encryptedPrivateKeyKey} FROM users WHERE ${telegramIdKey} = ?`,
-  //       [telegramId],
-  //       (err, row) => {
-  //         if (err) {
-  //           console.error("Error executing query:", err.message);
-  //           return reject(err);
-  //         }
-
-  //         if (row) {
-  //           // Decrypt the private key if the row is found
-  //           const privateKey = this._decryptPrivateKey(row.encryptedPrivateKey);
-  //           resolve(privateKey);
-  //         } else {
-  //           resolve(null); // Resolve as null if user is not found
-  //         }
-  //       }
-  //     );
-  //   });
-  // }
-
-  // async getFreePasses(telegramId: number): Promise<number | null> {
-  //   const telegramIdKey: keyof UserModel = "telegramId";
-  //   const freePassesTotalKey: keyof UserModel = "freePassesTotal";
-  //   const freePassesUsedKey: keyof UserModel = "freePassesUsed";
-
-  //   try {
-  //     // Fetch the user from the database
-  //     const row = await new Promise<UserModel | undefined>(
-  //       (resolve, reject) => {
-  //         this._db.get<UserModel>(
-  //           `SELECT ${freePassesTotalKey}, ${freePassesUsedKey} FROM users WHERE ${telegramIdKey} = ?`,
-  //           [telegramId],
-  //           (err, row) => {
-  //             if (err) reject(err);
-  //             else resolve(row);
-  //           }
-  //         );
-  //       }
-  //     );
-
-  //     // If the user is not found, return null
-  //     if (!row) return null;
-
-  //     // Calculate the free passes left
-  //     const freePassesLeft = row.freePassesTotal - row.freePassesUsed;
-  //     return freePassesLeft;
-  //   } catch (err) {
-  //     console.error("Error in getFreePasses:", err);
-  //     return null;
-  //   }
-  // }
-
-  // async giveFreePass(telegramId: number): Promise<number | null> {
-  //   const telegramIdKey: keyof UserModel = "telegramId";
-  //   try {
-  //     // Fetch the user from the database
-  //     const row = await new Promise<UserModel | undefined>(
-  //       (resolve, reject) => {
-  //         this._db.get<UserModel>(
-  //           `SELECT * FROM users WHERE ${telegramIdKey} = ?`,
-  //           [telegramId],
-  //           (err, row) => {
-  //             if (err) reject(err);
-  //             else resolve(row);
-  //           }
-  //         );
-  //       }
-  //     );
-
-  //     // If the user is not found, return null
-  //     if (!row) return null;
-
-  //     // Update the freePassesTotal
-  //     const updatedFreePassesTotal = row.freePassesTotal + 1;
-
-  //     // Perform the update query
-  //     await new Promise<void>((resolve, reject) => {
-  //       this._db.run(
-  //         `UPDATE users SET freePassesTotal = ? WHERE telegramId = ?`,
-  //         [updatedFreePassesTotal, telegramId],
-  //         (err) => {
-  //           if (err) reject(err);
-  //           else resolve();
-  //         }
-  //       );
-  //     });
-
-  //     // Free passes left
-  //     const freePassesLeft = updatedFreePassesTotal - row.freePassesUsed;
-  //     return freePassesLeft;
-  //   } catch (err) {
-  //     console.error("Error in giveFreePass:", err);
-  //     return null;
-  //   }
-  // }
 
   /**
    * Update the bump amount for a user.
@@ -177,6 +71,7 @@ export class UserService {
       },
       {
         new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
       }
     );
 
@@ -207,6 +102,7 @@ export class UserService {
       },
       {
         new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
       }
     );
 
@@ -232,6 +128,7 @@ export class UserService {
       },
       {
         new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
       }
     );
 
@@ -255,6 +152,7 @@ export class UserService {
       { priorityFee: newPriorityFee },
       {
         new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
       }
     );
 
@@ -312,7 +210,7 @@ export class UserService {
       await UserModelV2.findOneAndUpdate(
         { telegramId },
         { pumpFunAccIsSet: true },
-        { new: true }
+        { new: true, runValidators: true }
       );
     } catch (error) {
       console.error("Error updating users pump fun account:", error);
@@ -338,6 +236,7 @@ export class UserService {
       },
       {
         new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
       }
     );
 
