@@ -1,11 +1,11 @@
 import { UserService } from "src/users/user.service";
 import { MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
-import { isValidSol } from "src/telegram-bot/validators";
+import { isValidSlippage } from "src/telegram-bot/validators";
 import { errorResponseController } from "../events/error-response.controller";
 
 // Controller function
-export async function setAmountResponseController({
+export async function setSlippageResponseController({
   bot,
   message,
   userState,
@@ -16,18 +16,19 @@ export async function setAmountResponseController({
 
   const userService = new UserService();
 
-  // Parse the bump amount as a number
-  const amount = +(message.text as string);
+  // Parse the slippage as a number
+  const slippage = +(message.text as string);
 
   // Validate the SOL amount
-  const validationError = isValidSol(amount);
+  const validationError = isValidSlippage(slippage);
   if (validationError) {
     errorResponseController({ bot, message, errMsg: validationError });
     return;
   }
 
-  // Update the bump amount in the database
-  await userService.updateBumpAmount(from.id, amount);
+  // Update the slippage in the database
+  const slippageInDecimal = slippage / 100;
+  await userService.updateSlippage(from.id, slippageInDecimal);
 
   // Reset state's lastCallback
   setUserState!({ ...userState!, lastCallback: null });

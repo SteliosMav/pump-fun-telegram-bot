@@ -29,7 +29,7 @@ export async function setIntervalResponseController({
   // Update the interval in the database
   await userService.updateInterval(from.id, interval);
 
-  // Reset state
+  // Reset state's lastCallback
   setUserState!({ ...userState!, lastCallback: null });
 
   // Redirect to start controller

@@ -9,13 +9,14 @@ import { startController } from "./controllers/start/start.controller";
 import { setAmountRequestController } from "./controllers/bump-amount/set-amount-request.controller";
 import { errorController } from "./controllers/events/error.controller";
 import { setIntervalRequestController } from "./controllers/interval/set-interval-request.controller";
-import { slippageController } from "./controllers/slippage/slippage.controller";
-import { priorityFeeController } from "./controllers/priority-fee/priority-fee.controller";
+import { setSlippageResponseController } from "./controllers/slippage/set-slippage-response.controller";
+import { setPriorityFeeResponseController } from "./controllers/priority-fee/set-priority-fee-response.controller";
 import { startBumpingController } from "./controllers/start-bumping/start-bumping.controller";
 import { refreshBalanceController } from "./controllers/refresh-balance/refresh-balance.controller";
 import connectDB from "src/lib/mongo";
 import { setAmountResponseController } from "./controllers/bump-amount/set-amount-response.controller";
 import { setIntervalResponseController } from "./controllers/interval/set-interval-response.controller";
+import { setPriorityFeeRequestController } from "./controllers/priority-fee/set-priority-fee-request.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -34,8 +35,8 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_AMOUNT]: setAmountRequestController,
   [CallbackType.DISMISS_ERROR]: errorController,
   [CallbackType.SET_INTERVAL]: setIntervalRequestController,
-  [CallbackType.SET_SLIPPAGE]: slippageController,
-  [CallbackType.SET_PRIORITY_FEE]: priorityFeeController,
+  [CallbackType.SET_SLIPPAGE]: setPriorityFeeRequestController,
+  [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeRequestController,
   [CallbackType.REFRESH_BALANCE]: refreshBalanceController,
   [CallbackType.START_BUMPING]: startBumpingController,
 };
@@ -44,6 +45,8 @@ const controllersMap: CBQueryCtrlMap = {
 const responseControllersMap: MsgCtrlMap = {
   [CallbackType.SET_AMOUNT]: setAmountResponseController,
   [CallbackType.SET_INTERVAL]: setIntervalResponseController,
+  [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeResponseController,
+  [CallbackType.SET_SLIPPAGE]: setSlippageResponseController,
 };
 
 // Handle the /start command

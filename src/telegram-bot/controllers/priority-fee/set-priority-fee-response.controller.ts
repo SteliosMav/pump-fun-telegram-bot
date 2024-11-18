@@ -1,11 +1,11 @@
 import { UserService } from "src/users/user.service";
-import { MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
 import { isValidSol } from "src/telegram-bot/validators";
 import { errorResponseController } from "../events/error-response.controller";
+import { MsgCtrlArgs } from "src/telegram-bot/types";
 
 // Controller function
-export async function setAmountResponseController({
+export async function setPriorityFeeResponseController({
   bot,
   message,
   userState,
@@ -16,18 +16,18 @@ export async function setAmountResponseController({
 
   const userService = new UserService();
 
-  // Parse the bump amount as a number
-  const amount = +(message.text as string);
+  // Parse the priority fee as a number
+  const priorityFee = +(message.text as string);
 
   // Validate the SOL amount
-  const validationError = isValidSol(amount);
+  const validationError = isValidSol(priorityFee);
   if (validationError) {
     errorResponseController({ bot, message, errMsg: validationError });
     return;
   }
 
-  // Update the bump amount in the database
-  await userService.updateBumpAmount(from.id, amount);
+  // Update the priority fee in the database
+  await userService.updatePriorityFee(from.id, priorityFee);
 
   // Reset state's lastCallback
   setUserState!({ ...userState!, lastCallback: null });
