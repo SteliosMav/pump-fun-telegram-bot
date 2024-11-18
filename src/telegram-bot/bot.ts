@@ -2,18 +2,20 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import TelegramBot from "node-telegram-bot-api";
-import { CallbackType, CBQueryCtrlMap } from "./types";
+import { CallbackType, CBQueryCtrlMap, MsgCtrlArgs, MsgCtrlMap } from "./types";
 import { TELEGRAM_BOT_TOKEN } from "../constants";
 import { catchErrors } from "./middleware";
 import { startController } from "./controllers/start/start.controller";
-import { bumpAmountController } from "./controllers/bump-amount/bump-amount.controller";
+import { setAmountRequestController } from "./controllers/bump-amount/set-amount-request.controller";
 import { errorController } from "./controllers/events/error.controller";
-import { intervalController } from "./controllers/interval/interval.controller";
+import { setIntervalRequestController } from "./controllers/interval/set-interval-request.controller";
 import { slippageController } from "./controllers/slippage/slippage.controller";
 import { priorityFeeController } from "./controllers/priority-fee/priority-fee.controller";
 import { startBumpingController } from "./controllers/start-bumping/start-bumping.controller";
 import { refreshBalanceController } from "./controllers/refresh-balance/refresh-balance.controller";
 import connectDB from "src/lib/mongo";
+import { setAmountResponseController } from "./controllers/bump-amount/set-amount-response.controller";
+import { setIntervalResponseController } from "./controllers/interval/set-interval-response.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -21,8 +23,31 @@ const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
 // MongoDB connection
 connectDB();
 
+// User state management
+export interface UserState {
+  lastCallback: CallbackType | null;
+}
+const userMap = new Map<number, UserState>();
+
+// Define callback controllers
+const controllersMap: CBQueryCtrlMap = {
+  [CallbackType.SET_AMOUNT]: setAmountRequestController,
+  [CallbackType.DISMISS_ERROR]: errorController,
+  [CallbackType.SET_INTERVAL]: setIntervalRequestController,
+  [CallbackType.SET_SLIPPAGE]: slippageController,
+  [CallbackType.SET_PRIORITY_FEE]: priorityFeeController,
+  [CallbackType.REFRESH_BALANCE]: refreshBalanceController,
+  [CallbackType.START_BUMPING]: startBumpingController,
+};
+
+// Define response controllers
+const responseControllersMap: MsgCtrlMap = {
+  [CallbackType.SET_AMOUNT]: setAmountResponseController,
+  [CallbackType.SET_INTERVAL]: setIntervalResponseController,
+};
+
 // Handle the /start command
-function handleStartCommand() {
+function onStartListener() {
   bot.onText(
     /\/start/,
     catchErrors(bot, (message: TelegramBot.Message) =>
@@ -31,29 +56,26 @@ function handleStartCommand() {
   );
 }
 
-// Define callback controllers
-const controllersMap: CBQueryCtrlMap = {
-  [CallbackType.SET_AMOUNT]: bumpAmountController,
-  [CallbackType.DISMISS_ERROR]: errorController,
-  [CallbackType.SET_INTERVAL]: intervalController,
-  [CallbackType.SET_SLIPPAGE]: slippageController,
-  [CallbackType.SET_PRIORITY_FEE]: priorityFeeController,
-  [CallbackType.REFRESH_BALANCE]: refreshBalanceController,
-  [CallbackType.START_BUMPING]: startBumpingController,
-};
-
 // Handle callback queries
-function handleCallbackQuery() {
+function callbackQueryListener() {
   bot.on(
     "callback_query",
     catchErrors(bot, async (callbackQuery: TelegramBot.CallbackQuery) => {
       const data = callbackQuery.data as CallbackType | undefined;
 
-      if (!data) return;
+      if (!data || !callbackQuery.from) return;
+
+      const userState = userMap.get(callbackQuery.from.id);
+      if (data !== CallbackType.DISMISS_ERROR) {
+        userMap.set(callbackQuery.from.id, {
+          ...userState,
+          lastCallback: data,
+        });
+      }
 
       const controller = controllersMap[data];
       if (controller) {
-        await controller({ bot, callbackQuery });
+        await controller({ bot, callbackQuery, userState });
       }
 
       bot.answerCallbackQuery(callbackQuery.id);
@@ -61,10 +83,31 @@ function handleCallbackQuery() {
   );
 }
 
+// Message response listeners
+function onMessageListenersInit() {
+  bot.on("message", async (message) => {
+    if (!message.from) return;
+
+    const userTgId = message.from.id;
+    const userState = userMap.get(userTgId);
+    const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+    console.log(
+      `User ${message.from.first_name} last callback: ${userState?.lastCallback}`
+    );
+
+    const controller = responseControllersMap[userState?.lastCallback!];
+    if (controller) {
+      await controller({ bot, message, userState, setUserState });
+    }
+  });
+}
+
 // Initialize bot with all controllers
 function initializeBot() {
-  handleStartCommand();
-  handleCallbackQuery();
+  onStartListener();
+  callbackQueryListener();
+  onMessageListenersInit();
 }
 
 initializeBot();

@@ -1,4 +1,5 @@
 import TelegramBot from "node-telegram-bot-api";
+import { UserState } from "./bot";
 
 export enum CallbackType {
   SET_AMOUNT = "set_amount",
@@ -12,6 +13,8 @@ export enum CallbackType {
 interface BasicCtrlArgs {
   bot: TelegramBot;
   errMsg?: string;
+  userState?: UserState;
+  setUserState?: (userState: UserState) => void;
 }
 export interface CBQueryCtrlArgs extends BasicCtrlArgs {
   callbackQuery: TelegramBot.CallbackQuery;
@@ -20,6 +23,9 @@ export interface MsgCtrlArgs extends BasicCtrlArgs {
   message: TelegramBot.Message;
 }
 export type CtrlArgs = CBQueryCtrlArgs | MsgCtrlArgs;
-export interface CBQueryCtrlMap {
-  [key: string]: (args: CBQueryCtrlArgs) => Promise<void>;
-}
+export type MsgCtrlMap = {
+  [key in CallbackType]?: (args: MsgCtrlArgs) => Promise<void>;
+};
+export type CBQueryCtrlMap = {
+  [key in CallbackType]?: (args: CBQueryCtrlArgs) => Promise<void>;
+};
