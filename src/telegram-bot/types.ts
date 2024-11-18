@@ -9,6 +9,7 @@ export enum CallbackType {
   REFRESH_BALANCE = "refresh_balance",
   START_BUMPING = "start_bumping",
   DISMISS_ERROR = "dismiss_error",
+  SET_TOKEN = "set_token",
 }
 interface BasicCtrlArgs {
   bot: TelegramBot;

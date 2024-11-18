@@ -5,8 +5,8 @@ export async function setIntervalRequestController({
   bot,
   callbackQuery,
 }: CBQueryCtrlArgs) {
-  const { message, from } = callbackQuery;
-  if (!message || !from) return;
+  const { message } = callbackQuery;
+  if (!message) return;
 
   const userMessage =
     "Enter how often you want to bump in seconds from 1 to 60";

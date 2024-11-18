@@ -1,14 +1,13 @@
-import { CBQueryCtrlArgs } from "../../types";
+import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 
 // Controller function
 export async function loadingController({
   bot,
-  callbackQuery,
+  message,
   loadingMsg,
   msgId,
-}: CBQueryCtrlArgs & { msgId?: number; loadingMsg?: string }) {
-  const { message, from } = callbackQuery;
-  if (!message || !from) return;
+}: MsgCtrlArgs & { msgId?: number; loadingMsg?: string }) {
+  if (!message) return;
 
   const chatId = message.chat.id;
 

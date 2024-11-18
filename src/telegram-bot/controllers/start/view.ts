@@ -59,7 +59,7 @@ export function getStartingInlineKeyboard(
       [
         {
           text: `🔥  ${START_BUMPING_BTN_WORDING}`,
-          callback_data: CallbackType.START_BUMPING,
+          callback_data: CallbackType.SET_TOKEN,
         },
       ],
     ],

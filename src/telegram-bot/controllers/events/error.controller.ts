@@ -1,4 +1,3 @@
-import TelegramBot from "node-telegram-bot-api";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 
 // Controller function
@@ -9,13 +8,10 @@ export async function errorController({
 }: MsgCtrlArgs | CBQueryCtrlArgs) {
   // Check if the controller was called from a callback query
   const calledFromCallback = "callbackQuery" in rest;
-  const from = calledFromCallback
-    ? rest.callbackQuery.from
-    : (rest.message.from as TelegramBot.User);
   const message = calledFromCallback
     ? rest.callbackQuery.message
     : rest.message;
-  if (!from || !message) return;
+  if (!message) return;
 
   const chatId = message.chat.id;
   const messageId = message.message_id;

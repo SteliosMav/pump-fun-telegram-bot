@@ -5,8 +5,8 @@ export async function setAmountRequestController({
   bot,
   callbackQuery,
 }: CBQueryCtrlArgs) {
-  const { message, from } = callbackQuery;
-  if (!message || !from) return;
+  const { message } = callbackQuery;
+  if (!message) return;
 
   const userMessage =
     "Enter the desired SOL amount you want to bump with (e.g. 0.05):";

@@ -11,12 +11,13 @@ import { errorController } from "./controllers/events/error.controller";
 import { setIntervalRequestController } from "./controllers/interval/set-interval-request.controller";
 import { setSlippageResponseController } from "./controllers/slippage/set-slippage-response.controller";
 import { setPriorityFeeResponseController } from "./controllers/priority-fee/set-priority-fee-response.controller";
-import { startBumpingController } from "./controllers/start-bumping/start-bumping.controller";
 import { refreshBalanceController } from "./controllers/refresh-balance/refresh-balance.controller";
 import connectDB from "src/lib/mongo";
 import { setAmountResponseController } from "./controllers/bump-amount/set-amount-response.controller";
 import { setIntervalResponseController } from "./controllers/interval/set-interval-response.controller";
 import { setPriorityFeeRequestController } from "./controllers/priority-fee/set-priority-fee-request.controller";
+import { setTokenRequestController } from "./controllers/start-bumping/set-token-request.controller";
+import { setTokenResponseController } from "./controllers/start-bumping/set-token-response.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -30,7 +31,7 @@ export interface UserState {
 }
 const userMap = new Map<number, UserState>();
 
-// Define callback controllers
+// Define callback (request) controllers
 const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_AMOUNT]: setAmountRequestController,
   [CallbackType.DISMISS_ERROR]: errorController,
@@ -38,19 +39,20 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_SLIPPAGE]: setPriorityFeeRequestController,
   [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeRequestController,
   [CallbackType.REFRESH_BALANCE]: refreshBalanceController,
-  [CallbackType.START_BUMPING]: startBumpingController,
+  [CallbackType.SET_TOKEN]: setTokenRequestController,
 };
 
-// Define response controllers
+// Define message (response) controllers
 const responseControllersMap: MsgCtrlMap = {
   [CallbackType.SET_AMOUNT]: setAmountResponseController,
   [CallbackType.SET_INTERVAL]: setIntervalResponseController,
   [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeResponseController,
   [CallbackType.SET_SLIPPAGE]: setSlippageResponseController,
+  [CallbackType.SET_TOKEN]: setTokenResponseController,
 };
 
-// Handle the /start command
-function onStartListener() {
+// Define the /start command listener
+function onStartListenerInit() {
   bot.onText(
     /\/start/,
     catchErrors(bot, (message: TelegramBot.Message) =>
@@ -59,8 +61,8 @@ function onStartListener() {
   );
 }
 
-// Handle callback queries
-function callbackQueryListener() {
+// Callback query (request) listeners
+function callbackQueryListenerInit() {
   bot.on(
     "callback_query",
     catchErrors(bot, async (callbackQuery: TelegramBot.CallbackQuery) => {
@@ -86,8 +88,8 @@ function callbackQueryListener() {
   );
 }
 
-// Message response listeners
-function onMessageListenersInit() {
+// Message (response) listeners
+function messageListenersInit() {
   bot.on("message", async (message) => {
     if (!message.from) return;
 
@@ -108,9 +110,9 @@ function onMessageListenersInit() {
 
 // Initialize bot with all controllers
 function initializeBot() {
-  onStartListener();
-  callbackQueryListener();
-  onMessageListenersInit();
+  onStartListenerInit();
+  callbackQueryListenerInit();
+  messageListenersInit();
 }
 
 initializeBot();

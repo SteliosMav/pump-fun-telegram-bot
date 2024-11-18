@@ -6,8 +6,8 @@ export async function refreshBalanceController({
   bot,
   callbackQuery,
 }: CBQueryCtrlArgs) {
-  const { message, from } = callbackQuery;
-  if (!message || !from) return;
+  const { message } = callbackQuery;
+  if (!message) return;
 
   startController({ bot, callbackQuery, refresh: true });
 }
