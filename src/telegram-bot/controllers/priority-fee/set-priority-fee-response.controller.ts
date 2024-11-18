@@ -1,8 +1,8 @@
 import { UserService } from "src/users/user.service";
 import { startController } from "../start/start.controller";
 import { isValidSol } from "src/telegram-bot/validators";
-import { errorResponseController } from "../events/error-response.controller";
 import { MsgCtrlArgs } from "src/telegram-bot/types";
+import { errorController } from "../events/error.controller";
 
 // Controller function
 export async function setPriorityFeeResponseController({
@@ -22,7 +22,7 @@ export async function setPriorityFeeResponseController({
   // Validate the SOL amount
   const validationError = isValidSol(priorityFee);
   if (validationError) {
-    errorResponseController({ bot, message, errMsg: validationError });
+    errorController({ bot, message, errMsg: validationError });
     return;
   }
 

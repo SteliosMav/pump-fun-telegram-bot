@@ -1,16 +1,26 @@
-import { CBQueryCtrlArgs } from "../../types";
+import TelegramBot from "node-telegram-bot-api";
+import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 
 // Controller function
 export async function errorController({
   bot,
-  callbackQuery,
   errMsg,
-}: CBQueryCtrlArgs) {
-  const { message, from } = callbackQuery;
-  if (!message || !from) return;
+  ...rest
+}: MsgCtrlArgs | CBQueryCtrlArgs) {
+  // Check if the controller was called from a callback query
+  const calledFromCallback = "callbackQuery" in rest;
+  const from = calledFromCallback
+    ? rest.callbackQuery.from
+    : (rest.message.from as TelegramBot.User);
+  const message = calledFromCallback
+    ? rest.callbackQuery.message
+    : rest.message;
+  if (!from || !message) return;
 
   const chatId = message.chat.id;
   const messageId = message.message_id;
+
+  console.log("Error message: ", errMsg);
 
   if (errMsg) {
     bot.sendMessage(chatId, errMsg, {
@@ -29,7 +39,4 @@ export async function errorController({
   } else {
     bot.deleteMessage(chatId, messageId);
   }
-
-  // // Optionally, send the prompt message again after clearing the error
-  // bot.sendMessage(chatId, "userMessage");
 }

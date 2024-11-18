@@ -2,7 +2,7 @@ import { UserService } from "src/users/user.service";
 import { MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
 import { isValidSlippage } from "src/telegram-bot/validators";
-import { errorResponseController } from "../events/error-response.controller";
+import { errorController } from "../events/error.controller";
 
 // Controller function
 export async function setSlippageResponseController({
@@ -22,7 +22,7 @@ export async function setSlippageResponseController({
   // Validate the SOL amount
   const validationError = isValidSlippage(slippage);
   if (validationError) {
-    errorResponseController({ bot, message, errMsg: validationError });
+    errorController({ bot, message, errMsg: validationError });
     return;
   }
 

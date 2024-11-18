@@ -20,7 +20,4 @@ export async function loadingController({
     if (!msgId) return;
     bot.deleteMessage(chatId, msgId);
   }
-
-  // // Optionally, send the prompt message again after clearing the error
-  // bot.sendMessage(chatId, "userMessage");
 }

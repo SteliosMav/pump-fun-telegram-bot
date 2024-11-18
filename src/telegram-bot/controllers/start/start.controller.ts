@@ -18,7 +18,7 @@ export async function startController({
   const userService = new UserService();
   const solanaService = new SolanaService();
 
-  // User should have already been validated by the middleware at this point
+  // Check if the controller was called from a callback query
   const calledFromCallback = "callbackQuery" in rest;
   const from = calledFromCallback
     ? rest.callbackQuery.from

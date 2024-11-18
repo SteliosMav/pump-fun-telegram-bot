@@ -2,7 +2,7 @@ import { UserService } from "src/users/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
 import { isValidInterval } from "src/telegram-bot/validators";
-import { errorResponseController } from "../events/error-response.controller";
+import { errorController } from "../events/error.controller";
 
 // Controller function
 export async function setIntervalResponseController({
@@ -22,7 +22,7 @@ export async function setIntervalResponseController({
   // Validate the interval
   const validationError = isValidInterval(interval);
   if (validationError) {
-    errorResponseController({ bot, message, errMsg: validationError });
+    errorController({ bot, message, errMsg: validationError });
     return;
   }
 
