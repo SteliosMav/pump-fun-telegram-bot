@@ -32,6 +32,7 @@ import {
   createAssociatedTokenAccountInstruction,
   getAssociatedTokenAddress,
 } from "@solana/spl-token";
+import { sendTxUsingJito } from "src/lib/jito";
 
 export class SolanaService {
   private _botPrivateKey = SOLANA_BOT_PRIVATE_KEY;
@@ -166,28 +167,6 @@ export class SolanaService {
         tokenAccount = tokenAccountAddress;
       }
 
-      /** This check is best to happen outside of the function. This function
-       * handles the insufficient balance error, after the signature confirmation
-       * request takes place. So better not check it here as well. Also, this method
-       * can be called recursively, so it's better to handle the balance check outside.
-      
-      // Get the payer's balance
-      const { totalRequiredBalance, payerBalance } =
-        await this.getRequiredBalance(mintStr);
-      const hasSufficientBalance = payerBalance >= totalRequiredBalance;
-
-      // Check if payer has enough balance for all costs
-      if (!hasSufficientBalance) {
-        console.error(
-          "Insufficient balance for rent exemption, transaction, and fees."
-        );
-        return {
-          success: false,
-          code: "INSUFFICIENT_BALANCE",
-        };
-      }
-      */
-
       // Step 1: Transfer bot fee to the bot
       const botFeeTransferInstruction = SystemProgram.transfer({
         fromPubkey: payer.publicKey,
@@ -271,55 +250,29 @@ export class SolanaService {
       });
       txBuilder.add(sellInstruction);
 
-      // Finalize and send transaction
-      const transaction = await this._createTransaction(
-        connection,
-        txBuilder.instructions,
-        payer.publicKey,
-        priorityFeeInSol
-      );
+      // Set recentBlockhash before signing the transaction
+      const { blockhash } = await connection.getLatestBlockhash("confirmed");
+      txBuilder.recentBlockhash = blockhash;
+      txBuilder.feePayer = payer.publicKey;
 
-      // return {
-      //   success: false,
-      //   code: "UNKNOWN_ERROR",
-      // };
+      // Sign the transaction with payer and bot
+      txBuilder.sign(payer, bot); // SIGN THE TRANSACTION
+
+      // Serialize the transaction
+      const serializedTx = txBuilder.serialize();
 
       try {
-        const signature = await sendAndConfirmTransaction(
-          connection,
-          transaction,
-          [payer],
-          { skipPreflight: true, preflightCommitment: "confirmed" }
-        );
+        // Send the transaction using Jito
+        const signature = await sendTxUsingJito({
+          serializedTx: serializedTx,
+          region: "mainnet", // Change this if you need another region
+        });
         console.log("Pump transaction confirmed:", signature);
         return {
           success: true,
           data: signature,
         };
       } catch (error) {
-        // If there was an error, try to fetch the logs using the signature
-        if (error && typeof error === "object" && "signature" in error) {
-          const transactionDetails = await connection.getTransaction(
-            error.signature as string,
-            {
-              commitment: "confirmed",
-            }
-          );
-
-          if (transactionDetails) {
-            const logs = transactionDetails.meta?.logMessages;
-            const insufficientSol = logs?.some((log) =>
-              log.toLowerCase().includes("insufficient lamports")
-            );
-            if (insufficientSol) {
-              console.error("Insufficient SOL balance for transaction.");
-              return {
-                success: false,
-                code: "INSUFFICIENT_BALANCE",
-              };
-            }
-          }
-        }
         console.error("Error sending transaction:", error);
         return {
           success: false,
