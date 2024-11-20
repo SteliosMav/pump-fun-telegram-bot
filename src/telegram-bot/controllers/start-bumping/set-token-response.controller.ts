@@ -117,7 +117,8 @@ _Once done, press Refresh Balance to check your updated balance._`;
     );
   const bumpResponse = await startBumpInterval(
     bump,
-    user.bumpIntervalInSeconds
+    user.bumpIntervalInSeconds,
+    user.bumpsLimit
   );
 
   // Reset state's lastCallback
@@ -170,26 +171,28 @@ function getCoinSlug(url: string) {
 // Start the interval function that calls the bump function every X seconds
 async function startBumpInterval(
   bump: () => Promise<CustomResponse<string>>, // A function that performs the bump and returns a promise of completion status
-  intervalInSeconds: number // Interval time in seconds
+  intervalInSeconds: number, // Interval time in seconds
+  bumpsLimit: number // Number of bumps to perform
 ): Promise<CustomResponse<number>> {
   const intervalMillis = intervalInSeconds * 1000;
   let bumpsCounter = 0;
-
-  // Mock response
-  return {
-    success: true,
-    data: 2,
-  };
 
   return new Promise(async (resolve, reject) => {
     // Function to run a single bump cycle
     const runBumpCycle = async () => {
       try {
-        const res = await bump(); // Call the bump function
+        // Mock response
+        const res = {
+          success: true,
+          data: "",
+        } as CustomResponse<string>;
+        // const res = await bump(); // Call the bump function
 
         // If the bump was successful
         if (res.success) {
           bumpsCounter++;
+
+          console.log(`Bump successful. Bumps counter: ${bumpsCounter}`);
         } else {
           // Handle specific failure cases
           if (res.code === "INSUFFICIENT_BALANCE") {
@@ -221,8 +224,17 @@ async function startBumpInterval(
           }
         }
 
-        // Wait for the next bump after the specified interval (only if previous one succeeded)
-        setTimeout(runBumpCycle, intervalMillis);
+        // If the bumps limit was reached, resolve the promise with success
+        if (bumpsCounter >= bumpsLimit) {
+          resolve({
+            success: true,
+            data: bumpsCounter,
+          });
+          return; // Stop further bumps if the limit was reached
+        } else {
+          // Wait for the next bump after the specified interval (only if previous one succeeded)
+          setTimeout(runBumpCycle, intervalMillis);
+        }
       } catch (error) {
         console.error("Error during bump function:", error);
         const errorResponse: ErrorResponse = {

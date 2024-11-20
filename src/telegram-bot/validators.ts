@@ -17,19 +17,30 @@ export function isValidSol(amount: unknown): string | null {
   return null;
 }
 
-export function isValidInterval(interval: unknown): string | null {
+export function isWholeNumber(input: unknown): string | null {
   // Check if it's a valid number
-  if (typeof interval !== "number" || isNaN(interval)) {
+  if (typeof input !== "number" || isNaN(input)) {
     return "Invalid input. Please enter a valid number.";
   }
 
   // Check if decimal
-  if (interval % 1 !== 0) {
+  if (input % 1 !== 0) {
     return "Invalid input. Please enter a whole number.";
   }
 
+  return null;
+}
+
+export function isValidInterval(input: unknown): string | null {
+  // Check if it's a whole number
+  const errMsg = isWholeNumber(input);
+  if (errMsg) {
+    return errMsg;
+  }
+  const number = input as number;
+
   // Check for valid range
-  if (interval < 1 || interval > 60) {
+  if (number < 1 || number > 60) {
     return "Invalid frequency. Please enter a number between 1 and 60.";
   }
 

@@ -7,6 +7,7 @@ export enum CallbackType {
   SET_SLIPPAGE = "set_slippage",
   SET_PRIORITY_FEE = "set_priority_fee",
   REFRESH_BALANCE = "refresh_balance",
+  SET_BUMPS_LIMIT = "set_bumps_limit",
   START_BUMPING = "start_bumping",
   DISMISS_ERROR = "dismiss_error",
   SET_TOKEN = "set_token",

@@ -20,7 +20,7 @@ export function getStartingMsg(user: User, balance: number): string {
 
 2️⃣ Press the *${START_BUMPING_BTN_WORDING}* button
 
-3️⃣ Enter meme coin's *CA* and enjoy bumping! 🔥
+3️⃣ Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
 
 For any help, visit us on [ezpump.fun](${WEBSITE_URL})`;
 }
@@ -51,6 +51,12 @@ export function getStartingInlineKeyboard(
         },
       ],
       [
+        {
+          text: `♻️  ${user.bumpsLimit} Bump${
+            user.bumpsLimit === 1 ? "" : "s"
+          }`,
+          callback_data: CallbackType.SET_BUMPS_LIMIT,
+        },
         {
           text: `🔄  Refresh Wallet's Balance`,
           callback_data: CallbackType.REFRESH_BALANCE,

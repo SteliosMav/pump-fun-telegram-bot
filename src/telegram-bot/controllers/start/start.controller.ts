@@ -126,6 +126,7 @@ function userByTelegramUser(
     freePassesTotal: USER_DEFAULT_VALUES.freePassesTotal,
     freePassesUsed: USER_DEFAULT_VALUES.freePassesUsed,
     bumpAmount: USER_DEFAULT_VALUES.bumpAmount,
+    bumpsLimit: USER_DEFAULT_VALUES.bumpsLimit,
     priorityFee: USER_DEFAULT_VALUES.priorityFee,
     bumpIntervalInSeconds: USER_DEFAULT_VALUES.bumpIntervalInSeconds,
     slippage: USER_DEFAULT_VALUES.slippage,

@@ -27,6 +27,7 @@ export class UserService {
       bumpIntervalInSeconds: user.bumpIntervalInSeconds,
       pumpFunAccIsSet: user.pumpFunAccIsSet,
       bumpAmount: user.bumpAmount,
+      bumpsLimit: user.bumpsLimit,
       slippage: user.slippage,
       priorityFee: user.priorityFee,
       createdAt: user.createdAt,
@@ -63,7 +64,7 @@ export class UserService {
     telegramId: number,
     newBumpAmount: number
   ): Promise<number | null> {
-    // Use findOneAndUpdate to find the user and update the bumpAmount and updatedAt fields
+    // Use findOneAndUpdate to find the user and update the bumpAmount
     const updatedUser = await UserModelV2.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       {
@@ -76,6 +77,31 @@ export class UserService {
     );
 
     return updatedUser ? updatedUser.bumpAmount : null;
+  }
+
+  /**
+   * Update the bumps limit for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param newBumpsLimit - The new bumps limit to set.
+   * @returns A boolean indicating if the update was successful.
+   */
+  async updateBumpsLimit(
+    telegramId: number,
+    newBumpsLimit: number
+  ): Promise<number | null> {
+    // Use findOneAndUpdate to find the user and update the bumpsLimit
+    const updatedUser = await UserModelV2.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      {
+        bumpsLimit: newBumpsLimit, // Update the bumpsLimit field
+      },
+      {
+        new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
+      }
+    );
+
+    return updatedUser ? updatedUser.bumpsLimit : null;
   }
 
   /**

@@ -19,6 +19,7 @@ const userSchema = new Schema<UserDoc>(
     freePassesUsed: { type: Number, required: true },
     bumpIntervalInSeconds: { type: Number, required: true },
     bumpAmount: { type: Number, required: true },
+    bumpsLimit: { type: Number, required: true },
     slippage: { type: Number, required: true },
     priorityFee: { type: Number, required: true },
     pumpFunAccIsSet: { type: Boolean, required: true },

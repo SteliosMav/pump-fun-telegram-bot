@@ -18,6 +18,8 @@ import { setIntervalResponseController } from "./controllers/interval/set-interv
 import { setPriorityFeeRequestController } from "./controllers/priority-fee/set-priority-fee-request.controller";
 import { setTokenRequestController } from "./controllers/start-bumping/set-token-request.controller";
 import { setTokenResponseController } from "./controllers/start-bumping/set-token-response.controller";
+import { setBumpsLimitRequestController } from "./controllers/bumps-limit/set-bumps-limit-request.controller";
+import { setBumpsLimitResponseController } from "./controllers/bumps-limit/set-bumps-limit-response.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -34,6 +36,7 @@ const userMap = new Map<number, UserState>();
 // Define callback (request) controllers
 const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_AMOUNT]: setAmountRequestController,
+  [CallbackType.SET_BUMPS_LIMIT]: setBumpsLimitRequestController,
   [CallbackType.DISMISS_ERROR]: errorController,
   [CallbackType.SET_INTERVAL]: setIntervalRequestController,
   [CallbackType.SET_SLIPPAGE]: setPriorityFeeRequestController,
@@ -45,6 +48,7 @@ const controllersMap: CBQueryCtrlMap = {
 // Define message (response) controllers
 const responseControllersMap: MsgCtrlMap = {
   [CallbackType.SET_AMOUNT]: setAmountResponseController,
+  [CallbackType.SET_BUMPS_LIMIT]: setBumpsLimitResponseController,
   [CallbackType.SET_INTERVAL]: setIntervalResponseController,
   [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeResponseController,
   [CallbackType.SET_SLIPPAGE]: setSlippageResponseController,
