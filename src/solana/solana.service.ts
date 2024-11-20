@@ -12,7 +12,7 @@ import {
 import {
   ASSOC_TOKEN_ACC_PROG,
   ASSOCIATED_TOKEN_ACC_SIZE,
-  BOT_SOL_FEE,
+  BOT_SERVICE_FEE,
   FEE_RECIPIENT,
   GLOBAL,
   PUMP_FUN_ACCOUNT,
@@ -138,7 +138,7 @@ export class SolanaService {
       // Transaction Costs
       const solInLamports = solAmount * LAMPORTS_PER_SOL;
       const solInWithSlippage = solAmount * (1 + slippageDecimal);
-      const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
+      const botFee = BOT_SERVICE_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
 
       // Rent Exemption Check for Token Account
       const tokenAccountAddress = await getAssociatedTokenAddress(
@@ -360,7 +360,7 @@ export class SolanaService {
     const signatureFee = SIGNATURE_FEE_LAMPORTS; // 5000 lamports per signature
     const priorityFeeLamports = priorityFeeInSol * LAMPORTS_PER_SOL; // priority fee, if applicable
     let minRentExemption = 0; // rent fee for creating associated token account if it doesn't exist
-    const botFee = BOT_SOL_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
+    const botFee = BOT_SERVICE_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
 
     // Rent Exemption Check for Token Account
     const tokenAccountAddress = await getAssociatedTokenAddress(

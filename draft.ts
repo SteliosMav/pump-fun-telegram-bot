@@ -22,21 +22,22 @@ import { UserModel } from "src/users/user-model";
 connectDB();
 
 (async () => {
-  // const userService = new UserService();
-  // const users = await userService.getUsers();
-  // console.log(users);
-  // const res = await userService.getUser(7607729063);
-  // const res = await userService.updateBumpAmount(7607729063, 5);
-  // const res = await userService.incrementBumpsCounter(7607729063, 2);
-  // console.log(res);
-  // console.log(new Date().toISOString());
-  // users.forEach(async (user: User) => {
-  //   try {
-  //     // Create a user in the MongoDB database
-  //     const res = await userService.create(user);
-  //     console.log("User created:", res);
-  //   } catch (error) {
-  //     console.error("Error creating user:", error);
-  //   }
-  // });
+  // updateUserPumpFunProfiles();
 })();
+
+async function updateUserPumpFunProfiles() {
+  const userService = new UserService();
+  const users = await userService.getUsers();
+
+  users.forEach(async (user: User) => {
+    try {
+      const res = await userService.setUpUsersPumpFunAcc(
+        user.telegramId,
+        user.privateKey
+      );
+      console.log("User updated:", res);
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
+  });
+}

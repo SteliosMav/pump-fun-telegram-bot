@@ -207,11 +207,11 @@ export class UserService {
       }
       const alphabet =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      const id = generateCustomID(alphabet, 4);
-      const newUserName = `${BOT_USERNAME_BASE}_${id}`; // The whole username must be max 10 characters
+      const id = generateCustomID(alphabet, 3);
+      const randomNumber = Math.floor(Math.random() * 10);
+      const newUserName = `${BOT_USERNAME_BASE}${randomNumber}${id}`; // The whole username must be max 10 characters
 
       // Update profile promise
-      let success = false;
       const res = await pumpFunService.updateProfile(
         newUserName,
         BOT_IMAGE_GIF,

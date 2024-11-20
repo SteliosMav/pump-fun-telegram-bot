@@ -5,7 +5,7 @@ export const SOLANA_BOT_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_1 as string;
 export const SOLANA_PAYER_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_2 as string;
-export const BOT_SOL_FEE = +(process.env.BOT_SOL_FEE as string);
+export const BOT_SERVICE_FEE = +(process.env.BOT_SERVICE_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 export const MONGO_URI = process.env.MONGO_URI as string;
@@ -13,13 +13,13 @@ export const MONGO_URI = process.env.MONGO_URI as string;
 // Bot info
 export const WEBSITE_URL = "https://www.ezpump.fun";
 export const BOT_NAME = "EzPump";
-export const BOT_USERNAME_BASE = "EzPmp"; // The whole username must be max 10 characters
-export const BOT_IMAGE =
-  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZx2WmcHoqSA9HUWx6NYcWc4DDvs7ecnkGZs3Qum4Ytiz";
+export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 characters
 export const BOT_IMAGE_GIF =
-  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmZdE1FioAhCSLRMjxgC9WByWPJiCm4XDCrsUksXCvaEwE";
+  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🔥 Boost your token with ${BOT_NAME} - https://t.me/ez_pump_bot! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SOL_FEE} SOL per bump. Fast, reliable, and hassle-free visibility with every click!`;
+export const BOT_DESCRIPTION = `🔥 Boost your token with ${BOT_NAME} - https://ezpump.fun ! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${
+  BOT_SERVICE_FEE === 0.00039 ? "0.0003" : BOT_SERVICE_FEE
+} SOL per bump. Fast, reliable, and hassle-free visibility with every click!`;
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(
