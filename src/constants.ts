@@ -17,9 +17,7 @@ export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🔥 Boost your token with ${BOT_NAME} - https://ezpump.fun ! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${
-  BOT_SERVICE_FEE === 0.00039 ? "0.0003" : BOT_SERVICE_FEE
-} SOL per bump. Fast, reliable, and hassle-free visibility with every click!`;
+export const BOT_DESCRIPTION = `🔥 Boost your token with ${BOT_NAME} - https://ezpump.fun ! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SERVICE_FEE} SOL service fee. Fast, reliable, and hassle-free visibility with every click!`;
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(
@@ -51,6 +49,7 @@ export const PUMP_FUN_SWAP_FEE_PERCENT = 0.01;
 export const ASSOCIATED_TOKEN_ACC_SIZE = 165;
 export const SIGNATURE_FEE_LAMPORTS = 5000;
 export const SYSTEM_PROGRAM_ID = SystemProgram.programId;
+export const MIN_BUMP_AMOUNT = 0.0123;
 
 // Telegram bot
 export const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN as string;

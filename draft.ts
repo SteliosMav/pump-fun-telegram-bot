@@ -22,7 +22,7 @@ import { UserModel } from "src/users/user-model";
 connectDB();
 
 (async () => {
-  // updateUserPumpFunProfiles();
+  updateUserPumpFunProfiles();
 })();
 
 async function updateUserPumpFunProfiles() {

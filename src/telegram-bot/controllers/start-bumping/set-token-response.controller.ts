@@ -182,10 +182,6 @@ async function startBumpInterval(
     const runBumpCycle = async () => {
       try {
         // // Mock response
-        // const res = {
-        //   success: true,
-        //   data: "",
-        // } as CustomResponse<string>;
         const res = await bump(); // Call the bump function
 
         // If the bump was successful

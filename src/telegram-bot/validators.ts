@@ -1,16 +1,33 @@
+import { MIN_BUMP_AMOUNT } from "src/constants";
+
 // Validation function for SOL amount
-export function isValidSol(amount: unknown): string | null {
+export function isValidSol(input: unknown): string | null {
   const MAX_SOL_DECIMALS = 9;
 
   // Check if it's a valid number
-  if (typeof amount !== "number" || isNaN(amount)) {
+  if (typeof input !== "number" || isNaN(input)) {
     return "Invalid input. Please enter a valid number.";
   }
 
   // Check for more than 9 decimal places
-  const decimalPart = amount.toString().split(".")[1];
+  const decimalPart = input.toString().split(".")[1];
   if (decimalPart && decimalPart.length > MAX_SOL_DECIMALS) {
     return `Invalid SOL amount. Maximum allowed precision is ${MAX_SOL_DECIMALS} decimal places.`;
+  }
+
+  // Amount is valid
+  return null;
+}
+
+export function isValidBumpAmount(input: unknown): string | null {
+  const errMsg = isValidSol(input);
+  if (errMsg) {
+    return errMsg;
+  }
+
+  const number = input as number;
+  if (number < MIN_BUMP_AMOUNT) {
+    return `Invalid bump amount. The minimum bump amount is ${MIN_BUMP_AMOUNT} SOL.`;
   }
 
   // Amount is valid

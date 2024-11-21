@@ -114,8 +114,10 @@ export class SolanaService {
     priorityFeeInSol: number,
     slippageDecimal: number,
     solAmount: number,
-    mintStr: string
+    mintStr: string,
+    validatorTip: number = 0.0001
   ): Promise<CustomResponse<string>> {
+    const useJito = true;
     try {
       const connection = new Connection(RPC_API, "confirmed");
       const pumpFunService = new PumpFunService();
@@ -250,43 +252,102 @@ export class SolanaService {
       });
       txBuilder.add(sellInstruction);
 
-      // **Step 4: Add the Jito validator tip**
-      const validatorTip = 0.0001; // Tip amount in SOL
-      const JITO_TIP_ACCOUNT = new PublicKey(
-        "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
-      ); // One of the Jito validator tip accounts
-      const tipAmount = validatorTip * LAMPORTS_PER_SOL; // Convert SOL to lamports
-
-      const tipInstruction = SystemProgram.transfer({
-        fromPubkey: payer.publicKey,
-        toPubkey: JITO_TIP_ACCOUNT,
-        lamports: tipAmount,
-      });
-      txBuilder.add(tipInstruction);
-
-      // Set recentBlockhash before signing the transaction
-      const { blockhash } = await connection.getLatestBlockhash("confirmed");
-      txBuilder.recentBlockhash = blockhash;
-      txBuilder.feePayer = payer.publicKey;
-
-      // Sign the transaction with payer and bot
-      txBuilder.sign(payer); // SIGN THE TRANSACTION
-
-      // Serialize the transaction
-      const serializedTx = txBuilder.serialize();
-
       try {
-        // Send the transaction using Jito
-        const signature = await sendTxUsingJito({
-          serializedTx: serializedTx,
-          region: "mainnet", // Change this if you need another region
-        });
-        console.log("Pump transaction confirmed:", signature);
-        return {
-          success: true,
-          data: signature,
-        };
+        // return {
+        //   success: false,
+        //   code: "UNKNOWN_ERROR",
+        // };
+
+        if (useJito) {
+          // Send the transaction using Jito
+
+          // **Step 4: Add the Jito validator tip**
+          const JITO_TIP_ACCOUNT = new PublicKey(
+            "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
+          ); // One of the Jito validator tip accounts
+          const tipAmount = validatorTip * LAMPORTS_PER_SOL; // Convert SOL to lamports
+
+          const tipInstruction = SystemProgram.transfer({
+            fromPubkey: payer.publicKey,
+            toPubkey: JITO_TIP_ACCOUNT,
+            lamports: tipAmount,
+          });
+          txBuilder.add(tipInstruction);
+
+          // Set recentBlockhash before signing the transaction
+          const { blockhash } = await connection.getLatestBlockhash(
+            "confirmed"
+          );
+          txBuilder.recentBlockhash = blockhash;
+          txBuilder.feePayer = payer.publicKey;
+
+          // Sign the transaction with payer and bot
+          txBuilder.sign(payer); // SIGN THE TRANSACTION
+
+          // Serialize the transaction
+          const serializedTx = txBuilder.serialize();
+
+          const res = await sendTxUsingJito({
+            serializedTx: serializedTx,
+            region: "mainnet", // Change this if you need another region
+          });
+          console.log(
+            "Pump transaction confirmed with Jito. Signature:",
+            res.result
+          );
+          return {
+            success: true,
+            data: res.result,
+          };
+        } else {
+          const transaction = await this._createTransaction(
+            connection,
+            txBuilder.instructions,
+            payer.publicKey,
+            priorityFeeInSol
+          );
+
+          // Finalize and send transaction
+          const signature = await sendAndConfirmTransaction(
+            connection,
+            transaction,
+            [payer],
+            { skipPreflight: true, preflightCommitment: "confirmed" }
+          );
+          console.log(
+            "Pump transaction confirmed with RPC Provider. Signature:",
+            signature
+          );
+          return {
+            success: true,
+            data: signature,
+          };
+        }
       } catch (error) {
+        // If there was an error, try to fetch the logs using the signature
+        if (error && typeof error === "object" && "signature" in error) {
+          const transactionDetails = await connection.getTransaction(
+            error.signature as string,
+            {
+              commitment: "confirmed",
+            }
+          );
+
+          if (transactionDetails) {
+            const logs = transactionDetails.meta?.logMessages;
+            const insufficientSol = logs?.some((log) =>
+              log.toLowerCase().includes("insufficient lamports")
+            );
+            if (insufficientSol) {
+              console.error("Insufficient SOL balance for transaction.");
+              return {
+                success: false,
+                code: "INSUFFICIENT_BALANCE",
+              };
+            }
+          }
+        }
+
         console.error("Error sending transaction:", error);
         return {
           success: false,

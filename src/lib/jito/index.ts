@@ -1,5 +1,6 @@
 import { Connection, SendOptions } from "@solana/web3.js";
 import bs58 from "bs58";
+import { JitoResponse } from "./type";
 
 export type JitoRegion = "mainnet" | "amsterdam" | "frankfurt" | "ny" | "tokyo";
 export const JitoEndpoints = {
@@ -27,7 +28,7 @@ export async function sendTxUsingJito({
 }: {
   serializedTx: Uint8Array | Buffer | number[];
   region: JitoRegion;
-}) {
+}): Promise<JitoResponse> {
   let rpcEndpoint = getJitoEndpoint(region);
   let encodedTx = bs58.encode(serializedTx);
   let payload = {
