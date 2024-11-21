@@ -5,15 +5,16 @@ import { UserService } from "src/users/user.service";
 import { SolanaService } from "src/solana/solana.service";
 import { USER_DEFAULT_VALUES, USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
-import { get } from "http";
 import { pubKeyByPrivKey } from "src/solana/utils";
-import { errorController } from "../events/error.controller";
-import { PumpFunService } from "src/pump-fun/pump-fun.service";
+
+// Callback types that edit the message instead of sending a new one
+// i.e. if the user presses the "Back" button
+const callbacksThatEditMsg = [CallbackType.GO_TO_START];
 
 export async function startController({
   bot,
   ...rest
-}: CtrlArgs & { refresh?: boolean }) {
+}: CtrlArgs & { refresh?: boolean; editMsg?: boolean }) {
   // Initialize dependencies
   const userService = new UserService();
   const solanaService = new SolanaService();
@@ -105,7 +106,30 @@ export async function startController({
         parse_mode: "Markdown",
         disable_web_page_preview: true,
       };
-      bot.sendMessage(message.chat.id, getStartingMsg(user, balance), options);
+
+      // If `editMsg` is true, edit the existing message, else send a new one
+      const editMsg =
+        rest.userState?.lastCallback &&
+        callbacksThatEditMsg.includes(rest.userState.lastCallback);
+
+      // Reset state's lastCallback
+      rest.setUserState({ ...rest.userState!, lastCallback: null });
+
+      if (editMsg) {
+        bot.editMessageText(getStartingMsg(user, balance), {
+          chat_id: message.chat.id,
+          message_id: message.message_id as number,
+          reply_markup: inlineKeyboard,
+          parse_mode: "Markdown",
+          disable_web_page_preview: true,
+        });
+      } else {
+        bot.sendMessage(
+          message.chat.id,
+          getStartingMsg(user, balance),
+          options
+        );
+      }
     }
   }
 }

@@ -1,8 +1,8 @@
 import { UserService } from "src/users/user.service";
 import { MsgCtrlArgs } from "../../types";
-import { startController } from "../start/start.controller";
-import { isValidSol, isWholeNumber } from "src/telegram-bot/validators";
+import { isWholeNumber } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
+import { settingsController } from "../settings/settings.controller";
 
 // Controller function
 export async function setBumpsLimitResponseController({
@@ -22,7 +22,13 @@ export async function setBumpsLimitResponseController({
   // Validate the bumps limit
   const validationError = isWholeNumber(bumpsLimit);
   if (validationError) {
-    errorController({ bot, message, errMsg: validationError });
+    errorController({
+      bot,
+      message,
+      errMsg: validationError,
+      userState,
+      setUserState,
+    });
     return;
   }
 
@@ -33,5 +39,5 @@ export async function setBumpsLimitResponseController({
   setUserState!({ ...userState!, lastCallback: null });
 
   // Redirect to start controller
-  startController({ bot, message });
+  settingsController({ bot, message, userState, setUserState });
 }

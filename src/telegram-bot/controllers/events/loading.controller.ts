@@ -1,4 +1,4 @@
-import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
+import { MsgCtrlArgs } from "../../types";
 
 // Controller function
 export async function loadingController({

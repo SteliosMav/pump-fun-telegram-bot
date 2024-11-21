@@ -5,9 +5,20 @@ import { startController } from "../start/start.controller";
 export async function refreshBalanceController({
   bot,
   callbackQuery,
+  userState,
+  setUserState,
 }: CBQueryCtrlArgs) {
   const { message } = callbackQuery;
   if (!message) return;
 
-  startController({ bot, callbackQuery, refresh: true });
+  // Reset state's lastCallback
+  setUserState!({ ...userState!, lastCallback: null });
+
+  startController({
+    bot,
+    callbackQuery,
+    refresh: true,
+    userState,
+    setUserState,
+  });
 }

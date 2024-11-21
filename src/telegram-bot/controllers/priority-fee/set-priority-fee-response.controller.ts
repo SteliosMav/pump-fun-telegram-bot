@@ -3,6 +3,7 @@ import { startController } from "../start/start.controller";
 import { isValidSol } from "src/telegram-bot/validators";
 import { MsgCtrlArgs } from "src/telegram-bot/types";
 import { errorController } from "../events/error.controller";
+import { settingsController } from "../settings/settings.controller";
 
 // Controller function
 export async function setPriorityFeeResponseController({
@@ -22,7 +23,13 @@ export async function setPriorityFeeResponseController({
   // Validate the SOL amount
   const validationError = isValidSol(priorityFee);
   if (validationError) {
-    errorController({ bot, message, errMsg: validationError });
+    errorController({
+      bot,
+      message,
+      errMsg: validationError,
+      userState,
+      setUserState,
+    });
     return;
   }
 
@@ -33,5 +40,5 @@ export async function setPriorityFeeResponseController({
   setUserState!({ ...userState!, lastCallback: null });
 
   // Redirect to start controller
-  startController({ bot, message });
+  settingsController({ bot, message, userState, setUserState });
 }

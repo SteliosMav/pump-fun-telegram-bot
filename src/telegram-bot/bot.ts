@@ -20,6 +20,7 @@ import { setTokenRequestController } from "./controllers/start-bumping/set-token
 import { setTokenResponseController } from "./controllers/start-bumping/set-token-response.controller";
 import { setBumpsLimitRequestController } from "./controllers/bumps-limit/set-bumps-limit-request.controller";
 import { setBumpsLimitResponseController } from "./controllers/bumps-limit/set-bumps-limit-response.controller";
+import { settingsController } from "./controllers/settings/settings.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -29,7 +30,7 @@ connectDB();
 
 // User state management
 export interface UserState {
-  lastCallback: CallbackType | null;
+  lastCallback?: CallbackType | null;
 }
 const userMap = new Map<number, UserState>();
 
@@ -43,6 +44,8 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeRequestController,
   [CallbackType.REFRESH_BALANCE]: refreshBalanceController,
   [CallbackType.SET_TOKEN]: setTokenRequestController,
+  [CallbackType.GO_TO_SETTINGS]: settingsController,
+  [CallbackType.GO_TO_START]: startController,
 };
 
 // Define message (response) controllers
@@ -59,9 +62,22 @@ const responseControllersMap: MsgCtrlMap = {
 function onStartListenerInit() {
   bot.onText(
     /\/start/,
-    catchErrors(bot, (message: TelegramBot.Message) =>
-      startController({ bot, message })
-    )
+    catchErrors(bot, (message: TelegramBot.Message) => {
+      const { from } = message;
+      if (!from) {
+        return;
+      }
+      const userTgId = from.id;
+      const oldUserState = userMap.get(userTgId);
+      const userState: UserState = {
+        ...oldUserState,
+      };
+      const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+      setUserState(userState);
+
+      return startController({ bot, message, userState, setUserState });
+    })
   );
 }
 
@@ -74,17 +90,28 @@ function callbackQueryListenerInit() {
 
       if (!data || !callbackQuery.from) return;
 
-      const userState = userMap.get(callbackQuery.from.id);
+      const userTgId = callbackQuery.from.id;
+      const oldUserState = userMap.get(userTgId);
+      const userState = { ...oldUserState };
+      // DISMISS_ERROR callback should not be saved in the state
       if (data !== CallbackType.DISMISS_ERROR) {
-        userMap.set(callbackQuery.from.id, {
-          ...userState,
-          lastCallback: data,
-        });
+        userState.lastCallback = data;
       }
+
+      const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+      setUserState(userState);
+
+      console.log("Current user state: ", userState);
 
       const controller = controllersMap[data];
       if (controller) {
-        await controller({ bot, callbackQuery, userState });
+        await controller({
+          bot,
+          callbackQuery,
+          userState: userState,
+          setUserState,
+        });
       }
 
       bot.answerCallbackQuery(callbackQuery.id);
@@ -98,8 +125,13 @@ function messageListenersInit() {
     if (!message.from) return;
 
     const userTgId = message.from.id;
-    const userState = userMap.get(userTgId);
+    const oldUserState = userMap.get(userTgId);
+    const userState: UserState = {
+      ...oldUserState,
+    };
     const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+    setUserState(userState);
 
     console.log(
       `User ${message.from.first_name} last callback: ${userState?.lastCallback}`

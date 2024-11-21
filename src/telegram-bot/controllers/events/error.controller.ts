@@ -1,11 +1,7 @@
-import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
+import { CBQueryCtrlArgs, CtrlArgs, MsgCtrlArgs } from "../../types";
 
 // Controller function
-export async function errorController({
-  bot,
-  errMsg,
-  ...rest
-}: MsgCtrlArgs | CBQueryCtrlArgs) {
+export async function errorController({ bot, errMsg, ...rest }: CtrlArgs) {
   // Check if the controller was called from a callback query
   const calledFromCallback = "callbackQuery" in rest;
   const message = calledFromCallback

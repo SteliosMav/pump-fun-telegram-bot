@@ -1,8 +1,8 @@
 import { UserService } from "src/users/user.service";
 import { MsgCtrlArgs } from "../../types";
-import { startController } from "../start/start.controller";
 import { isValidSlippage } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
+import { settingsController } from "../settings/settings.controller";
 
 // Controller function
 export async function setSlippageResponseController({
@@ -22,7 +22,13 @@ export async function setSlippageResponseController({
   // Validate the SOL amount
   const validationError = isValidSlippage(slippage);
   if (validationError) {
-    errorController({ bot, message, errMsg: validationError });
+    errorController({
+      bot,
+      message,
+      errMsg: validationError,
+      userState,
+      setUserState,
+    });
     return;
   }
 
@@ -34,5 +40,5 @@ export async function setSlippageResponseController({
   setUserState!({ ...userState!, lastCallback: null });
 
   // Redirect to start controller
-  startController({ bot, message });
+  settingsController({ bot, message, userState, setUserState });
 }

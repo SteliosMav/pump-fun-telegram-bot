@@ -11,12 +11,14 @@ export enum CallbackType {
   START_BUMPING = "start_bumping",
   DISMISS_ERROR = "dismiss_error",
   SET_TOKEN = "set_token",
+  GO_TO_SETTINGS = "go_to_settings",
+  GO_TO_START = "go_to_start",
 }
 interface BasicCtrlArgs {
   bot: TelegramBot;
   errMsg?: string;
-  userState?: UserState;
-  setUserState?: (userState: UserState) => void;
+  userState: UserState;
+  setUserState: (userState: UserState) => void;
 }
 export interface CBQueryCtrlArgs extends BasicCtrlArgs {
   callbackQuery: TelegramBot.CallbackQuery;

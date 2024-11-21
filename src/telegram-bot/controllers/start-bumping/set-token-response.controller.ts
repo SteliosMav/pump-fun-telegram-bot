@@ -33,6 +33,8 @@ export async function setTokenResponseController({
     bot,
     message,
     loadingMsg: "Analyzing data...  🔄",
+    userState,
+    setUserState,
   });
   const loadingMsgId = sentLoading?.message_id;
 
@@ -54,6 +56,8 @@ export async function setTokenResponseController({
       bot,
       message,
       errMsg: `Invalid ${inputType}. Please enter a valid ${inputType}:`,
+      userState,
+      setUserState,
     });
     return;
   }
@@ -74,6 +78,8 @@ export async function setTokenResponseController({
     bot,
     message,
     msgId: loadingMsgId,
+    userState,
+    setUserState,
   });
 
   /*
@@ -141,24 +147,30 @@ _Once done, press Refresh Balance to check your updated balance._`;
     );
 
     // Redirect to start controller once the interval is done
-    startController({ bot, message });
+    startController({ bot, message, userState, setUserState });
   } else if (bumpResponse.code === "INSUFFICIENT_BALANCE") {
     await errorController({
       bot,
       message,
       errMsg: `You don't have enough balance to bump *${coinData.name}*. Please add some *SOL* to your wallet and try again.`,
+      userState,
+      setUserState,
     });
   } else if (bumpResponse.code === "TRANSACTION_FAILED") {
     await errorController({
       bot,
       message,
       errMsg: `An error occurred while bumping *${coinData.name}*. Try increasing your transaction fee and try again.`,
+      userState,
+      setUserState,
     });
   } else {
     await errorController({
       bot,
       message,
       errMsg: USER_FRIENDLY_ERROR_MESSAGE,
+      userState,
+      setUserState,
     });
   }
 }
