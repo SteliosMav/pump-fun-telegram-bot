@@ -250,13 +250,27 @@ export class SolanaService {
       });
       txBuilder.add(sellInstruction);
 
+      // **Step 4: Add the Jito validator tip**
+      const validatorTip = 0.0001; // Tip amount in SOL
+      const JITO_TIP_ACCOUNT = new PublicKey(
+        "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
+      ); // One of the Jito validator tip accounts
+      const tipAmount = validatorTip * LAMPORTS_PER_SOL; // Convert SOL to lamports
+
+      const tipInstruction = SystemProgram.transfer({
+        fromPubkey: payer.publicKey,
+        toPubkey: JITO_TIP_ACCOUNT,
+        lamports: tipAmount,
+      });
+      txBuilder.add(tipInstruction);
+
       // Set recentBlockhash before signing the transaction
       const { blockhash } = await connection.getLatestBlockhash("confirmed");
       txBuilder.recentBlockhash = blockhash;
       txBuilder.feePayer = payer.publicKey;
 
       // Sign the transaction with payer and bot
-      txBuilder.sign(payer, bot); // SIGN THE TRANSACTION
+      txBuilder.sign(payer); // SIGN THE TRANSACTION
 
       // Serialize the transaction
       const serializedTx = txBuilder.serialize();
