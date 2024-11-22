@@ -371,6 +371,7 @@ export class SolanaService {
     priorityFeeInSol: number,
     slippageDecimal: number,
     solAmount: number,
+    bumpsLimit: number,
     mintStr: string
   ) {
     const connection = new Connection(RPC_API, "confirmed");
@@ -410,10 +411,7 @@ export class SolanaService {
     const totalRequiredBalance =
       minRentExemption +
       solInWithSlippageLamports +
-      swapFee +
-      signatureFee +
-      priorityFeeLamports +
-      botFee;
+      (swapFee + signatureFee + priorityFeeLamports + botFee * bumpsLimit);
 
     // Get the payer's balance
     const payerBalance = await connection.getBalance(payer.publicKey);

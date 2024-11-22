@@ -69,6 +69,7 @@ export async function setTokenResponseController({
       user.priorityFee,
       user.slippage,
       user.bumpAmount,
+      user.bumpsLimit,
       coinData.mint
     );
   const hasSufficientBalance = payerBalance >= totalRequiredBalance;
@@ -82,11 +83,10 @@ export async function setTokenResponseController({
     setUserState,
   });
 
-  /*
   if (!hasSufficientBalance) {
     const errMsg = `*Insufficient balance.*
 
-Based on the current *amount* you've chosen to bump with, your *priority fees*, your *slippage* tolerance, and the current *price* of the coin, you need at least *${
+Based on the current *amount* you've chosen, the number of *bumps*, your *priority fees*, your *slippage* tolerance, and the current *price* of the coin, you need at least *${
       totalRequiredBalance / LAMPORTS_PER_SOL
     } SOL* to bump *${coinData.name}*.
 
@@ -97,15 +97,16 @@ _Once done, press Refresh Balance to check your updated balance._`;
       bot,
       message,
       errMsg,
+      userState,
+      setUserState,
     });
     return;
   }
-    */
 
   // Start bumping. Respond with the coin name and a "started bumping" message.
   bot.sendMessage(
     message.chat.id,
-    `🔥  The bot started bumping meme coin: ${coinData.name}  🔥`,
+    `🔥  Started bumping meme coin: ${coinData.name}  🔥`,
     {
       parse_mode: "Markdown",
       disable_web_page_preview: true,
