@@ -9,6 +9,7 @@ export enum CallbackType {
   REFRESH_BALANCE = "refresh_balance",
   SET_BUMPS_LIMIT = "set_bumps_limit",
   START_BUMPING = "start_bumping",
+  STOP_BUMPING = "stop_bumping",
   DISMISS_ERROR = "dismiss_error",
   SET_TOKEN = "set_token",
   GO_TO_SETTINGS = "go_to_settings",
@@ -17,7 +18,7 @@ export enum CallbackType {
 interface BasicCtrlArgs {
   bot: TelegramBot;
   errMsg?: string;
-  userState: UserState;
+  getUserState: () => UserState | undefined;
   setUserState: (userState: UserState) => void;
 }
 export interface CBQueryCtrlArgs extends BasicCtrlArgs {

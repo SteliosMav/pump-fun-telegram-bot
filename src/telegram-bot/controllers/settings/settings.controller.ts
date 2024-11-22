@@ -28,18 +28,23 @@ export async function settingsController({
 
   const user = await userService.getUser(from.id);
 
-  const { userState, setUserState } = rest;
+  const { getUserState, setUserState } = rest;
   if (!user) {
     // Redirect user to /start
     if (calledFromCallback) {
       startController({
         bot,
         callbackQuery: rest.callbackQuery,
-        userState,
+        getUserState,
         setUserState,
       });
     } else {
-      startController({ bot, message: rest.message, userState, setUserState });
+      startController({
+        bot,
+        message: rest.message,
+        getUserState,
+        setUserState,
+      });
     }
     return;
   }
@@ -54,12 +59,13 @@ export async function settingsController({
   };
 
   // If `editMsg` is true, edit the existing message, else send a new one
+  const userState = getUserState();
   const editMsg =
-    rest.userState?.lastCallback &&
-    callbacksThatEditMsg.includes(rest.userState.lastCallback);
+    userState?.lastCallback &&
+    callbacksThatEditMsg.includes(userState.lastCallback);
 
   // Reset state's lastCallback
-  rest.setUserState({ ...rest.userState!, lastCallback: null });
+  rest.setUserState({ ...userState!, lastCallback: null });
 
   if (editMsg) {
     // Edit the previous message with updated settings and inline keyboard

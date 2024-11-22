@@ -1,5 +1,5 @@
 import { UserService } from "src/users/user.service";
-import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
+import { CallbackType, CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
 import { isUrl } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
@@ -10,12 +10,13 @@ import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "src/shared/types";
 import { USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
 import { SolanaService } from "src/solana/solana.service";
+import { UserState } from "src/telegram-bot/bot";
 
 // Controller function
 export async function setTokenResponseController({
   bot,
   message,
-  userState,
+  getUserState,
   setUserState,
 }: MsgCtrlArgs) {
   const { from } = message;
@@ -33,7 +34,7 @@ export async function setTokenResponseController({
     bot,
     message,
     loadingMsg: "Analyzing data...  🔄",
-    userState,
+    getUserState,
     setUserState,
   });
   const loadingMsgId = sentLoading?.message_id;
@@ -56,11 +57,15 @@ export async function setTokenResponseController({
       bot,
       message,
       errMsg: `Invalid ${inputType}. Please enter a valid ${inputType}:`,
-      userState,
+      getUserState,
       setUserState,
     });
     return;
   }
+
+  // Reset state's lastCallback
+  const userState = getUserState();
+  setUserState!({ ...userState!, lastCallback: null });
 
   // const sufficientBalance = await pumpFunService.hasSufficientBalance(ca);
   const { totalRequiredBalance, payerBalance } =
@@ -79,7 +84,7 @@ export async function setTokenResponseController({
     bot,
     message,
     msgId: loadingMsgId,
-    userState,
+    getUserState,
     setUserState,
   });
 
@@ -97,7 +102,7 @@ _Once done, press Refresh Balance to check your updated balance._`;
       bot,
       message,
       errMsg,
-      userState,
+      getUserState,
       setUserState,
     });
     return;
@@ -106,10 +111,23 @@ _Once done, press Refresh Balance to check your updated balance._`;
   // Start bumping. Respond with the coin name and a "started bumping" message.
   bot.sendMessage(
     message.chat.id,
-    `🔥  Started bumping meme coin: ${coinData.name}  🔥`,
+    `🔥  Started bumping meme coin: *${coinData.name}*  🔥
+    
+    _Watch out, any further action will cancel the bumping process._
+    `,
     {
       parse_mode: "Markdown",
       disable_web_page_preview: true,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: `❌  CANCEL`,
+              callback_data: CallbackType.STOP_BUMPING,
+            },
+          ],
+        ],
+      },
     }
   );
 
@@ -122,14 +140,14 @@ _Once done, press Refresh Balance to check your updated balance._`;
       user.bumpAmount,
       coinData.mint
     );
+  // Set userState.stopBumping to false
+  setUserState({ ...getUserState(), stopBumping: false });
   const bumpResponse = await startBumpInterval(
     bump,
     user.bumpIntervalInSeconds,
-    user.bumpsLimit
+    user.bumpsLimit,
+    getUserState
   );
-
-  // Reset state's lastCallback
-  setUserState!({ ...userState!, lastCallback: null });
 
   // Once the interval is done, the rest of the code will run
   if (bumpResponse.success) {
@@ -148,13 +166,13 @@ _Once done, press Refresh Balance to check your updated balance._`;
     );
 
     // Redirect to start controller once the interval is done
-    startController({ bot, message, userState, setUserState });
+    startController({ bot, message, getUserState, setUserState });
   } else if (bumpResponse.code === "INSUFFICIENT_BALANCE") {
     await errorController({
       bot,
       message,
       errMsg: `You don't have enough balance to bump *${coinData.name}*. Please add some *SOL* to your wallet and try again.`,
-      userState,
+      getUserState,
       setUserState,
     });
   } else if (bumpResponse.code === "TRANSACTION_FAILED") {
@@ -162,7 +180,7 @@ _Once done, press Refresh Balance to check your updated balance._`;
       bot,
       message,
       errMsg: `An error occurred while bumping *${coinData.name}*. Try increasing your transaction fee and try again.`,
-      userState,
+      getUserState,
       setUserState,
     });
   } else {
@@ -170,7 +188,7 @@ _Once done, press Refresh Balance to check your updated balance._`;
       bot,
       message,
       errMsg: USER_FRIENDLY_ERROR_MESSAGE,
-      userState,
+      getUserState,
       setUserState,
     });
   }
@@ -185,7 +203,8 @@ function getCoinSlug(url: string) {
 async function startBumpInterval(
   bump: () => Promise<CustomResponse<string>>, // A function that performs the bump and returns a promise of completion status
   intervalInSeconds: number, // Interval time in seconds
-  bumpsLimit: number // Number of bumps to perform
+  bumpsLimit: number, // Number of bumps to perform
+  getUserState: () => UserState | undefined // Function to get the user state
 ): Promise<CustomResponse<number>> {
   const intervalMillis = intervalInSeconds * 1000;
   let bumpsCounter = 0;
@@ -195,6 +214,10 @@ async function startBumpInterval(
     const runBumpCycle = async () => {
       try {
         // // Mock response
+        // const res: any = {
+        //   success: true,
+        //   data: 1,
+        // };
         const res = await bump(); // Call the bump function
 
         // If the bump was successful
@@ -241,8 +264,15 @@ async function startBumpInterval(
           });
           return; // Stop further bumps if the limit was reached
         } else {
-          // Wait for the next bump after the specified interval (only if previous one succeeded)
-          setTimeout(runBumpCycle, intervalMillis);
+          if (getUserState()?.stopBumping) {
+            resolve({
+              success: true,
+              data: bumpsCounter,
+            });
+          } else {
+            // Wait for the next bump after the specified interval (only if previous one succeeded)
+            setTimeout(runBumpCycle, intervalMillis);
+          }
         }
       } catch (error) {
         console.error("Error during bump function:", error);

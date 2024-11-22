@@ -9,7 +9,7 @@ import { settingsController } from "../settings/settings.controller";
 export async function setPriorityFeeResponseController({
   bot,
   message,
-  userState,
+  getUserState,
   setUserState,
 }: MsgCtrlArgs) {
   const { from } = message;
@@ -27,7 +27,7 @@ export async function setPriorityFeeResponseController({
       bot,
       message,
       errMsg: validationError,
-      userState,
+      getUserState,
       setUserState,
     });
     return;
@@ -37,8 +37,8 @@ export async function setPriorityFeeResponseController({
   await userService.updatePriorityFee(from.id, priorityFee);
 
   // Reset state's lastCallback
-  setUserState!({ ...userState!, lastCallback: null });
+  setUserState!({ ...getUserState()!, lastCallback: null });
 
   // Redirect to start controller
-  settingsController({ bot, message, userState, setUserState });
+  settingsController({ bot, message, getUserState, setUserState });
 }

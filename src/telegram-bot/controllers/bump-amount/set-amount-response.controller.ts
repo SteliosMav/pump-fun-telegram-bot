@@ -8,7 +8,7 @@ import { settingsController } from "../settings/settings.controller";
 export async function setAmountResponseController({
   bot,
   message,
-  userState,
+  getUserState,
   setUserState,
 }: MsgCtrlArgs) {
   const { from } = message;
@@ -26,7 +26,7 @@ export async function setAmountResponseController({
       bot,
       message,
       errMsg: validationError,
-      userState,
+      getUserState,
       setUserState,
     });
     return;
@@ -36,8 +36,8 @@ export async function setAmountResponseController({
   await userService.updateBumpAmount(from.id, amount);
 
   // Reset state's lastCallback
-  setUserState!({ ...userState!, lastCallback: null });
+  setUserState!({ ...getUserState()!, lastCallback: null });
 
   // Redirect to start controller
-  settingsController({ bot, message, userState, setUserState });
+  settingsController({ bot, message, getUserState, setUserState });
 }

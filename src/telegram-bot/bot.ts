@@ -21,6 +21,8 @@ import { setTokenResponseController } from "./controllers/start-bumping/set-toke
 import { setBumpsLimitRequestController } from "./controllers/bumps-limit/set-bumps-limit-request.controller";
 import { setBumpsLimitResponseController } from "./controllers/bumps-limit/set-bumps-limit-response.controller";
 import { settingsController } from "./controllers/settings/settings.controller";
+import { get } from "http";
+import { stopBumpingController } from "./controllers/events/stop-bumping.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -31,6 +33,7 @@ connectDB();
 // User state management
 export interface UserState {
   lastCallback?: CallbackType | null;
+  stopBumping: boolean;
 }
 const userMap = new Map<number, UserState>();
 
@@ -46,6 +49,7 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_TOKEN]: setTokenRequestController,
   [CallbackType.GO_TO_SETTINGS]: settingsController,
   [CallbackType.GO_TO_START]: startController,
+  [CallbackType.STOP_BUMPING]: stopBumpingController,
 };
 
 // Define message (response) controllers
@@ -68,15 +72,19 @@ function onStartListenerInit() {
         return;
       }
       const userTgId = from.id;
-      const oldUserState = userMap.get(userTgId);
+
+      const getUserState = () => userMap.get(userTgId);
+      const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+      const oldUserState = getUserState();
       const userState: UserState = {
         ...oldUserState,
+        stopBumping: true,
       };
-      const setUserState = (state: UserState) => userMap.set(userTgId, state);
 
       setUserState(userState);
 
-      return startController({ bot, message, userState, setUserState });
+      return startController({ bot, message, getUserState, setUserState });
     })
   );
 }
@@ -91,14 +99,15 @@ function callbackQueryListenerInit() {
       if (!data || !callbackQuery.from) return;
 
       const userTgId = callbackQuery.from.id;
-      const oldUserState = userMap.get(userTgId);
-      const userState = { ...oldUserState };
+
+      const getUserState = () => userMap.get(userTgId);
+      const setUserState = (state: UserState) => userMap.set(userTgId, state);
+      const oldUserState = getUserState();
+      const userState = { ...oldUserState, stopBumping: true };
       // DISMISS_ERROR callback should not be saved in the state
       if (data !== CallbackType.DISMISS_ERROR) {
         userState.lastCallback = data;
       }
-
-      const setUserState = (state: UserState) => userMap.set(userTgId, state);
 
       setUserState(userState);
 
@@ -109,7 +118,7 @@ function callbackQueryListenerInit() {
         await controller({
           bot,
           callbackQuery,
-          userState: userState,
+          getUserState,
           setUserState,
         });
       }
@@ -125,11 +134,13 @@ function messageListenersInit() {
     if (!message.from) return;
 
     const userTgId = message.from.id;
-    const oldUserState = userMap.get(userTgId);
+    const getUserState = () => userMap.get(userTgId);
+    const setUserState = (state: UserState) => userMap.set(userTgId, state);
+    const oldUserState = getUserState();
     const userState: UserState = {
       ...oldUserState,
+      stopBumping: true,
     };
-    const setUserState = (state: UserState) => userMap.set(userTgId, state);
 
     setUserState(userState);
 
@@ -139,7 +150,7 @@ function messageListenersInit() {
 
     const controller = responseControllersMap[userState?.lastCallback!];
     if (controller) {
-      await controller({ bot, message, userState, setUserState });
+      await controller({ bot, message, getUserState, setUserState });
     }
   });
 }

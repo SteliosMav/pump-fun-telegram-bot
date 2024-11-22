@@ -108,12 +108,13 @@ export async function startController({
       };
 
       // If `editMsg` is true, edit the existing message, else send a new one
+      const userState = rest.getUserState();
       const editMsg =
-        rest.userState?.lastCallback &&
-        callbacksThatEditMsg.includes(rest.userState.lastCallback);
+        userState?.lastCallback &&
+        callbacksThatEditMsg.includes(userState.lastCallback);
 
       // Reset state's lastCallback
-      rest.setUserState({ ...rest.userState!, lastCallback: null });
+      rest.setUserState({ ...userState!, lastCallback: null });
 
       if (editMsg) {
         bot.editMessageText(getStartingMsg(user, balance), {
