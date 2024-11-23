@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
-import { User } from "src/users/types";
+import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
-import { getSettingsBtn } from "src/shared/inline-keyboard-button";
+import { getSettingsBtn } from "../../../shared/inline-keyboard-button";
 
 export const settingsMsg = `🛠️ Here, you can update your settings:`;
 

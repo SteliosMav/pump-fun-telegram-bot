@@ -12,7 +12,7 @@ import { setIntervalRequestController } from "./controllers/interval/set-interva
 import { setSlippageResponseController } from "./controllers/slippage/set-slippage-response.controller";
 import { setPriorityFeeResponseController } from "./controllers/priority-fee/set-priority-fee-response.controller";
 import { refreshBalanceController } from "./controllers/refresh-balance/refresh-balance.controller";
-import connectDB from "src/lib/mongo";
+
 import { setAmountResponseController } from "./controllers/bump-amount/set-amount-response.controller";
 import { setIntervalResponseController } from "./controllers/interval/set-interval-response.controller";
 import { setPriorityFeeRequestController } from "./controllers/priority-fee/set-priority-fee-request.controller";
@@ -23,6 +23,7 @@ import { setBumpsLimitResponseController } from "./controllers/bumps-limit/set-b
 import { settingsController } from "./controllers/settings/settings.controller";
 import { get } from "http";
 import { stopBumpingController } from "./controllers/events/stop-bumping.controller";
+import connectDB from "../lib/mongo";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });

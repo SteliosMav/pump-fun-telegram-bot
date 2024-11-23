@@ -24,15 +24,15 @@ import {
   SOLANA_BOT_PRIVATE_KEY,
   SYSTEM_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
-} from "src/constants";
+} from "../constants";
 import bs58 from "bs58";
-import { PumpFunService } from "src/pump-fun/pump-fun.service";
-import { CustomResponse } from "src/shared/types";
+import { PumpFunService } from "../pump-fun/pump-fun.service";
 import {
   createAssociatedTokenAccountInstruction,
   getAssociatedTokenAddress,
 } from "@solana/spl-token";
-import { sendTxUsingJito } from "src/lib/jito";
+import { sendTxUsingJito } from "../lib/jito";
+import { CustomResponse } from "../shared/types";
 
 export class SolanaService {
   private _botPrivateKey = SOLANA_BOT_PRIVATE_KEY;

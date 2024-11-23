@@ -1,6 +1,6 @@
-import { UserService } from "src/users/user.service";
+import { UserService } from "../../../users/user.service";
 import { MsgCtrlArgs } from "../../types";
-import { isValidSlippage } from "src/telegram-bot/validators";
+import { isValidSlippage } from "../../validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 

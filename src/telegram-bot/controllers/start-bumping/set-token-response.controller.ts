@@ -1,17 +1,16 @@
-import { UserService } from "src/users/user.service";
+import { UserService } from "../../../users/user.service";
 import { CallbackType, CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
-import { isUrl } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
-import { PumpFunService } from "src/pump-fun/pump-fun.service";
-import { PUMP_FUN_URL } from "src/constants";
+import { PumpFunService } from "../../../pump-fun/pump-fun.service";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { loadingController } from "../events/loading.controller";
-import { CustomResponse, ErrorResponse } from "src/shared/types";
-import { USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
-import { SolanaService } from "src/solana/solana.service";
-import { UserState } from "src/telegram-bot/bot";
-import { getIncludeBotFeeForUser } from "src/users/util";
+import { CustomResponse, ErrorResponse } from "../../../shared/types";
+import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
+import { SolanaService } from "../../../solana/solana.service";
+import { UserState } from "../../bot";
+import { getIncludeBotFeeForUser } from "../../../users/util";
+import { isUrl } from "../../validators";
 
 // Controller function
 export async function setTokenResponseController({

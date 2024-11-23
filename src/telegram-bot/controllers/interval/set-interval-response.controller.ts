@@ -1,7 +1,7 @@
-import { UserService } from "src/users/user.service";
+import { UserService } from "../../../users/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
-import { isValidInterval } from "src/telegram-bot/validators";
+import { isValidInterval } from "../../validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 

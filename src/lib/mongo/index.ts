@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGO_URI } from "src/constants";
+import { MONGO_URI } from "../../constants";
 
 // MongoDB connection URI
 const mongoURI = MONGO_URI;

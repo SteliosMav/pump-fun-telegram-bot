@@ -4,10 +4,10 @@ import {
   BOT_IMAGE_GIF,
   BOT_USERNAME_BASE,
   ENCRYPTION_KEY,
-} from "src/constants";
+} from "../constants";
 import { User, UserModel } from "./types";
-import { PumpFunService } from "src/pump-fun/pump-fun.service";
 import { IUserModel, UserDoc, UserModel as UserModelV2 } from "./user-model";
+import { PumpFunService } from "../pump-fun/pump-fun.service";
 
 export class UserService {
   constructor() {}

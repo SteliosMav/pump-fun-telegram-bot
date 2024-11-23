@@ -1,4 +1,4 @@
-import { MAX_BUMPS_LIMIT, MIN_BUMP_AMOUNT } from "src/constants";
+import { MAX_BUMPS_LIMIT, MIN_BUMP_AMOUNT } from "../constants";
 
 // Validation function for SOL amount
 export function isValidSol(input: unknown): string | null {

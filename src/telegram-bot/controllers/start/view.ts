@@ -1,9 +1,9 @@
 import TelegramBot from "node-telegram-bot-api";
-import { User } from "src/users/types";
+import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
-import { pubKeyByPrivKey } from "src/solana/utils";
-import { WEBSITE_URL } from "src/constants";
-import { refreshBalanceBtn } from "src/shared/inline-keyboard-button";
+import { pubKeyByPrivKey } from "../../../solana/utils";
+import { WEBSITE_URL } from "../../../constants";
+import { refreshBalanceBtn } from "../../../shared/inline-keyboard-button";
 
 const START_BUMPING_BTN_WORDING = "Start Bumping";
 

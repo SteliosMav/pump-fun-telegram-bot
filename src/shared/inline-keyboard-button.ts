@@ -1,5 +1,5 @@
 import { InlineKeyboardButton } from "node-telegram-bot-api";
-import { CallbackType } from "src/telegram-bot/types";
+import { CallbackType } from "../telegram-bot/types";
 
 export const refreshBalanceBtn: InlineKeyboardButton = {
   text: `🔄  Refresh Balance`,

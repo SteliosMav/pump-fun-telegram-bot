@@ -1,11 +1,14 @@
-import { User } from "src/users/types";
+import { User } from "../../../users/types";
 import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
-import { UserService } from "src/users/user.service";
-import { SolanaService } from "src/solana/solana.service";
-import { USER_DEFAULT_VALUES, USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
+import { UserService } from "../../../users/user.service";
+import { SolanaService } from "../../../solana/solana.service";
+import {
+  USER_DEFAULT_VALUES,
+  USER_FRIENDLY_ERROR_MESSAGE,
+} from "../../../config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
-import { pubKeyByPrivKey } from "src/solana/utils";
+import { pubKeyByPrivKey } from "../../../solana/utils";
 
 // Callback types that edit the message instead of sending a new one
 // i.e. if the user presses the "Back" button
