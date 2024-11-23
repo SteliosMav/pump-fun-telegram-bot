@@ -24,6 +24,7 @@ import { settingsController } from "./controllers/settings/settings.controller";
 import { get } from "http";
 import { stopBumpingController } from "./controllers/events/stop-bumping.controller";
 import connectDB from "../lib/mongo";
+import http from "http"; // Importing built-in http module
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -158,3 +159,20 @@ function initializeBot() {
 }
 
 initializeBot();
+
+// Health check endpoint
+const server = http.createServer((req, res) => {
+  if (req.url === "/") {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    res.end("OK");
+  } else {
+    res.statusCode = 404;
+    res.end("Not Found");
+  }
+});
+
+// Start the server on port 8080 (or another port of your choice)
+server.listen(8080, () => {
+  console.log("Health check server is running on port 8080");
+});
