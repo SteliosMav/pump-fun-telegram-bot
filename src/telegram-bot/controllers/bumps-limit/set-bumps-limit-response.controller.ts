@@ -1,6 +1,6 @@
 import { UserService } from "src/users/user.service";
 import { MsgCtrlArgs } from "../../types";
-import { isValitBumpsLimit } from "src/telegram-bot/validators";
+import { isValidBumpsLimit } from "src/telegram-bot/validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 
@@ -20,7 +20,7 @@ export async function setBumpsLimitResponseController({
   const bumpsLimit = +(message.text as string);
 
   // Validate the bumps limit
-  const validationError = isValitBumpsLimit(bumpsLimit);
+  const validationError = isValidBumpsLimit(bumpsLimit);
   if (validationError) {
     errorController({
       bot,

@@ -28,12 +28,15 @@ const userSchema = new Schema<UserDoc>(
     // Adding tokenPass field as an object where each key maps to an object containing createdAt and optional expirationDate
     tokenPass: {
       type: Map,
-      of: {
-        createdAt: { type: String, required: true },
-        expirationDate: { type: String, required: false },
-      },
+      of: new Schema(
+        {
+          createdAt: { type: String, required: true },
+          expirationDate: { type: String, required: false },
+        },
+        { _id: false } // Disable the creation of _id for each entry in the Map
+      ),
       required: true,
-      default: {},
+      default: {}, // Default to an empty object if no passes exist
     },
     // Adding serviceFeePass as an optional object with createdAt and expirationDate
     serviceFeePass: {

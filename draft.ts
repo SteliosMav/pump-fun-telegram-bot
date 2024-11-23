@@ -29,7 +29,7 @@ connectDB();
   // const expirationDate = currentDate.toISOString(); // Convert the date to ISO string format
   // const res = await userService.assignServiceFeePass(
   //   7637618506
-  //   expirationDate
+  //   // expirationDate
   // );
   // console.log("User updated:", res);
 })();

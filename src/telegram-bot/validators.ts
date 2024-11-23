@@ -48,7 +48,7 @@ export function isWholeNumber(input: unknown): string | null {
   return null;
 }
 
-export function isValitBumpsLimit(input: unknown): string | null {
+export function isValidBumpsLimit(input: unknown): string | null {
   // Check if it's a whole number
   const errMsg = isWholeNumber(input);
   if (errMsg) {
