@@ -30,6 +30,7 @@ export class UserService {
       bumpsLimit: user.bumpsLimit,
       slippage: user.slippage,
       priorityFee: user.priorityFee,
+      tokenPass: user.tokenPass,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       lastName: user.lastName,
@@ -268,6 +269,44 @@ export class UserService {
 
     // Return the updated bumpsCounter
     return updatedUser ? updatedUser.bumpsCounter : null;
+  }
+
+  /**
+   * Assign a service fee pass to a user with an optional expiration date.
+   * @param telegramId - The user's Telegram ID.
+   * @param expirationDate - The optional expiration date for the pass (ISO 8601 format).
+   * @returns A Promise resolving to the updated user.
+   */
+  async assignServiceFeePass(
+    telegramId: number,
+    expirationDate?: string
+  ): Promise<User | null> {
+    try {
+      // Prepare the service fee pass object
+      const serviceFeePass: User["serviceFeePass"] = {
+        createdAt: new Date().toISOString(), // Set the current date as createdAt
+      };
+      // Set expirationDate if provided, otherwise undefined
+      if (expirationDate) serviceFeePass.expirationDate = expirationDate;
+
+      // Update the user's serviceFeePass
+      const updatedUser = await UserModelV2.findOneAndUpdate(
+        { telegramId }, // Query to find the user by telegramId
+        {
+          $set: { serviceFeePass }, // Set the serviceFeePass field
+        },
+        {
+          new: true, // Return the updated document
+          runValidators: true, // Validate the new value against the schema
+        }
+      );
+
+      // Return the updated user
+      return updatedUser ? this._docToJSON(updatedUser) : null;
+    } catch (error) {
+      console.error("Error assigning service fee pass:", error);
+      return null;
+    }
   }
 
   private _encryptPrivateKey(privateKey: string) {

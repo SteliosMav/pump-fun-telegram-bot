@@ -50,6 +50,7 @@ export const ASSOCIATED_TOKEN_ACC_SIZE = 165;
 export const SIGNATURE_FEE_LAMPORTS = 5000;
 export const SYSTEM_PROGRAM_ID = SystemProgram.programId;
 export const MIN_BUMP_AMOUNT = 0.0123;
+export const MAX_BUMPS_LIMIT = 250;
 
 // Telegram bot
 export const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN as string;

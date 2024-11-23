@@ -1,4 +1,4 @@
-import { MIN_BUMP_AMOUNT } from "src/constants";
+import { MAX_BUMPS_LIMIT, MIN_BUMP_AMOUNT } from "src/constants";
 
 // Validation function for SOL amount
 export function isValidSol(input: unknown): string | null {
@@ -45,6 +45,23 @@ export function isWholeNumber(input: unknown): string | null {
     return "Invalid input. Please enter a whole number.";
   }
 
+  return null;
+}
+
+export function isValitBumpsLimit(input: unknown): string | null {
+  // Check if it's a whole number
+  const errMsg = isWholeNumber(input);
+  if (errMsg) {
+    return errMsg;
+  }
+  const number = input as number;
+
+  // Check for valid range
+  if (number < 1 || number > MAX_BUMPS_LIMIT) {
+    return `Invalid bumps limit. Please enter a number between 1 and ${MAX_BUMPS_LIMIT}.`;
+  }
+
+  // Bumps limit is valid
   return null;
 }
 

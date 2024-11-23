@@ -115,6 +115,7 @@ export class SolanaService {
     slippageDecimal: number,
     solAmount: number,
     mintStr: string,
+    includeBotFee: boolean = true,
     validatorTip: number = 0.0001
   ): Promise<CustomResponse<string>> {
     const useJito = true;
@@ -141,7 +142,7 @@ export class SolanaService {
       // Transaction Costs
       const solInLamports = solAmount * LAMPORTS_PER_SOL;
       const solInWithSlippage = solAmount * (1 + slippageDecimal);
-      const botFee = BOT_SERVICE_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
+      const botFee = includeBotFee ? BOT_SERVICE_FEE * LAMPORTS_PER_SOL : 0; // bot fee in lamports
 
       // Rent Exemption Check for Token Account
       const tokenAccountAddress = await getAssociatedTokenAddress(
@@ -170,12 +171,14 @@ export class SolanaService {
       }
 
       // Step 1: Transfer bot fee to the bot
-      const botFeeTransferInstruction = SystemProgram.transfer({
-        fromPubkey: payer.publicKey,
-        toPubkey: bot.publicKey,
-        lamports: botFee,
-      });
-      txBuilder.add(botFeeTransferInstruction);
+      if (botFee > 0) {
+        const botFeeTransferInstruction = SystemProgram.transfer({
+          fromPubkey: payer.publicKey,
+          toPubkey: bot.publicKey,
+          lamports: botFee,
+        });
+        txBuilder.add(botFeeTransferInstruction);
+      }
 
       // Step 2: Buy instructions
       const tokenOut = Math.floor(
@@ -372,7 +375,8 @@ export class SolanaService {
     slippageDecimal: number,
     solAmount: number,
     bumpsLimit: number,
-    mintStr: string
+    mintStr: string,
+    includeBotFee: boolean = true
   ) {
     const connection = new Connection(RPC_API, "confirmed");
     const payer = await this._keyPairFromPrivateKey(payerPrivateKey);
@@ -389,7 +393,7 @@ export class SolanaService {
     const signatureFee = SIGNATURE_FEE_LAMPORTS; // 5000 lamports per signature
     const priorityFeeLamports = priorityFeeInSol * LAMPORTS_PER_SOL; // priority fee, if applicable
     let minRentExemption = 0; // rent fee for creating associated token account if it doesn't exist
-    const botFee = BOT_SERVICE_FEE * LAMPORTS_PER_SOL; // bot fee in lamports
+    const botFee = includeBotFee ? BOT_SERVICE_FEE * LAMPORTS_PER_SOL : 0; // bot fee in lamports
 
     // Rent Exemption Check for Token Account
     const tokenAccountAddress = await getAssociatedTokenAddress(

@@ -25,6 +25,21 @@ const userSchema = new Schema<UserDoc>(
     pumpFunAccIsSet: { type: Boolean, required: true },
     lastName: { type: String },
     username: { type: String },
+    // Adding tokenPass field as an object where each key maps to an object containing createdAt and optional expirationDate
+    tokenPass: {
+      type: Map,
+      of: {
+        createdAt: { type: String, required: true },
+        expirationDate: { type: String, required: false },
+      },
+      required: true,
+      default: {},
+    },
+    // Adding serviceFeePass as an optional object with createdAt and expirationDate
+    serviceFeePass: {
+      createdAt: { type: String, required: true },
+      expirationDate: { type: String, required: false },
+    },
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt

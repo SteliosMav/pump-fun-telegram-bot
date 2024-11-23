@@ -6,10 +6,11 @@ export const USER_DEFAULT_VALUES: UserDefaultValues = {
   freePassesTotal: 0,
   freePassesUsed: 0,
   bumpAmount: 0.0123, // 0.012 is the minimum amount to be shown in pump.fun history
-  bumpsLimit: 1,
+  bumpsLimit: 10,
   priorityFee: 0.01,
-  bumpIntervalInSeconds: 1,
+  bumpIntervalInSeconds: 10,
   slippage: 0.25,
+  tokenPass: {},
 };
 
 export const USER_FRIENDLY_ERROR_MESSAGE =

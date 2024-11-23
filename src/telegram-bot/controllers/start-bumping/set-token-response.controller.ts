@@ -11,6 +11,7 @@ import { CustomResponse, ErrorResponse } from "src/shared/types";
 import { USER_FRIENDLY_ERROR_MESSAGE } from "src/config";
 import { SolanaService } from "src/solana/solana.service";
 import { UserState } from "src/telegram-bot/bot";
+import { getIncludeBotFeeForUser } from "src/users/util";
 
 // Controller function
 export async function setTokenResponseController({
@@ -132,13 +133,15 @@ _Once done, press Refresh Balance to check your updated balance._`;
   );
 
   // Start the bump interval
+  const includeBotFee = getIncludeBotFeeForUser(user, coinData.mint);
   const bump = async () =>
     solanaService.bump(
       user.privateKey,
       user.priorityFee,
       user.slippage,
       user.bumpAmount,
-      coinData.mint
+      coinData.mint,
+      includeBotFee
     );
   // Set userState.stopBumping to false
   setUserState({ ...getUserState(), stopBumping: false });
