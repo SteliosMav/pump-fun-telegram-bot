@@ -5,7 +5,8 @@
   "scripts": {
     "start": "ts-node-dev --require tsconfig-paths/register --respawn src/telegram-bot/bot.ts",
     "draft": "ts-node-dev --require tsconfig-paths/register draft.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
