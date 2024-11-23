@@ -29,7 +29,6 @@ export class PumpFunService {
   constructor() {}
 
   async getCoinData(mintStr: string): Promise<CoinData | null> {
-    console.log("Mint String: ", mintStr);
     const url = `${this._baseUrl}/coins/${mintStr}`;
 
     try {
@@ -82,8 +81,6 @@ export class PumpFunService {
       // Get set-cookie header from response
       const setCookieHeader = response.headers.get("set-cookie");
       const data = await response.json();
-      console.log(`Login ${response.ok ? "Succeeded" : "Failed"}:`, data);
-      console.log("Set-Cookie Header:", setCookieHeader);
       return setCookieHeader;
     } catch (error) {
       console.error("Error during login:", error);
@@ -118,7 +115,6 @@ export class PumpFunService {
       if (response.ok) {
         const data: UserUpdateResponse = await response.json();
         if (data.address) {
-          console.log("Profile update successful:", data);
           return data;
         } else {
           console.error("Profile update failed:", data);

@@ -12,8 +12,6 @@ export async function errorController({ bot, errMsg, ...rest }: CtrlArgs) {
   const chatId = message.chat.id;
   const messageId = message.message_id;
 
-  console.log("Error message: ", errMsg);
-
   if (errMsg) {
     bot.sendMessage(chatId, errMsg, {
       reply_markup: {

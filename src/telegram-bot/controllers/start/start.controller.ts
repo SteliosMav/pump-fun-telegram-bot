@@ -55,14 +55,13 @@ export async function startController({
       return;
     }
 
-    console.log("New user created with private key: ", privateKey);
-
     // Create new user
     const userByTelegram = userByTelegramUser(from, privateKey);
     const newUserRes = await userService.create(userByTelegram);
 
     if (!newUserRes) {
-      console.error("Error creating user");
+      console.error(`Error creating user with telegramId: ${from.id}
+        Private key: ${privateKey}`);
       bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }

@@ -51,7 +51,6 @@ export class SolanaService {
     );
     // Log payer's balance
     const payerBalance = await connection.getBalance(payerKeypair.publicKey);
-    console.log("Payer balance:", payerBalance / LAMPORTS_PER_SOL);
 
     // Step 2: Generate a new Keypair for the new account
     const newAccountKeypair = Keypair.generate();
@@ -80,13 +79,8 @@ export class SolanaService {
         payerKeypair,
         newAccountKeypair,
       ]);
-      console.log(
-        "Account created successfully:",
-        newAccountPublicKey.toBase58()
-      );
       // Log payer's balance
       const payerBalance = await connection.getBalance(payerKeypair.publicKey);
-      console.log("Payer balance:", payerBalance / LAMPORTS_PER_SOL);
     } catch (error) {
       console.error("Error creating account:", error);
       return null;
@@ -294,10 +288,6 @@ export class SolanaService {
             serializedTx: serializedTx,
             region: "mainnet", // Change this if you need another region
           });
-          console.log(
-            "Pump transaction confirmed with Jito. Signature:",
-            res.result
-          );
           return {
             success: true,
             data: res.result,
@@ -316,10 +306,6 @@ export class SolanaService {
             transaction,
             [payer],
             { skipPreflight: true, preflightCommitment: "confirmed" }
-          );
-          console.log(
-            "Pump transaction confirmed with RPC Provider. Signature:",
-            signature
           );
           return {
             success: true,
@@ -419,11 +405,6 @@ export class SolanaService {
 
     // Get the payer's balance
     const payerBalance = await connection.getBalance(payer.publicKey);
-    console.log("Payer balance:", payerBalance / LAMPORTS_PER_SOL);
-    console.log(
-      "Total required balance:",
-      totalRequiredBalance / LAMPORTS_PER_SOL
-    );
 
     // Check if payer has enough balance for all costs
     return { payerBalance, totalRequiredBalance };

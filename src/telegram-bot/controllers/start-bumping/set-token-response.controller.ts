@@ -225,18 +225,11 @@ async function startBumpInterval(
         // If the bump was successful
         if (res.success) {
           bumpsCounter++;
-
-          console.log(`Bump successful. Bumps counter: ${bumpsCounter}`);
         } else {
           // Handle specific failure cases
           if (res.code === "INSUFFICIENT_BALANCE") {
-            console.log("Bump failed due to insufficient balance.");
-
             // If we ran out of balance after the first bump, stop the interval
             if (bumpsCounter > 0) {
-              console.log(
-                "Bump succeeded but ran out of balance. Stopping interval."
-              );
               resolve({
                 success: true,
                 data: bumpsCounter,
@@ -249,7 +242,6 @@ async function startBumpInterval(
             }
             return; // Stop further bumps if there was insufficient balance
           } else {
-            console.log("Bump failed due to an unknown error.");
             resolve({
               success: false,
               code: "UNKNOWN_ERROR",

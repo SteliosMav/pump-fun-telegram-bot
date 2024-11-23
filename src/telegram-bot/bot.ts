@@ -112,8 +112,6 @@ function callbackQueryListenerInit() {
 
       setUserState(userState);
 
-      console.log("Current user state: ", userState);
-
       const controller = controllersMap[data];
       if (controller) {
         await controller({
@@ -144,10 +142,6 @@ function messageListenersInit() {
     };
 
     setUserState(userState);
-
-    console.log(
-      `User ${message.from.first_name} last callback: ${userState?.lastCallback}`
-    );
 
     const controller = responseControllersMap[userState?.lastCallback!];
     if (controller) {
