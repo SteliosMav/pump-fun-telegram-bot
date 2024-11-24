@@ -3,7 +3,17 @@ import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
 import { getSettingsBtn } from "../../../shared/inline-keyboard-button";
 
-export const settingsMsg = `🛠️ Here, you can update your settings:`;
+export const settingsMsg = `🛠️ Configure your bot settings:
+
+*Amount:* The amount of SOL to use for each bump.
+
+*Slippage:* The maximum percentage change in token price you are willing to accept during bumps.
+
+*Frequency:* The time interval (in seconds) between each bump.
+
+*Priority Fee:* Transactions with higher priority fees are processed faster, especially during high network traffic. Transactions delayed by more than a minute may fail.
+
+*Bumps:* The total number of bumps you want to perform.`;
 
 export function getSettingsInlineKeyboard(
   user: User

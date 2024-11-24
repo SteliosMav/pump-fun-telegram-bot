@@ -1,4 +1,8 @@
-import { MAX_BUMPS_LIMIT, MIN_BUMP_AMOUNT } from "../constants";
+import {
+  MAX_BUMP_AMOUNT,
+  MAX_BUMPS_LIMIT,
+  MIN_BUMP_AMOUNT,
+} from "../constants";
 
 // Validation function for SOL amount
 export function isValidSol(input: unknown): string | null {
@@ -26,8 +30,8 @@ export function isValidBumpAmount(input: unknown): string | null {
   }
 
   const number = input as number;
-  if (number < MIN_BUMP_AMOUNT) {
-    return `Invalid bump amount. The minimum bump amount is ${MIN_BUMP_AMOUNT} SOL.`;
+  if (number < MIN_BUMP_AMOUNT || number > MAX_BUMP_AMOUNT) {
+    return `Invalid bump amount. Enter an amount between ${MIN_BUMP_AMOUNT} and ${MAX_BUMP_AMOUNT} SOL.`;
   }
 
   // Amount is valid

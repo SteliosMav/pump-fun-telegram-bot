@@ -1,6 +1,6 @@
 import { UserService } from "../../../users/user.service";
 import { MsgCtrlArgs } from "../../types";
-import { isValidSol } from "../../validators";
+import { isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 
@@ -20,7 +20,7 @@ export async function setAmountResponseController({
   const amount = +(message.text as string);
 
   // Validate the SOL amount
-  const validationError = isValidSol(amount);
+  const validationError = isValidBumpAmount(amount);
   if (validationError) {
     errorController({
       bot,
