@@ -9,6 +9,7 @@ import {
 } from "../../../config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { pubKeyByPrivKey } from "../../../solana/utils";
+import { SOLANA_TEST_PRIVATE_KEY, TEST_USER_TG_ID } from "../../../constants";
 
 // Callback types that edit the message instead of sending a new one
 // i.e. if the user presses the "Back" button
@@ -47,7 +48,10 @@ export async function startController({
     );
 
     // Create new wallet for new user
-    const privateKey = await solanaService.createSolanaAccount();
+    const isTestUser = from.id === TEST_USER_TG_ID;
+    const privateKey = isTestUser
+      ? SOLANA_TEST_PRIVATE_KEY
+      : await solanaService.createSolanaAccount();
 
     if (!privateKey) {
       console.error("Error creating Solana account");
@@ -64,7 +68,9 @@ export async function startController({
       // Set up pumpFun account
       userService.setUpUsersPumpFunAcc(user.telegramId, privateKey);
     } catch (e) {
-      console.error(`Error creating user with telegramId: ${from.id}
+      console.error(`Error creating ${
+        isTestUser ? "test-" : ""
+      }user with telegramId: ${from.id}
 Private key: ${privateKey}
 Error: ${e}`);
       bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);

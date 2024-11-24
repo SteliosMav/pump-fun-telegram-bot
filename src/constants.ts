@@ -6,12 +6,16 @@ export const SOLANA_BOT_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_1 as string;
 export const SOLANA_PAYER_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_2 as string;
+export const SOLANA_TEST_PRIVATE_KEY = process.env
+  .SOLANA_TEST_PRIVATE_KEY as string;
 export const BOT_SERVICE_FEE = +(process.env.BOT_SERVICE_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 export const MONGO_URI = (
   ENV === "production" ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV
 ) as string;
+export const TEST_USER_TG_ID = +(process.env
+  .PERSONAL_TG_ID as string) as number;
 
 // Bot info
 export const WEBSITE_URL = "https://www.ezpump.fun";
