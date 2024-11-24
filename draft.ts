@@ -12,15 +12,15 @@ connectDB();
 
 (async () => {
   // updateUserPumpFunProfiles();
-  // const userService = new UserService();
-  // const currentDate = new Date(); // Get the current date
-  // currentDate.setDate(currentDate.getDate() + 3); // Add 3 days to the current date
-  // const expirationDate = currentDate.toISOString(); // Convert the date to ISO string format
-  // const res = await userService.assignServiceFeePass(
-  //   7637618506
-  //   // expirationDate
-  // );
-  // console.log("User updated:", res);
+  const userService = new UserService();
+  const currentDate = new Date(); // Get the current date
+  currentDate.setDate(currentDate.getDate() + 3); // Add 3 days to the current date
+  const expirationDate = currentDate.toISOString(); // Convert the date to ISO string format
+  const res = await userService.assignServiceFeePass(
+    7637618506
+    // expirationDate
+  );
+  console.log("User updated:", res);
 })();
 
 async function updateUserPumpFunProfiles() {

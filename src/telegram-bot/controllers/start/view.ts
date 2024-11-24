@@ -4,25 +4,27 @@ import { CallbackType } from "../../types";
 import { pubKeyByPrivKey } from "../../../solana/utils";
 import { WEBSITE_URL } from "../../../constants";
 import { refreshBalanceBtn } from "../../../shared/inline-keyboard-button";
+import { userHasServicePass } from "../../../users/util";
 
 const START_BUMPING_BTN_WORDING = "Start Bumping";
 
 export function getStartingMsg(user: User, balance: number): string {
   const publicKey = pubKeyByPrivKey(user.privateKey);
+  const hasServicePass = userHasServicePass(user);
 
   return `💳   *Wallet*: \`${publicKey}\`
 💰   *Balance*: \`${balance}\` SOL
 
 *To get started:*
-
-1️⃣ Deposit some *SOL* into your *wallet* address shown above
-
-2️⃣ Press the *${START_BUMPING_BTN_WORDING}* button
-
-3️⃣ Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
-
-🎟  Token pass:  _(coming soon!)_
-💎  Service pass:  _(coming soon!)_
+*1)* Deposit some *SOL* into your *wallet* address shown above
+*2)* Press the *${START_BUMPING_BTN_WORDING}* button
+*3)* Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
+${hasServicePass ? "" : "\n🎟  *Token pass:*  _(coming soon!)_"}
+💎  *Service pass:*  ${
+    hasServicePass
+      ? "*Congratulations! Enjoy service fee FREE bumps!*"
+      : "_(coming soon!)_"
+  }
 
 Reach out to us:
 🌐 [ezpump.fun](${WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)`;
