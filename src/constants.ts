@@ -1,6 +1,7 @@
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 
 // Environment variables
+export const ENV = process.env.ENV as "production" | "development";
 export const SOLANA_BOT_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_1 as string;
 export const SOLANA_PAYER_PRIVATE_KEY = process.env
@@ -8,7 +9,9 @@ export const SOLANA_PAYER_PRIVATE_KEY = process.env
 export const BOT_SERVICE_FEE = +(process.env.BOT_SERVICE_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
-export const MONGO_URI = process.env.MONGO_URI as string;
+export const MONGO_URI = (
+  ENV === "production" ? process.env.MONGO_PROD_URI : process.env.MONGO_DEV_URI
+) as string;
 
 // Bot info
 export const WEBSITE_URL = "https://www.ezpump.fun";

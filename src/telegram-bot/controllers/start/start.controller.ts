@@ -57,19 +57,19 @@ export async function startController({
 
     // Create new user
     const userByTelegram = userByTelegramUser(from, privateKey);
-    const newUserRes = await userService.create(userByTelegram);
+    try {
+      const newUserRes = await userService.create(userByTelegram);
+      user = newUserRes;
 
-    if (!newUserRes) {
+      // Set up pumpFun account
+      userService.setUpUsersPumpFunAcc(user.telegramId, privateKey);
+    } catch (e) {
       console.error(`Error creating user with telegramId: ${from.id}
-        Private key: ${privateKey}`);
+Private key: ${privateKey}
+Error: ${e}`);
       bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }
-
-    user = newUserRes;
-
-    // Set up pumpFun account
-    userService.setUpUsersPumpFunAcc(user.telegramId, privateKey);
   }
 
   const inlineKeyboard = getStartingInlineKeyboard(user);

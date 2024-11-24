@@ -38,10 +38,15 @@ const userSchema = new Schema<UserDoc>(
       required: true,
       default: {}, // Default to an empty object if no passes exist
     },
-    // Adding serviceFeePass as an optional object with createdAt and expirationDate
     serviceFeePass: {
-      createdAt: { type: String, required: true },
-      expirationDate: { type: String, required: false },
+      type: new Schema(
+        {
+          createdAt: { type: String, required: true }, // Required if serviceFeePass exists
+          expirationDate: { type: String, required: false }, // Optional
+        },
+        { _id: false } // Prevents an additional _id field for this sub-schema
+      ),
+      required: false, // Makes the whole serviceFeePass field optional
     },
   },
   {
