@@ -154,7 +154,7 @@ _Once done, press Refresh Balance to check your updated balance._`;
   // Once the interval is done, the rest of the code will run
   if (bumpResponse.success) {
     // Increment the bumps counter
-    await userService.incrementBumpsCounter(user.telegramId, bumpResponse.data);
+    userService.incrementBumpsCounter(user.telegramId, bumpResponse.data);
 
     // Send a success message
     await bot.sendMessage(
@@ -218,7 +218,7 @@ async function startBumpInterval(
         // // Mock response
         // const res: any = {
         //   success: true,
-        //   data: 1,
+        //   data: bumpsCounter,
         // };
         const res = await bump(); // Call the bump function
 

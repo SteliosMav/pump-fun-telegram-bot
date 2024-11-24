@@ -5,8 +5,8 @@ import {
   BOT_USERNAME_BASE,
   ENCRYPTION_KEY,
 } from "../constants";
-import { User, UserModel } from "./types";
-import { IUserModel, UserDoc, UserModel as UserModelV2 } from "./user-model";
+import { User } from "./types";
+import { IUserModel, UserDoc, UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 
 export class UserService {
@@ -22,8 +22,8 @@ export class UserService {
       firstName: user.firstName,
       isBot: user.isBot,
       bumpsCounter: user.bumpsCounter,
-      freePassesTotal: user.freePassesTotal,
-      freePassesUsed: user.freePassesUsed,
+      tokenPassesTotal: user.tokenPassesTotal,
+      tokenPassesUsed: user.tokenPassesUsed,
       bumpIntervalInSeconds: user.bumpIntervalInSeconds,
       pumpFunAccIsSet: user.pumpFunAccIsSet,
       bumpAmount: user.bumpAmount,
@@ -36,14 +36,14 @@ export class UserService {
       lastName: user.lastName,
       username: user.username,
     };
-    const toSave: UserDoc = new UserModelV2(newUser);
+    const toSave: UserDoc = new UserModel(newUser);
 
     const userDoc = await toSave.save();
     return this._docToJSON(userDoc);
   }
 
   async getUser(telegramId: number): Promise<User | null> {
-    const userDoc = await UserModelV2.findOne({
+    const userDoc = await UserModel.findOne({
       telegramId: telegramId,
     });
     return userDoc ? this._docToJSON(userDoc) : null;
@@ -51,7 +51,7 @@ export class UserService {
 
   async getUsers(telegramIds?: number[]): Promise<User[]> {
     const query = telegramIds ? { telegramId: { $in: telegramIds } } : {};
-    const userDocs = await UserModelV2.find(query);
+    const userDocs = await UserModel.find(query);
     return userDocs.map((doc) => this._docToJSON(doc));
   }
 
@@ -66,7 +66,7 @@ export class UserService {
     newBumpAmount: number
   ): Promise<number | null> {
     // Use findOneAndUpdate to find the user and update the bumpAmount
-    const updatedUser = await UserModelV2.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       {
         bumpAmount: newBumpAmount, // Update the bumpAmount field
@@ -91,7 +91,7 @@ export class UserService {
     newBumpsLimit: number
   ): Promise<number | null> {
     // Use findOneAndUpdate to find the user and update the bumpsLimit
-    const updatedUser = await UserModelV2.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       {
         bumpsLimit: newBumpsLimit, // Update the bumpsLimit field
@@ -122,7 +122,7 @@ export class UserService {
     newInterval: number
   ): Promise<number | null> {
     // Use findOneAndUpdate to find the user and update the bumpIntervalInSeconds and updatedAt fields
-    const updatedUser = await UserModelV2.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       {
         bumpIntervalInSeconds: newInterval, // Update the bumpIntervalInSeconds field
@@ -148,7 +148,7 @@ export class UserService {
     newSlippage: number
   ): Promise<number | null> {
     // Use findOneAndUpdate to find the user and update the slippage and updatedAt fields
-    const updatedUser = await UserModelV2.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       {
         slippage: newSlippage, // Update the slippage field
@@ -174,7 +174,7 @@ export class UserService {
     newPriorityFee: number
   ): Promise<number | null> {
     // Use findOneAndUpdate to find the user and update the priorityFee and updatedAt fields
-    const updatedUser = await UserModelV2.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       { priorityFee: newPriorityFee },
       {
@@ -234,7 +234,7 @@ export class UserService {
       }
 
       // Update user in db that pump fun account is set
-      await UserModelV2.findOneAndUpdate(
+      await UserModel.findOneAndUpdate(
         { telegramId },
         { pumpFunAccIsSet: true },
         { new: true, runValidators: true }
@@ -255,11 +255,11 @@ export class UserService {
     bumpAmountToIncrement: number
   ): Promise<number | null> {
     // Use findOneAndUpdate to increment bumpsCounter and update the updatedAt field
-    const updatedUser = await UserModelV2.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { telegramId }, // Query to find the user by telegramId
       {
         $inc: { bumpsCounter: bumpAmountToIncrement }, // Increment bumpsCounter by bumpAmountToIncrement
-        updatedAt: new Date().toISOString(), // Update the updatedAt field
+        lastBumpAt: new Date().toISOString(), // Update the lastBumpAt field
       },
       {
         new: true, // Return the updated document, not the old one
@@ -290,7 +290,7 @@ export class UserService {
       if (expirationDate) serviceFeePass.expirationDate = expirationDate;
 
       // Update the user's serviceFeePass
-      const updatedUser = await UserModelV2.findOneAndUpdate(
+      const updatedUser = await UserModel.findOneAndUpdate(
         { telegramId }, // Query to find the user by telegramId
         {
           $set: { serviceFeePass }, // Set the serviceFeePass field
@@ -319,7 +319,7 @@ export class UserService {
   }
 
   private _docToJSON(userDoc: UserDoc): User {
-    const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON() as UserModel;
+    const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON() as IUserModel;
     const data: User = {
       ...userJSON,
       _id: userDoc._id.toString(),

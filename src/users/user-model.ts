@@ -15,8 +15,9 @@ const userSchema = new Schema<UserDoc>(
     firstName: { type: String, required: true },
     isBot: { type: Boolean, required: true },
     bumpsCounter: { type: Number, required: true },
-    freePassesTotal: { type: Number, required: true },
-    freePassesUsed: { type: Number, required: true },
+    lastBumpAt: { type: String, required: false }, // Optional field for ISO date format
+    tokenPassesTotal: { type: Number, required: true },
+    tokenPassesUsed: { type: Number, required: true },
     bumpIntervalInSeconds: { type: Number, required: true },
     bumpAmount: { type: Number, required: true },
     bumpsLimit: { type: Number, required: true },

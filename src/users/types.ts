@@ -9,8 +9,9 @@ export interface User {
   firstName: string;
   isBot: boolean;
   bumpsCounter: number;
-  freePassesTotal: number;
-  freePassesUsed: number;
+  lastBumpAt?: string; // Stored as ISO
+  tokenPassesTotal: number;
+  tokenPassesUsed: number;
   bumpIntervalInSeconds: number; // 1 to 60 seconds
   bumpAmount: number; // e.g. 0.5763 - No more than 4 decimal places
   bumpsLimit: number; // Number of bumps to perform
@@ -35,8 +36,8 @@ export interface User {
 export type UserDefaultValues = Pick<
   User,
   | "bumpsCounter"
-  | "freePassesTotal"
-  | "freePassesUsed"
+  | "tokenPassesTotal"
+  | "tokenPassesUsed"
   | "bumpAmount"
   | "priorityFee"
   | "bumpIntervalInSeconds"
