@@ -10,7 +10,7 @@ export const BOT_SERVICE_FEE = +(process.env.BOT_SERVICE_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 export const MONGO_URI = (
-  ENV === "production" ? process.env.MONGO_PROD_URI : process.env.MONGO_DEV_URI
+  ENV === "production" ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV
 ) as string;
 
 // Bot info
@@ -56,4 +56,8 @@ export const MIN_BUMP_AMOUNT = 0.0123;
 export const MAX_BUMPS_LIMIT = 250;
 
 // Telegram bot
-export const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN as string;
+export const TELEGRAM_BOT_TOKEN = (
+  ENV === "production"
+    ? process.env.TELEGRAM_BOT_TOKEN_PROD
+    : process.env.TELEGRAM_BOT_TOKEN_DEV
+) as string;
