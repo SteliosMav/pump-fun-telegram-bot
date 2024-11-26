@@ -8,7 +8,6 @@ export const SOLANA_PAYER_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_2 as string;
 export const SOLANA_TEST_PRIVATE_KEY = process.env
   .SOLANA_TEST_PRIVATE_KEY as string;
-export const BOT_SERVICE_FEE = +(process.env.BOT_SERVICE_FEE as string);
 export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 export const MONGO_URI = (
@@ -20,11 +19,14 @@ export const TEST_USER_TG_ID = +(process.env
 // Bot info
 export const WEBSITE_URL = "https://www.ezpump.fun";
 export const BOT_NAME = "EzPump";
+export const BOT_SERVICE_FEE = 0.00019;
+export const BOT_TOKEN_PASS_PRICE = 0.07;
 export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 characters
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
 // bot description must be maximum 250 characters
 export const BOT_DESCRIPTION = `🔥 Boost your token with ${BOT_NAME} - https://ezpump.fun ! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SERVICE_FEE} SOL service fee. Fast, reliable, and hassle-free visibility with every click!`;
+export const MIN_USER_BALANCE_SAFE_NET = 0.001; // Used as a safe net for users to always have a small SOL amount in their wallets
 
 // Pump.fun
 export const PUMP_FUN_PROGRAM = new PublicKey(

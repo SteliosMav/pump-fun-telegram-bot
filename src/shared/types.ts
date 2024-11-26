@@ -5,7 +5,8 @@ type ErrorCodes =
   | "INSUFFICIENT_BALANCE"
   | "UNKNOWN_ERROR"
   | "FAILED_RETRIEVE_COIN_DATA"
-  | "TRANSACTION_FAILED";
+  | "TRANSACTION_FAILED"
+  | "USER_NOT_FOUND";
 export interface SuccessResponse<T> extends BasicResponse<true> {
   data: T;
 }

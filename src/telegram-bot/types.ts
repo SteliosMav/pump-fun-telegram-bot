@@ -14,6 +14,9 @@ export enum CallbackType {
   SET_TOKEN = "set_token",
   GO_TO_SETTINGS = "go_to_settings",
   GO_TO_START = "go_to_start",
+  GO_TO_TOKEN_PASS = "go_to_token_pass",
+  BUY_TOKEN_PASS = "buy_token_pass",
+  USE_TOKEN_PASS = "use_token_pass",
 }
 interface BasicCtrlArgs {
   bot: TelegramBot;

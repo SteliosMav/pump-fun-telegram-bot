@@ -6,9 +6,7 @@ export const refreshBalanceBtn: InlineKeyboardButton = {
   callback_data: CallbackType.REFRESH_BALANCE,
 };
 
-export function getSettingsBtn(
-  callbackType: CallbackType
-): InlineKeyboardButton {
+export function getGoBackBtn(callbackType: CallbackType): InlineKeyboardButton {
   return {
     text: `⬅️  Back`,
     callback_data: CallbackType.GO_TO_START,

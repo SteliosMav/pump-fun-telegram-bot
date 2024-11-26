@@ -13,6 +13,7 @@ import {
   ASSOC_TOKEN_ACC_PROG,
   ASSOCIATED_TOKEN_ACC_SIZE,
   BOT_SERVICE_FEE,
+  BOT_TOKEN_PASS_PRICE,
   FEE_RECIPIENT,
   GLOBAL,
   PUMP_FUN_ACCOUNT,
@@ -408,6 +409,54 @@ export class SolanaService {
 
     // Check if payer has enough balance for all costs
     return { payerBalance, totalRequiredBalance };
+  }
+
+  /**
+   * Transfer SOL from payer to receiver.
+   * @param payerPrivateKey The private key of the payer as a base58 string.
+   * @returns The transaction signature of the transfer.
+   */
+  async applyBuyTokenPassTx(
+    payerPrivateKey: string
+  ): Promise<CustomResponse<string>> {
+    // return {
+    //   success: true,
+    //   data: "signature",
+    // };
+    try {
+      const connection = new Connection(RPC_API, "confirmed");
+      const payerKeypair = await this._keyPairFromPrivateKey(payerPrivateKey);
+      const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
+      const receiverKey = bot.publicKey;
+
+      const lamports = BOT_TOKEN_PASS_PRICE * LAMPORTS_PER_SOL; // Convert SOL to lamports
+
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: payerKeypair.publicKey,
+          toPubkey: receiverKey,
+          lamports,
+        })
+      );
+
+      const signature = await sendAndConfirmTransaction(
+        connection,
+        transaction,
+        [payerKeypair]
+      );
+
+      return {
+        success: true,
+        data: signature,
+      };
+    } catch (error) {
+      console.error("Error in applyBuyTokenPassTx:", error);
+      return {
+        success: false,
+        code: "TRANSACTION_FAILED",
+        error,
+      };
+    }
   }
 
   private async _keyPairFromPrivateKey(privateKey: string) {

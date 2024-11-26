@@ -8,6 +8,8 @@ import {
 import { User } from "./types";
 import { IUserModel, UserDoc, UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
+import { CustomResponse } from "../shared/types";
+import { SolanaService } from "../solana/solana.service";
 
 export class UserService {
   constructor() {}
@@ -306,6 +308,67 @@ export class UserService {
     } catch (error) {
       console.error("Error assigning service fee pass:", error);
       return null;
+    }
+  }
+
+  /**
+   * Buys a token pass for the user, performing a SOL transfer and updating their tokenPassesTotal.
+   * @param telegramId The Telegram ID of the user.
+   * @param payerPrivateKey The private key of the payer as a base58 string.
+   * @returns A response indicating the success or failure of the operation.
+   */
+  async buyTokenPass(
+    telegramId: number,
+    payerPrivateKey: string
+  ): Promise<CustomResponse<string>> {
+    try {
+      const solanaService = new SolanaService();
+
+      // Step 1: Perform the SOL transfer using applyBuyTokenPassTx
+      const transferResponse = await solanaService.applyBuyTokenPassTx(
+        payerPrivateKey
+      );
+
+      if (!transferResponse.success) {
+        console.error("Error during SOL transfer:", transferResponse.error);
+        return {
+          success: false,
+          code: "TRANSACTION_FAILED",
+          error: transferResponse.error,
+        };
+      }
+
+      // Step 2: Update the tokenPassesTotal for the user
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { telegramId }, // Query to find the user by Telegram ID
+        { $inc: { tokenPassesTotal: 1 } }, // Increment tokenPassesTotal by 1
+        { new: true, runValidators: true } // Return the updated user and validate schema
+      );
+
+      if (!updatedUser) {
+        console.error(
+          "User bought token pass but he was not found in the db to be updated",
+          telegramId
+        );
+        return {
+          success: false,
+          code: "USER_NOT_FOUND",
+          error: "User not found",
+        };
+      }
+
+      // Step 3: Return success response with the transaction signature
+      return {
+        success: true,
+        data: transferResponse.data, // Transaction signature
+      };
+    } catch (error) {
+      console.error("Error in buyTokenPass:", error);
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        error,
+      };
     }
   }
 

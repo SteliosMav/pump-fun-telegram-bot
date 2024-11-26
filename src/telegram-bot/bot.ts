@@ -25,6 +25,8 @@ import { get } from "http";
 import { stopBumpingController } from "./controllers/events/stop-bumping.controller";
 import connectDB from "../lib/mongo";
 import http from "http"; // Importing built-in http module
+import { tokenPassController } from "./controllers/token-pass/token-pass.controller";
+import { buyTokenResponseController } from "./controllers/buy-token-pass/buy-token-pass-response.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -52,6 +54,8 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.GO_TO_SETTINGS]: settingsController,
   [CallbackType.GO_TO_START]: startController,
   [CallbackType.STOP_BUMPING]: stopBumpingController,
+  [CallbackType.GO_TO_TOKEN_PASS]: tokenPassController,
+  [CallbackType.BUY_TOKEN_PASS]: buyTokenResponseController,
 };
 
 // Define message (response) controllers

@@ -1,14 +1,16 @@
 import { CallbackType, CBQueryCtrlArgs, CtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../users/user.service";
-import { getSettingsInlineKeyboard, settingsMsg } from "./view";
+import { getTokenPassInlineKeyboard, getTokenPassMsg } from "./view";
 import { startController } from "../start/start.controller";
+import { pubKeyByPrivKey } from "../../../solana/utils";
+import { SolanaService } from "../../../solana/solana.service";
 
 // Callback types that edit the message instead of sending a new one
-// i.e. if the user presses the "Settings" button
-const callbacksThatEditMsg = [CallbackType.GO_TO_SETTINGS];
+// i.e. if the user presses the "Token Pass" button
+const callbacksThatEditMsg = [CallbackType.GO_TO_TOKEN_PASS];
 
-export async function settingsController({ bot, ...rest }: CtrlArgs) {
+export async function tokenPassController({ bot, ...rest }: CtrlArgs) {
   // Check if the controller was called from a callback query
   const calledFromCallback = "callbackQuery" in rest;
   const from = calledFromCallback
@@ -20,6 +22,7 @@ export async function settingsController({ bot, ...rest }: CtrlArgs) {
 
   // Initialize dependencies
   const userService = new UserService();
+  const solanaService = new SolanaService();
 
   if (!message) return;
 
@@ -46,8 +49,12 @@ export async function settingsController({ bot, ...rest }: CtrlArgs) {
     return;
   }
 
-  // Prepare inline keyboard for settings
-  const inlineKeyboard = getSettingsInlineKeyboard(user);
+  // Get user's balance
+  const pubKey = pubKeyByPrivKey(user.privateKey);
+  const balance = await solanaService.getBalance(pubKey);
+
+  // Prepare inline keyboard for token-pass
+  const inlineKeyboard = getTokenPassInlineKeyboard(user);
 
   const options: TelegramBot.EditMessageTextOptions = {
     reply_markup: inlineKeyboard,
@@ -65,13 +72,13 @@ export async function settingsController({ bot, ...rest }: CtrlArgs) {
   rest.setUserState({ ...userState!, lastCallback: null });
 
   if (editMsg) {
-    // Edit the previous message with updated settings and inline keyboard
-    bot.editMessageText(settingsMsg, {
+    // Edit the previous message with updated token-pass and inline keyboard
+    bot.editMessageText(getTokenPassMsg(user, balance), {
       chat_id: message.chat.id,
       message_id: message.message_id, // The ID of the message you want to edit
       ...options,
     });
   } else {
-    bot.sendMessage(message.chat.id, settingsMsg, options);
+    bot.sendMessage(message.chat.id, getTokenPassMsg(user, balance), options);
   }
 }

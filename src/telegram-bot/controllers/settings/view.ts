@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
-import { getSettingsBtn } from "../../../shared/inline-keyboard-button";
+import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
 
 export const settingsMsg = `🛠️ Configure your bot settings:
 
@@ -18,7 +18,7 @@ export const settingsMsg = `🛠️ Configure your bot settings:
 export function getSettingsInlineKeyboard(
   user: User
 ): TelegramBot.InlineKeyboardMarkup {
-  const backBtn = getSettingsBtn(CallbackType.GO_TO_START);
+  const backBtn = getGoBackBtn(CallbackType.GO_TO_START);
   return {
     inline_keyboard: [
       [
