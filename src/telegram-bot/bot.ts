@@ -27,6 +27,8 @@ import connectDB from "../lib/mongo";
 import http from "http"; // Importing built-in http module
 import { tokenPassController } from "./controllers/token-pass/token-pass.controller";
 import { buyTokenResponseController } from "./controllers/buy-token-pass/buy-token-pass-response.controller";
+import { useTokenPassRequestController } from "./controllers/use-token-pass/use-token-pass-request.controller";
+import { useTokenPassResponseController } from "./controllers/use-token-pass/use-token-pass-response.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -56,6 +58,7 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.STOP_BUMPING]: stopBumpingController,
   [CallbackType.GO_TO_TOKEN_PASS]: tokenPassController,
   [CallbackType.BUY_TOKEN_PASS]: buyTokenResponseController,
+  [CallbackType.USE_TOKEN_PASS]: useTokenPassRequestController,
 };
 
 // Define message (response) controllers
@@ -66,6 +69,7 @@ const responseControllersMap: MsgCtrlMap = {
   [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeResponseController,
   [CallbackType.SET_SLIPPAGE]: setSlippageResponseController,
   [CallbackType.SET_TOKEN]: setTokenResponseController,
+  [CallbackType.USE_TOKEN_PASS]: useTokenPassResponseController,
 };
 
 // Define the /start command listener

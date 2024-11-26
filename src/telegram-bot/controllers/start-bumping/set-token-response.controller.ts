@@ -11,6 +11,7 @@ import { SolanaService } from "../../../solana/solana.service";
 import { UserState } from "../../bot";
 import { getIncludeBotFeeForUser } from "../../../users/util";
 import { isUrl } from "../../validators";
+import { getCoinSlug } from "../../../pump-fun/util";
 
 // Controller function
 export async function setTokenResponseController({
@@ -42,7 +43,6 @@ export async function setTokenResponseController({
   const pumpFunService = new PumpFunService();
   const solanaService = new SolanaService();
 
-  // Parse the priority fee as a number
   const text = message.text as string;
 
   const isUrlBool = isUrl(text);
@@ -194,11 +194,6 @@ _Once done, press Refresh Balance to check your updated balance._`;
       setUserState,
     });
   }
-}
-
-function getCoinSlug(url: string) {
-  const urlParts = url.split("/");
-  return urlParts[urlParts.length - 1];
 }
 
 // Start the interval function that calls the bump function every X seconds

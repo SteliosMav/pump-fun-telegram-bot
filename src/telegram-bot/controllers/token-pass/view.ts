@@ -13,7 +13,7 @@ export function getTokenPassMsg(user: User, balance: number) {
 🎟️ *Token Pass*
 - Pay a *fixed* amount per token
 - Bump it *unlimited* times with *ZERO* service fees
-- Costs *${BOT_TOKEN_PASS_PRICE}* SOL per token`;
+- Costs *${BOT_TOKEN_PASS_PRICE} SOL* per token`;
 }
 
 export function getTokenPassInlineKeyboard(

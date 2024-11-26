@@ -372,6 +372,13 @@ export class UserService {
     }
   }
 
+  async useTokenPass(tgId: number, ca: string): Promise<CustomResponse<null>> {
+    return {
+      success: true,
+      data: null,
+    };
+  }
+
   private _encryptPrivateKey(privateKey: string) {
     return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
   }
