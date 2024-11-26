@@ -81,7 +81,11 @@ function onStartListenerInit() {
       if (!from) {
         return;
       }
-      if (from.is_bot) return; // Ignore bots
+      // Ignore bots
+      if (from.is_bot) {
+        console.warn("Incoming message from bot: ", message);
+        return;
+      }
       const userTgId = from.id;
 
       const getUserState = () => userMap.get(userTgId);
@@ -108,7 +112,11 @@ function callbackQueryListenerInit() {
       const data = callbackQuery.data as CallbackType | undefined;
 
       if (!data || !callbackQuery.from) return;
-      if (callbackQuery.from.is_bot) return; // Ignore bots
+      // Ignore bots
+      if (callbackQuery.from.is_bot) {
+        console.warn("Incoming callback-query from bot: ", callbackQuery);
+        return;
+      }
 
       const userTgId = callbackQuery.from.id;
 
@@ -142,7 +150,11 @@ function callbackQueryListenerInit() {
 function messageListenersInit() {
   bot.on("message", async (message) => {
     if (!message.from) return;
-    if (message.from.is_bot) return; // Ignore bots
+    // Ignore bots
+    if (message.from.is_bot) {
+      console.warn("Incoming message from bot: ", message);
+      return;
+    }
 
     const userTgId = message.from.id;
     const getUserState = () => userMap.get(userTgId);
