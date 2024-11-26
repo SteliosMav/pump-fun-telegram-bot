@@ -81,6 +81,7 @@ function onStartListenerInit() {
       if (!from) {
         return;
       }
+      if (from.is_bot) return; // Ignore bots
       const userTgId = from.id;
 
       const getUserState = () => userMap.get(userTgId);
@@ -107,6 +108,7 @@ function callbackQueryListenerInit() {
       const data = callbackQuery.data as CallbackType | undefined;
 
       if (!data || !callbackQuery.from) return;
+      if (callbackQuery.from.is_bot) return; // Ignore bots
 
       const userTgId = callbackQuery.from.id;
 
@@ -140,6 +142,7 @@ function callbackQueryListenerInit() {
 function messageListenersInit() {
   bot.on("message", async (message) => {
     if (!message.from) return;
+    if (message.from.is_bot) return; // Ignore bots
 
     const userTgId = message.from.id;
     const getUserState = () => userMap.get(userTgId);
