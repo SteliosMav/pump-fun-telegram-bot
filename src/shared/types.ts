@@ -6,7 +6,8 @@ type ErrorCodes =
   | "UNKNOWN_ERROR"
   | "FAILED_RETRIEVE_COIN_DATA"
   | "TRANSACTION_FAILED"
-  | "USER_NOT_FOUND";
+  | "USER_NOT_FOUND"
+  | "DUPLICATE_IDENTIFIER";
 export interface SuccessResponse<T> extends BasicResponse<true> {
   data: T;
 }

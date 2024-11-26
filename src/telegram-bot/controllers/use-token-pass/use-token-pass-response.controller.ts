@@ -1,3 +1,4 @@
+import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
 import { PumpFunService } from "../../../pump-fun/pump-fun.service";
 import { getCoinSlug } from "../../../pump-fun/util";
 import { SolanaService } from "../../../solana/solana.service";
@@ -87,5 +88,38 @@ Now each time you bump this token, you won't be charged any additional service f
   } else {
     // Add error handling for cases such as token-pass usage for an already existed
     // and assigned with token-pass token, user not found etc.
+    if (res.code === "INSUFFICIENT_BALANCE") {
+      errorController({
+        bot,
+        message,
+        errMsg: `You do not have any token passes left to use.`,
+        getUserState,
+        setUserState,
+      });
+    } else if (res.code === "USER_NOT_FOUND") {
+      errorController({
+        bot,
+        message,
+        errMsg: `User could not be found. Contact our support team.`,
+        getUserState,
+        setUserState,
+      });
+    } else if (res.code === "DUPLICATE_IDENTIFIER") {
+      errorController({
+        bot,
+        message,
+        errMsg: `You have already used a token-pass for that token.`,
+        getUserState,
+        setUserState,
+      });
+    } else {
+      errorController({
+        bot,
+        message,
+        errMsg: USER_FRIENDLY_ERROR_MESSAGE,
+        getUserState,
+        setUserState,
+      });
+    }
   }
 }

@@ -372,11 +372,67 @@ export class UserService {
     }
   }
 
+  /**
+   * Use a token pass for the specified user.
+   * @param tgId - The Telegram ID of the user.
+   * @param ca - The identifier for the token pass usage.
+   * @returns A CustomResponse indicating success or failure.
+   */
   async useTokenPass(tgId: number, ca: string): Promise<CustomResponse<null>> {
-    return {
-      success: true,
-      data: null,
-    };
+    try {
+      // Fetch the user from the database
+      const user = await UserModel.findOne({ telegramId: tgId });
+
+      if (!user) {
+        return {
+          success: false,
+          code: "USER_NOT_FOUND",
+        };
+      }
+
+      // Calculate the remaining token passes
+      const remainingTokenPasses = user.tokenPassesTotal - user.tokenPassesUsed;
+
+      if (remainingTokenPasses <= 0) {
+        return {
+          success: false,
+          code: "INSUFFICIENT_BALANCE",
+          error: "The user does not have any token passes left.",
+        };
+      }
+
+      // Check if the token pass already exists
+      if (user.tokenPass.has(ca)) {
+        return {
+          success: false,
+          code: "DUPLICATE_IDENTIFIER",
+          error: `A token pass already exists with the identifier: ${ca}`,
+        };
+      }
+
+      // Add the new token pass entry
+      user.tokenPass.set(ca, {
+        createdAt: new Date().toISOString(), // Current time in ISO string format
+      });
+
+      // Increment the tokens used
+      user.tokenPassesUsed += 1;
+
+      // Save the updated user document
+      await user.save();
+
+      return {
+        success: true,
+        data: null,
+      };
+    } catch (error) {
+      console.error("Error in useTokenPass:", error);
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        error: error,
+      };
+    }
   }
 
   private _encryptPrivateKey(privateKey: string) {

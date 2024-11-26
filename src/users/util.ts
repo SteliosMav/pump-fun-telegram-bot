@@ -41,9 +41,10 @@ export function userHasTokenPass(user: User, mint: string): boolean {
   const { tokenPass } = user;
 
   // Check tokenPass for the specific mint if it exists and has an expiration date
-  if (tokenPass && tokenPass[mint] && tokenPass[mint].createdAt) {
-    const expirationDate = tokenPass[mint].expirationDate
-      ? new Date(tokenPass[mint].expirationDate)
+  const tokenPassToken = tokenPass?.get(mint)
+  if (tokenPassToken &&  tokenPassToken.createdAt) {
+    const expirationDate = tokenPassToken.expirationDate
+      ? new Date(tokenPassToken.expirationDate)
       : null;
     if (expirationDate) {
       // Compare expiration date with the current date
