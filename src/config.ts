@@ -10,7 +10,7 @@ export const USER_DEFAULT_VALUES: UserDefaultValues = {
   priorityFee: 0.01,
   bumpIntervalInSeconds: 10,
   slippage: 0.25,
-  tokenPass: new Map(),
+  tokenPass: {},
 };
 
 export const USER_FRIENDLY_ERROR_MESSAGE =

@@ -23,16 +23,12 @@ export async function setTokenResponseController({
   const { from } = message;
   if (!message || !from) return;
 
-  console.log("Message: ", message);
-
   // Initialize services
   const userService = new UserService();
 
   // Get the user
   const user = await userService.getUser(from.id);
   if (!user) return;
-
-  console.log("User: ", user);
 
   // Start loading
   const sentLoading = await loadingController({
@@ -43,8 +39,6 @@ export async function setTokenResponseController({
     setUserState,
   });
   const loadingMsgId = sentLoading?.message_id;
-
-  console.log("Sent loading: ", sentLoading);
 
   const pumpFunService = new PumpFunService();
   const solanaService = new SolanaService();
@@ -81,8 +75,6 @@ export async function setTokenResponseController({
   const userState = getUserState();
   setUserState!({ ...userState!, lastCallback: null });
 
-  console.log("User state: ", userState);
-
   // const sufficientBalance = await pumpFunService.hasSufficientBalance(ca);
   const { totalRequiredBalance, payerBalance } =
     await solanaService.getRequiredBalance(
@@ -95,9 +87,6 @@ export async function setTokenResponseController({
     );
   const hasSufficientBalance = payerBalance >= totalRequiredBalance;
 
-  console.log("Total required balance: ", totalRequiredBalance);
-  console.log("Payer's balance: ", payerBalance);
-
   // Stop loading
   await loadingController({
     bot,
@@ -106,8 +95,6 @@ export async function setTokenResponseController({
     getUserState,
     setUserState,
   });
-
-  console.log("Has sufficient balance: ", hasSufficientBalance);
 
   if (!hasSufficientBalance) {
     const errMsg = `*Insufficient balance.*
@@ -152,8 +139,6 @@ _Once done, press Refresh Balance to check your updated balance._`;
     }
   );
 
-  console.log("^^^^^ ", 1);
-
   // Start the bump interval
   const includeBotFee = getIncludeBotFeeForUser(user, coinData.mint);
   const bump = async () =>
@@ -173,8 +158,6 @@ _Once done, press Refresh Balance to check your updated balance._`;
     user.bumpsLimit,
     getUserState
   );
-
-  console.log("Bump response: ", bumpResponse);
 
   // Once the interval is done, the rest of the code will run
   if (bumpResponse.success) {

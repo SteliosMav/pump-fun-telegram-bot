@@ -402,7 +402,7 @@ export class UserService {
       }
 
       // Check if the token pass already exists
-      if (user.tokenPass.has(ca)) {
+      if (user.tokenPass.ca) {
         return {
           success: false,
           code: "DUPLICATE_IDENTIFIER",
@@ -411,9 +411,9 @@ export class UserService {
       }
 
       // Add the new token pass entry
-      user.tokenPass.set(ca, {
+      user.tokenPass.ca = {
         createdAt: new Date().toISOString(), // Current time in ISO string format
-      });
+      };
 
       // Increment the tokens used
       user.tokenPassesUsed += 1;

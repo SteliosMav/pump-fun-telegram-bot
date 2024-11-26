@@ -164,7 +164,7 @@ function userByTelegramUser(
     bumpIntervalInSeconds: USER_DEFAULT_VALUES.bumpIntervalInSeconds,
     slippage: USER_DEFAULT_VALUES.slippage,
     pumpFunAccIsSet: false,
-    tokenPass: new Map(),
+    tokenPass: {},
     createdAt: dateISO,
     updatedAt: dateISO,
   };
