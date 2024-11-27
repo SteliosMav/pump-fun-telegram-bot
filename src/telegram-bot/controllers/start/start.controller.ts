@@ -78,13 +78,17 @@ Error: ${e}`);
     }
   }
 
+  // Get user's balance
+  const pubKey = pubKeyByPrivKey(user.privateKey);
+  const balance = await solanaService.getBalance(pubKey);
+  // Get start's inline keyboard
   const inlineKeyboard = getStartingInlineKeyboard(user);
 
   // If loading message was sent, edit it with the starting message.
   // Otherwise, send the starting message directly.
   if (loadingMessage) {
     // Edit the initial "loading" message with the final options inline keyboard
-    await bot.editMessageText(getStartingMsg(user, 0), {
+    await bot.editMessageText(getStartingMsg(user, balance), {
       chat_id: message.chat.id,
       message_id: loadingMessage.message_id as number,
       reply_markup: inlineKeyboard,
@@ -92,10 +96,6 @@ Error: ${e}`);
       disable_web_page_preview: true,
     });
   } else {
-    // Get user's balance
-    const pubKey = pubKeyByPrivKey(user.privateKey);
-    const balance = await solanaService.getBalance(pubKey);
-
     if (rest.refresh) {
       try {
         await bot.editMessageText(getStartingMsg(user, balance), {

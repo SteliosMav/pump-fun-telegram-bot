@@ -75,13 +75,18 @@ export async function useTokenPassResponseController({
   const res = await userService.useTokenPass(from.id, ca);
 
   if (res.success) {
-    // Success message
-    const userMessage = `🎉  *Congratulations, you've used a token-pass!*  🎉
+    // Don't use as an error but as a success message - Better change the error controller
+    // name with another more non-negative name:
+    const successMsg = `🎉  *Congratulations, you've used a token-pass!*  🎉
       
-Now each time you bump this token, you won't be charged any additional service fees!`;
+    Now each time you bump this token, you won't be charged any additional service fees!`;
 
-    await bot.sendMessage(message.chat.id, userMessage, {
-      parse_mode: "Markdown",
+    await errorController({
+      bot,
+      message,
+      errMsg: successMsg,
+      getUserState,
+      setUserState,
     });
 
     startController({ bot, message, getUserState, setUserState });

@@ -62,6 +62,19 @@ export async function buyTokenResponseController({
   const res = await userService.buyTokenPass(from.id, user.privateKey);
 
   if (res.success) {
+    // Don't use as an error but as a success message - Better change the error controller
+    // name with another more non-negative name:
+    const successMsg = `🎉  *You have bought a token-pass successfully!*  🎉
+
+Go ahead and choose which token you want to use your token-pass for.`;
+    await errorController({
+      bot,
+      message,
+      errMsg: successMsg,
+      getUserState,
+      setUserState,
+    });
+
     // Redirect to start controller
     startController({ bot, callbackQuery, getUserState, setUserState });
   } else {
