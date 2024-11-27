@@ -12,6 +12,7 @@ import { UserState } from "../../bot";
 import { getIncludeBotFeeForUser } from "../../../users/util";
 import { isUrl } from "../../validators";
 import { getCoinSlug } from "../../../pump-fun/util";
+import { MIN_VALIDATOR_TIP_IN_SOL } from "../../../constants";
 
 // Controller function
 export async function setTokenResponseController({
@@ -167,9 +168,7 @@ _Once done, press Refresh Balance to check your updated balance._`;
     // Send a success message
     await bot.sendMessage(
       message.chat.id,
-      `🎉  *${coinData.name}* has been bumped successfully ${
-        bumpResponse.data
-      } time${bumpResponse.data == 1 ? "" : "s"}!  🎉`,
+      `🎉  *${coinData.name}* has been bumped successfully!  🎉`,
       {
         parse_mode: "Markdown",
       }
@@ -177,6 +176,14 @@ _Once done, press Refresh Balance to check your updated balance._`;
 
     // Redirect to start controller once the interval is done
     startController({ bot, message, getUserState, setUserState });
+  } else if (bumpResponse.code === "INVALID_PAYLOAD") {
+    await errorController({
+      bot,
+      message,
+      errMsg: `Transaction failed. Probably insufficient amount of priority fee. Min fee is: ${MIN_VALIDATOR_TIP_IN_SOL}`,
+      getUserState,
+      setUserState,
+    });
   } else if (bumpResponse.code === "INSUFFICIENT_BALANCE") {
     await errorController({
       bot,

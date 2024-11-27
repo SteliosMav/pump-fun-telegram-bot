@@ -1,6 +1,6 @@
 import { UserService } from "../../../users/user.service";
 import { startController } from "../start/start.controller";
-import { isValidSol } from "../../validators";
+import { isValidSol, isValidValidatorTip } from "../../validators";
 import { MsgCtrlArgs } from "../../types";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
@@ -21,7 +21,7 @@ export async function setPriorityFeeResponseController({
   const priorityFee = +(message.text as string);
 
   // Validate the SOL amount
-  const validationError = isValidSol(priorityFee);
+  const validationError = isValidValidatorTip(priorityFee);
   if (validationError) {
     errorController({
       bot,

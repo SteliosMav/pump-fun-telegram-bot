@@ -2,6 +2,7 @@ import {
   MAX_BUMP_AMOUNT,
   MAX_BUMPS_LIMIT,
   MIN_BUMP_AMOUNT,
+  MIN_VALIDATOR_TIP_IN_SOL,
 } from "../constants";
 
 // Validation function for SOL amount
@@ -20,6 +21,26 @@ export function isValidSol(input: unknown): string | null {
   }
 
   // Amount is valid
+  return null;
+}
+
+// Validation function for validator tips
+export function isValidValidatorTip(input: unknown): string | null {
+  // Reuse isValidSol validation first
+  const solValidationError = isValidSol(input);
+  if (solValidationError) {
+    return solValidationError;
+  }
+
+  // At this point, input is a valid number
+  const tipInSol = input as number;
+
+  // Check if the tip is at least the minimum required
+  if (tipInSol < MIN_VALIDATOR_TIP_IN_SOL) {
+    return `Invalid tip. The minimum validator tip is ${MIN_VALIDATOR_TIP_IN_SOL} SOL.`;
+  }
+
+  // Tip is valid
   return null;
 }
 

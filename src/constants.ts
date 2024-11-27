@@ -62,6 +62,9 @@ export const MIN_BUMP_AMOUNT = 0.0123;
 export const MAX_BUMP_AMOUNT = 1;
 export const MAX_BUMPS_LIMIT = 250;
 
+// Jito
+export const MIN_VALIDATOR_TIP_IN_SOL = 0.000001; // 1,000 lamports
+
 // Telegram bot
 export const TELEGRAM_BOT_TOKEN = (
   ENV === "production"

@@ -14,7 +14,7 @@ const userSchema = new Schema<UserDoc>(
     encryptedPrivateKey: { type: String, required: true },
     firstName: { type: String, required: true },
     isBot: { type: Boolean, required: true },
-    bumpsCounter: { type: Number, required: true },
+    bumpsCounter: { type: Number, required: true }, //  Is approximate and not guaranteed to be accurate. Jito doesn't wait for the success response of a bump, so the exact count of successful bumps may not always match this value.
     lastBumpAt: { type: String, required: false }, // Optional field for ISO date format
     tokenPassesTotal: { type: Number, required: true },
     tokenPassesUsed: { type: Number, required: true },

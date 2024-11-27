@@ -34,6 +34,7 @@ import {
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../lib/jito";
 import { CustomResponse } from "../shared/types";
+import { isValidValidatorTip } from "../telegram-bot/validators";
 
 export class SolanaService {
   private _botPrivateKey = SOLANA_BOT_PRIVATE_KEY;
@@ -110,9 +111,219 @@ export class SolanaService {
     slippageDecimal: number,
     solAmount: number,
     mintStr: string,
-    includeBotFee: boolean,
-    useJito: boolean = true,
-    validatorTip: number = 0.0001
+    includeBotFee: boolean
+  ): Promise<CustomResponse<string>> {
+    try {
+      // Validate the SOL amount
+      const validationError = isValidValidatorTip(priorityFeeInSol);
+      if (validationError) {
+        return {
+          success: false,
+          code: "INVALID_PAYLOAD",
+        };
+      }
+
+      const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
+      const pumpFunService = new PumpFunService();
+
+      // Fetch coin data, shared for both buy and sell
+      const coinData = await pumpFunService.getCoinData(mintStr);
+      if (!coinData) {
+        console.error("Failed to retrieve coin data...");
+        return {
+          success: false,
+          code: "FAILED_RETRIEVE_COIN_DATA",
+        };
+      }
+
+      const payer = await this._keyPairFromPrivateKey(payerPrivateKey);
+      const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
+      const owner = payer.publicKey;
+      const mint = new PublicKey(mintStr);
+      const txBuilder = new Transaction();
+
+      // Transaction Costs
+      const solInLamports = solAmount * LAMPORTS_PER_SOL;
+      const solInWithSlippage = solAmount * (1 + slippageDecimal);
+      const botFee = includeBotFee ? BOT_SERVICE_FEE * LAMPORTS_PER_SOL : 0; // bot fee in lamports
+
+      // Rent Exemption Check for Token Account
+      const tokenAccountAddress = await getAssociatedTokenAddress(
+        mint,
+        owner,
+        false
+      );
+      const tokenAccountInfo = await connection.getAccountInfo(
+        tokenAccountAddress
+      );
+      let tokenAccount: PublicKey;
+
+      if (!tokenAccountInfo) {
+        // Add instruction to create the associated token account if it doesn't exist
+        txBuilder.add(
+          createAssociatedTokenAccountInstruction(
+            payer.publicKey,
+            tokenAccountAddress,
+            payer.publicKey,
+            mint
+          )
+        );
+        tokenAccount = tokenAccountAddress;
+      } else {
+        tokenAccount = tokenAccountAddress;
+      }
+
+      // Step 1: Transfer bot fee to the bot
+      if (botFee > 0) {
+        const botFeeTransferInstruction = SystemProgram.transfer({
+          fromPubkey: payer.publicKey,
+          toPubkey: bot.publicKey,
+          lamports: botFee,
+        });
+        txBuilder.add(botFeeTransferInstruction);
+      }
+
+      // Step 2: Buy instructions
+      const tokenOut = Math.floor(
+        (solInLamports * coinData["virtual_token_reserves"]) /
+          coinData["virtual_sol_reserves"]
+      );
+      const maxSolCost = Math.floor(solInWithSlippage * LAMPORTS_PER_SOL);
+      const ASSOCIATED_USER = tokenAccount;
+      const USER = owner;
+      const BONDING_CURVE = new PublicKey(coinData["bonding_curve"]);
+      const ASSOCIATED_BONDING_CURVE = new PublicKey(
+        coinData["associated_bonding_curve"]
+      );
+
+      const buyKeys = [
+        { pubkey: GLOBAL, isSigner: false, isWritable: false },
+        { pubkey: FEE_RECIPIENT, isSigner: false, isWritable: true },
+        { pubkey: mint, isSigner: false, isWritable: false },
+        { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
+        { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
+        { pubkey: ASSOCIATED_USER, isSigner: false, isWritable: true },
+        { pubkey: USER, isSigner: false, isWritable: true },
+        { pubkey: SYSTEM_PROGRAM_ID, isSigner: false, isWritable: false },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+        { pubkey: RENT, isSigner: false, isWritable: false },
+        { pubkey: PUMP_FUN_ACCOUNT, isSigner: false, isWritable: false },
+        { pubkey: PUMP_FUN_PROGRAM, isSigner: false, isWritable: false },
+      ];
+
+      const buyData = Buffer.concat([
+        this._bufferFromUInt64("16927863322537952870"), // Buy operation ID
+        this._bufferFromUInt64(tokenOut),
+        this._bufferFromUInt64(maxSolCost),
+      ]);
+
+      const buyInstruction = new TransactionInstruction({
+        keys: buyKeys,
+        programId: PUMP_FUN_PROGRAM,
+        data: buyData,
+      });
+      txBuilder.add(buyInstruction);
+
+      // Step 3: Sell instructions
+      const minSolOutput = Math.floor(
+        (tokenOut * (1 - slippageDecimal) * coinData["virtual_sol_reserves"]) /
+          coinData["virtual_token_reserves"]
+      );
+
+      const sellKeys = [
+        { pubkey: GLOBAL, isSigner: false, isWritable: false },
+        { pubkey: FEE_RECIPIENT, isSigner: false, isWritable: true },
+        { pubkey: mint, isSigner: false, isWritable: false },
+        { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
+        { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
+        { pubkey: tokenAccount, isSigner: false, isWritable: true },
+        { pubkey: owner, isSigner: false, isWritable: true },
+        { pubkey: SYSTEM_PROGRAM_ID, isSigner: false, isWritable: false },
+        { pubkey: ASSOC_TOKEN_ACC_PROG, isSigner: false, isWritable: false },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+        { pubkey: PUMP_FUN_ACCOUNT, isSigner: false, isWritable: false },
+        { pubkey: PUMP_FUN_PROGRAM, isSigner: false, isWritable: false },
+      ];
+
+      const sellData = Buffer.concat([
+        this._bufferFromUInt64("12502976635542562355"), // Sell operation ID
+        this._bufferFromUInt64(tokenOut),
+        this._bufferFromUInt64(minSolOutput),
+      ]);
+
+      const sellInstruction = new TransactionInstruction({
+        keys: sellKeys,
+        programId: PUMP_FUN_PROGRAM,
+        data: sellData,
+      });
+      txBuilder.add(sellInstruction);
+
+      try {
+        // return {
+        //   success: false,
+        //   code: "UNKNOWN_ERROR",
+        // };
+
+        // Send the transaction using Jito
+
+        // **Step 4: Add the Jito validator tip**
+        const JITO_TIP_ACCOUNT = new PublicKey(
+          "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
+        ); // One of the Jito validator tip accounts
+        const tipAmount = priorityFeeInSol * LAMPORTS_PER_SOL; // Convert SOL to lamports
+
+        const tipInstruction = SystemProgram.transfer({
+          fromPubkey: payer.publicKey,
+          toPubkey: JITO_TIP_ACCOUNT,
+          lamports: tipAmount,
+        });
+        txBuilder.add(tipInstruction);
+
+        // Set recentBlockhash before signing the transaction
+        const { blockhash } = await connection.getLatestBlockhash("confirmed");
+        txBuilder.recentBlockhash = blockhash;
+        txBuilder.feePayer = payer.publicKey;
+
+        // Sign the transaction with payer and bot
+        txBuilder.sign(payer); // SIGN THE TRANSACTION
+
+        // Serialize the transaction
+        const serializedTx = txBuilder.serialize();
+
+        const res = await sendTxUsingJito({
+          serializedTx: serializedTx,
+          region: "mainnet", // Change this if you need another region
+        });
+        return {
+          success: true,
+          data: res.result,
+        };
+      } catch (error) {
+        console.error("Error sending transaction:", error);
+        return {
+          success: false,
+          code: "TRANSACTION_FAILED",
+          error,
+        };
+      }
+    } catch (error) {
+      console.error("Error in bump transaction:", error);
+      return {
+        code: "UNKNOWN_ERROR",
+        success: false,
+        error: error,
+        message: "Bump failed.",
+      };
+    }
+  }
+
+  async _bumpWithRpc(
+    payerPrivateKey: string,
+    priorityFeeInSol: number,
+    slippageDecimal: number,
+    solAmount: number,
+    mintStr: string,
+    includeBotFee: boolean
   ): Promise<CustomResponse<string>> {
     try {
       const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
@@ -256,63 +467,24 @@ export class SolanaService {
         //   code: "UNKNOWN_ERROR",
         // };
 
-        if (useJito) {
-          // Send the transaction using Jito
+        const transaction = await this._createTransaction(
+          connection,
+          txBuilder.instructions,
+          payer.publicKey,
+          priorityFeeInSol
+        );
 
-          // **Step 4: Add the Jito validator tip**
-          const JITO_TIP_ACCOUNT = new PublicKey(
-            "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
-          ); // One of the Jito validator tip accounts
-          const tipAmount = validatorTip * LAMPORTS_PER_SOL; // Convert SOL to lamports
-
-          const tipInstruction = SystemProgram.transfer({
-            fromPubkey: payer.publicKey,
-            toPubkey: JITO_TIP_ACCOUNT,
-            lamports: tipAmount,
-          });
-          txBuilder.add(tipInstruction);
-
-          // Set recentBlockhash before signing the transaction
-          const { blockhash } = await connection.getLatestBlockhash(
-            "confirmed"
-          );
-          txBuilder.recentBlockhash = blockhash;
-          txBuilder.feePayer = payer.publicKey;
-
-          // Sign the transaction with payer and bot
-          txBuilder.sign(payer); // SIGN THE TRANSACTION
-
-          // Serialize the transaction
-          const serializedTx = txBuilder.serialize();
-
-          const res = await sendTxUsingJito({
-            serializedTx: serializedTx,
-            region: "mainnet", // Change this if you need another region
-          });
-          return {
-            success: true,
-            data: res.result,
-          };
-        } else {
-          const transaction = await this._createTransaction(
-            connection,
-            txBuilder.instructions,
-            payer.publicKey,
-            priorityFeeInSol
-          );
-
-          // Finalize and send transaction
-          const signature = await sendAndConfirmTransaction(
-            connection,
-            transaction,
-            [payer],
-            { skipPreflight: true, preflightCommitment: "confirmed" }
-          );
-          return {
-            success: true,
-            data: signature,
-          };
-        }
+        // Finalize and send transaction
+        const signature = await sendAndConfirmTransaction(
+          connection,
+          transaction,
+          [payer],
+          { skipPreflight: true, preflightCommitment: "confirmed" }
+        );
+        return {
+          success: true,
+          data: signature,
+        };
       } catch (error) {
         // If there was an error, try to fetch the logs using the signature
         if (error && typeof error === "object" && "signature" in error) {

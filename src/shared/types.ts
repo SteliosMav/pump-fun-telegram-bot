@@ -7,7 +7,8 @@ type ErrorCodes =
   | "FAILED_RETRIEVE_COIN_DATA"
   | "TRANSACTION_FAILED"
   | "USER_NOT_FOUND"
-  | "DUPLICATE_IDENTIFIER";
+  | "DUPLICATE_IDENTIFIER"
+  | "INVALID_PAYLOAD";
 export interface SuccessResponse<T> extends BasicResponse<true> {
   data: T;
 }
