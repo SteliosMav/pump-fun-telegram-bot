@@ -15,7 +15,9 @@ export function getSettingsMsg(user: User) {
   } SOL* 
 
 It includes:
-• Service fee: ${serviceFee}
+• Service fee: ${
+    serviceFee > 0 ? serviceFee : "0 - _Enjoy ZERO service fees!_ 🎉"
+  }
 • Priority fee: ${user.priorityFee}
 • Pump-fun fee: ${getPumpFunFee(user.bumpAmount)}
 • Transaction fee: ${txFee}
