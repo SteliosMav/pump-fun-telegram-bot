@@ -8,7 +8,7 @@ export const SOLANA_PAYER_PRIVATE_KEY = process.env
   .SOLANA_PRIVATE_KEY_2 as string;
 export const SOLANA_TEST_PRIVATE_KEY = process.env
   .SOLANA_TEST_PRIVATE_KEY as string;
-export const RPC_API = process.env.HELIUS_API as string; // process.env.QUICK_NODE_API as string;
+export const HELIUS_API_STANDARD = process.env.HELIUS_API_STANDARD as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 export const MONGO_URI = (
   ENV === "production" ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV

@@ -29,6 +29,7 @@ import { tokenPassController } from "./controllers/token-pass/token-pass.control
 import { buyTokenResponseController } from "./controllers/buy-token-pass/buy-token-pass-response.controller";
 import { useTokenPassRequestController } from "./controllers/use-token-pass/use-token-pass-request.controller";
 import { useTokenPassResponseController } from "./controllers/use-token-pass/use-token-pass-response.controller";
+import { setSlippageRequestController } from "./controllers/slippage/set-slippage-request.controller";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -49,7 +50,7 @@ const controllersMap: CBQueryCtrlMap = {
   [CallbackType.SET_BUMPS_LIMIT]: setBumpsLimitRequestController,
   [CallbackType.DISMISS_ERROR]: errorController,
   [CallbackType.SET_INTERVAL]: setIntervalRequestController,
-  [CallbackType.SET_SLIPPAGE]: setPriorityFeeRequestController,
+  [CallbackType.SET_SLIPPAGE]: setSlippageRequestController,
   [CallbackType.SET_PRIORITY_FEE]: setPriorityFeeRequestController,
   [CallbackType.REFRESH_BALANCE]: refreshBalanceController,
   [CallbackType.SET_TOKEN]: setTokenRequestController,

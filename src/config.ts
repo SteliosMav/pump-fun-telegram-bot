@@ -7,9 +7,9 @@ export const USER_DEFAULT_VALUES: UserDefaultValues = {
   tokenPassesUsed: 0,
   bumpAmount: 0.0123, // 0.012 is the minimum amount to be shown in pump.fun history
   bumpsLimit: 10,
-  priorityFee: 0.01,
+  priorityFee: 0.001,
   bumpIntervalInSeconds: 10,
-  slippage: 0.25,
+  slippage: 0.02,
   tokenPass: {},
 };
 

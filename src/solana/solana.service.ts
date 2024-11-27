@@ -20,7 +20,7 @@ import {
   PUMP_FUN_PROGRAM,
   PUMP_FUN_SWAP_FEE_PERCENT,
   RENT,
-  RPC_API,
+  HELIUS_API_STANDARD,
   SIGNATURE_FEE_LAMPORTS,
   SOLANA_BOT_PRIVATE_KEY,
   SYSTEM_PROGRAM_ID,
@@ -44,7 +44,7 @@ export class SolanaService {
    */
   async createSolanaAccount(): Promise<string | null> {
     // Open connection
-    const connection = new Connection(RPC_API, "confirmed");
+    const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
 
     // Step 1: Convert the base58 private key to a Keypair
     const payerKeypair = Keypair.fromSecretKey(
@@ -93,7 +93,7 @@ export class SolanaService {
 
   async getBalance(publicKey: string): Promise<number> {
     // Open connection
-    const connection = new Connection(RPC_API, "confirmed");
+    const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
 
     // Convert the publicKey string to a PublicKey object
     const publicKeyObj = new PublicKey(publicKey);
@@ -110,12 +110,12 @@ export class SolanaService {
     slippageDecimal: number,
     solAmount: number,
     mintStr: string,
-    includeBotFee: boolean = true,
+    includeBotFee: boolean,
+    useJito: boolean = true,
     validatorTip: number = 0.0001
   ): Promise<CustomResponse<string>> {
-    const useJito = true;
     try {
-      const connection = new Connection(RPC_API, "confirmed");
+      const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
       const pumpFunService = new PumpFunService();
 
       // Fetch coin data, shared for both buy and sell
@@ -365,7 +365,7 @@ export class SolanaService {
     mintStr: string,
     includeBotFee: boolean = true
   ) {
-    const connection = new Connection(RPC_API, "confirmed");
+    const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
     const payer = await this._keyPairFromPrivateKey(payerPrivateKey);
     const owner = payer.publicKey;
     const mint = new PublicKey(mintStr);
@@ -424,7 +424,7 @@ export class SolanaService {
     //   data: "signature",
     // };
     try {
-      const connection = new Connection(RPC_API, "confirmed");
+      const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
       const payerKeypair = await this._keyPairFromPrivateKey(payerPrivateKey);
       const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
       const receiverKey = bot.publicKey;
