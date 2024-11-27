@@ -37,7 +37,7 @@ export function isValidValidatorTip(input: unknown): string | null {
 
   // Check if the tip is at least the minimum required
   if (tipInSol < MIN_VALIDATOR_TIP_IN_SOL) {
-    return `Invalid tip. The minimum validator tip is ${MIN_VALIDATOR_TIP_IN_SOL} SOL.`;
+    return `Invalid tip. The minimum priority fee is ${MIN_VALIDATOR_TIP_IN_SOL} SOL.`;
   }
 
   // Tip is valid

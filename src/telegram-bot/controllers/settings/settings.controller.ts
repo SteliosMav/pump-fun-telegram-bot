@@ -1,7 +1,7 @@
 import { CallbackType, CBQueryCtrlArgs, CtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../users/user.service";
-import { getSettingsInlineKeyboard, settingsMsg } from "./view";
+import { getSettingsInlineKeyboard, getSettingsMsg } from "./view";
 import { startController } from "../start/start.controller";
 
 // Callback types that edit the message instead of sending a new one
@@ -66,12 +66,12 @@ export async function settingsController({ bot, ...rest }: CtrlArgs) {
 
   if (editMsg) {
     // Edit the previous message with updated settings and inline keyboard
-    bot.editMessageText(settingsMsg, {
+    bot.editMessageText(getSettingsMsg(user), {
       chat_id: message.chat.id,
       message_id: message.message_id, // The ID of the message you want to edit
       ...options,
     });
   } else {
-    bot.sendMessage(message.chat.id, settingsMsg, options);
+    bot.sendMessage(message.chat.id, getSettingsMsg(user), options);
   }
 }

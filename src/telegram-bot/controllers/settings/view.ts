@@ -2,18 +2,30 @@ import TelegramBot from "node-telegram-bot-api";
 import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
+import { BOT_SERVICE_FEE, SIGNATURE_FEE_LAMPORTS } from "../../../constants";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { getPumpFunFee } from "../../../pump-fun/util";
+import { userHasServicePass } from "../../../users/util";
 
-export const settingsMsg = `🛠️ Configure your bot settings:
+export function getSettingsMsg(user: User) {
+  const serviceFee = userHasServicePass(user) ? 0 : BOT_SERVICE_FEE;
+  const txFee = SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL;
+  return `*Bump price: ${
+    serviceFee + user.priorityFee + getPumpFunFee(user.bumpAmount) + txFee
+  } SOL* 
 
-*Amount:* The amount of SOL to use for each bump.
+It includes:
+• Service fee: ${serviceFee}
+• Priority fee: ${user.priorityFee}
+• Pump-fun fee: ${getPumpFunFee(user.bumpAmount)}
+• Transaction fee: ${txFee}
 
-*Slippage:* The maximum percentage change in token price you are willing to accept during bumps.
-
-*Frequency:* The time interval (in seconds) between each bump.
-
-*Priority Fee:* Transactions with higher priority fees are processed faster, especially during high network traffic. Transactions delayed by more than a minute may fail.
-
-*Bumps:* The total number of bumps you want to perform.`;
+*- Amount:* _The amount of SOL to use for each bump._
+*- Slippage:* _The maximum percentage change in token price you are willing to accept during bumps._
+*- Frequency:* _The time interval (in seconds) between each bump._
+*- Priority Fee:* _Transactions with higher priority fees are processed faster, especially during high network traffic. Transactions delayed by more than a minute may fail._
+*- Bumps:* _The total number of bumps you want to perform._`;
+}
 
 export function getSettingsInlineKeyboard(
   user: User
