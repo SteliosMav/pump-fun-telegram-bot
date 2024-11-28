@@ -113,6 +113,12 @@ export class SolanaService {
     mintStr: string,
     includeBotFee: boolean
   ): Promise<CustomResponse<string>> {
+    // // Mock response
+    // const res: any = {
+    //   success: true,
+    //   data: "string"
+    // };
+    // return res
     try {
       // Validate the SOL amount
       const validationError = isValidValidatorTip(priorityFeeInSol);

@@ -7,7 +7,7 @@ export async function stopBumpingController({
   getUserState,
   setUserState,
 }: CBQueryCtrlArgs) {
-  setUserState({ ...getUserState(), stopBumping: true, lastCallback: null });
+  setUserState({ ...getUserState()!, stopBumping: true, lastCallback: null });
 
   const message = callbackQuery.message;
 

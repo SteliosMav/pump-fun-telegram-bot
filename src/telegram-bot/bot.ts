@@ -2,7 +2,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import TelegramBot from "node-telegram-bot-api";
-import { CallbackType, CBQueryCtrlMap, MsgCtrlArgs, MsgCtrlMap } from "./types";
+import {
+  CallbackType,
+  CBQueryCtrlMap,
+  MsgCtrlArgs,
+  MsgCtrlMap,
+  UserMap,
+  UserState,
+} from "./types";
 import { TELEGRAM_BOT_TOKEN } from "../constants";
 import { catchErrors } from "./middleware";
 import { startController } from "./controllers/start/start.controller";
@@ -30,6 +37,7 @@ import { buyTokenResponseController } from "./controllers/buy-token-pass/buy-tok
 import { useTokenPassRequestController } from "./controllers/use-token-pass/use-token-pass-request.controller";
 import { useTokenPassResponseController } from "./controllers/use-token-pass/use-token-pass-response.controller";
 import { setSlippageRequestController } from "./controllers/slippage/set-slippage-request.controller";
+import { cleanUserStateInterval, initUserState } from "./util";
 
 // Initialize bot
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
@@ -38,11 +46,7 @@ const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
 connectDB();
 
 // User state management
-export interface UserState {
-  lastCallback?: CallbackType | null;
-  stopBumping: boolean;
-}
-const userMap = new Map<number, UserState>();
+const userMap: UserMap = new Map<number, UserState>();
 
 // Define callback (request) controllers
 const controllersMap: CBQueryCtrlMap = {
@@ -89,15 +93,18 @@ function onStartListenerInit() {
       }
       const userTgId = from.id;
 
+      // Init use-state functions
       const getUserState = () => userMap.get(userTgId);
       const setUserState = (state: UserState) => userMap.set(userTgId, state);
 
+      // Init user's state
       const oldUserState = getUserState();
-      const userState: UserState = {
-        ...oldUserState,
-        stopBumping: true,
-      };
-
+      const userState: UserState = oldUserState
+        ? {
+            ...oldUserState,
+            stopBumping: true,
+          }
+        : initUserState();
       setUserState(userState);
 
       return startController({ bot, message, getUserState, setUserState });
@@ -121,10 +128,18 @@ function callbackQueryListenerInit() {
 
       const userTgId = callbackQuery.from.id;
 
+      // Init use-state functions
       const getUserState = () => userMap.get(userTgId);
       const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+      // Init user's state
       const oldUserState = getUserState();
-      const userState = { ...oldUserState, stopBumping: true };
+      const userState: UserState = oldUserState
+        ? {
+            ...oldUserState,
+            stopBumping: true,
+          }
+        : initUserState();
       // DISMISS_ERROR callback should not be saved in the state
       if (data !== CallbackType.DISMISS_ERROR) {
         userState.lastCallback = data;
@@ -158,13 +173,19 @@ function messageListenersInit() {
     }
 
     const userTgId = message.from.id;
+
+    // Init user's state
     const getUserState = () => userMap.get(userTgId);
     const setUserState = (state: UserState) => userMap.set(userTgId, state);
+
+    // Init user's state
     const oldUserState = getUserState();
-    const userState: UserState = {
-      ...oldUserState,
-      stopBumping: true,
-    };
+    const userState: UserState = oldUserState
+      ? {
+          ...oldUserState,
+          stopBumping: true,
+        }
+      : initUserState();
 
     setUserState(userState);
 
@@ -183,6 +204,9 @@ function initializeBot() {
 }
 
 initializeBot();
+
+// Clean user state every "x" minutes
+cleanUserStateInterval(userMap);
 
 // Health check endpoint
 const server = http.createServer((req, res) => {

@@ -1,5 +1,10 @@
 import { UserService } from "../../../users/user.service";
-import { CallbackType, CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
+import {
+  CallbackType,
+  CBQueryCtrlArgs,
+  MsgCtrlArgs,
+  UserState,
+} from "../../types";
 import { startController } from "../start/start.controller";
 import { errorController } from "../events/error.controller";
 import { PumpFunService } from "../../../pump-fun/pump-fun.service";
@@ -8,7 +13,6 @@ import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "../../../shared/types";
 import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
 import { SolanaService } from "../../../solana/solana.service";
-import { UserState } from "../../bot";
 import { getIncludeBotFeeForUser } from "../../../users/util";
 import { isUrl } from "../../validators";
 import { getCoinSlug } from "../../../pump-fun/util";
@@ -122,8 +126,7 @@ _Once done, press Refresh Balance to check your updated balance._`;
     message.chat.id,
     `🔥  Started bumping meme coin: *${coinData.name}*  🔥
     
-    _Watch out, any further action will cancel the bumping process._
-    `,
+_Watch out, any further action will cancel the bumping process._`,
     {
       parse_mode: "Markdown",
       disable_web_page_preview: true,
@@ -152,13 +155,14 @@ _Once done, press Refresh Balance to check your updated balance._`;
       includeBotFee
     );
   // Set userState.stopBumping to false
-  setUserState({ ...getUserState(), stopBumping: false });
+  setUserState({ ...getUserState()!, stopBumping: false, isBumping: true });
   const bumpResponse = await startBumpInterval(
     bump,
     user.bumpIntervalInSeconds,
     user.bumpsLimit,
     getUserState
   );
+  setUserState({ ...getUserState()!, isBumping: false });
 
   // Once the interval is done, the rest of the code will run
   if (bumpResponse.success) {
@@ -230,6 +234,7 @@ async function startBumpInterval(
         //   success: true,
         //   data: bumpsCounter,
         // };
+        // return res;
         const res = await bump(); // Call the bump function
 
         // If the bump was successful

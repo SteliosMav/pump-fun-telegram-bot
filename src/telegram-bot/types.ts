@@ -1,6 +1,12 @@
 import TelegramBot from "node-telegram-bot-api";
-import { UserState } from "./bot";
 
+export interface UserState {
+  lastCallback?: CallbackType | null;
+  stopBumping: boolean;
+  isBumping: boolean;
+  createdAt: string; // Date iso
+}
+export type UserMap = Map<number, UserState>;
 export enum CallbackType {
   SET_AMOUNT = "set_amount",
   SET_INTERVAL = "set_interval",
