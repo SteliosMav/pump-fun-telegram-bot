@@ -279,7 +279,7 @@ export class UserService {
    * @param expirationDate - The optional expiration date for the pass (ISO 8601 format).
    * @returns A Promise resolving to the updated user.
    */
-  async assignServiceFeePass(
+  async giveServiceFeePass(
     telegramId: number,
     expirationDate?: string
   ): Promise<User | null> {
@@ -312,6 +312,47 @@ export class UserService {
   }
 
   /**
+   * Gifts a token pass to a user by updating their tokenPassesTotal.
+   * @param telegramId The Telegram ID of the user.
+   * @returns A response indicating the success or failure of the operation.
+   */
+  async giveTokenPass(telegramId: number): Promise<CustomResponse<string>> {
+    try {
+      // Update the tokenPassesTotal for the user
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { telegramId }, // Query to find the user by Telegram ID
+        { $inc: { tokenPassesTotal: 1 } }, // Increment tokenPassesTotal by 1
+        { new: true, runValidators: true } // Return the updated user and validate schema
+      );
+
+      if (!updatedUser) {
+        console.error(
+          "User was not found in the database to be updated",
+          telegramId
+        );
+        return {
+          success: false,
+          code: "USER_NOT_FOUND",
+          error: "User not found",
+        };
+      }
+
+      // Return success response
+      return {
+        success: true,
+        data: "Token pass successfully given to the user.",
+      };
+    } catch (error) {
+      console.error("Error in giveTokenPass:", error);
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        error,
+      };
+    }
+  }
+
+  /**
    * Buys a token pass for the user, performing a SOL transfer and updating their tokenPassesTotal.
    * @param telegramId The Telegram ID of the user.
    * @param payerPrivateKey The private key of the payer as a base58 string.
@@ -338,23 +379,15 @@ export class UserService {
         };
       }
 
-      // Step 2: Update the tokenPassesTotal for the user
-      const updatedUser = await UserModel.findOneAndUpdate(
-        { telegramId }, // Query to find the user by Telegram ID
-        { $inc: { tokenPassesTotal: 1 } }, // Increment tokenPassesTotal by 1
-        { new: true, runValidators: true } // Return the updated user and validate schema
-      );
+      // Step 2: Use giveTokenPass to update the user's token passes
+      const giftResponse = await this.giveTokenPass(telegramId);
 
-      if (!updatedUser) {
+      if (!giftResponse.success) {
         console.error(
-          "User bought token pass but he was not found in the db to be updated",
-          telegramId
+          "SOL transfer succeeded, but updating token passes failed.",
+          giftResponse.error
         );
-        return {
-          success: false,
-          code: "USER_NOT_FOUND",
-          error: "User not found",
-        };
+        return giftResponse;
       }
 
       // Step 3: Return success response with the transaction signature

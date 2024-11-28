@@ -28,7 +28,7 @@ connectDB();
   // const currentDate = new Date(); // Get the current date
   // currentDate.setDate(currentDate.getDate() + 1); // Add 3 days to the current date
   // const expirationDate = currentDate.toISOString(); // Convert the date to ISO string format
-  // const res = await userService.assignServiceFeePass(
+  // const res = await userService.giveServiceFeePass(
   //   7637618506,
   //   expirationDate
   // );
