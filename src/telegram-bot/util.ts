@@ -12,7 +12,6 @@ export function initUserState(): UserState {
 export function cleanUserStateInterval(userMap: UserMap) {
   const expirationTime = 15 * 60 * 1000; // 15 minutes in milliseconds
   setInterval(() => {
-    console.log(userMap);
     const now = Date.now();
 
     userMap.forEach((userState, userId) => {
@@ -21,7 +20,5 @@ export function cleanUserStateInterval(userMap: UserMap) {
         userMap.delete(userId); // Remove inactive user states
       }
     });
-
-    console.log(userMap);
   }, expirationTime); // Run every 15 minutes
 }

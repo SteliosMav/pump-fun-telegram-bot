@@ -77,11 +77,31 @@ const responseControllersMap: MsgCtrlMap = {
   [CallbackType.USE_TOKEN_PASS]: useTokenPassResponseController,
 };
 
+async function handleStartParams({
+  text,
+  from,
+}: TelegramBot.Message): Promise<void> {
+  type ParamType =
+    | ["token_pass", string]
+    | ["service_pass", string]
+    | ["referral", number];
+
+  const param = text?.split(" ")[1];
+  if (param) {
+    const [type, value] = param.split("-") as [string, string | number];
+
+    if (type === "token_pass" && typeof value === "string" && value) {
+      // Token Pass
+      console.log("Token pass: ", value);
+    }
+  }
+}
+
 // Define the /start command listener
 function onStartListenerInit() {
   bot.onText(
     /\/start/,
-    catchErrors(bot, (message: TelegramBot.Message) => {
+    catchErrors(bot, async (message: TelegramBot.Message) => {
       const { from } = message;
       if (!from) {
         return;
@@ -92,6 +112,8 @@ function onStartListenerInit() {
         return;
       }
       const userTgId = from.id;
+
+      await handleStartParams(message);
 
       // Init use-state functions
       const getUserState = () => userMap.get(userTgId);

@@ -7,6 +7,7 @@ import { UserService } from "./src/users/user.service";
 import connectDB from "./src/lib/mongo";
 import { User } from "./src/users/types";
 import { userHasTokenPass } from "./src/users/util";
+import { BOT_SERVICE_FEE, BOT_TOKEN_PASS_PRICE } from "./src/constants";
 
 // MongoDB connection
 connectDB();
