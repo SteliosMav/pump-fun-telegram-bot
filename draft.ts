@@ -9,10 +9,13 @@ import { User } from "./src/users/types";
 import { userHasTokenPass } from "./src/users/util";
 import { BOT_SERVICE_FEE, BOT_TOKEN_PASS_PRICE } from "./src/constants";
 
+import "./scripts/updateDHCPSettings";
+
 // MongoDB connection
 connectDB();
 
 (async () => {
+  // await giveTokenPass();
   // updateUserPumpFunProfiles();
   //
   // const userService = new UserService();
@@ -36,19 +39,26 @@ connectDB();
   // console.log("User updated:", res);
 })();
 
-async function updateUserPumpFunProfiles() {
-  const userService = new UserService();
-  const users = await userService.getUsers();
+// async function giveTokenPass() {
+//   const userTgId = 6084011491;
+//   const userService = new UserService();
+//   const res = await userService.giveTokenPass(userTgId);
+//   console.log(res);
+// }
 
-  users.forEach(async (user: User) => {
-    try {
-      const res = await userService.setUpUsersPumpFunAcc(
-        user.telegramId,
-        user.privateKey
-      );
-      console.log("User updated:", res);
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
-  });
-}
+// async function updateUserPumpFunProfiles() {
+//   const userService = new UserService();
+//   const users = await userService.getUsers();
+
+//   users.forEach(async (user: User) => {
+//     try {
+//       const res = await userService.setUpUsersPumpFunAcc(
+//         user.telegramId,
+//         user.privateKey
+//       );
+//       console.log("User updated:", res);
+//     } catch (error) {
+//       console.error("Error creating user:", error);
+//     }
+//   });
+// }

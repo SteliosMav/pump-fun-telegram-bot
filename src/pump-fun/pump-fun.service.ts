@@ -129,4 +129,50 @@ export class PumpFunService {
       return null;
     }
   }
+
+  async comment(
+    text: string,
+    mint: string,
+    authCookie: string,
+    proxyToken: string
+  ): Promise<boolean> {
+    // URL for posting comments
+    const commentUrl = `${this._baseUrl}/comment`;
+
+    // Payload for the comment
+    const payload = {
+      text,
+      mint,
+    };
+
+    // Headers including authCookie and x-aws-proxy-token
+    const headers = {
+      ...this._pumpFunHeaders,
+      Cookie: authCookie,
+      "x-aws-proxy-token": proxyToken,
+    };
+
+    try {
+      // Make the POST request
+      const response = await fetch(commentUrl, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        console.log(`Successfully commented: ${text} on ${mint}`);
+        return true;
+      } else {
+        const errorResponse = await response.text();
+        console.error(
+          `Failed to post comment. Status: ${response.status}, Response: ${errorResponse}`
+        );
+        return false;
+      }
+    } catch (error) {
+      console.error("Error during comment posting:", error);
+      return false;
+    }
+  }
 }
