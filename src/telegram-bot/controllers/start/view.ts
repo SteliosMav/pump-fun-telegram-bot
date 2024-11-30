@@ -28,7 +28,7 @@ ${hasServicePass ? "" : `\n🎟️  *Token pass:*  ${tokenPassLeft}`}
   }
 
 Reach out to us:
-🌐 [ezpump.fun](${WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)`;
+🌐 [ezpump.fun](${WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport`;
 }
 
 export function getStartingInlineKeyboard(

@@ -10,6 +10,7 @@ import {
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { pubKeyByPrivKey } from "../../../solana/utils";
 import { SOLANA_TEST_PRIVATE_KEY, TEST_USER_TG_ID } from "../../../constants";
+import { errorController } from "../events/error.controller";
 
 // Callback types that edit the message instead of sending a new one
 // i.e. if the user presses the "Back" button
@@ -64,6 +65,18 @@ export async function startController({
     try {
       const newUserRes = await userService.create(userByTelegram);
       user = newUserRes;
+
+      // Prompt message that the user recieved a free token pass
+      if (user.tokenPassesTotal > 0) {
+        const msg = `🎉  *Congratulations, you've been gifted a FREE token-pass!*  🎉`;
+        errorController({
+          bot,
+          message,
+          errMsg: msg,
+          getUserState: rest.getUserState,
+          setUserState: rest.setUserState,
+        });
+      }
 
       // Set up pumpFun account
       userService.setUpUsersPumpFunAcc(user.telegramId, privateKey);

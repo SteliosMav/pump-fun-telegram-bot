@@ -3,7 +3,7 @@ import { User, UserDefaultValues } from "./users/types";
 // User
 export const USER_DEFAULT_VALUES: UserDefaultValues = {
   bumpsCounter: 0,
-  tokenPassesTotal: 0,
+  tokenPassesTotal: 1,
   tokenPassesUsed: 0,
   bumpAmount: 0.0123, // 0.012 is the minimum amount to be shown in pump.fun history
   bumpsLimit: 10,
