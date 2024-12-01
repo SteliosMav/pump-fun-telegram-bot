@@ -37,7 +37,12 @@ export class PumpFunService {
       if (response.ok) {
         return await response.json();
       } else {
-        console.error("Failed to retrieve coin data:", response.status);
+        console.error(
+          "Failed to retrieve coin data for url: ",
+          url,
+          "Status: ",
+          response.status
+        );
         return null;
       }
     } catch (error) {
