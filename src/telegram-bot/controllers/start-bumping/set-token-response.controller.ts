@@ -58,7 +58,7 @@ export async function setTokenResponseController({
 
   // Validate coin data result
   if (!coinData) {
-    console.log("Failed retrieving coin data for user: ", from);
+    console.log("Failed retrieving coin data for user: ", from.id);
     // Stop loading
     await loadingController({
       bot,
