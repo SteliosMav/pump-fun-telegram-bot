@@ -159,9 +159,6 @@ _Watch out, any further action will cancel the bumping process._`,
       coinData
     );
 
-  console.log("Include bot fee: ", includeBotFee);
-  console.log("coin data: ", coinData);
-
   // Set userState.stopBumping to false
   setUserState({ ...getUserState()!, stopBumping: false, isBumping: true });
   const bumpResponse = await startBumpInterval(
