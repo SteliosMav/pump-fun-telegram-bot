@@ -155,8 +155,7 @@ _Watch out, any further action will cancel the bumping process._`,
       user.slippage,
       user.bumpAmount,
       coinData.mint,
-      includeBotFee,
-      coinData
+      includeBotFee
     );
 
   // Set userState.stopBumping to false

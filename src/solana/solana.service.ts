@@ -113,8 +113,7 @@ export class SolanaService {
     slippageDecimal: number,
     solAmount: number,
     mintStr: string,
-    includeBotFee: boolean,
-    coinData: CoinData
+    includeBotFee: boolean
   ): Promise<CustomResponse<string>> {
     // // Mock response
     // const res: any = {
@@ -137,6 +136,14 @@ export class SolanaService {
 
       // Fetch coin data, shared for both buy and sell
       const proxy = getRandomProxy();
+      const coinData = await pumpFunService.getCoinData(mintStr, proxy);
+      if (!coinData) {
+        console.error("Failed to retrieve coin data...");
+        return {
+          success: false,
+          code: "FAILED_RETRIEVE_COIN_DATA",
+        };
+      }
 
       const payer = await this._keyPairFromPrivateKey(payerPrivateKey);
       const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
