@@ -3,6 +3,8 @@ import { PUMP_FUN_API } from "../constants";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import { CoinData, UserUpdateResponse } from "./types";
+import axios, { AxiosRequestConfig } from "axios";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 export enum TransactionMode {
   Simulation,
@@ -28,14 +30,21 @@ export class PumpFunService {
 
   constructor() {}
 
-  async getCoinData(mintStr: string): Promise<CoinData | null> {
+  async getCoinData(mintStr: string, proxy: string): Promise<CoinData | null> {
     const url = `${this._baseUrl}/coins/${mintStr}`;
+    const agent = new HttpsProxyAgent(proxy);
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url,
+      headers: this._pumpFunHeaders,
+      httpsAgent: agent, // Add proxy support
+    };
 
     try {
-      const response = await fetch(url, { headers: this._pumpFunHeaders });
+      const response = await axios(config);
 
-      if (response.ok) {
-        return await response.json();
+      if (response.status === 200) {
+        return response.data as CoinData;
       } else {
         console.error(
           "Failed to retrieve coin data for url: ",
