@@ -33,7 +33,7 @@ export class PumpFunService {
   async getCoinData(
     mintStr: string,
     proxy: string,
-    maxRetries = 1
+    maxRetries = 4
   ): Promise<CoinData | null> {
     const url = `${this._baseUrl}/coins/${mintStr}`;
     const agent = new HttpsProxyAgent(proxy);
@@ -52,8 +52,6 @@ export class PumpFunService {
         return response.data as CoinData; // Success, return the data
       } catch (e) {
         const err = e as AxiosError;
-
-        // if (err.response?.status === 403 || err.response?.status === 429) {
         retries++;
         console.warn(
           `Retrying fetch for coin data (${retries}/${maxRetries})...`

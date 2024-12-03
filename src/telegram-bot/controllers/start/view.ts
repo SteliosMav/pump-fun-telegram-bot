@@ -8,6 +8,14 @@ import { userHasServicePass } from "../../../users/util";
 
 const START_BUMPING_BTN_WORDING = "Start Bumping";
 
+/*
+💎  *Service pass:*  ${
+    hasServicePass
+      ? "*Congratulations! Enjoy service fee FREE bumps!*"
+      : "_(coming soon!)_"
+  }
+*/
+
 export function getStartingMsg(user: User, balance: number): string {
   const publicKey = pubKeyByPrivKey(user.privateKey);
   const hasServicePass = userHasServicePass(user);
@@ -21,11 +29,6 @@ export function getStartingMsg(user: User, balance: number): string {
 *2)* Press the *${START_BUMPING_BTN_WORDING}* button
 *3)* Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
 ${hasServicePass ? "" : `\n🎟️  *Token pass:*  ${tokenPassLeft}`}
-💎  *Service pass:*  ${
-    hasServicePass
-      ? "*Congratulations! Enjoy service fee FREE bumps!*"
-      : "_(coming soon!)_"
-  }
 
 Reach out to us:
 🌐 [ezpump.fun](${WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport`;
