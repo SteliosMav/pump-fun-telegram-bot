@@ -9,10 +9,11 @@ import { User } from "./src/users/types";
 import { userHasTokenPass } from "./src/users/util";
 import { BOT_SERVICE_FEE, BOT_TOKEN_PASS_PRICE } from "./src/constants";
 
-import "./scripts/updateDHCPSettings";
+import "./scripts/testCoinData";
+// import "./scripts/updateDHCPSettings";
 
 // MongoDB connection
-connectDB();
+// connectDB();
 
 (async () => {
   // await giveTokenPass();

@@ -36,6 +36,7 @@ import { sendTxUsingJito } from "../lib/jito";
 import { CustomResponse } from "../shared/types";
 import { isValidValidatorTip } from "../telegram-bot/validators";
 import { getRandomProxy } from "../shared/get-random-proxy";
+import { CoinData } from "../pump-fun/types";
 
 export class SolanaService {
   private _botPrivateKey = SOLANA_BOT_PRIVATE_KEY;
@@ -112,7 +113,8 @@ export class SolanaService {
     slippageDecimal: number,
     solAmount: number,
     mintStr: string,
-    includeBotFee: boolean
+    includeBotFee: boolean,
+    coinData: CoinData
   ): Promise<CustomResponse<string>> {
     // // Mock response
     // const res: any = {
@@ -135,14 +137,6 @@ export class SolanaService {
 
       // Fetch coin data, shared for both buy and sell
       const proxy = getRandomProxy();
-      const coinData = await pumpFunService.getCoinData(mintStr, proxy);
-      if (!coinData) {
-        console.error("Failed to retrieve coin data...");
-        return {
-          success: false,
-          code: "FAILED_RETRIEVE_COIN_DATA",
-        };
-      }
 
       const payer = await this._keyPairFromPrivateKey(payerPrivateKey);
       const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);

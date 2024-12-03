@@ -3,7 +3,7 @@ import { PUMP_FUN_API } from "../constants";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import { CoinData, UserUpdateResponse } from "./types";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
 export enum TransactionMode {
@@ -30,7 +30,11 @@ export class PumpFunService {
 
   constructor() {}
 
-  async getCoinData(mintStr: string, proxy: string): Promise<CoinData | null> {
+  async getCoinData(
+    mintStr: string,
+    proxy: string,
+    maxRetries = 1
+  ): Promise<CoinData | null> {
     const url = `${this._baseUrl}/coins/${mintStr}`;
     const agent = new HttpsProxyAgent(proxy);
     const config: AxiosRequestConfig = {
@@ -40,24 +44,28 @@ export class PumpFunService {
       httpsAgent: agent, // Add proxy support
     };
 
-    try {
-      const response = await axios(config);
+    let retries = 0;
 
-      if (response.status === 200) {
-        return response.data as CoinData;
-      } else {
-        console.error(
-          "Failed to retrieve coin data for url: ",
-          url,
-          "Status: ",
-          response.status
+    while (retries < maxRetries) {
+      try {
+        const response = await axios(config);
+        return response.data as CoinData; // Success, return the data
+      } catch (e) {
+        const err = e as AxiosError;
+
+        // if (err.response?.status === 403 || err.response?.status === 429) {
+        retries++;
+        console.warn(
+          `Retrying fetch for coin data (${retries}/${maxRetries})...`
         );
-        return null;
+        continue; // Retry
       }
-    } catch (error) {
-      console.error("Error fetching coin data:", error);
-      return null;
     }
+
+    console.error(
+      `Failed to fetch coin data after ${maxRetries} retries due to 403 status.`
+    );
+    return null; // Return null if max retries are reached
   }
 
   async login(privateKey: string): Promise<string | null> {

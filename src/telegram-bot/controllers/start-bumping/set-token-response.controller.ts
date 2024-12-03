@@ -155,14 +155,12 @@ _Watch out, any further action will cancel the bumping process._`,
       user.slippage,
       user.bumpAmount,
       coinData.mint,
-      includeBotFee
+      includeBotFee,
+      coinData
     );
 
   console.log("Include bot fee: ", includeBotFee);
   console.log("coin data: ", coinData);
-
-  throw "";
-  /*
 
   // Set userState.stopBumping to false
   setUserState({ ...getUserState()!, stopBumping: false, isBumping: true });
@@ -223,7 +221,6 @@ _Watch out, any further action will cancel the bumping process._`,
       setUserState,
     });
   }
-    */
 }
 
 // Start the interval function that calls the bump function every X seconds
