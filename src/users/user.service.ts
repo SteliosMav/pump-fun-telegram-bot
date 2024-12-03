@@ -444,9 +444,9 @@ export class UserService {
       }
 
       // Add the new token pass entry
-      user.tokenPass.ca = {
+      (user.tokenPass as any).set(ca, {
         createdAt: new Date().toISOString(), // Current time in ISO string format
-      };
+      });
 
       // Increment the tokens used
       user.tokenPassesUsed += 1;
