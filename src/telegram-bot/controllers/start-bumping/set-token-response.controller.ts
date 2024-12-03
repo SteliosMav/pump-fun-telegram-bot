@@ -17,6 +17,7 @@ import { getIncludeBotFeeForUser } from "../../../users/util";
 import { isUrl } from "../../validators";
 import { getCoinSlug } from "../../../pump-fun/util";
 import { MIN_VALIDATOR_TIP_IN_SOL } from "../../../constants";
+import { getRandomProxy } from "../../../shared/get-random-proxy";
 
 // Controller function
 export async function setTokenResponseController({
@@ -54,7 +55,8 @@ export async function setTokenResponseController({
   const inputType = isUrlBool ? "URL" : "CA";
   const ca = isUrlBool ? getCoinSlug(text) : text;
 
-  const coinData = await pumpFunService.getCoinData(ca);
+  const proxy = getRandomProxy();
+  const coinData = await pumpFunService.getCoinData(ca, proxy);
 
   // Validate coin data result
   if (!coinData) {
@@ -155,6 +157,13 @@ _Watch out, any further action will cancel the bumping process._`,
       coinData.mint,
       includeBotFee
     );
+
+  console.log("Include bot fee: ", includeBotFee);
+  console.log("coin data: ", coinData);
+
+  throw "";
+  /*
+
   // Set userState.stopBumping to false
   setUserState({ ...getUserState()!, stopBumping: false, isBumping: true });
   const bumpResponse = await startBumpInterval(
@@ -214,6 +223,7 @@ _Watch out, any further action will cancel the bumping process._`,
       setUserState,
     });
   }
+    */
 }
 
 // Start the interval function that calls the bump function every X seconds
