@@ -41,7 +41,7 @@ export class PumpFunService {
       method: "GET",
       url,
       headers: this._pumpFunHeaders,
-      httpsAgent: agent, // Add proxy support
+      // httpsAgent: agent, // Add proxy support
     };
 
     let retries = 0;
