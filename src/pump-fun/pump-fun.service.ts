@@ -33,7 +33,7 @@ export class PumpFunService {
   async getCoinData(
     mintStr: string,
     proxy: string,
-    maxRetries = 4
+    maxRetries = 5
   ): Promise<CoinData | null> {
     const url = `${this._baseUrl}/coins/${mintStr}`;
     const agent = new HttpsProxyAgent(proxy);

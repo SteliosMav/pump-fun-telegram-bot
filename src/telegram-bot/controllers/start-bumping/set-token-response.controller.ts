@@ -83,7 +83,7 @@ export async function setTokenResponseController({
   const userState = getUserState();
   setUserState!({ ...userState!, lastCallback: null });
 
-  // const sufficientBalance = await pumpFunService.hasSufficientBalance(ca);
+  const includeBotFee = getIncludeBotFeeForUser(user, coinData.mint);
   const { totalRequiredBalance, payerBalance } =
     await solanaService.getRequiredBalance(
       user.privateKey,
@@ -91,7 +91,8 @@ export async function setTokenResponseController({
       user.slippage,
       user.bumpAmount,
       user.bumpsLimit,
-      coinData.mint
+      coinData.mint,
+      includeBotFee
     );
   const hasSufficientBalance = payerBalance >= totalRequiredBalance;
 
@@ -147,7 +148,6 @@ _Watch out, any further action will cancel the bumping process._`,
   );
 
   // Start the bump interval
-  const includeBotFee = getIncludeBotFeeForUser(user, coinData.mint);
   const bump = async () =>
     solanaService.bump(
       user.privateKey,
