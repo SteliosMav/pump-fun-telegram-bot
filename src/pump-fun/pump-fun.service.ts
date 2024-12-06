@@ -48,15 +48,15 @@ export class PumpFunService {
 
     while (retries < maxRetries) {
       try {
-        if (config.httpsAgent) {
-          console.log("Using proxy...");
-        }
+        // if (config.httpsAgent) {
+        //   console.log("Using proxy...");
+        // }
         const response = await axios(config);
-        if (retries > 0) {
-          console.warn(
-            `Coin data fetched with retries (${retries}/${maxRetries})...`
-          );
-        }
+        // if (retries > 0) {
+        //   console.warn(
+        //     `Coin data fetched with retries (${retries}/${maxRetries})...`
+        //   );
+        // }
         return response.data as CoinData; // Success, return the data
       } catch (e) {
         err = e as AxiosError;
