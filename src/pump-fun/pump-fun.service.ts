@@ -62,7 +62,7 @@ export class PumpFunService {
         err = e as AxiosError;
         retries++;
         // If too many requests, use proxy
-        if (err.status === 429) {
+        if (err.status === 429 || err.status === 500) {
           config.httpsAgent = agent;
         }
         continue; // Retry
