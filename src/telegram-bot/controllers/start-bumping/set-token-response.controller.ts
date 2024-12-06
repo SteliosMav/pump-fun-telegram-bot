@@ -173,14 +173,25 @@ _Watch out, any further action will cancel the bumping process._`,
     // Increment the bumps counter
     userService.incrementBumpsCounter(user.telegramId, bumpResponse.data);
 
-    // Send a success message
-    await bot.sendMessage(
-      message.chat.id,
-      `🎉  *${coinData.name}* has been bumped successfully!  🎉`,
-      {
-        parse_mode: "Markdown",
-      }
-    );
+    if (bumpResponse.code === "FAILED_RETRIEVE_COIN_DATA") {
+      // Send a success message BUT with early stoppage
+      await bot.sendMessage(
+        message.chat.id,
+        `🎉  *${coinData.name}* has been bumped successfully BUT stopped earlier due to increased user activity.  ⚠️`,
+        {
+          parse_mode: "Markdown",
+        }
+      );
+    } else {
+      // Send a success message
+      await bot.sendMessage(
+        message.chat.id,
+        `🎉  *${coinData.name}* has been bumped successfully!  🎉`,
+        {
+          parse_mode: "Markdown",
+        }
+      );
+    }
 
     // Redirect to start controller once the interval is done
     startController({ bot, message, getUserState, setUserState });
@@ -257,6 +268,21 @@ async function startBumpInterval(
               resolve({
                 success: false,
                 code: "INSUFFICIENT_BALANCE",
+              });
+            }
+            return; // Stop further bumps if there was insufficient balance
+          } else if (res.code === "FAILED_RETRIEVE_COIN_DATA") {
+            // If we ran out of balance after the first bump, stop the interval
+            if (bumpsCounter > 0) {
+              resolve({
+                success: true,
+                data: bumpsCounter,
+                code: "FAILED_RETRIEVE_COIN_DATA",
+              });
+            } else {
+              resolve({
+                success: false,
+                code: "FAILED_RETRIEVE_COIN_DATA",
               });
             }
             return; // Stop further bumps if there was insufficient balance

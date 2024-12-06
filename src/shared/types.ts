@@ -11,6 +11,7 @@ type ErrorCodes =
   | "INVALID_PAYLOAD";
 export interface SuccessResponse<T> extends BasicResponse<true> {
   data: T;
+  code?: ErrorCodes;
 }
 export interface ErrorResponse extends BasicResponse<false> {
   code: ErrorCodes;

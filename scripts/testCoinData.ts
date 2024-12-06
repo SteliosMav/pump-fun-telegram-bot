@@ -23,7 +23,7 @@ async function main() {
   let idx = 0;
   for (const proxy of proxyList) {
     console.log("Testing proxy idx: ", idx);
-    const coinData = await pumpFunService.getCoinData(mint, proxy);
+    const coinData = await pumpFunService.getCoinData(mint, proxy, 5);
     if (!coinData) {
       invalidProxies.push(idx);
     }
@@ -33,4 +33,8 @@ async function main() {
     idx++;
   }
 }
-main();
+(() => {
+  for (let index = 0; index < 3; index++) {
+    main();
+  }
+})();

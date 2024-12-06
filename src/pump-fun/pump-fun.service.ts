@@ -41,28 +41,37 @@ export class PumpFunService {
       method: "GET",
       url,
       headers: this._pumpFunHeaders,
-      // httpsAgent: agent, // Add proxy support
     };
 
     let retries = 0;
+    let err: AxiosError;
 
     while (retries < maxRetries) {
       try {
+        if (config.httpsAgent) {
+          console.log("Using proxy...");
+        }
         const response = await axios(config);
+        if (retries > 0) {
+          console.warn(
+            `Coin data fetched with retries (${retries}/${maxRetries})...`
+          );
+        }
         return response.data as CoinData; // Success, return the data
       } catch (e) {
-        const err = e as AxiosError;
+        err = e as AxiosError;
         retries++;
-        console.warn(
-          `Retrying fetch for coin data (${retries}/${maxRetries})...`
-        );
+        // If too many requests, use proxy
+        if (err.status === 429) {
+          config.httpsAgent = agent;
+        }
         continue; // Retry
       }
     }
 
-    console.error(
-      `Failed to fetch coin data after ${maxRetries} retries due to 403 status.`
-    );
+    console.error(`Failed to fetch coin data after ${maxRetries}.`);
+    console.error("Status: ", err!.status);
+    console.error("Message: ", err!.message);
     return null; // Return null if max retries are reached
   }
 

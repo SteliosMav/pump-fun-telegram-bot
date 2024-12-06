@@ -136,7 +136,7 @@ export class SolanaService {
 
       // Fetch coin data, shared for both buy and sell
       const proxy = getRandomProxy();
-      const coinData = await pumpFunService.getCoinData(mintStr, proxy);
+      const coinData = await pumpFunService.getCoinData(mintStr, proxy, 10);
       if (!coinData) {
         console.error("Failed to retrieve coin data...");
         return {
