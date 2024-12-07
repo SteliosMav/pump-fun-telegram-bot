@@ -9,8 +9,9 @@ import { User } from "./src/users/types";
 import { userHasTokenPass } from "./src/users/util";
 import { BOT_SERVICE_FEE, BOT_TOKEN_PASS_PRICE } from "./src/constants";
 
-import "./scripts/testCoinData";
+// import "./scripts/testCoinData";
 // import "./scripts/updateDHCPSettings";
+import "./scripts/updateUserProfiles";
 
 // MongoDB connection
 // connectDB();

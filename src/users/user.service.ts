@@ -210,9 +210,9 @@ export class UserService {
       }
       const alphabet =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      const id = generateCustomID(alphabet, 3);
+      const id = generateCustomID(alphabet, 7);
       const randomNumber = Math.floor(Math.random() * 10);
-      const newUserName = `${BOT_USERNAME_BASE}${randomNumber}${id}`; // The whole username must be max 10 characters
+      const newUserName = `ez${randomNumber}${id}`; // The whole username must be max 10 characters
 
       // Update profile promise
       const res = await pumpFunService.updateProfile(
