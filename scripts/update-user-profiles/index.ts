@@ -1,5 +1,7 @@
+import { Keypair } from "@solana/web3.js";
 import connectDB from "../../src/lib/mongo";
 import { UserService } from "../../src/users/user.service";
+import bs58 from "bs58";
 
 // MongoDB connection
 connectDB();
@@ -32,6 +34,7 @@ async function updateAllUserProfiles(): Promise<number[]> {
   let counter = 0;
   for (const user of users) {
     counter++;
+    /*
     // Skip
     if (counter <= 114) {
       continue;
@@ -40,6 +43,8 @@ async function updateAllUserProfiles(): Promise<number[]> {
     if (counter > 130) {
       break;
     }
+    */
+
     console.log(`Counter: ${counter}, User: ${user.telegramId}`);
     try {
       await userService.setUpUsersPumpFunAcc(user.telegramId, user.privateKey);

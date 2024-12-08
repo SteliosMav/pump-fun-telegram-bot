@@ -21,12 +21,12 @@ export const TEST_USER_TG_ID = +(process.env
 export const WEBSITE_URL = "https://www.ezpump.fun";
 export const BOT_NAME = "EzPump";
 export const BOT_SERVICE_FEE = toSolDecimals(0.00019);
-export const BOT_TOKEN_PASS_PRICE = toSolDecimals(0.07);
+export const BOT_TOKEN_PASS_PRICE = toSolDecimals(0.048);
 export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 characters
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🎁 FREE token-pass for new users! 🔥 Boost your token at: "www." + "ez" + "pump" + "." + "fun"! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SERVICE_FEE} SOL service fee!`;
+export const BOT_DESCRIPTION = `🎁 FREE token-pass for new users! 🔥 Boost your token at: "www." + "ez" + "pump." + "fun"! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SERVICE_FEE} service fee or ${BOT_TOKEN_PASS_PRICE} token-pass!`;
 export const MIN_USER_BALANCE_SAFE_NET = 0.001; // Used as a safe net for users to always have a small SOL amount in their wallets
 
 // Pump.fun
