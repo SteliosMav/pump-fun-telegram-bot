@@ -21,7 +21,7 @@ export const TEST_USER_TG_ID = +(process.env
 export const WEBSITE_URL = "https://www.ezpump.fun";
 export const BOT_NAME = "EzPump";
 export const BOT_SERVICE_FEE = toSolDecimals(0.00019);
-export const BOT_TOKEN_PASS_PRICE = toSolDecimals(0.048);
+export const BOT_TOKEN_PASS_PRICE = toSolDecimals(0.07);
 export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 characters
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
