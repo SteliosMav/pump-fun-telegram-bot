@@ -26,7 +26,7 @@ export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 
 export const BOT_IMAGE_GIF =
   "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🎁 FREE token-pass for new users! 🔥 Boost your token at: "www." + "ez" + "pump." + "fun"! 🔥 The simplest, cheapest pump bot for Pump.Fun - just ${BOT_SERVICE_FEE} service fee or ${BOT_TOKEN_PASS_PRICE} token-pass!`;
+export const BOT_DESCRIPTION = `🎁 FREE token-pass for new users! 🎁 Go to: ez AND pump AND .fun - The most reliable, cheap and easy to use!`;
 export const MIN_USER_BALANCE_SAFE_NET = 0.001; // Used as a safe net for users to always have a small SOL amount in their wallets
 
 // Pump.fun
