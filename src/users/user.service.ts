@@ -468,6 +468,14 @@ export class UserService {
     }
   }
 
+  async getAllUserIds(): Promise<number[]> {
+    // Fetch all users from the database
+    const users = await this.getUsers();
+
+    // Extract and return an array of telegram IDs
+    return users.map((user) => user.telegramId);
+  }
+
   private _encryptPrivateKey(privateKey: string) {
     return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
   }

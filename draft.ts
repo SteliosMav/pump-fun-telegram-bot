@@ -11,7 +11,8 @@ import { BOT_SERVICE_FEE, BOT_TOKEN_PASS_PRICE } from "./src/constants";
 
 // import "./scripts/testCoinData";
 // import "./scripts/updateDHCPSettings";
-import "./scripts/updateUserProfiles";
+// import "./scripts/update-user-profiles";
+import "./scripts/news-letter";
 
 // MongoDB connection
 // connectDB();
