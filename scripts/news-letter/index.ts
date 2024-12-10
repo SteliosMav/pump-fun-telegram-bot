@@ -33,7 +33,7 @@ connectDB();
     for (const userId of userIds) {
       try {
         // Message to broadcast
-        const broadcastMessage = USER_MILISTONE(userId);
+        const broadcastMessage = THANK_FOR_TOKEN_PASS_AND_GIFT(userId);
 
         // Send message
         // await bot.sendMessage(userId, message, {
