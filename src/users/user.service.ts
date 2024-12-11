@@ -10,6 +10,7 @@ import { IUserModel, UserDoc, UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import { CustomResponse } from "../shared/types";
 import { SolanaService } from "../solana/solana.service";
+import TelegramBot from "node-telegram-bot-api";
 
 export class UserService {
   constructor() {}
@@ -187,6 +188,34 @@ export class UserService {
 
     // Return the updated priorityFee
     return updatedUser ? updatedUser.priorityFee : null;
+  }
+
+  /**
+   * Update telegram info for a user.
+   * @param telegramId - The user's Telegram ID.
+   * @param from - Telegram from user.
+   * @returns A boolean indicating if the update was successful.
+   */
+  async updateTgInfo(
+    telegramId: number,
+    from: TelegramBot.Message["from"]
+  ): Promise<boolean> {
+    const valuesToUpdate: any = {};
+    if (from?.first_name) valuesToUpdate.firstName = from.first_name;
+    if (from?.last_name) valuesToUpdate.lastName = from.last_name;
+    if (from?.username) valuesToUpdate.username = from.username;
+    // Use findOneAndUpdate to find the user and update the tg-Info and updatedAt fields
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { telegramId }, // Query to find the user by telegramId
+      valuesToUpdate,
+      {
+        new: true, // Return the updated document, not the old one
+        runValidators: true, // Validate the new value against the schema
+      }
+    );
+
+    // Return the updated priorityFee
+    return updatedUser ? true : false;
   }
 
   async setUpUsersPumpFunAcc(

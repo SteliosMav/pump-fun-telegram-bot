@@ -36,6 +36,7 @@ export async function startController({
   if (!message) return;
 
   let user = await userService.getUser(from.id);
+  const newUser = user ? false : true;
 
   // Incase of new user, it takes time to respond, thus a loading message is sent
   let loadingMessage: TelegramBot.Message | undefined;
@@ -89,6 +90,11 @@ Error: ${e}`);
       bot.sendMessage(message.chat.id, USER_FRIENDLY_ERROR_MESSAGE);
       return;
     }
+  }
+
+  // Update user's tg info in database every time he uses /start command
+  if (!calledFromCallback && !newUser) {
+    userService.updateTgInfo(user.telegramId, from);
   }
 
   // Get user's balance
