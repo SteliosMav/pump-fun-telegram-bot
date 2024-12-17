@@ -7,6 +7,7 @@ import { THANK_FOR_TOKEN_PASS_AND_GIFT } from "./views.ts/thank-for-token-pass-a
 import { USER_INCREASE_CELEBRATION_GIFT } from "./views.ts/user-increase-celebration-gift";
 import { USER_BOT_TOKEN_PASS } from "./views.ts/user-bought-token-pass";
 import { USER_MILISTONE } from "./views.ts/user-milestone";
+import { WEEKEND_FREE_TOKEN_PASS } from "./views.ts/weekend-free-token-pass";
 
 // MongoDB connection
 connectDB();
@@ -18,9 +19,12 @@ connectDB();
   // List of user IDs (replace this with your database retrieval logic)
   const userService = new UserService();
   const allUserIds: number[] = await userService.getAllUserIds();
-  const EXCLUDED_USER_IDS = [2128860501, 6416185160];
+  // Exclude Ten from next token-pass give-away
+  const USER_IDS_1 = [5349013032, 7167753415]; // Users who recently received token pass
+  const EXCLUDED_USER_IDS = [2128860501, 6416185160, ...USER_IDS_1]; // <= Ten, exclude from next token-pass give-away
   // const userIds = allUserIds.filter((id) => !EXCLUDED_USER_IDS.includes(id));
-  const userIds: number[] = [7256064596].filter(
+  const userIds: number[] = allUserIds.filter(
+    // [7256064596]
     (id) => !EXCLUDED_USER_IDS.includes(id)
   );
 
@@ -33,7 +37,7 @@ connectDB();
     for (const userId of userIds) {
       try {
         // Message to broadcast
-        const broadcastMessage = THANK_FOR_TOKEN_PASS_AND_GIFT(userId);
+        const broadcastMessage = WEEKEND_FREE_TOKEN_PASS(userId);
 
         // Send message
         // await bot.sendMessage(userId, message, {
@@ -52,7 +56,7 @@ connectDB();
         // Send photo
         await bot.sendPhoto(
           userId,
-          "https://plum-near-goat-819.mypinata.cloud/ipfs/bafkreifbp7x3hcumanzib3s7vnsdmgk4iscey7pm4qjjj4kkzxisltvvta",
+          "https://plum-near-goat-819.mypinata.cloud/ipfs/bafybeicn4puwpfbvc2bbcyd63niedycuf7qsavscgtl4ofvjvf7hk2jwnm",
           {
             caption: broadcastMessage,
             parse_mode: "Markdown",
