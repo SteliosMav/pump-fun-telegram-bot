@@ -1,5 +1,6 @@
 import { TestAccount } from "./types";
 
+// Each account has 5 SOL
 export const testAccounts: TestAccount[] = [
   {
     publicKey: "EYwjBVa2714Gb2QcKm4PaNBYHFi1FyyFQx7gzu1fQ7wu",
