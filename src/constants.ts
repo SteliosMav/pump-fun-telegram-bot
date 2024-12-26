@@ -24,10 +24,10 @@ export const BOT_SERVICE_FEE = toSolDecimals(0.00019);
 export const BOT_TOKEN_PASS_PRICE = toSolDecimals(0.07);
 export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 characters
 export const BOT_IMAGE_GIF =
-  // "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
-  "https://pump.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7?img-width=64&img-dpr=2&img-onerror=redirect";
+  "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
+// "https://pump.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7?img-width=64&img-dpr=2&img-onerror=redirect";
 // bot description must be maximum 250 characters
-export const BOT_DESCRIPTION = `🎁 FREE token-pass for new users! 🎁 🌐Combine words: "ez" and "pump.fun" | Telegram: "ez_" and "pump_bot". The most reliable, cheap and easy to use!`;
+export const BOT_DESCRIPTION = `🎁FREE token-pass for new users! 🌐 Add "ez" in front of "pump.fun" | Telegram: "ez_" and "pump_" and "bot". The most reliable, cheap and easy to use!`;
 export const MIN_USER_BALANCE_SAFE_NET = 0.001; // Used as a safe net for users to always have a small SOL amount in their wallets
 
 // Pump.fun
