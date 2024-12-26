@@ -32,15 +32,15 @@ async function updateAllUserProfiles(): Promise<number[]> {
 
   // Iterate through each user and attempt to update their profile
   let counter = 0;
-  for (const user of users) {
+  for (const user of users.filter((user) => user.telegramId === 7694797759)) {
     counter++;
     /*
     // Skip
-    if (counter <= 114) {
+    if (counter <= 150) {
       continue;
     }
     // Amount
-    if (counter > 130) {
+    if (counter > 160) {
       break;
     }
     */
