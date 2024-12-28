@@ -5,6 +5,8 @@ import nacl from "tweetnacl";
 import { CoinData, UserUpdateResponse } from "./types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { HttpsProxyAgent } from "https-proxy-agent";
+import * as fs from "fs";
+import FormData from "form-data";
 
 export enum TransactionMode {
   Simulation,
@@ -123,11 +125,23 @@ export class PumpFunService {
     bio: string,
     authCookie: string
   ): Promise<UserUpdateResponse | null> {
-    // Step 1: Prepare the payload with the user profile data
+    let profileImage = "";
+    try {
+      const profileImageRes = await this.uploadImageToIPFS(authCookie);
+      profileImage = (profileImageRes as any).data.fileUri;
+      // Step 1: Prepare the payload with the user profile data
+
+      console.log("Profile image: ", profileImage);
+    } catch (e) {
+      const err = e as any;
+      console.error("Error during profile update:", err.status);
+      throw null;
+    }
+
     const payload = {
       username,
       bio,
-      profileImage: imageUrl,
+      profileImage,
     };
 
     // Step 2: Send the profile update request using fetch
@@ -203,5 +217,47 @@ export class PumpFunService {
       console.error("Error during comment posting:", error);
       return false;
     }
+  }
+
+  async uploadImageToIPFS(authCookie: string): Promise<string> {
+    const url = "https://pump.fun/api/ipfs-file";
+
+    // Prepare headers
+    const headers = {
+      accept: "*/*",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+      cookie: authCookie,
+      origin: "https://pump.fun",
+      referer:
+        "https://pump.fun/coin/6VabzsMTG4jrDftU4xVGiNaPMaJm6SsgttF8iacHpump",
+      "sec-ch-ua":
+        '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"Windows"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      "user-agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    };
+
+    // Create form-data with the image file
+    const formData = new FormData();
+    formData.append(
+      "file",
+      fs.createReadStream("./images/head-only-v7.png"),
+      "test-1.jpg"
+    );
+
+    // Merge form-data headers with custom headers
+    const combinedHeaders = {
+      ...headers,
+      ...formData.getHeaders(),
+    };
+
+    return await axios.post(url, formData, {
+      headers: combinedHeaders,
+    });
   }
 }

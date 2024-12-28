@@ -264,6 +264,8 @@ export class UserService {
         }
       }
 
+      console.log("User updated res:", res);
+
       // Update user in db that pump fun account is set
       await UserModel.findOneAndUpdate(
         { telegramId },

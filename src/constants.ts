@@ -26,7 +26,10 @@ export const BOT_USERNAME_BASE = "EzPump"; // The whole username must be max 10 
 export const BOT_IMAGE_GIF =
   // "https://plum-near-goat-819.mypinata.cloud/ipfs/bafkreiflsmxwkmr66yv2euvnb4xkwp6jjafbqvj2woy35efs35dzlbyhnm";
   // "https://plum-near-goat-819.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
-  "https://pump.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7?img-width=64&img-dpr=2&img-onerror=redirect";
+  // "https://pump.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7?img-width=64&img-dpr=2&img-onerror=redirect";
+  // "https://pump.mypinata.cloud/ipfs/QmWX68daDxu8RuG4Q2ULXiwHWBoc1VWWZVz6M6RLxVA9De";
+  // "https://ipfs.io/ipfs/QmfQGRHT78kLpouZivwapWreVJFVGk3VsbeKNjd2ndtU1Q"; // Head only non-gif
+  "https://ipfs.io/ipfs/QmY392dVKJXHg8kFsfzTrEuGJAw4qGYByBmJabwxhi3sUM"; // rebump
 // bot description must be maximum 250 characters
 export const BOT_DESCRIPTION = `🎁FREE token-pass for new users! 🌐 Add "ez" in front of "pump.fun" | Telegram: "ez_" and "pump_" and "bot". The most reliable, cheap and easy to use!`;
 export const MIN_USER_BALANCE_SAFE_NET = 0.001; // Used as a safe net for users to always have a small SOL amount in their wallets
