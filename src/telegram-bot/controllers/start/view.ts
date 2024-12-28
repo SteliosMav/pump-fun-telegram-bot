@@ -2,7 +2,7 @@ import TelegramBot from "node-telegram-bot-api";
 import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
 import { pubKeyByPrivKey } from "../../../solana/utils";
-import { WEBSITE_URL, BOT_TOKEN_PASS_PRICE } from "../../../constants";
+import { BOT_WEBSITE_URL } from "../../../constants";
 import { refreshBalanceBtn } from "../../../shared/inline-keyboard-button";
 import { userHasServicePass } from "../../../users/util";
 
@@ -31,7 +31,7 @@ export function getStartingMsg(user: User, balance: number): string {
 ${hasServicePass ? "" : `\n🎟️  *Token pass:*  ${tokenPassLeft}`}
 
 Reach out to us:
-🌐 [ezpump.fun](${WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport`;
+🌐 [ezpump.fun](${BOT_WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport`;
 }
 
 export function getStartingInlineKeyboard(

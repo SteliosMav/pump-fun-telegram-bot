@@ -1,10 +1,16 @@
-import { User, UserDefaultValues } from "./users/types";
+import { UserDefaultValues } from "./users/types";
 
-// Environment
+// === Environment ===
 export const ENV: "production" | "development" = "development";
 
-// User
-export const USER_DEFAULT_VALUES: UserDefaultValues = {
+// === Bot ===
+export const BOT_IMAGE =
+  "https://pump.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
+// Bot description must be maximum 250 characters
+export const BOT_DESCRIPTION = `🎁FREE token-pass for new users! 🌐 Add "ez" in front of "pump.fun" | Telegram: "ez_" and "pump_" and "bot". The most reliable, cheap and easy to use!`;
+export const BOT_SERVICE_FEE = 0.00019;
+export const BOT_TOKEN_PASS_PRICE = 0.07;
+export const DEFAULT_SETTINGS: UserDefaultValues = {
   bumpsCounter: 0,
   tokenPassesTotal: 1,
   tokenPassesUsed: 0,
@@ -13,8 +19,4 @@ export const USER_DEFAULT_VALUES: UserDefaultValues = {
   priorityFee: 0.0001,
   bumpIntervalInSeconds: 10,
   slippage: 0.02,
-  tokenPass: {},
 };
-
-export const USER_FRIENDLY_ERROR_MESSAGE =
-  "We are currently unavailable due to high demand. Please try again later.";

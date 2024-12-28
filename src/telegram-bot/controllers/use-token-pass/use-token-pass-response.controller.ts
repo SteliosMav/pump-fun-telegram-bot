@@ -1,4 +1,4 @@
-import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
+import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../constants";
 import { PumpFunService } from "../../../pump-fun/pump-fun.service";
 import { getCoinSlug } from "../../../pump-fun/util";
 import { getRandomProxy } from "../../../shared/get-random-proxy";

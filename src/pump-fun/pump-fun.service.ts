@@ -1,5 +1,4 @@
 import { Keypair } from "@solana/web3.js";
-import { PUMP_FUN_API } from "../constants";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import { CoinData, UserUpdateResponse } from "./types";
@@ -12,7 +11,7 @@ export enum TransactionMode {
 }
 
 export class PumpFunService {
-  private _baseUrl = PUMP_FUN_API;
+  private _baseUrl = "https://frontend-api.pump.fun";
   private _pumpFunHeaders = {
     "Content-Type": "application/json",
     "User-Agent":

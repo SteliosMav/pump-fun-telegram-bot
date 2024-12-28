@@ -1,10 +1,6 @@
 import CryptoJS from "crypto-js";
-import {
-  BOT_DESCRIPTION,
-  BOT_IMAGE_GIF,
-  BOT_USERNAME_BASE,
-  ENCRYPTION_KEY,
-} from "../constants";
+import { ENCRYPTION_KEY } from "../constants";
+import { BOT_DESCRIPTION, BOT_IMAGE } from "../config";
 import { User } from "./types";
 import { IUserModel, UserDoc, UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
@@ -246,7 +242,7 @@ export class UserService {
       // Update profile promise
       const res = await pumpFunService.updateProfile(
         newUserName,
-        BOT_IMAGE_GIF,
+        BOT_IMAGE,
         BOT_DESCRIPTION,
         authCookie
       );
@@ -255,7 +251,7 @@ export class UserService {
       if (!res) {
         const secondRes = await pumpFunService.updateProfile(
           newUserName,
-          BOT_IMAGE_GIF,
+          BOT_IMAGE,
           BOT_DESCRIPTION,
           authCookie
         );

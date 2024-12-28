@@ -8,12 +8,11 @@ import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 import {
   BOT_TOKEN_PASS_PRICE,
-  MIN_USER_BALANCE_SAFE_NET,
   SIGNATURE_FEE_LAMPORTS,
+  USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../constants";
 import { tokenPassController } from "../token-pass/token-pass.controller";
 import { startController } from "../start/start.controller";
-import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
 
 // Controller function
 export async function buyTokenResponseController({
@@ -41,9 +40,7 @@ export async function buyTokenResponseController({
   const pubKey = pubKeyByPrivKey(user.privateKey);
   const balance = await solanaService.getBalance(pubKey);
   const requiredAmount =
-    SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL +
-    BOT_TOKEN_PASS_PRICE +
-    MIN_USER_BALANCE_SAFE_NET;
+    SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL + BOT_TOKEN_PASS_PRICE;
   const hasSufficientBalance = balance >= requiredAmount;
 
   if (!hasSufficientBalance) {

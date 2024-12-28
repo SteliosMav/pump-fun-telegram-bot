@@ -3,13 +3,14 @@ import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../users/user.service";
 import { SolanaService } from "../../../solana/solana.service";
-import {
-  USER_DEFAULT_VALUES,
-  USER_FRIENDLY_ERROR_MESSAGE,
-} from "../../../config";
+import { DEFAULT_SETTINGS } from "../../../config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { pubKeyByPrivKey } from "../../../solana/utils";
-import { ADMIN_ACCOUNT_PRIVATE_KEY, TEST_USER_TG_ID } from "../../../constants";
+import {
+  ADMIN_ACCOUNT_PRIVATE_KEY,
+  PERSONAL_TG_ID,
+  USER_FRIENDLY_ERROR_MESSAGE,
+} from "../../../constants";
 import { errorController } from "../events/error.controller";
 
 // Callback types that edit the message instead of sending a new one
@@ -50,7 +51,7 @@ export async function startController({
     );
 
     // Create new wallet for new user
-    const isTestUser = from.id === TEST_USER_TG_ID;
+    const isTestUser = from.id === PERSONAL_TG_ID;
     const privateKey = isTestUser
       ? ADMIN_ACCOUNT_PRIVATE_KEY
       : await solanaService.createSolanaAccount();
@@ -174,14 +175,14 @@ function userByTelegramUser(
     isBot: telegramUser.is_bot,
     username: telegramUser.username || "",
     privateKey,
-    bumpsCounter: USER_DEFAULT_VALUES.bumpsCounter,
-    tokenPassesTotal: USER_DEFAULT_VALUES.tokenPassesTotal,
-    tokenPassesUsed: USER_DEFAULT_VALUES.tokenPassesUsed,
-    bumpAmount: USER_DEFAULT_VALUES.bumpAmount,
-    bumpsLimit: USER_DEFAULT_VALUES.bumpsLimit,
-    priorityFee: USER_DEFAULT_VALUES.priorityFee,
-    bumpIntervalInSeconds: USER_DEFAULT_VALUES.bumpIntervalInSeconds,
-    slippage: USER_DEFAULT_VALUES.slippage,
+    bumpsCounter: DEFAULT_SETTINGS.bumpsCounter,
+    tokenPassesTotal: DEFAULT_SETTINGS.tokenPassesTotal,
+    tokenPassesUsed: DEFAULT_SETTINGS.tokenPassesUsed,
+    bumpAmount: DEFAULT_SETTINGS.bumpAmount,
+    bumpsLimit: DEFAULT_SETTINGS.bumpsLimit,
+    priorityFee: DEFAULT_SETTINGS.priorityFee,
+    bumpIntervalInSeconds: DEFAULT_SETTINGS.bumpIntervalInSeconds,
+    slippage: DEFAULT_SETTINGS.slippage,
     pumpFunAccIsSet: false,
     tokenPass: {},
     createdAt: dateISO,

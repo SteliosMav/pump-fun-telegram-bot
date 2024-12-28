@@ -43,5 +43,4 @@ export type UserDefaultValues = Pick<
   | "bumpIntervalInSeconds"
   | "slippage"
   | "bumpsLimit"
-  | "tokenPass"
 >;

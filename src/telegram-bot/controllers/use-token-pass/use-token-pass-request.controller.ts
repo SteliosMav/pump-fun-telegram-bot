@@ -8,12 +8,8 @@ import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 import {
   BOT_TOKEN_PASS_PRICE,
-  MIN_USER_BALANCE_SAFE_NET,
   SIGNATURE_FEE_LAMPORTS,
 } from "../../../constants";
-import { tokenPassController } from "../token-pass/token-pass.controller";
-import { startController } from "../start/start.controller";
-import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
 
 // Controller function
 export async function useTokenPassRequestController({

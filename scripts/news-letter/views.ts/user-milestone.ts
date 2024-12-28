@@ -1,5 +1,3 @@
-import { WEBSITE_URL } from "../../../src/constants";
-
 export const USER_MILISTONE = (tgId: number) => `🎁 *More FREE Token-Passes!*
 
 🚀 It's been one week since our launch, and we've already reached 150 users! 🎉

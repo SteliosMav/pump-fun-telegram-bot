@@ -2,10 +2,11 @@ import TelegramBot from "node-telegram-bot-api";
 import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
-import { BOT_SERVICE_FEE, SIGNATURE_FEE_LAMPORTS } from "../../../constants";
+import { SIGNATURE_FEE_LAMPORTS } from "../../../constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getPumpFunFee } from "../../../pump-fun/util";
 import { userHasServicePass } from "../../../users/util";
+import { BOT_SERVICE_FEE } from "../../../config";
 
 export function getSettingsMsg(user: User) {
   const serviceFee = userHasServicePass(user) ? 0 : BOT_SERVICE_FEE;

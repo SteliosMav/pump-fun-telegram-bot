@@ -11,12 +11,14 @@ import { PumpFunService } from "../../../pump-fun/pump-fun.service";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "../../../shared/types";
-import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../config";
 import { SolanaService } from "../../../solana/solana.service";
 import { getIncludeBotFeeForUser } from "../../../users/util";
 import { isUrl } from "../../validators";
 import { getCoinSlug } from "../../../pump-fun/util";
-import { MIN_VALIDATOR_TIP_IN_SOL } from "../../../constants";
+import {
+  MIN_VALIDATOR_TIP_IN_SOL,
+  USER_FRIENDLY_ERROR_MESSAGE,
+} from "../../../constants";
 import { getRandomProxy } from "../../../shared/get-random-proxy";
 
 // Controller function

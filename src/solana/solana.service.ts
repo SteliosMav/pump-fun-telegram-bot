@@ -12,8 +12,6 @@ import {
 import {
   ASSOC_TOKEN_ACC_PROG,
   ASSOCIATED_TOKEN_ACC_SIZE,
-  BOT_SERVICE_FEE,
-  BOT_TOKEN_PASS_PRICE,
   FEE_RECIPIENT,
   GLOBAL,
   PUMP_FUN_ACCOUNT,
@@ -37,6 +35,7 @@ import { CustomResponse } from "../shared/types";
 import { isValidValidatorTip } from "../telegram-bot/validators";
 import { getRandomProxy } from "../shared/get-random-proxy";
 import { CoinData } from "../pump-fun/types";
+import { BOT_SERVICE_FEE, BOT_TOKEN_PASS_PRICE } from "../config";
 
 export class SolanaService {
   private _botPrivateKey = BOT_ACCOUNT_PRIVATE_KEY;
