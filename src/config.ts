@@ -1,5 +1,8 @@
 import { User, UserDefaultValues } from "./users/types";
 
+// Environment
+export const ENV: "production" | "development" = "development";
+
 // User
 export const USER_DEFAULT_VALUES: UserDefaultValues = {
   bumpsCounter: 0,

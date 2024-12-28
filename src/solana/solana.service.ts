@@ -22,7 +22,7 @@ import {
   RENT,
   HELIUS_API_STANDARD,
   SIGNATURE_FEE_LAMPORTS,
-  SOLANA_BOT_PRIVATE_KEY,
+  BOT_ACCOUNT_PRIVATE_KEY,
   SYSTEM_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from "../constants";
@@ -39,7 +39,7 @@ import { getRandomProxy } from "../shared/get-random-proxy";
 import { CoinData } from "../pump-fun/types";
 
 export class SolanaService {
-  private _botPrivateKey = SOLANA_BOT_PRIVATE_KEY;
+  private _botPrivateKey = BOT_ACCOUNT_PRIVATE_KEY;
 
   /**
    * Create a new Solana account on mainnet.

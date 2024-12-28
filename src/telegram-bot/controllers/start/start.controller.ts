@@ -9,7 +9,7 @@ import {
 } from "../../../config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { pubKeyByPrivKey } from "../../../solana/utils";
-import { SOLANA_TEST_PRIVATE_KEY, TEST_USER_TG_ID } from "../../../constants";
+import { ADMIN_ACCOUNT_PRIVATE_KEY, TEST_USER_TG_ID } from "../../../constants";
 import { errorController } from "../events/error.controller";
 
 // Callback types that edit the message instead of sending a new one
@@ -52,7 +52,7 @@ export async function startController({
     // Create new wallet for new user
     const isTestUser = from.id === TEST_USER_TG_ID;
     const privateKey = isTestUser
-      ? SOLANA_TEST_PRIVATE_KEY
+      ? ADMIN_ACCOUNT_PRIVATE_KEY
       : await solanaService.createSolanaAccount();
 
     if (!privateKey) {
