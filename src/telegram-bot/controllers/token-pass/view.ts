@@ -2,8 +2,8 @@ import TelegramBot from "node-telegram-bot-api";
 import { User } from "../../../users/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
-import { BOT_TOKEN_PASS_PRICE } from "../../../constants";
 import { pubKeyByPrivKey } from "../../../solana/utils";
+import { BOT_TOKEN_PASS_PRICE } from "../../../config";
 
 export function getTokenPassMsg(user: User, balance: number) {
   const publicKey = pubKeyByPrivKey(user.privateKey);

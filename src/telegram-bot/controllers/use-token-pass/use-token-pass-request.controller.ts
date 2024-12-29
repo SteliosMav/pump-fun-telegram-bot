@@ -6,10 +6,8 @@ import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
-import {
-  BOT_TOKEN_PASS_PRICE,
-  SIGNATURE_FEE_LAMPORTS,
-} from "../../../constants";
+import { SIGNATURE_FEE_LAMPORTS } from "../../../constants";
+import { BOT_TOKEN_PASS_PRICE } from "../../../config";
 
 // Controller function
 export async function useTokenPassRequestController({

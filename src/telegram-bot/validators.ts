@@ -1,9 +1,8 @@
-import {
-  MAX_BUMP_AMOUNT,
-  MAX_BUMPS_LIMIT,
-  MIN_BUMP_AMOUNT,
-  MIN_VALIDATOR_TIP_IN_SOL,
-} from "../constants";
+import { MAX_BUMPS_LIMIT } from "../config";
+import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
+
+const MIN_BUMP_AMOUNT = 0.0123;
+const MAX_BUMP_AMOUNT = 1;
 
 // Validation function for SOL amount
 export function isValidSol(input: unknown): string | null {

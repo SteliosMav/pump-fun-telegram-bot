@@ -7,12 +7,12 @@ import { isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
 import {
-  BOT_TOKEN_PASS_PRICE,
   SIGNATURE_FEE_LAMPORTS,
   USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../constants";
 import { tokenPassController } from "../token-pass/token-pass.controller";
 import { startController } from "../start/start.controller";
+import { BOT_TOKEN_PASS_PRICE } from "../../../config";
 
 // Controller function
 export async function buyTokenResponseController({
