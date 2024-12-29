@@ -175,9 +175,9 @@ function userByTelegramUser(
     isBot: telegramUser.is_bot,
     username: telegramUser.username || "",
     privateKey,
-    bumpsCounter: DEFAULT_SETTINGS.bumpsCounter,
-    tokenPassesTotal: DEFAULT_SETTINGS.tokenPassesTotal,
-    tokenPassesUsed: DEFAULT_SETTINGS.tokenPassesUsed,
+    bumpsCounter: 0,
+    tokenPassesTotal: 1, // New users get 1 free token pass
+    tokenPassesUsed: 0,
     bumpAmount: DEFAULT_SETTINGS.bumpAmount,
     bumpsLimit: DEFAULT_SETTINGS.bumpsLimit,
     priorityFee: DEFAULT_SETTINGS.priorityFee,

@@ -1,21 +1,27 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { User } from "./types";
 
+/**
+ * @WARNING Keep this schema in sync with the User interface!
+ *
+ * Any changes to this schema (e.g., adding, removing, or modifying fields)
+ * must also be reflected in the corresponding User interface to maintain
+ * consistency across the codebase.
+ *
+ * @Usage This schema is used for runtime validation and database operations.
+ */
 export type IUserModel = Omit<User, "privateKey"> & {
   encryptedPrivateKey: string;
 };
-
-// Updated interface based on the new types
 export type UserDoc = Document & IUserModel;
-
 const userSchema = new Schema<UserDoc>(
   {
+    // Required fields
     telegramId: { type: Number, required: true },
     encryptedPrivateKey: { type: String, required: true },
     firstName: { type: String, required: true },
     isBot: { type: Boolean, required: true },
-    bumpsCounter: { type: Number, required: true }, //  Is approximate and not guaranteed to be accurate. Jito doesn't wait for the success response of a bump, so the exact count of successful bumps may not always match this value.
-    lastBumpAt: { type: String, required: false }, // Optional field for ISO date format
+    bumpsCounter: { type: Number, required: true },
     tokenPassesTotal: { type: Number, required: true },
     tokenPassesUsed: { type: Number, required: true },
     bumpIntervalInSeconds: { type: Number, required: true },
@@ -24,9 +30,6 @@ const userSchema = new Schema<UserDoc>(
     slippage: { type: Number, required: true },
     priorityFee: { type: Number, required: true },
     pumpFunAccIsSet: { type: Boolean, required: true },
-    lastName: { type: String },
-    username: { type: String },
-    // Adding tokenPass field as an object where each key maps to an object containing createdAt and optional expirationDate
     tokenPass: {
       type: Map,
       of: new Schema(
@@ -37,24 +40,27 @@ const userSchema = new Schema<UserDoc>(
         { _id: false } // Disable the creation of _id for each entry in the Map
       ),
       required: true,
-      default: {}, // Default to an empty object if no passes exist
+      default: {},
     },
+
+    // Optional fields
     serviceFeePass: {
       type: new Schema(
         {
-          createdAt: { type: String, required: true }, // Required if serviceFeePass exists
-          expirationDate: { type: String, required: false }, // Optional
+          createdAt: { type: String, required: true },
+          expirationDate: { type: String, required: false },
         },
-        { _id: false } // Prevents an additional _id field for this sub-schema
+        { _id: false } // Disable the creation of _id for each entry in the Map
       ),
-      required: false, // Makes the whole serviceFeePass field optional
+      required: false,
     },
+    lastName: { type: String, required: false },
+    username: { type: String, required: false },
+    lastBumpAt: { type: String, required: false },
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt
   }
 );
-
 const UserModel = mongoose.model<UserDoc>("User", userSchema);
-
 export { UserModel };
