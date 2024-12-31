@@ -2,7 +2,14 @@ import mongoose, { Schema } from "mongoose";
 import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
 import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
-import { TokenPass } from "./types";
+
+const tokenSchema = new Schema(
+  {
+    createdAt: { type: String, required: true },
+    expirationDate: { type: String, required: false },
+  },
+  { _id: false }
+);
 
 export const userSchema = new Schema(
   {
@@ -54,13 +61,7 @@ export const userSchema = new Schema(
     pumpFunAccIsSet: { type: Boolean, required: true, default: false },
     tokenPass: {
       type: Map,
-      of: new Schema<TokenPass>(
-        {
-          createdAt: { type: String, required: true },
-          expirationDate: { type: String, required: false },
-        },
-        { _id: false }
-      ),
+      of: tokenSchema,
       required: true,
       default: new Map(),
     },
@@ -81,9 +82,9 @@ export const userSchema = new Schema(
     lastBumpAt: { type: String, required: false },
   },
   {
-    timestamps: true, // Automatically manages createdAt and updatedAt
-    toJSON: { virtuals: true }, // Include virtuals when converting to JSON
-    toObject: { virtuals: true }, // Include virtuals when converting to an object
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
     virtuals: {
       privateKey: {
         get() {
