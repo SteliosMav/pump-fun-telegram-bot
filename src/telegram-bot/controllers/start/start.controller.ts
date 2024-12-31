@@ -3,7 +3,6 @@ import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../users/user.service";
 import { SolanaService } from "../../../solana/solana.service";
-import { DEFAULT_SETTINGS } from "../../../config";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { pubKeyByPrivKey } from "../../../solana/utils";
 import {
@@ -12,6 +11,8 @@ import {
   USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../constants";
 import { errorController } from "../events/error.controller";
+import { UserModel } from "../../../users/user-model";
+import { encryptPrivateKey } from "../../../lib/crypto";
 
 // Callback types that edit the message instead of sending a new one
 // i.e. if the user presses the "Back" button
@@ -63,10 +64,16 @@ export async function startController({
     }
 
     // Create new user
-    const userByTelegram = userByTelegramUser(from, privateKey);
     try {
-      const newUserRes = await userService.create(userByTelegram);
-      user = newUserRes;
+      user = new UserModel({
+        encryptedPrivateKey: encryptPrivateKey(privateKey),
+        telegramId: from.id,
+        firstName: from.first_name,
+        lastName: from.last_name || "",
+        isBot: from.is_bot,
+        username: from.username || "",
+      });
+      const newUserRes = await user.save();
 
       // Prompt message that the user recieved a free token pass
       if (user.tokenPassesTotal > 0) {
@@ -161,32 +168,4 @@ Error: ${e}`);
       }
     }
   }
-}
-
-function userByTelegramUser(
-  telegramUser: TelegramBot.User,
-  privateKey: string
-): Omit<User, "_id"> {
-  const dateISO = new Date().toISOString();
-  const user: Omit<User, "_id"> = {
-    telegramId: telegramUser.id, // identifier
-    firstName: telegramUser.first_name,
-    lastName: telegramUser.last_name || "",
-    isBot: telegramUser.is_bot,
-    username: telegramUser.username || "",
-    privateKey,
-    bumpsCounter: 0,
-    tokenPassesTotal: 1, // New users get 1 free token pass
-    tokenPassesUsed: 0,
-    bumpAmount: DEFAULT_SETTINGS.bumpAmount,
-    bumpsLimit: DEFAULT_SETTINGS.bumpsLimit,
-    priorityFee: DEFAULT_SETTINGS.priorityFee,
-    bumpIntervalInSeconds: DEFAULT_SETTINGS.bumpIntervalInSeconds,
-    slippage: DEFAULT_SETTINGS.slippage,
-    pumpFunAccIsSet: false,
-    tokenPass: {},
-    createdAt: dateISO,
-    updatedAt: dateISO,
-  };
-  return user;
 }

@@ -2,20 +2,21 @@ import CryptoJS from "crypto-js";
 import { ENCRYPTION_KEY } from "../constants";
 import { BOT_DESCRIPTION, BOT_IMAGE } from "../config";
 import { User } from "./types";
-import { IUserModel, UserDoc, UserModel } from "./user-model";
+import { UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import { CustomResponse } from "../shared/types";
 import { SolanaService } from "../solana/solana.service";
 import TelegramBot from "node-telegram-bot-api";
+import { Document } from "mongoose";
 
 export class UserService {
   constructor() {}
 
-  async create(user: Omit<User, "_id">): Promise<User> {
+  async create(user: InstanceType<typeof UserModel>): Promise<User> {
     // Encrypt the private key
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
-    const newUser: Omit<IUserModel, "_id"> = {
+    const newUser = {
       telegramId: user.telegramId,
       encryptedPrivateKey,
       firstName: user.firstName,
@@ -30,12 +31,12 @@ export class UserService {
       slippage: user.slippage,
       priorityFee: user.priorityFee,
       tokenPass: user.tokenPass,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      // createdAt: user.createdAt,
+      // updatedAt: user.updatedAt,
       lastName: user.lastName,
       username: user.username,
     };
-    const toSave: UserDoc = new UserModel(newUser);
+    const toSave = new UserModel(newUser);
 
     const userDoc = await toSave.save();
     return this._docToJSON(userDoc);
@@ -460,7 +461,7 @@ export class UserService {
       }
 
       // Check if the token pass already exists
-      if (user.tokenPass.ca) {
+      if (user.tokenPass.get(ca)) {
         return {
           success: false,
           code: "DUPLICATE_IDENTIFIER",
@@ -469,7 +470,7 @@ export class UserService {
       }
 
       // Add the new token pass entry
-      (user.tokenPass as any).set(ca, {
+      user.tokenPass.set(ca, {
         createdAt: new Date().toISOString(), // Current time in ISO string format
       });
 
@@ -510,8 +511,8 @@ export class UserService {
     return bytes.toString(CryptoJS.enc.Utf8);
   }
 
-  private _docToJSON(userDoc: UserDoc): User {
-    const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON() as IUserModel;
+  private _docToJSON(userDoc: any): User {
+    const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON();
     const data: User = {
       ...userJSON,
       _id: userDoc._id.toString(),

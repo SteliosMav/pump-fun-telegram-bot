@@ -1,46 +1,68 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { User } from "./types";
+import mongoose, { Schema } from "mongoose";
+import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
+import { MAX_BUMPS_LIMIT } from "../config";
+import { decryptPrivateKey } from "../lib/crypto";
+import { TokenPass } from "./types";
 
-/**
- * @WARNING Keep this schema in sync with the User interface!
- *
- * Any changes to this schema (e.g., adding, removing, or modifying fields)
- * must also be reflected in the corresponding User interface to maintain
- * consistency across the codebase.
- *
- * @Usage This schema is used for runtime validation and database operations.
- */
-export type IUserModel = Omit<User, "privateKey"> & {
-  encryptedPrivateKey: string;
-};
-export type UserDoc = Document & IUserModel;
-const userSchema = new Schema<UserDoc>(
+export const userSchema = new Schema(
   {
     // Required fields
     telegramId: { type: Number, required: true },
     encryptedPrivateKey: { type: String, required: true },
     firstName: { type: String, required: true },
     isBot: { type: Boolean, required: true },
-    bumpsCounter: { type: Number, required: true },
-    tokenPassesTotal: { type: Number, required: true },
-    tokenPassesUsed: { type: Number, required: true },
-    bumpIntervalInSeconds: { type: Number, required: true },
-    bumpAmount: { type: Number, required: true },
-    bumpsLimit: { type: Number, required: true },
-    slippage: { type: Number, required: true },
-    priorityFee: { type: Number, required: true },
-    pumpFunAccIsSet: { type: Boolean, required: true },
+
+    // Default fields
+    bumpsCounter: { type: Number, required: true, default: 0 },
+    tokenPassesTotal: { type: Number, required: true, default: 1 }, // New users get 1 free token pass
+    tokenPassesUsed: { type: Number, required: true, default: 0 },
+    bumpIntervalInSeconds: {
+      type: Number,
+      required: true,
+      default: 10,
+    },
+    bumpAmount: {
+      type: Number,
+      required: true,
+      default: 0.0123, // 0.012 is the minimum amount to be shown in pump.fun history
+    },
+    bumpsLimit: {
+      type: Number,
+      required: true,
+      default: 10,
+      validate: {
+        validator: (value: number) => value >= MAX_BUMPS_LIMIT,
+        message: (props: unknown) =>
+          `Bumps limit must be at least ${MAX_BUMPS_LIMIT}.`,
+      },
+    },
+    slippage: {
+      type: Number,
+      required: true,
+      default: 0.02,
+    },
+    priorityFee: {
+      type: Number,
+      required: true,
+      default: 0.0001,
+      validate: {
+        validator: (value: number) => value >= MIN_VALIDATOR_TIP_IN_SOL,
+        message: (props: unknown) =>
+          `Priority fee must be at least ${MIN_VALIDATOR_TIP_IN_SOL}.`,
+      },
+    },
+    pumpFunAccIsSet: { type: Boolean, required: true, default: false },
     tokenPass: {
       type: Map,
-      of: new Schema(
+      of: new Schema<TokenPass>(
         {
           createdAt: { type: String, required: true },
           expirationDate: { type: String, required: false },
         },
-        { _id: false } // Disable the creation of _id for each entry in the Map
+        { _id: false }
       ),
       required: true,
-      default: {},
+      default: new Map(),
     },
 
     // Optional fields
@@ -50,17 +72,26 @@ const userSchema = new Schema<UserDoc>(
           createdAt: { type: String, required: true },
           expirationDate: { type: String, required: false },
         },
-        { _id: false } // Disable the creation of _id for each entry in the Map
+        { _id: false }
       ),
       required: false,
     },
-    lastName: { type: String, required: false },
-    username: { type: String, required: false },
+    lastName: { type: String, required: false, default: "" },
+    username: { type: String, required: false, default: "" },
     lastBumpAt: { type: String, required: false },
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt
+    toJSON: { virtuals: true }, // Include virtuals when converting to JSON
+    toObject: { virtuals: true }, // Include virtuals when converting to an object
+    virtuals: {
+      privateKey: {
+        get() {
+          return decryptPrivateKey(this.encryptedPrivateKey);
+        },
+      },
+    },
   }
 );
-const UserModel = mongoose.model<UserDoc>("User", userSchema);
-export { UserModel };
+
+export const UserModel = mongoose.model("User", userSchema);
