@@ -6,7 +6,7 @@ import { decryptPrivateKey } from "../lib/crypto";
 const tokenSchema = new Schema(
   {
     createdAt: { type: String, required: true },
-    expirationDate: { type: String, required: false },
+    expirationDate: String,
   },
   { _id: false }
 );
