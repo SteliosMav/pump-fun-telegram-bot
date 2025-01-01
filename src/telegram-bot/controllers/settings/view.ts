@@ -1,14 +1,14 @@
 import TelegramBot from "node-telegram-bot-api";
-import { User } from "../../../users/types";
+import { UserDoc } from "../../../user/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
 import { SIGNATURE_FEE_LAMPORTS } from "../../../constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getPumpFunFee } from "../../../pump-fun/util";
-import { userHasServicePass } from "../../../users/util";
+import { userHasServicePass } from "../../../user/util";
 import { BOT_SERVICE_FEE } from "../../../config";
 
-export function getSettingsMsg(user: User) {
+export function getSettingsMsg(user: UserDoc) {
   const serviceFee = userHasServicePass(user) ? 0 : BOT_SERVICE_FEE;
   const txFee = SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL;
   return `*Bump price: ${
@@ -31,7 +31,7 @@ It includes:
 }
 
 export function getSettingsInlineKeyboard(
-  user: User
+  user: UserDoc
 ): TelegramBot.InlineKeyboardMarkup {
   const backBtn = getGoBackBtn(CallbackType.GO_TO_START);
   return {

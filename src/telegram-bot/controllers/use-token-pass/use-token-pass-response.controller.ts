@@ -3,7 +3,7 @@ import { PumpFunService } from "../../../pump-fun/pump-fun.service";
 import { getCoinSlug } from "../../../pump-fun/util";
 import { getRandomProxy } from "../../../shared/get-random-proxy";
 import { SolanaService } from "../../../solana/solana.service";
-import { UserService } from "../../../users/user.service";
+import { UserService } from "../../../user/user.service";
 import { MsgCtrlArgs } from "../../types";
 import { isUrl, isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";

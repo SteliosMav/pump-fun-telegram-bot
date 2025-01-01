@@ -2,6 +2,14 @@ import { model, Schema } from "mongoose";
 import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
 import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
+import {
+  UserRaw,
+  UserMethods,
+  UserModelType,
+  UserQueries,
+  UserStatics,
+  UserVirtuals,
+} from "./types";
 
 const tokenSchema = new Schema(
   {
@@ -11,7 +19,14 @@ const tokenSchema = new Schema(
   { _id: false }
 );
 
-export const userSchema = new Schema(
+export const userSchema = new Schema<
+  UserRaw,
+  UserModelType,
+  UserMethods,
+  UserQueries,
+  UserVirtuals,
+  UserStatics
+>(
   {
     // Required fields
     telegramId: { type: Number, required: true },
@@ -89,26 +104,27 @@ export const userSchema = new Schema(
           return decryptPrivateKey(this.encryptedPrivateKey);
         },
       },
+      hasServicePass: {
+        get(): boolean {
+          if (this.serviceFeePass && this.serviceFeePass.createdAt) {
+            const expirationDate = this.serviceFeePass.expirationDate
+              ? new Date(this.serviceFeePass.expirationDate)
+              : null;
+            if (expirationDate) {
+              if (expirationDate > new Date()) {
+                return true;
+              }
+            } else {
+              return true;
+            }
+          }
+          return false;
+        },
+      },
     },
 
     // Methods
     methods: {
-      hasServicePass(): boolean {
-        if (this.serviceFeePass && this.serviceFeePass.createdAt) {
-          const expirationDate = this.serviceFeePass.expirationDate
-            ? new Date(this.serviceFeePass.expirationDate)
-            : null;
-          if (expirationDate) {
-            if (expirationDate > new Date()) {
-              return true;
-            }
-          } else {
-            return true;
-          }
-        }
-        return false;
-      },
-
       hasPassForToken(mint: string): boolean {
         const tokenPassToken = this.tokenPass.get(mint);
         if (tokenPassToken && tokenPassToken.createdAt) {
@@ -141,4 +157,9 @@ export const userSchema = new Schema(
   }
 );
 
-export const UserModel = model("User", userSchema);
+export const UserModel = model<UserRaw, UserModelType, UserQueries>(
+  "User",
+  userSchema
+);
+
+const user = new UserModel();

@@ -1,7 +1,6 @@
-import { User } from "../../../users/types";
 import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
-import { UserService } from "../../../users/user.service";
+import { UserService } from "../../../user/user.service";
 import { SolanaService } from "../../../solana/solana.service";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import { pubKeyByPrivKey } from "../../../solana/utils";
@@ -11,7 +10,7 @@ import {
   USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../constants";
 import { errorController } from "../events/error.controller";
-import { UserModel } from "../../../users/user-model";
+import { UserModel } from "../../../user/user-model";
 import { encryptPrivateKey } from "../../../lib/crypto";
 
 // Callback types that edit the message instead of sending a new one

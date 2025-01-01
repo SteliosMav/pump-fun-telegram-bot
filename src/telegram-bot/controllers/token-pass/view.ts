@@ -1,11 +1,11 @@
 import TelegramBot from "node-telegram-bot-api";
-import { User } from "../../../users/types";
+import { UserDoc } from "../../../user/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
 import { pubKeyByPrivKey } from "../../../solana/utils";
 import { BOT_TOKEN_PASS_PRICE } from "../../../config";
 
-export function getTokenPassMsg(user: User, balance: number) {
+export function getTokenPassMsg(user: UserDoc, balance: number) {
   const publicKey = pubKeyByPrivKey(user.privateKey);
   return `💳   *Wallet*: \`${publicKey}\`
 💰   *Balance*: \`${balance}\` SOL
@@ -17,7 +17,7 @@ export function getTokenPassMsg(user: User, balance: number) {
 }
 
 export function getTokenPassInlineKeyboard(
-  user: User
+  user: UserDoc
 ): TelegramBot.InlineKeyboardMarkup {
   const backBtn = getGoBackBtn(CallbackType.GO_TO_START);
   const inlineKeyboard = {

@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import connectDB from "../../src/lib/mongo";
 import { TELEGRAM_BOT_TOKEN } from "../../src/constants";
-import { UserService } from "../../src/users/user.service";
+import { UserService } from "../../src/user/user.service";
 import { ISSUES_APOLOGY } from "./views.ts/issues-apology";
 import { THANK_FOR_TOKEN_PASS_AND_GIFT } from "./views.ts/thank-for-token-pass-and-gift";
 import { USER_INCREASE_CELEBRATION_GIFT } from "./views.ts/user-increase-celebration-gift";

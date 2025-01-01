@@ -1,10 +1,9 @@
 import TelegramBot from "node-telegram-bot-api";
-import { User } from "../../../users/types";
+import { UserDoc } from "../../../user/types";
 import { CallbackType } from "../../types";
 import { pubKeyByPrivKey } from "../../../solana/utils";
 import { BOT_WEBSITE_URL } from "../../../constants";
 import { refreshBalanceBtn } from "../../../shared/inline-keyboard-button";
-import { userHasServicePass } from "../../../users/util";
 
 const START_BUMPING_BTN_WORDING = "Start Bumping";
 
@@ -16,9 +15,9 @@ const START_BUMPING_BTN_WORDING = "Start Bumping";
   }
 */
 
-export function getStartingMsg(user: User, balance: number): string {
+export function getStartingMsg(user: UserDoc, balance: number): string {
   const publicKey = pubKeyByPrivKey(user.privateKey);
-  const hasServicePass = userHasServicePass(user);
+  const hasServicePass = user.hasServicePass;
   const tokenPassLeft = user.tokenPassesTotal - user.tokenPassesUsed;
 
   return `💳   *Wallet*: \`${publicKey}\`
@@ -35,7 +34,7 @@ Reach out to us:
 }
 
 export function getStartingInlineKeyboard(
-  user: User
+  user: UserDoc
 ): TelegramBot.InlineKeyboardMarkup {
   return {
     inline_keyboard: [

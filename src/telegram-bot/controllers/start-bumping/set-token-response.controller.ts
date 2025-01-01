@@ -1,4 +1,4 @@
-import { UserService } from "../../../users/user.service";
+import { UserService } from "../../../user/user.service";
 import {
   CallbackType,
   CBQueryCtrlArgs,
@@ -12,7 +12,6 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "../../../shared/types";
 import { SolanaService } from "../../../solana/solana.service";
-import { getIncludeBotFeeForUser } from "../../../users/util";
 import { isUrl } from "../../validators";
 import { getCoinSlug } from "../../../pump-fun/util";
 import {
@@ -87,7 +86,8 @@ export async function setTokenResponseController({
   const userState = getUserState();
   setUserState!({ ...userState!, lastCallback: null });
 
-  const includeBotFee = getIncludeBotFeeForUser(user, coinData.mint);
+  const includeBotFee =
+    user.hasServicePass || user.hasPassForToken(coinData.mint);
   const { totalRequiredBalance, payerBalance } =
     await solanaService.getRequiredBalance(
       user.privateKey,

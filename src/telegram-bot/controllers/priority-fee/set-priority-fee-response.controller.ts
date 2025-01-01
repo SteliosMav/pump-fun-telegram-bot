@@ -1,4 +1,4 @@
-import { UserService } from "../../../users/user.service";
+import { UserService } from "../../../user/user.service";
 import { startController } from "../start/start.controller";
 import { isValidSol, isValidValidatorTip } from "../../validators";
 import { MsgCtrlArgs } from "../../types";

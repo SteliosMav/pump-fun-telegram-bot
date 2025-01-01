@@ -1,6 +1,6 @@
 import { CallbackType, CBQueryCtrlArgs, CtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
-import { UserService } from "../../../users/user.service";
+import { UserService } from "../../../user/user.service";
 import { getTokenPassInlineKeyboard, getTokenPassMsg } from "./view";
 import { startController } from "../start/start.controller";
 import { pubKeyByPrivKey } from "../../../solana/utils";

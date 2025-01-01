@@ -1,4 +1,4 @@
-import { UserService } from "../../../users/user.service";
+import { UserService } from "../../../user/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { startController } from "../start/start.controller";
 import { isValidInterval } from "../../validators";

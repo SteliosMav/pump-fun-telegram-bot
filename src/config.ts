@@ -1,4 +1,4 @@
-import { BumpSettings } from "./users/types";
+import { BumpSettings } from "./user/types";
 
 // === Environment ===
 export const ENV: "production" | "development" = "development";

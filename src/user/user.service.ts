@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 import { ENCRYPTION_KEY } from "../constants";
 import { BOT_DESCRIPTION, BOT_IMAGE } from "../config";
-import { User } from "./types";
+import { UserDoc } from "./types";
 import { UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import { CustomResponse } from "../shared/types";
@@ -12,7 +12,7 @@ import { Document } from "mongoose";
 export class UserService {
   constructor() {}
 
-  async create(user: InstanceType<typeof UserModel>): Promise<User> {
+  async create(user: UserDoc): Promise<UserDoc> {
     // Encrypt the private key
     const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
 
@@ -42,14 +42,14 @@ export class UserService {
     return this._docToJSON(userDoc);
   }
 
-  async getUser(telegramId: number): Promise<User | null> {
+  async getUser(telegramId: number): Promise<UserDoc | null> {
     const userDoc = await UserModel.findOne({
       telegramId: telegramId,
     });
     return userDoc ? this._docToJSON(userDoc) : null;
   }
 
-  async getUsers(telegramIds?: number[]): Promise<User[]> {
+  async getUsers(telegramIds?: number[]): Promise<UserDoc[]> {
     const query = telegramIds ? { telegramId: { $in: telegramIds } } : {};
     const userDocs = await UserModel.find(query);
     return userDocs.map((doc) => this._docToJSON(doc));
@@ -308,10 +308,10 @@ export class UserService {
   async giveServiceFeePass(
     telegramId: number,
     expirationDate?: string
-  ): Promise<User | null> {
+  ): Promise<UserDoc | null> {
     try {
       // Prepare the service fee pass object
-      const serviceFeePass: User["serviceFeePass"] = {
+      const serviceFeePass: UserDoc["serviceFeePass"] = {
         createdAt: new Date().toISOString(), // Set the current date as createdAt
       };
       // Set expirationDate if provided, otherwise undefined
@@ -511,9 +511,9 @@ export class UserService {
     return bytes.toString(CryptoJS.enc.Utf8);
   }
 
-  private _docToJSON(userDoc: any): User {
+  private _docToJSON(userDoc: any): UserDoc {
     const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON();
-    const data: User = {
+    const data: UserDoc = {
       ...userJSON,
       _id: userDoc._id.toString(),
       privateKey: this._decryptPrivateKey(encryptedPrivateKey),

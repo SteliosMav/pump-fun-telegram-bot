@@ -1,6 +1,6 @@
 import { Keypair } from "@solana/web3.js";
 import connectDB from "../../src/lib/mongo";
-import { UserService } from "../../src/users/user.service";
+import { UserService } from "../../src/user/user.service";
 import bs58 from "bs58";
 
 // MongoDB connection
