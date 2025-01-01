@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
 import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
@@ -71,20 +71,18 @@ export const userSchema = new Schema(
       type: new Schema(
         {
           createdAt: { type: String, required: true },
-          expirationDate: { type: String, required: false },
+          expirationDate: String,
         },
         { _id: false }
       ),
-      required: false,
     },
-    lastName: { type: String, required: false, default: "" },
-    username: { type: String, required: false, default: "" },
-    lastBumpAt: { type: String, required: false },
+    lastName: String,
+    username: String,
+    lastBumpAt: String,
   },
+
   {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    // Virtual fields
     virtuals: {
       privateKey: {
         get() {
@@ -92,7 +90,55 @@ export const userSchema = new Schema(
         },
       },
     },
+
+    // Methods
+    methods: {
+      hasServicePass(): boolean {
+        if (this.serviceFeePass && this.serviceFeePass.createdAt) {
+          const expirationDate = this.serviceFeePass.expirationDate
+            ? new Date(this.serviceFeePass.expirationDate)
+            : null;
+          if (expirationDate) {
+            if (expirationDate > new Date()) {
+              return true;
+            }
+          } else {
+            return true;
+          }
+        }
+        return false;
+      },
+
+      hasPassForToken(mint: string): boolean {
+        const tokenPassToken = this.tokenPass.get(mint);
+        if (tokenPassToken && tokenPassToken.createdAt) {
+          const expirationDate = tokenPassToken.expirationDate
+            ? new Date(tokenPassToken.expirationDate)
+            : null;
+          if (expirationDate) {
+            if (expirationDate > new Date()) {
+              return true;
+            }
+          } else {
+            return true;
+          }
+        }
+        return false;
+      },
+    },
+
+    // Static Methods
+    statics: {
+      findByTgId(tgId: number) {
+        return this.find({ telegramId: tgId });
+      },
+    },
+
+    // Schema options
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-export const UserModel = mongoose.model("User", userSchema);
+export const UserModel = model("User", userSchema);
