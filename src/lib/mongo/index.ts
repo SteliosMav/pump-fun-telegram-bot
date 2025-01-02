@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { MONGO_URI } from "../../constants";
+import { ENV } from "../../config";
 
 // MongoDB connection URI
 const mongoURI = MONGO_URI;
@@ -7,7 +8,7 @@ const mongoURI = MONGO_URI;
 // Connect to MongoDB using Mongoose
 const connectDB = () => {
   mongoose
-    .connect(mongoURI)
+    .connect(mongoURI, { autoIndex: ENV === "production" ? false : true })
     .then(() => {
       console.log("Connected to MongoDB");
     })

@@ -1,4 +1,4 @@
-import { HydratedDocument, Model } from "mongoose";
+import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
 import { UserModel } from "./user-model";
 
 export interface UserRaw {
@@ -29,6 +29,7 @@ export interface UserRaw {
   lastName?: string;
   username?: string;
   lastBumpAt?: string;
+  hasBannedBot?: boolean;
 }
 
 export interface UserMethods {
@@ -44,7 +45,24 @@ export interface UserStatics {
   findByTgId(tgId: number): Promise<HydratedDocument<UserRaw>[]>;
 }
 
-export interface UserQueries {}
+export interface UserQueries {
+  hasUsedBot(
+    this: QueryWithHelpers<
+      HydratedDocument<UserRaw>[],
+      HydratedDocument<UserRaw>,
+      UserQueries
+    >,
+    hasUsed?: boolean
+  ): this;
+  hasBannedBot(
+    this: QueryWithHelpers<
+      HydratedDocument<UserRaw>[],
+      HydratedDocument<UserRaw>,
+      UserQueries
+    >,
+    hasBanned?: boolean
+  ): this;
+}
 
 export type UserModelType = Model<
   UserRaw,
@@ -54,12 +72,3 @@ export type UserModelType = Model<
 >;
 
 export type UserDoc = InstanceType<typeof UserModel>;
-
-export type BumpSettings = Pick<
-  UserDoc,
-  | "bumpAmount"
-  | "priorityFee"
-  | "bumpIntervalInSeconds"
-  | "slippage"
-  | "bumpsLimit"
->;

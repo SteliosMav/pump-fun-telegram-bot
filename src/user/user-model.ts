@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { HydratedDocument, model, QueryWithHelpers, Schema } from "mongoose";
 import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
 import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
@@ -94,6 +94,7 @@ export const userSchema = new Schema<
     lastName: String,
     username: String,
     lastBumpAt: String,
+    hasBannedBot: Boolean,
   },
 
   {
@@ -150,6 +151,20 @@ export const userSchema = new Schema<
       },
     },
 
+    // Query helpers
+    query: {
+      hasUsedBot(hasUsed = true) {
+        if (hasUsed) {
+          return this.find({ bumpsCounter: { $gt: 0 } });
+        } else {
+          return this.find({ bumpsCounter: { $lte: 0 } });
+        }
+      },
+      hasBannedBot(hasBanned = true) {
+        return this.find({ hasBannedBot: hasBanned });
+      },
+    },
+
     // Schema options
     timestamps: true,
     toJSON: { virtuals: true },
@@ -161,5 +176,3 @@ export const UserModel = model<UserRaw, UserModelType, UserQueries>(
   "User",
   userSchema
 );
-
-const user = new UserModel();
