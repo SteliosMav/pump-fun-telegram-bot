@@ -55,6 +55,8 @@ export class SolanaService {
    * @returns The base58-encoded private key of the newly created account.
    */
   async createSolanaAccount(): Promise<string | null> {
+    return bs58.encode(Keypair.generate().secretKey);
+
     // Open connection
     const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
 
