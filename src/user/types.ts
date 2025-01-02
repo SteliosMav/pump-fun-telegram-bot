@@ -9,28 +9,30 @@ export interface UserRaw {
   bumpsCounter: number;
   tokenPassesTotal: number;
   tokenPassesUsed: number;
-  bumpIntervalInSeconds: number;
-  bumpAmount: number;
-  bumpsLimit: number;
-  slippage: number;
-  priorityFee: number;
+  bumpSettings: BumpSettings;
   pumpFunAccIsSet: boolean;
-  tokenPass: Map<
-    string,
-    {
-      createdAt: string;
-      expirationDate?: string;
-    }
-  >;
-  serviceFeePass?: {
-    createdAt: string;
-    expirationDate?: string;
-  };
+  tokenPass: Map<string, TokenPass>;
+  serviceFeePass?: ServicePass;
   lastName?: string;
   username?: string;
   lastBumpAt?: string;
   hasBannedBot?: boolean;
 }
+
+export interface BumpSettings {
+  intervalInSeconds: number;
+  amount: number;
+  limit: number;
+  slippage: number;
+  priorityFee: number;
+}
+
+interface BasicPass {
+  createdAt: string;
+  expirationDate?: string;
+}
+export interface TokenPass extends BasicPass {}
+export interface ServicePass extends BasicPass {}
 
 export interface UserMethods {
   hasPassForToken(mint: string): boolean;

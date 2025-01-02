@@ -24,6 +24,7 @@ export const USER_FRIENDLY_ERROR_MESSAGE =
 
 // === Pump.fun ===
 export const PUMP_FUN_URL = "https://pump.fun";
+export const MIN_VISIBLE_BUMP_AMOUNT = 0.0123;
 
 // === Solana ===
 export const SIGNATURE_FEE_LAMPORTS = 5000;

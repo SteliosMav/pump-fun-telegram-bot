@@ -1,5 +1,8 @@
 import { model, Schema } from "mongoose";
-import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
+import {
+  MIN_VALIDATOR_TIP_IN_SOL,
+  MIN_VISIBLE_BUMP_AMOUNT,
+} from "../constants";
 import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
 import {
@@ -9,6 +12,9 @@ import {
   UserQueries,
   UserStatics,
   UserVirtuals,
+  TokenPass,
+  BumpSettings,
+  ServicePass,
 } from "./types";
 
 export const userSchema = new Schema<
@@ -27,60 +33,66 @@ export const userSchema = new Schema<
     isBot: { type: Boolean, required: true },
 
     // Default fields
-    bumpsCounter: { type: Number, required: true, default: 0 },
-    tokenPassesTotal: { type: Number, required: true, default: 1 }, // New users get 1 free token pass
-    tokenPassesUsed: { type: Number, required: true, default: 0 },
-    bumpIntervalInSeconds: {
-      type: Number,
-      required: true,
-      default: 10,
-    },
-    bumpAmount: {
-      type: Number,
-      required: true,
-      default: 0.0123, // 0.012 is the minimum amount to be shown in pump.fun history
-    },
-    bumpsLimit: {
-      type: Number,
-      required: true,
-      default: 10,
-      validate: {
-        validator: (value: number) => value >= MAX_BUMPS_LIMIT,
-        message: (props: unknown) =>
-          `Bumps limit must be at least ${MAX_BUMPS_LIMIT}.`,
-      },
-    },
-    slippage: {
-      type: Number,
-      required: true,
-      default: 0.02,
-    },
-    priorityFee: {
-      type: Number,
-      required: true,
-      default: 0.0001,
-      validate: {
-        validator: (value: number) => value >= MIN_VALIDATOR_TIP_IN_SOL,
-        message: (props: unknown) =>
-          `Priority fee must be at least ${MIN_VALIDATOR_TIP_IN_SOL}.`,
+    bumpsCounter: { type: Number, default: 0 },
+    tokenPassesTotal: { type: Number, default: 1 }, // New users get 1 free token pass
+    tokenPassesUsed: { type: Number, default: 0 },
+    bumpSettings: {
+      type: new Schema<BumpSettings>(
+        {
+          intervalInSeconds: {
+            type: Number,
+            default: 10,
+            max: 60,
+            min: 1,
+          },
+          amount: {
+            type: Number,
+            default: MIN_VISIBLE_BUMP_AMOUNT,
+            max: 1,
+            min: MIN_VISIBLE_BUMP_AMOUNT,
+          },
+          limit: {
+            type: Number,
+            default: 10,
+            max: MAX_BUMPS_LIMIT,
+            min: 1,
+          },
+          slippage: {
+            type: Number,
+            default: 0.02,
+          },
+          priorityFee: {
+            type: Number,
+            default: 0.0001,
+            min: MIN_VALIDATOR_TIP_IN_SOL,
+            max: 1,
+          },
+        },
+        { _id: false }
+      ),
+      default: {
+        bumpIntervalInSeconds: 10,
+        bumpAmount: 0.0123,
+        bumpsLimit: 10,
+        slippage: 0.02,
+        priorityFee: 0.0001,
       },
     },
     pumpFunAccIsSet: { type: Boolean, required: true, default: false },
     tokenPass: {
       type: Map,
-      of: new Schema(
+      of: new Schema<TokenPass>(
         {
           createdAt: { type: String, required: true },
           expirationDate: String,
         },
         { _id: false }
       ),
-      required: true,
       default: new Map(),
     },
 
     // Optional fields
-    serviceFeePass: new Schema(
+    serviceFeePass: new Schema<ServicePass>(
       {
         createdAt: { type: String, required: true },
         expirationDate: String,
