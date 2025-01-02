@@ -42,26 +42,19 @@ export interface UserVirtuals {
 }
 
 export interface UserStatics {
-  findByTgId(tgId: number): Promise<HydratedDocument<UserRaw>[]>;
+  findByTgId(
+    tgId: number
+  ): Promise<HydratedDocument<UserRaw, UserMethods & UserVirtuals>[]>;
 }
 
+type UserQueryThis = QueryWithHelpers<
+  HydratedDocument<UserRaw>[],
+  HydratedDocument<UserRaw>,
+  UserQueries
+>;
 export interface UserQueries {
-  hasUsedBot(
-    this: QueryWithHelpers<
-      HydratedDocument<UserRaw>[],
-      HydratedDocument<UserRaw>,
-      UserQueries
-    >,
-    hasUsed?: boolean
-  ): this;
-  hasBannedBot(
-    this: QueryWithHelpers<
-      HydratedDocument<UserRaw>[],
-      HydratedDocument<UserRaw>,
-      UserQueries
-    >,
-    hasBanned?: boolean
-  ): this;
+  hasUsedBot(this: UserQueryThis, hasUsed?: boolean): this;
+  hasBannedBot(this: UserQueryThis, hasBanned?: boolean): this;
 }
 
 export type UserModelType = Model<
@@ -69,6 +62,7 @@ export type UserModelType = Model<
   UserQueries,
   UserMethods,
   UserVirtuals
->;
+> &
+  UserStatics;
 
 export type UserDoc = InstanceType<typeof UserModel>;

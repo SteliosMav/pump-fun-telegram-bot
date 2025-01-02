@@ -168,7 +168,4 @@ export const userSchema = new Schema<
   }
 );
 
-export const UserModel = model<UserRaw, UserModelType, UserQueries>(
-  "User",
-  userSchema
-);
+export const UserModel = model<UserRaw, UserModelType>("User", userSchema);
