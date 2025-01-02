@@ -1,4 +1,4 @@
-import { HydratedDocument, model, QueryWithHelpers, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
 import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
@@ -10,14 +10,6 @@ import {
   UserStatics,
   UserVirtuals,
 } from "./types";
-
-const tokenSchema = new Schema(
-  {
-    createdAt: { type: String, required: true },
-    expirationDate: String,
-  },
-  { _id: false }
-);
 
 export const userSchema = new Schema<
   UserRaw,
@@ -76,21 +68,25 @@ export const userSchema = new Schema<
     pumpFunAccIsSet: { type: Boolean, required: true, default: false },
     tokenPass: {
       type: Map,
-      of: tokenSchema,
-      required: true,
-      default: new Map(),
-    },
-
-    // Optional fields
-    serviceFeePass: {
-      type: new Schema(
+      of: new Schema(
         {
           createdAt: { type: String, required: true },
           expirationDate: String,
         },
         { _id: false }
       ),
+      required: true,
+      default: new Map(),
     },
+
+    // Optional fields
+    serviceFeePass: new Schema(
+      {
+        createdAt: { type: String, required: true },
+        expirationDate: String,
+      },
+      { _id: false }
+    ),
     lastName: String,
     username: String,
     lastBumpAt: String,
