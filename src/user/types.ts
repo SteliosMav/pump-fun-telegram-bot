@@ -90,7 +90,10 @@ type UserModelOptions = UserRequiredFields &
  * It would treat the raw document as optional and allow extra, undefined fields.
  */
 export interface UserModelType
-  extends Omit<Model<UserRaw, UserQueries, UserMethods, UserVirtuals>, "new"> {
+  extends Omit<
+    Model<UserRaw, UserQueries, UserMethods, UserVirtuals> & UserStatics,
+    "new"
+  > {
   new (data: UserModelOptions): HydratedDocument<
     UserRaw,
     UserMethods & UserVirtuals

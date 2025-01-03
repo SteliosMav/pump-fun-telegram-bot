@@ -146,7 +146,7 @@ export const userSchema = new Schema<
 
     // === Static Methods ===
     statics: {
-      findByTgId(tgId: number) {
+      findByTgId(tgId) {
         return this.find({ telegramId: tgId });
       },
     },
@@ -154,14 +154,10 @@ export const userSchema = new Schema<
     // === Query helpers ===
     query: {
       hasUsedBot(hasUsed = true) {
-        if (hasUsed) {
-          return this.find({ bumpsCounter: { $gt: 0 } });
-        } else {
-          return this.find({ bumpsCounter: { $lte: 0 } });
-        }
+        return this.find({ bumpsCounter: hasUsed ? { $gt: 0 } : { $lte: 0 } });
       },
       hasBannedBot(hasBanned = true) {
-        return this.find({ hasBannedBot: hasBanned });
+        return this.find({ hasBannedBot: hasBanned ? true : { $ne: true } });
       },
     },
 
