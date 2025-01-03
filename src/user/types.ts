@@ -1,23 +1,30 @@
 import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
-import { UserModel } from "./user-model";
 
-export interface UserRaw {
+interface UserRequiredFields {
   telegramId: number;
   encryptedPrivateKey: string;
   firstName: string;
   isBot: boolean;
+}
+interface UserDefaultFields {
   bumpsCounter: number;
   tokenPassesTotal: number;
   tokenPassesUsed: number;
   bumpSettings: BumpSettings;
   pumpFunAccIsSet: boolean;
   tokenPass: Map<string, TokenPass>;
+}
+interface UserOptionalFields {
   serviceFeePass?: ServicePass;
   lastName?: string;
   username?: string;
   lastBumpAt?: string;
   hasBannedBot?: boolean;
 }
+export interface UserRaw
+  extends UserRequiredFields,
+    UserDefaultFields,
+    UserOptionalFields {}
 
 export interface BumpSettings {
   intervalInSeconds: number;
@@ -59,12 +66,16 @@ export interface UserQueries {
   hasBannedBot(this: UserQueryThis, hasBanned?: boolean): this;
 }
 
-export type UserModelType = Model<
-  UserRaw,
-  UserQueries,
-  UserMethods,
-  UserVirtuals
-> &
-  UserStatics;
+/**
+ * Overwriting `new` method enforces strict typing for the payload when creating new user documents.
+ * Without it, TypeScript doesn't validate the payload strictly during instantiation.
+ * It would treat the raw document as optional and allow extra, undefined fields.
+ */
+export interface UserModelType
+  extends Omit<Model<UserRaw, UserQueries, UserMethods, UserVirtuals>, "new"> {
+  new (
+    data: UserRequiredFields & Partial<UserDefaultFields & UserOptionalFields>
+  ): HydratedDocument<UserRaw, UserMethods & UserVirtuals>;
+}
 
-export type UserDoc = InstanceType<typeof UserModel>;
+export type UserDoc = HydratedDocument<UserRaw, UserMethods & UserVirtuals>;

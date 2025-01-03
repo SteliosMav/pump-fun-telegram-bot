@@ -17,6 +17,12 @@ import {
   ServicePass,
 } from "./types";
 
+/**
+ * @note Should all optional fields have default values to ensure they always appear
+ * in the database, making all fields visible at a glance?
+ * Or should optional fields be excluded from the database when unset
+ * to save space, requiring reference to the schema to see all fields?
+ */
 export const userSchema = new Schema<
   UserRaw,
   UserModelType,
@@ -26,13 +32,13 @@ export const userSchema = new Schema<
   UserStatics
 >(
   {
-    // Required fields
-    telegramId: { type: Number, required: true },
+    // === Required fields ===
+    telegramId: { type: Number, required: true, min: 1 },
     encryptedPrivateKey: { type: String, required: true },
     firstName: { type: String, required: true },
     isBot: { type: Boolean, required: true },
 
-    // Default fields
+    // === Default fields ===
     bumpsCounter: { type: Number, default: 0 },
     tokenPassesTotal: { type: Number, default: 1 }, // New users get 1 free token pass
     tokenPassesUsed: { type: Number, default: 0 },
@@ -91,7 +97,7 @@ export const userSchema = new Schema<
       default: new Map(),
     },
 
-    // Optional fields
+    // === Optional fields ===
     serviceFeePass: new Schema<ServicePass>(
       {
         createdAt: { type: String, required: true },
@@ -106,7 +112,7 @@ export const userSchema = new Schema<
   },
 
   {
-    // Virtual fields
+    // === Virtual fields ===
     virtuals: {
       privateKey: {
         get() {
@@ -132,7 +138,7 @@ export const userSchema = new Schema<
       },
     },
 
-    // Methods
+    // === Methods ===
     methods: {
       hasPassForToken(mint: string): boolean {
         const tokenPassToken = this.tokenPass.get(mint);
@@ -152,14 +158,14 @@ export const userSchema = new Schema<
       },
     },
 
-    // Static Methods
+    // === Static Methods ===
     statics: {
       findByTgId(tgId: number) {
         return this.find({ telegramId: tgId });
       },
     },
 
-    // Query helpers
+    // === Query helpers ===
     query: {
       hasUsedBot(hasUsed = true) {
         if (hasUsed) {
@@ -173,10 +179,11 @@ export const userSchema = new Schema<
       },
     },
 
-    // Schema options
+    // === Schema options ===
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    strict: "throw",
   }
 );
 
