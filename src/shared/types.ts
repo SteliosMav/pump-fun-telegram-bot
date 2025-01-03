@@ -1,8 +1,3 @@
-/** Type util */
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
-
 interface BasicResponse<T extends boolean> {
   success: T;
 }
