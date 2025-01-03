@@ -17,12 +17,6 @@ import {
   ServicePass,
 } from "./types";
 
-/**
- * @note Should all optional fields have default values to ensure they always appear
- * in the database, making all fields visible at a glance?
- * Or should optional fields be excluded from the database when unset
- * to save space, requiring reference to the schema to see all fields?
- */
 export const userSchema = new Schema<
   UserRaw,
   UserModelType,
