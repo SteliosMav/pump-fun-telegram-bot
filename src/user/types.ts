@@ -41,13 +41,13 @@ interface BasicPass {
 export interface TokenPass extends BasicPass {}
 export interface ServicePass extends BasicPass {}
 
-export interface UserMethods {
-  hasPassForToken(mint: string): boolean;
+export interface UserVirtuals {
+  hasServicePass: boolean;
 }
 
-export interface UserVirtuals {
-  privateKey: string;
-  hasServicePass: boolean;
+export interface UserMethods {
+  hasPassForToken(mint: string): boolean;
+  getPrivateKey(): string;
 }
 
 export interface UserStatics {

@@ -114,11 +114,6 @@ export const userSchema = new Schema<
   {
     // === Virtual fields ===
     virtuals: {
-      privateKey: {
-        get() {
-          return decryptPrivateKey(this.encryptedPrivateKey);
-        },
-      },
       hasServicePass: {
         get(): boolean {
           if (this.serviceFeePass && this.serviceFeePass.createdAt) {
@@ -140,6 +135,9 @@ export const userSchema = new Schema<
 
     // === Methods ===
     methods: {
+      getPrivateKey() {
+        return decryptPrivateKey(this.encryptedPrivateKey);
+      },
       hasPassForToken(mint: string): boolean {
         const tokenPassToken = this.tokenPass.get(mint);
         if (tokenPassToken && tokenPassToken.createdAt) {
