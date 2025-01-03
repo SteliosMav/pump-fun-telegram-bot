@@ -76,13 +76,7 @@ export const userSchema = new Schema<
         },
         { _id: false }
       ),
-      default: {
-        bumpIntervalInSeconds: 10,
-        bumpAmount: 0.0123,
-        bumpsLimit: 10,
-        slippage: 0.02,
-        priorityFee: 0.0001,
-      },
+      default: {},
     },
     pumpFunAccIsSet: { type: Boolean, required: true, default: false },
     tokenPass: {
