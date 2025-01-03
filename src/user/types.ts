@@ -1,4 +1,5 @@
 import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
+import { DeepPartial } from "../shared/types";
 
 interface UserRequiredFields {
   telegramId: number;
@@ -74,7 +75,8 @@ export interface UserQueries {
 export interface UserModelType
   extends Omit<Model<UserRaw, UserQueries, UserMethods, UserVirtuals>, "new"> {
   new (
-    data: UserRequiredFields & Partial<UserDefaultFields & UserOptionalFields>
+    data: UserRequiredFields &
+      DeepPartial<UserDefaultFields & UserOptionalFields>
   ): HydratedDocument<UserRaw, UserMethods & UserVirtuals>;
 }
 
