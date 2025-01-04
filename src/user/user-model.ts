@@ -16,6 +16,7 @@ import {
   BumpSettings,
   ServicePass,
   UserQuery,
+  UserDoc,
 } from "./types";
 
 export const userSchema = new Schema<
@@ -147,7 +148,7 @@ export const userSchema = new Schema<
 
     // === Static Methods ===
     statics: {
-      findByTgId(tgId: number): UserQuery {
+      findByTgId(tgId: number): Promise<UserDoc | null> {
         return UserModel.findOne({ telegramId: tgId });
       },
     },

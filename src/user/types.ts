@@ -57,20 +57,18 @@ export interface UserMethods {
 }
 
 export interface UserStatics {
-  findByTgId(tgId: number): UserQuery;
+  findByTgId(tgId: number): Promise<UserDoc | null>;
 }
 
-export type UsersQuery = QueryWithHelpers<
+export type UserQuery = QueryWithHelpers<
   HydratedDocument<UserRaw, UserMethods & UserVirtuals>[],
   HydratedDocument<UserRaw, UserMethods & UserVirtuals>,
   UserQueryHelpers
 >;
 
-export type UserQuery = Promise<UserDoc | null>;
-
 export interface UserQueryHelpers {
-  hasUsedBot(this: UsersQuery, hasUsed?: boolean): this;
-  hasBannedBot(this: UsersQuery, hasBanned?: boolean): this;
+  hasUsedBot(this: UserQuery, hasUsed?: boolean): this;
+  hasBannedBot(this: UserQuery, hasBanned?: boolean): this;
 }
 
 /**
