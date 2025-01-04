@@ -57,19 +57,17 @@ export interface UserMethods {
 }
 
 export interface UserStatics {
-  findByTgId(
-    tgId: number
-  ): Promise<HydratedDocument<UserRaw, UserMethods & UserVirtuals>[]>;
+  findByTgId(tgId: number): UserQuery<UserRaw>;
 }
 
-type UserQueryThis = QueryWithHelpers<
-  HydratedDocument<UserRaw>[],
+export type UserQuery<T = HydratedDocument<UserRaw>[]> = QueryWithHelpers<
+  T,
   HydratedDocument<UserRaw>,
-  UserQueries
+  UserQueryHelpers
 >;
-export interface UserQueries {
-  hasUsedBot(this: UserQueryThis, hasUsed?: boolean): this;
-  hasBannedBot(this: UserQueryThis, hasBanned?: boolean): this;
+export interface UserQueryHelpers {
+  hasUsedBot(this: UserQuery, hasUsed?: boolean): this;
+  hasBannedBot(this: UserQuery, hasBanned?: boolean): this;
 }
 
 /**
@@ -91,7 +89,7 @@ type UserModelOptions = UserRequiredFields &
  */
 export interface UserModelType
   extends Omit<
-    Model<UserRaw, UserQueries, UserMethods, UserVirtuals> & UserStatics,
+    Model<UserRaw, UserQueryHelpers, UserMethods, UserVirtuals> & UserStatics,
     "new"
   > {
   new (data: UserModelOptions): HydratedDocument<
@@ -100,4 +98,8 @@ export interface UserModelType
   >;
 }
 
-export type UserDoc = HydratedDocument<UserRaw, UserMethods & UserVirtuals>;
+export type UserDoc = HydratedDocument<
+  UserRaw,
+  UserMethods & UserVirtuals,
+  UserQueryHelpers
+>;

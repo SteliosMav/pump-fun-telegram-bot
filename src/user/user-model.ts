@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { Model, model, QueryWithHelpers, Schema } from "mongoose";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   MIN_VISIBLE_BUMP_AMOUNT,
@@ -9,19 +9,21 @@ import {
   UserRaw,
   UserMethods,
   UserModelType,
-  UserQueries,
+  UserQueryHelpers,
   UserStatics,
   UserVirtuals,
   TokenPass,
   BumpSettings,
   ServicePass,
+  UserQuery,
+  UserDoc,
 } from "./types";
 
 export const userSchema = new Schema<
   UserRaw,
   UserModelType,
   UserMethods,
-  UserQueries,
+  UserQueryHelpers,
   UserVirtuals,
   UserStatics
 >(
@@ -146,8 +148,13 @@ export const userSchema = new Schema<
 
     // === Static Methods ===
     statics: {
+      /**
+       * @WARNING Methods that are not part of the interface can be added here
+       * Need to fix this as well as the return query types are not recognized
+       * as user queries (with the query helpers) by TypeScript.
+       */
       findByTgId(tgId) {
-        return this.find({ telegramId: tgId });
+        return this.findOne({ telegramId: tgId }) as UserQuery<UserRaw>;
       },
     },
 
@@ -169,4 +176,7 @@ export const userSchema = new Schema<
   }
 );
 
-export const UserModel = model<UserRaw, UserModelType>("User", userSchema);
+export const UserModel = model<UserRaw, UserModelType, UserQueryHelpers>(
+  "User",
+  userSchema
+);
