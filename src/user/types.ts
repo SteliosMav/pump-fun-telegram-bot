@@ -13,15 +13,15 @@ interface UserRequiredFields {
   isBot: boolean;
 }
 interface UserDefaultFields {
-  bumpsCounter: number;
-  tokenPassesTotal: number;
-  tokenPassesUsed: number;
+  totalBumps: number;
+  totalTokenPasses: number;
+  usedTokenPasses: number;
   bumpSettings: BumpSettings;
-  pumpFunAccIsSet: boolean;
-  tokenPass: Map<string, TokenPass>;
+  isPumpFunAccountSet: boolean;
+  tokenPasses: Map<string, TokenPass>;
 }
 interface UserOptionalFields {
-  serviceFeePass?: ServicePass;
+  servicePass?: ServicePass;
   lastName?: string;
   username?: string;
   lastBumpAt?: string;
@@ -58,6 +58,10 @@ export interface UserMethods {
 
 export interface UserStatics {
   findByTgId(tgId: number): Promise<UserDoc | null>;
+  increaseTotalBumps(
+    telegramId: number,
+    amount: number
+  ): Promise<UserDoc | null>;
 }
 
 export type UserQuery = QueryWithHelpers<

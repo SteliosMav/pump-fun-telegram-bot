@@ -175,7 +175,7 @@ _Watch out, any further action will cancel the bumping process._`,
   // Once the interval is done, the rest of the code will run
   if (bumpResponse.success) {
     // Increment the bumps counter
-    userService.incrementBumpsCounter(user.telegramId, bumpResponse.data);
+    userService.increaseBumpCounter(user.telegramId, bumpResponse.data);
 
     if (bumpResponse.code === "FAILED_RETRIEVE_COIN_DATA") {
       // Send a success message BUT with early stoppage

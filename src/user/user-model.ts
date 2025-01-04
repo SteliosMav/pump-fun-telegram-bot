@@ -15,7 +15,6 @@ import {
   TokenPass,
   BumpSettings,
   ServicePass,
-  UserQuery,
   UserDoc,
 } from "./types";
 
@@ -35,9 +34,9 @@ export const userSchema = new Schema<
     isBot: { type: Boolean, required: true },
 
     // === Default fields ===
-    bumpsCounter: { type: Number, default: 0 },
-    tokenPassesTotal: { type: Number, default: 1 }, // New users get 1 free token pass
-    tokenPassesUsed: { type: Number, default: 0 },
+    totalBumps: { type: Number, default: 0 },
+    totalTokenPasses: { type: Number, default: 1 }, // New users get 1 free token pass
+    usedTokenPasses: { type: Number, default: 0 },
     bumpSettings: {
       type: new Schema<BumpSettings>(
         {
@@ -74,8 +73,8 @@ export const userSchema = new Schema<
       ),
       default: {},
     },
-    pumpFunAccIsSet: { type: Boolean, required: true, default: false },
-    tokenPass: {
+    isPumpFunAccountSet: { type: Boolean, required: true, default: false },
+    tokenPasses: {
       type: Map,
       of: new Schema<TokenPass>(
         {
@@ -88,7 +87,7 @@ export const userSchema = new Schema<
     },
 
     // === Optional fields ===
-    serviceFeePass: new Schema<ServicePass>(
+    servicePass: new Schema<ServicePass>(
       {
         createdAt: { type: String, required: true },
         expirationDate: String,
@@ -106,9 +105,9 @@ export const userSchema = new Schema<
     virtuals: {
       hasServicePass: {
         get(): boolean {
-          if (this.serviceFeePass && this.serviceFeePass.createdAt) {
-            const expirationDate = this.serviceFeePass.expirationDate
-              ? new Date(this.serviceFeePass.expirationDate)
+          if (this.servicePass && this.servicePass.createdAt) {
+            const expirationDate = this.servicePass.expirationDate
+              ? new Date(this.servicePass.expirationDate)
               : null;
             if (expirationDate) {
               if (expirationDate > new Date()) {
@@ -128,8 +127,9 @@ export const userSchema = new Schema<
       getPrivateKey() {
         return decryptPrivateKey(this.encryptedPrivateKey);
       },
+
       hasPassForToken(mint: string): boolean {
-        const tokenPassToken = this.tokenPass.get(mint);
+        const tokenPassToken = this.tokenPasses.get(mint);
         if (tokenPassToken && tokenPassToken.createdAt) {
           const expirationDate = tokenPassToken.expirationDate
             ? new Date(tokenPassToken.expirationDate)
@@ -151,13 +151,31 @@ export const userSchema = new Schema<
       findByTgId(tgId: number): Promise<UserDoc | null> {
         return UserModel.findOne({ telegramId: tgId });
       },
+
+      increaseTotalBumps(
+        telegramId: number,
+        amount: number
+      ): Promise<UserDoc | null> {
+        return UserModel.findOneAndUpdate(
+          { telegramId },
+          {
+            $inc: { totalBumps: amount },
+            lastBumpAt: new Date().toISOString(),
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      },
     },
 
     // === Query helpers ===
     query: {
       hasUsedBot(hasUsed = true) {
-        return this.find({ bumpsCounter: hasUsed ? { $gt: 0 } : { $lte: 0 } });
+        return this.find({ totalBumps: hasUsed ? { $gt: 0 } : { $lte: 0 } });
       },
+
       hasBannedBot(hasBanned = true) {
         return this.find({ hasBannedBot: hasBanned ? true : { $ne: true } });
       },

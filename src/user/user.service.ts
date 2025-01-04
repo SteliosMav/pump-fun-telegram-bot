@@ -278,7 +278,7 @@ export class UserService {
    * @param bumpAmountToIncrement - The amount to increment the bumps counter.
    * @returns A Promise resolving to the new bumpsCounter value.
    */
-  async incrementBumpsCounter(
+  async increaseBumpCounter(
     telegramId: number,
     bumpAmountToIncrement: number
   ): Promise<number | null> {

@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import TelegramBot from "node-telegram-bot-api";
 import {
   CallbackType,

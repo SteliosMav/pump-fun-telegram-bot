@@ -12,5 +12,5 @@ node_modules
 dist
 
 # Scripts
-scripts
-draft.ts
+# scripts
+# draft.ts
