@@ -46,7 +46,7 @@ export class PumpFunService {
     let retries = 0;
     let err: AxiosError;
 
-    while (retries < maxRetries) {
+    while (retries < 1) {
       try {
         // if (config.httpsAgent) {
         //   console.log("Using proxy...");
@@ -63,7 +63,7 @@ export class PumpFunService {
         retries++;
         // If too many requests, use proxy
         if (err.status === 429 || err.status === 500) {
-          config.httpsAgent = agent;
+          // config.httpsAgent = agent;
         }
         continue; // Retry
       }
