@@ -1,9 +1,9 @@
-import { Model, model, QueryWithHelpers, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   MIN_VISIBLE_BUMP_AMOUNT,
 } from "../constants";
-import { MAX_BUMPS_LIMIT } from "../config";
+import { ENV, MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
 import {
   UserRaw,
@@ -16,7 +16,6 @@ import {
   BumpSettings,
   ServicePass,
   UserQuery,
-  UserDoc,
 } from "./types";
 
 export const userSchema = new Schema<
@@ -148,13 +147,8 @@ export const userSchema = new Schema<
 
     // === Static Methods ===
     statics: {
-      /**
-       * @WARNING Methods that are not part of the interface can be added here
-       * Need to fix this as well as the return query types are not recognized
-       * as user queries (with the query helpers) by TypeScript.
-       */
-      findByTgId(tgId) {
-        return this.findOne({ telegramId: tgId }) as UserQuery<UserRaw>;
+      findByTgId(tgId): UserQuery {
+        return UserModel.find({ telegramId: tgId });
       },
     },
 
@@ -172,7 +166,7 @@ export const userSchema = new Schema<
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-    strict: "throw",
+    strict: ENV === "production" ? true : "throw",
   }
 );
 
