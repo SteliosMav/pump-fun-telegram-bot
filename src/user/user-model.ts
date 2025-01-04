@@ -147,8 +147,8 @@ export const userSchema = new Schema<
 
     // === Static Methods ===
     statics: {
-      findByTgId(tgId): UserQuery {
-        return UserModel.find({ telegramId: tgId });
+      findByTgId(tgId: number): UserQuery {
+        return UserModel.findOne({ telegramId: tgId });
       },
     },
 
