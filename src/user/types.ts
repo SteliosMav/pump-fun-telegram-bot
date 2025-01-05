@@ -51,22 +51,17 @@ export interface UserVirtuals {
   hasServicePass: boolean;
 }
 
+export type UserIncrementableFields = keyof Pick<
+  UserRaw,
+  "totalBumps" | "totalTokenPasses" | "usedTokenPasses"
+>;
+
 export interface UserMethods {
   hasPassForToken(mint: string): boolean;
   getPrivateKey(): string;
 }
 
-export interface UserStatics {
-  findByTgId(tgId: number): Promise<UserDoc | null>;
-  updateBumpSettings(
-    telegramId: number,
-    settings: Partial<BumpSettings>
-  ): Promise<UserDoc | null>;
-  increaseTotalBumps(
-    telegramId: number,
-    amount: number
-  ): Promise<UserDoc | null>;
-}
+export interface UserStatics {}
 
 export type UserQuery = QueryWithHelpers<
   HydratedDocument<UserRaw, UserMethods & UserVirtuals>[],
@@ -80,13 +75,13 @@ export interface UserQueryHelpers {
 }
 
 /**
- * This approach ensures strict typing for `UserModelOptions` while keeping it flexible:
+ * This approach ensures strict typing for `UserCreateOptions` while keeping it flexible:
  * - Dynamically references fields (like `bumpSettings`) without hardcoding, ensuring maintainability.
  * - Makes all default fields optional, with specific support for partial nested properties.
  */
 type Key = keyof Pick<UserDefaultFields, "bumpSettings">;
 type Value = UserDefaultFields[Key];
-type UserModelOptions = UserRequiredFields &
+export type UserCreateOptions = UserRequiredFields &
   Partial<Omit<UserDefaultFields, Key>> & {
     [K in Key]?: Partial<Value>;
   } & Partial<UserOptionalFields>;
@@ -101,7 +96,7 @@ export interface UserModelType
     Model<UserRaw, UserQueryHelpers, UserMethods, UserVirtuals> & UserStatics,
     "new"
   > {
-  new (data: UserModelOptions): HydratedDocument<
+  new (data: UserCreateOptions): HydratedDocument<
     UserRaw,
     UserMethods & UserVirtuals
   >;

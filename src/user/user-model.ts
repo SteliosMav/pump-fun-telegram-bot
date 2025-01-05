@@ -3,7 +3,7 @@ import {
   MIN_VALIDATOR_TIP_IN_SOL,
   MIN_VISIBLE_BUMP_AMOUNT,
 } from "../constants";
-import { ENV, MAX_BUMPS_LIMIT } from "../config";
+import { MAX_BUMPS_LIMIT } from "../config";
 import { decryptPrivateKey } from "../lib/crypto";
 import {
   UserRaw,
@@ -15,7 +15,6 @@ import {
   TokenPass,
   BumpSettings,
   ServicePass,
-  UserDoc,
 } from "./types";
 
 export const userSchema = new Schema<
@@ -146,36 +145,6 @@ export const userSchema = new Schema<
       },
     },
 
-    // === Static Methods ===
-    statics: {
-      findByTgId(tgId: number): Promise<UserDoc | null> {
-        return UserModel.findOne({ telegramId: tgId });
-      },
-
-      updateBumpSettings(
-        telegramId: number,
-        settings: Partial<BumpSettings>
-      ): Promise<UserDoc | null> {
-        return UserModel.findOneAndUpdate(
-          { telegramId },
-          { bumpSettings: settings },
-          { new: true, runValidators: true }
-        );
-      },
-
-      increaseTotalBumps(
-        telegramId: number,
-        amount: number
-      ): Promise<UserDoc | null> {
-        const dateISO = new Date().toISOString();
-        return UserModel.findOneAndUpdate(
-          { telegramId },
-          { $inc: { totalBumps: amount }, lastBumpAt: dateISO },
-          { new: true, runValidators: true }
-        );
-      },
-    },
-
     // === Query helpers ===
     query: {
       hasUsedBot(hasUsed = true) {
@@ -191,7 +160,7 @@ export const userSchema = new Schema<
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-    strict: ENV === "production" ? true : "throw",
+    strict: "throw",
   }
 );
 

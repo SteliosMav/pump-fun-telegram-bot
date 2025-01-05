@@ -8,212 +8,10 @@ import { CustomResponse } from "../shared/types";
 import { SolanaService } from "../solana/solana.service";
 import TelegramBot from "node-telegram-bot-api";
 import { Document } from "mongoose";
+import { UserRepository } from "./user.repository";
 
 export class UserService {
-  constructor() {}
-
-  async create(user: UserDoc): Promise<UserDoc> {
-    // Encrypt the private key
-    const encryptedPrivateKey = this._encryptPrivateKey(user.privateKey);
-
-    const newUser = {
-      telegramId: user.telegramId,
-      encryptedPrivateKey,
-      firstName: user.firstName,
-      isBot: user.isBot,
-      bumpsCounter: user.bumpsCounter,
-      tokenPassesTotal: user.tokenPassesTotal,
-      tokenPassesUsed: user.tokenPassesUsed,
-      bumpIntervalInSeconds: user.bumpIntervalInSeconds,
-      pumpFunAccIsSet: user.pumpFunAccIsSet,
-      bumpAmount: user.bumpAmount,
-      bumpsLimit: user.bumpsLimit,
-      slippage: user.slippage,
-      priorityFee: user.priorityFee,
-      tokenPass: user.tokenPass,
-      // createdAt: user.createdAt,
-      // updatedAt: user.updatedAt,
-      lastName: user.lastName,
-      username: user.username,
-    };
-    const toSave = new UserModel(newUser);
-
-    const userDoc = await toSave.save();
-    return this._docToJSON(userDoc);
-  }
-
-  async getUser(telegramId: number): Promise<UserDoc | null> {
-    const userDoc = await UserModel.findOne({
-      telegramId: telegramId,
-    });
-    return userDoc ? this._docToJSON(userDoc) : null;
-  }
-
-  async getUsers(telegramIds?: number[]): Promise<UserDoc[]> {
-    const query = telegramIds ? { telegramId: { $in: telegramIds } } : {};
-    const userDocs = await UserModel.find(query);
-    return userDocs.map((doc) => this._docToJSON(doc));
-  }
-
-  /**
-   * Update the bump amount for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param newBumpAmount - The new bump amount to set.
-   * @returns A boolean indicating if the update was successful.
-   */
-  async updateBumpAmount(
-    telegramId: number,
-    newBumpAmount: number
-  ): Promise<number | null> {
-    // Use findOneAndUpdate to find the user and update the bumpAmount
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      {
-        bumpAmount: newBumpAmount, // Update the bumpAmount field
-      },
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    return updatedUser ? updatedUser.bumpAmount : null;
-  }
-
-  /**
-   * Update the bumps limit for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param newBumpsLimit - The new bumps limit to set.
-   * @returns A boolean indicating if the update was successful.
-   */
-  async updateBumpsLimit(
-    telegramId: number,
-    newBumpsLimit: number
-  ): Promise<number | null> {
-    // Use findOneAndUpdate to find the user and update the bumpsLimit
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      {
-        bumpsLimit: newBumpsLimit, // Update the bumpsLimit field
-      },
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    return updatedUser ? updatedUser.bumpsLimit : null;
-  }
-
-  /**
-   * Update the interval value for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param newInterval - The new interval to set.
-   * @returns A boolean indicating if the update was successful.
-   */
-  /**
-   * Update the interval value for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param newInterval - The new interval to set.
-   * @returns A number indicating the updated interval value.
-   */
-  async updateInterval(
-    telegramId: number,
-    newInterval: number
-  ): Promise<number | null> {
-    // Use findOneAndUpdate to find the user and update the bumpIntervalInSeconds and updatedAt fields
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      {
-        bumpIntervalInSeconds: newInterval, // Update the bumpIntervalInSeconds field
-      },
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    // Return the updated bumpIntervalInSeconds
-    return updatedUser ? updatedUser.bumpIntervalInSeconds : null;
-  }
-
-  /**
-   * Update the slippage value for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param newSlippage - The new slippage value to set.
-   * @returns A boolean indicating if the update was successful.
-   */
-  async updateSlippage(
-    telegramId: number,
-    newSlippage: number
-  ): Promise<number | null> {
-    // Use findOneAndUpdate to find the user and update the slippage and updatedAt fields
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      {
-        slippage: newSlippage, // Update the slippage field
-      },
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    // Return the updated slippage
-    return updatedUser ? updatedUser.slippage : null;
-  }
-
-  /**
-   * Update the priority fee for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param newPriorityFee - The new priority fee value to set.
-   * @returns A boolean indicating if the update was successful.
-   */
-  async updatePriorityFee(
-    telegramId: number,
-    newPriorityFee: number
-  ): Promise<number | null> {
-    // Use findOneAndUpdate to find the user and update the priorityFee and updatedAt fields
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      { priorityFee: newPriorityFee },
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    // Return the updated priorityFee
-    return updatedUser ? updatedUser.priorityFee : null;
-  }
-
-  /**
-   * Update telegram info for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param from - Telegram from user.
-   * @returns A boolean indicating if the update was successful.
-   */
-  async updateTgInfo(
-    telegramId: number,
-    from: TelegramBot.Message["from"]
-  ): Promise<boolean> {
-    const valuesToUpdate: any = {};
-    if (from?.first_name) valuesToUpdate.firstName = from.first_name;
-    if (from?.last_name) valuesToUpdate.lastName = from.last_name;
-    if (from?.username) valuesToUpdate.username = from.username;
-    // Use findOneAndUpdate to find the user and update the tg-Info and updatedAt fields
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      valuesToUpdate,
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    // Return the updated priorityFee
-    return updatedUser ? true : false;
-  }
+  constructor(private userRepo: UserRepository) {}
 
   async setUpUsersPumpFunAcc(
     telegramId: number,
@@ -262,120 +60,26 @@ export class UserService {
       }
 
       // Update user in db that pump fun account is set
-      await UserModel.findOneAndUpdate(
-        { telegramId },
-        { pumpFunAccIsSet: true },
-        { new: true, runValidators: true }
-      );
+      await this.userRepo.updateOne(telegramId, { isPumpFunAccountSet: true });
     } catch (error) {
       console.error("Error updating users pump fun account:", error);
     }
   }
 
-  /**
-   * Increment the bumps counter by a specified amount for a user.
-   * @param telegramId - The user's Telegram ID.
-   * @param bumpAmountToIncrement - The amount to increment the bumps counter.
-   * @returns A Promise resolving to the new bumpsCounter value.
-   */
-  async increaseBumpCounter(
-    telegramId: number,
-    bumpAmountToIncrement: number
-  ): Promise<number | null> {
-    // Use findOneAndUpdate to increment bumpsCounter and update the updatedAt field
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { telegramId }, // Query to find the user by telegramId
-      {
-        $inc: { bumpsCounter: bumpAmountToIncrement }, // Increment bumpsCounter by bumpAmountToIncrement
-        lastBumpAt: new Date().toISOString(), // Update the lastBumpAt field
-      },
-      {
-        new: true, // Return the updated document, not the old one
-        runValidators: true, // Validate the new value against the schema
-      }
-    );
-
-    // Return the updated bumpsCounter
-    return updatedUser ? updatedUser.bumpsCounter : null;
-  }
-
-  /**
-   * Assign a service fee pass to a user with an optional expiration date.
-   * @param telegramId - The user's Telegram ID.
-   * @param expirationDate - The optional expiration date for the pass (ISO 8601 format).
-   * @returns A Promise resolving to the updated user.
-   */
-  async giveServiceFeePass(
+  async giveServicePass(
     telegramId: number,
     expirationDate?: string
   ): Promise<UserDoc | null> {
-    try {
-      // Prepare the service fee pass object
-      const serviceFeePass: UserDoc["serviceFeePass"] = {
-        createdAt: new Date().toISOString(), // Set the current date as createdAt
-      };
-      // Set expirationDate if provided, otherwise undefined
-      if (expirationDate) serviceFeePass.expirationDate = expirationDate;
+    const servicePass = {
+      createdAt: new Date().toISOString(),
+      expirationDate,
+    };
 
-      // Update the user's serviceFeePass
-      const updatedUser = await UserModel.findOneAndUpdate(
-        { telegramId }, // Query to find the user by telegramId
-        {
-          $set: { serviceFeePass }, // Set the serviceFeePass field
-        },
-        {
-          new: true, // Return the updated document
-          runValidators: true, // Validate the new value against the schema
-        }
-      );
-
-      // Return the updated user
-      return updatedUser ? this._docToJSON(updatedUser) : null;
-    } catch (error) {
-      console.error("Error assigning service fee pass:", error);
-      return null;
-    }
+    return this.userRepo.updateOne(telegramId, { servicePass });
   }
 
-  /**
-   * Gifts a token pass to a user by updating their tokenPassesTotal.
-   * @param telegramId The Telegram ID of the user.
-   * @returns A response indicating the success or failure of the operation.
-   */
-  async giveTokenPass(telegramId: number): Promise<CustomResponse<string>> {
-    try {
-      // Update the tokenPassesTotal for the user
-      const updatedUser = await UserModel.findOneAndUpdate(
-        { telegramId }, // Query to find the user by Telegram ID
-        { $inc: { tokenPassesTotal: 1 } }, // Increment tokenPassesTotal by 1
-        { new: true, runValidators: true } // Return the updated user and validate schema
-      );
-
-      if (!updatedUser) {
-        console.error(
-          "User was not found in the database to be updated",
-          telegramId
-        );
-        return {
-          success: false,
-          code: "USER_NOT_FOUND",
-          error: "User not found",
-        };
-      }
-
-      // Return success response
-      return {
-        success: true,
-        data: "Token pass successfully given to the user.",
-      };
-    } catch (error) {
-      console.error("Error in giveTokenPass:", error);
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        error,
-      };
-    }
+  giveTokenPass(telegramId: number): Promise<UserDoc | null> {
+    return this.userRepo.increment(telegramId, "totalTokenPasses");
   }
 
   /**
