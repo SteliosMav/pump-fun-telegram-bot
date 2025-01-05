@@ -15,10 +15,9 @@ interface UserRequiredFields {
 interface UserDefaultFields {
   totalBumps: number;
   totalTokenPasses: number;
-  usedTokenPasses: number;
   bumpSettings: BumpSettings;
   isPumpFunAccountSet: boolean;
-  tokenPasses: Map<string, TokenPass>;
+  usedTokenPasses: Map<string, TokenPass>;
 }
 interface UserOptionalFields {
   servicePass?: ServicePass;

@@ -35,7 +35,6 @@ export const userSchema = new Schema<
     // === Default fields ===
     totalBumps: { type: Number, default: 0 },
     totalTokenPasses: { type: Number, default: 1 }, // New users get 1 free token pass
-    usedTokenPasses: { type: Number, default: 0 },
     bumpSettings: {
       type: new Schema<BumpSettings>(
         {
@@ -73,7 +72,7 @@ export const userSchema = new Schema<
       default: {},
     },
     isPumpFunAccountSet: { type: Boolean, required: true, default: false },
-    tokenPasses: {
+    usedTokenPasses: {
       type: Map,
       of: new Schema<TokenPass>(
         {
@@ -128,7 +127,7 @@ export const userSchema = new Schema<
       },
 
       hasPassForToken(mint: string): boolean {
-        const tokenPassToken = this.tokenPasses.get(mint);
+        const tokenPassToken = this.usedTokenPasses.get(mint);
         if (tokenPassToken && tokenPassToken.createdAt) {
           const expirationDate = tokenPassToken.expirationDate
             ? new Date(tokenPassToken.expirationDate)
