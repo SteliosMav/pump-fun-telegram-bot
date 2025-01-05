@@ -58,6 +58,10 @@ export interface UserMethods {
 
 export interface UserStatics {
   findByTgId(tgId: number): Promise<UserDoc | null>;
+  updateBumpSettings(
+    telegramId: number,
+    settings: Partial<BumpSettings>
+  ): Promise<UserDoc | null>;
   increaseTotalBumps(
     telegramId: number,
     amount: number

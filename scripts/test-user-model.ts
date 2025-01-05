@@ -13,7 +13,9 @@ connectDB();
   // });
   // await user.save();
 
-  const user = await UserModel.increaseTotalBumps(1, 3);
+  // const user = await UserModel.increaseTotalBumps(1, 3);
+
+  const user = await UserModel.updateBumpSettings(1, { amount: 0.05 });
 
   console.log(user);
 

@@ -152,20 +152,26 @@ export const userSchema = new Schema<
         return UserModel.findOne({ telegramId: tgId });
       },
 
+      updateBumpSettings(
+        telegramId: number,
+        settings: Partial<BumpSettings>
+      ): Promise<UserDoc | null> {
+        return UserModel.findOneAndUpdate(
+          { telegramId },
+          { bumpSettings: settings },
+          { new: true, runValidators: true }
+        );
+      },
+
       increaseTotalBumps(
         telegramId: number,
         amount: number
       ): Promise<UserDoc | null> {
+        const dateISO = new Date().toISOString();
         return UserModel.findOneAndUpdate(
           { telegramId },
-          {
-            $inc: { totalBumps: amount },
-            lastBumpAt: new Date().toISOString(),
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
+          { $inc: { totalBumps: amount }, lastBumpAt: dateISO },
+          { new: true, runValidators: true }
         );
       },
     },
