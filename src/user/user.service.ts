@@ -6,8 +6,6 @@ import { UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import { CustomResponse } from "../shared/types";
 import { SolanaService } from "../solana/solana.service";
-import TelegramBot from "node-telegram-bot-api";
-import { Document } from "mongoose";
 import { UserRepository } from "./user.repository";
 
 export class UserService {
@@ -78,16 +76,6 @@ export class UserService {
     return this.userRepo.updateOne(telegramId, { servicePass });
   }
 
-  giveTokenPass(telegramId: number): Promise<UserDoc | null> {
-    return this.userRepo.increment(telegramId, "totalTokenPasses");
-  }
-
-  /**
-   * Buys a token pass for the user, performing a SOL transfer and updating their tokenPassesTotal.
-   * @param telegramId The Telegram ID of the user.
-   * @param payerPrivateKey The private key of the payer as a base58 string.
-   * @returns A response indicating the success or failure of the operation.
-   */
   async buyTokenPass(
     telegramId: number,
     payerPrivateKey: string
@@ -110,7 +98,10 @@ export class UserService {
       }
 
       // Step 2: Use giveTokenPass to update the user's token passes
-      const giftResponse = await this.giveTokenPass(telegramId);
+      const giftResponse = await this.userRepo.increment(
+        telegramId,
+        "totalTokenPasses"
+      );
 
       if (!giftResponse.success) {
         console.error(
