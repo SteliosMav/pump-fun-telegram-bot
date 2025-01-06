@@ -84,6 +84,9 @@ export type UserCreateOptions = UserRequiredFields &
   Partial<Omit<UserDefaultFields, Key>> & {
     [K in Key]?: Partial<Value>;
   } & Partial<UserOptionalFields>;
+export type UserUpdateOptions = Partial<Omit<UserRaw, Key>> & {
+  [K in Key]?: Partial<Value>;
+} & Partial<UserOptionalFields>;
 
 /**
  * Overwriting `new` method enforces strict typing for the payload when creating new user documents.

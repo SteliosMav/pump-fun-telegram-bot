@@ -32,7 +32,25 @@ connectDB();
 
   // const user = await userRepo.updateMany([3], { isBot: true });
 
-  const user = await userRepo.increment(1, "usedTokenPasses", 2);
+  const user = await userRepo.increment(1, "isBot" as any, 2);
+
+  // const user = await userRepo.updateOne(1, {
+  //   bumpSettings: {
+  //     limit: 2,
+  //   },
+  // });
+
+  // const user = await userRepo.updateOne(1, {
+  //   bumpSettings: {},
+  // });
+
+  // const user = await UserModel.findOneAndUpdate(
+  //   {
+  //     telegramId: 1,
+  //   },
+  //   { $set: { "bumpSettings.intervalInSeconds": 1 } },
+  //   { new: true, runValidators: true }
+  // );
 
   console.log(user);
 
