@@ -1,8 +1,8 @@
 import {
-  TokenPass,
   UserCreateOptions,
   UserDoc,
   UserIncrementableFields,
+  UserRaw,
   UserUpdateOptions,
 } from "./types";
 import { UserModel } from "./user-model";
@@ -58,24 +58,32 @@ export class UserRepository {
 
   addUsedTokenPass(
     telegramId: number,
-    tokenId: string
+    tokenMint: string
   ): Promise<UserDoc | null> {
-    const tokenPass: TokenPass = { createdAt: new Date().toISOString() };
+    /**
+     * @note add field string with type safe way !!!
+     */
+    const date: Date = new Date();
     return UserModel.findOneAndUpdate(
       { telegramId },
-      { $set: { [`usedTokenPasses.${tokenId}`]: tokenPass } },
+      { $set: { [`usedTokenPasses.${tokenMint}`]: date } },
       { new: true, runValidators: true }
     );
   }
 
   addServicePass(telegramId: number): Promise<UserDoc | null> {
-    return UserModel.findOneAndUpdate(
-      { telegramId },
-      { servicePass: { createdAt: new Date().toISOString() } },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const update: Pick<UserRaw, "servicePass"> = {
+      servicePass: { createdAt: new Date() },
+    };
+    return UserModel.findOneAndUpdate({ telegramId }, update, {
+      new: true,
+      runValidators: true,
+    });
   }
+
+  /**
+   * @note add method that adds a certain amount of bumps to the totalBumps
+   * and updates the last bump at property. Consider removing general incremental
+   * method and adding another for adding token pass to the user.
+   */
 }

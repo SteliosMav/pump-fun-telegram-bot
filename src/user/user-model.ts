@@ -12,7 +12,6 @@ import {
   UserQueryHelpers,
   UserStatics,
   UserVirtuals,
-  TokenPass,
   BumpSettings,
   ServicePass,
 } from "./types";
@@ -74,27 +73,21 @@ export const userSchema = new Schema<
     isPumpFunAccountSet: { type: Boolean, required: true, default: false },
     usedTokenPasses: {
       type: Map,
-      of: new Schema<TokenPass>(
-        {
-          createdAt: { type: String, required: true },
-          expirationDate: String,
-        },
-        { _id: false }
-      ),
+      of: Date,
       default: new Map(),
     },
 
     // === Optional fields ===
     servicePass: new Schema<ServicePass>(
       {
-        createdAt: { type: String, required: true },
+        createdAt: { type: Date, required: true },
         expirationDate: String,
       },
       { _id: false }
     ),
     lastName: String,
     username: String,
-    lastBumpAt: String,
+    lastBumpAt: Date,
     hasBannedBot: Boolean,
   },
 
@@ -124,23 +117,6 @@ export const userSchema = new Schema<
     methods: {
       getPrivateKey() {
         return decryptPrivateKey(this.encryptedPrivateKey);
-      },
-
-      hasPassForToken(mint: string): boolean {
-        const tokenPassToken = this.usedTokenPasses.get(mint);
-        if (tokenPassToken && tokenPassToken.createdAt) {
-          const expirationDate = tokenPassToken.expirationDate
-            ? new Date(tokenPassToken.expirationDate)
-            : null;
-          if (expirationDate) {
-            if (expirationDate > new Date()) {
-              return true;
-            }
-          } else {
-            return true;
-          }
-        }
-        return false;
       },
     },
 

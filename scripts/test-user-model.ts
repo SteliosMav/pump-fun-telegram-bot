@@ -21,10 +21,10 @@ connectDB();
   // const user = await UserModel.updateBumpSettings(1, { amount: 0.05 });
 
   // const user = await userRepo.create({
-  //   telegramId: 3,
+  //   telegramId: 7,
   //   encryptedPrivateKey:
   //     "U2FsdGVkX1/wxcCnZeirjjQvuGqa37ezNlcrle+8RQPsSyeaj+HCfBxlj9ttlzbmcbT3SP8AICg4LpTkXwNnmem2SZMKGoAr3IdttyupD+eZlN5UXs+meEpMRzpnWWu561GNavBuKqMHuroJFa26GA==",
-  //   firstName: "Steve",
+  //   firstName: "Jacobs",
   //   isBot: false,
   // });
 
@@ -60,7 +60,7 @@ connectDB();
 
   // console.log(users);
 
-  const telegramId = 3;
+  const telegramId = 7;
   const user = await userRepo.addServicePass(telegramId);
 
   console.log(user);
