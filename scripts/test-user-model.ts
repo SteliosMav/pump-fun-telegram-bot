@@ -60,24 +60,8 @@ connectDB();
 
   // console.log(users);
 
-  const telegramId = 1;
-  const user = await userRepo.find(telegramId);
-  const ca = "526d8UxmsTQJKN9bbsZsjaYShzRMnPBPQuniBnC1K3Ao"; // "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump";
-
-  if (user) {
-    user.servicePass = {
-      createdAt: new Date().toISOString(), // Current time in ISO string format
-    };
-
-    // Save the updated user document
-    const updatedUser = await userRepo.updateOne(
-      telegramId,
-      {
-        usedTokenPasses: user.usedTokenPasses,
-      },
-      false
-    );
-  }
+  const telegramId = 3;
+  const user = await userRepo.addServicePass(telegramId);
 
   console.log(user);
 

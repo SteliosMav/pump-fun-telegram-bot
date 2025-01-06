@@ -1,4 +1,10 @@
-import { UserCreateOptions, UserDoc, UserUpdateOptions } from "./types";
+import {
+  TokenPass,
+  UserCreateOptions,
+  UserDoc,
+  UserIncrementableFields,
+  UserUpdateOptions,
+} from "./types";
 import { UserModel } from "./user-model";
 
 export class UserRepository {
@@ -18,14 +24,9 @@ export class UserRepository {
 
   updateOne(
     telegramId: number,
-    update: UserUpdateOptions,
-    preserveNestedFields = true
+    update: UserUpdateOptions
   ): Promise<UserDoc | null> {
-    const updateOperations = this.buildUpdateOperations(
-      update,
-      preserveNestedFields
-    );
-    return UserModel.findOneAndUpdate({ telegramId }, updateOperations, {
+    return UserModel.findOneAndUpdate({ telegramId }, update, {
       new: true,
       runValidators: true,
     });
@@ -33,14 +34,9 @@ export class UserRepository {
 
   updateMany(
     telegramId: number[],
-    update: UserUpdateOptions,
-    preserveNestedFields = true
+    update: UserUpdateOptions
   ): Promise<{ matchedCount: number; modifiedCount: number }> {
-    const updateOperations = this.buildUpdateOperations(
-      update,
-      preserveNestedFields
-    );
-    return UserModel.updateMany({ telegramId }, updateOperations, {
+    return UserModel.updateMany({ telegramId }, update, {
       runValidators: true,
     }).then((result) => ({
       matchedCount: result.matchedCount,
@@ -48,70 +44,38 @@ export class UserRepository {
     }));
   }
 
-  /**
-   * Improvement: Create type `FilterNumericValues` to enforce type safety for numeric-only updates.
-   */
   increment(
     telegramId: number,
-    increments: UserUpdateOptions
+    field: UserIncrementableFields,
+    amount: number = 1
   ): Promise<UserDoc | null> {
-    const updateOperations: Record<string, any> = { $inc: {} };
-
-    const buildNestedIncrements = (
-      obj: Record<string, any>,
-      path: string[] = []
-    ) => {
-      for (const [key, value] of Object.entries(obj)) {
-        const currentPath = [...path, key].join(".");
-        if (value && typeof value === "object" && !Array.isArray(value)) {
-          buildNestedIncrements(value, [...path, key]);
-        } else {
-          updateOperations.$inc[currentPath] = value;
-        }
-      }
-    };
-
-    buildNestedIncrements(increments);
-
-    return UserModel.findOneAndUpdate({ telegramId }, updateOperations, {
-      new: true,
-      runValidators: true,
-    });
+    return UserModel.findOneAndUpdate(
+      { telegramId },
+      { $inc: { [field]: amount } },
+      { new: true, runValidators: true }
+    );
   }
 
-  /**
-   * WARNING: Can cause many problems when used with Map and similarly big objects.
-   *
-   * By default, MongoDB will overwrite nested objects entirely when updating.
-   * This function provides the option to preserve existing nested fields in objects.
-   *
-   * @returns A MongoDB-compatible update operation object.
-   */
-  private buildUpdateOperations(
-    update: UserUpdateOptions,
-    preserveNestedFields: boolean
-  ): Record<string, any> {
-    if (!preserveNestedFields) {
-      return update;
-    }
+  addUsedTokenPass(
+    telegramId: number,
+    tokenId: string
+  ): Promise<UserDoc | null> {
+    const tokenPass: TokenPass = { createdAt: new Date().toISOString() };
+    return UserModel.findOneAndUpdate(
+      { telegramId },
+      { $set: { [`usedTokenPasses.${tokenId}`]: tokenPass } },
+      { new: true, runValidators: true }
+    );
+  }
 
-    const operations: Record<string, any> = { $set: {} };
-
-    const buildNestedUpdates = (
-      obj: Record<string, any>,
-      path: string[] = []
-    ) => {
-      for (const [key, value] of Object.entries(obj)) {
-        const currentPath = [...path, key].join(".");
-        if (value && typeof value === "object" && !Array.isArray(value)) {
-          buildNestedUpdates(value, [...path, key]);
-        } else {
-          operations.$set[currentPath] = value;
-        }
+  addServicePass(telegramId: number): Promise<UserDoc | null> {
+    return UserModel.findOneAndUpdate(
+      { telegramId },
+      { servicePass: { createdAt: new Date().toISOString() } },
+      {
+        new: true,
+        runValidators: true,
       }
-    };
-
-    buildNestedUpdates(update);
-    return operations;
+    );
   }
 }
