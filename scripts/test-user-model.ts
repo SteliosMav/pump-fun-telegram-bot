@@ -32,7 +32,11 @@ connectDB();
 
   // const user = await userRepo.updateMany([3], { isBot: true });
 
-  const user = await userRepo.increment(1, "isBot" as any, 2);
+  const user = await userRepo.increment(1, {
+    bumpSettings: {
+      limit: 3,
+    },
+  });
 
   // const user = await userRepo.updateOne(1, {
   //   bumpSettings: {

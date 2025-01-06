@@ -1,9 +1,4 @@
-import {
-  UserCreateOptions,
-  UserDoc,
-  UserIncrementableFields,
-  UserUpdateOptions,
-} from "./types";
+import { UserCreateOptions, UserDoc, UserUpdateOptions } from "./types";
 import { UserModel } from "./user-model";
 
 export class UserRepository {
@@ -55,16 +50,35 @@ export class UserRepository {
     }));
   }
 
+  /**
+   * Improvement: Create type `FilterNumericValues` to enforce type safety for numeric-only updates.
+   */
   increment(
     telegramId: number,
-    field: UserIncrementableFields,
-    amount: number = 1
+    increments: UserUpdateOptions
   ): Promise<UserDoc | null> {
-    return UserModel.findOneAndUpdate(
-      { telegramId },
-      { $inc: { [field]: amount } },
-      { new: true, runValidators: true }
-    );
+    const updateOperations: Record<string, any> = { $inc: {} };
+
+    const buildNestedIncrements = (
+      obj: Record<string, any>,
+      path: string[] = []
+    ) => {
+      for (const [key, value] of Object.entries(obj)) {
+        const currentPath = [...path, key].join(".");
+        if (value && typeof value === "object" && !Array.isArray(value)) {
+          buildNestedIncrements(value, [...path, key]);
+        } else {
+          updateOperations.$inc[currentPath] = value;
+        }
+      }
+    };
+
+    buildNestedIncrements(increments);
+
+    return UserModel.findOneAndUpdate({ telegramId }, updateOperations, {
+      new: true,
+      runValidators: true,
+    });
   }
 
   /**
