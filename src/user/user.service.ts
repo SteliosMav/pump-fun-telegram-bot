@@ -126,8 +126,11 @@ export class UserService {
     }
   }
 
-  async useTokenPass(tgId: number, ca: string): Promise<CustomResponse<null>> {
-    const user = await this.userRepo.find(tgId);
+  async useTokenPass(
+    telegramId: number,
+    ca: string
+  ): Promise<CustomResponse<null>> {
+    const user = await this.userRepo.find(telegramId);
 
     if (!user) {
       throw { code: 404 };
@@ -157,7 +160,9 @@ export class UserService {
     });
 
     // Save the updated user document
-    await user.save();
+    await this.userRepo.updateOne(telegramId, {
+      usedTokenPasses: user.usedTokenPasses,
+    });
 
     return {
       success: true,
@@ -165,30 +170,5 @@ export class UserService {
     };
   }
 
-  async getAllUserIds(): Promise<number[]> {
-    // Fetch all users from the database
-    const users = await this.getUsers();
-
-    // Extract and return an array of telegram IDs
-    return users.map((user) => user.telegramId);
-  }
-
-  private _encryptPrivateKey(privateKey: string) {
-    return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();
-  }
-
-  private _decryptPrivateKey(encryptedPrivateKey: string) {
-    const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, ENCRYPTION_KEY);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  }
-
-  private _docToJSON(userDoc: any): UserDoc {
-    const { encryptedPrivateKey, ...userJSON } = userDoc.toJSON();
-    const data: UserDoc = {
-      ...userJSON,
-      _id: userDoc._id.toString(),
-      privateKey: this._decryptPrivateKey(encryptedPrivateKey),
-    };
-    return data;
-  }
+  /** Implement a method for newsLetter `updateUsersWhoBannedBot` */
 }

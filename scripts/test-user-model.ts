@@ -32,11 +32,11 @@ connectDB();
 
   // const user = await userRepo.updateMany([3], { isBot: true });
 
-  const user = await userRepo.increment(1, {
-    bumpSettings: {
-      limit: 3,
-    },
-  });
+  // const user = await userRepo.increment(1, {
+  //   bumpSettings: {
+  //     limit: 3,
+  //   },
+  // });
 
   // const user = await userRepo.updateOne(1, {
   //   bumpSettings: {
@@ -55,6 +55,29 @@ connectDB();
   //   { $set: { "bumpSettings.intervalInSeconds": 1 } },
   //   { new: true, runValidators: true }
   // );
+
+  // const users = await userRepo.findNewsletterRecipients();
+
+  // console.log(users);
+
+  const telegramId = 1;
+  const user = await userRepo.find(telegramId);
+  const ca = "526d8UxmsTQJKN9bbsZsjaYShzRMnPBPQuniBnC1K3Ao"; // "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump";
+
+  if (user) {
+    user.servicePass = {
+      createdAt: new Date().toISOString(), // Current time in ISO string format
+    };
+
+    // Save the updated user document
+    const updatedUser = await userRepo.updateOne(
+      telegramId,
+      {
+        usedTokenPasses: user.usedTokenPasses,
+      },
+      false
+    );
+  }
 
   console.log(user);
 

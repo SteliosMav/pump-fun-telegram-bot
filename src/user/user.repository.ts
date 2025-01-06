@@ -6,16 +6,14 @@ export class UserRepository {
     return UserModel.create(user);
   }
 
-  async find(telegramId: number): Promise<UserDoc | null>;
-  async find(telegramIds: number[]): Promise<UserDoc[]>;
-  async find(
-    tgIdOrIds: number | number[]
-  ): Promise<UserDoc | UserDoc[] | null> {
-    if (Array.isArray(tgIdOrIds)) {
-      return UserModel.find({ telegramId: { $in: tgIdOrIds } });
-    } else {
-      return UserModel.findOne({ telegramId: tgIdOrIds });
-    }
+  find(telegramId: number): Promise<UserDoc | null> {
+    return UserModel.findOne({ telegramId: telegramId });
+  }
+
+  findNewsletterRecipients(): Promise<number[]> {
+    return UserModel.find({}, { telegramId: 1, _id: 0 }).then((users) =>
+      users.map((user) => user.telegramId)
+    );
   }
 
   updateOne(
@@ -82,6 +80,8 @@ export class UserRepository {
   }
 
   /**
+   * WARNING: Can cause many problems when used with Map and similarly big objects.
+   *
    * By default, MongoDB will overwrite nested objects entirely when updating.
    * This function provides the option to preserve existing nested fields in objects.
    *
