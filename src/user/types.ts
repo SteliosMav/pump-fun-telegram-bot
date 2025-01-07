@@ -78,6 +78,18 @@ export interface UserQueryHelpers {
 }
 
 /**
+ *
+ *
+ * ============================================================
+ *
+ * @WARNING THINK ABOUT REFACTORING OR REMOVING THE BELOW TYPES
+ *
+ * ============================================================
+ *
+ *
+ */
+
+/**
  * This approach ensures strict typing for `UserCreateOptions` while keeping it flexible:
  * - Dynamically references fields (like `bumpSettings`) without hardcoding, ensuring maintainability.
  * - Makes all default fields optional, with specific support for partial nested properties.

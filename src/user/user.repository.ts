@@ -53,6 +53,13 @@ export class UserRepository {
     }));
   }
 
+  /**
+   *
+   * @WARNING THINK OF HAVING A `setNestedFields` METHOD THAT COULD BE
+   * REUSED IN METHODS SUCH AS `updateTelegramInfo` AND `updateBumpSettings`.
+   *
+   */
+
   updateTelegramInfo(
     telegramId: number,
     updates: Partial<UserRaw["telegram"]>
