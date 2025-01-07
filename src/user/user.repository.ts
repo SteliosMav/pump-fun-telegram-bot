@@ -53,47 +53,18 @@ export class UserRepository {
     }));
   }
 
-  /**
-   *
-   * @WARNING THINK OF HAVING A `setNestedFields` METHOD THAT COULD BE
-   * REUSED IN METHODS SUCH AS `updateTelegramInfo` AND `updateBumpSettings`.
-   *
-   */
-
   updateTelegramInfo(
     telegramId: number,
     updates: Partial<UserRaw["telegram"]>
   ): Promise<UserDoc | null> {
-    const telegramKey: keyof Pick<UserRaw, "telegram"> = "telegram";
-    const update: Record<string, any> = {};
-
-    for (const [key, value] of Object.entries(updates)) {
-      update[`${telegramKey}.${key}`] = value;
-    }
-
-    return UserModel.findOneAndUpdate(
-      { [this.telegramIdPath]: telegramId },
-      { $set: update },
-      { new: true, runValidators: true }
-    );
+    return this.setNestedProperties(telegramId, "telegram", updates);
   }
 
   updateBumpSettings(
     telegramId: number,
     updates: Partial<UserRaw["bumpSettings"]>
   ): Promise<UserDoc | null> {
-    const bumpSettingsKey: keyof Pick<UserRaw, "bumpSettings"> = "bumpSettings";
-    const update: Record<string, any> = {};
-
-    for (const [key, value] of Object.entries(updates)) {
-      update[`${bumpSettingsKey}.${key}`] = value;
-    }
-
-    return UserModel.findOneAndUpdate(
-      { [this.telegramIdPath]: telegramId },
-      { $set: update },
-      { new: true, runValidators: true }
-    );
+    return this.setNestedProperties(telegramId, "bumpSettings", updates);
   }
 
   incrementTokenPasses(
@@ -197,6 +168,24 @@ export class UserRepository {
         new: true,
         runValidators: true,
       }
+    );
+  }
+
+  private setNestedProperties<T extends keyof UserRaw>(
+    telegramId: number,
+    field: T,
+    updates: Partial<UserRaw[T]>
+  ): Promise<UserDoc | null> {
+    const update: Record<string, any> = {};
+
+    for (const [key, value] of Object.entries(updates)) {
+      update[`${field}.${key}`] = value;
+    }
+
+    return UserModel.findOneAndUpdate(
+      { [this.telegramIdPath]: telegramId },
+      { $set: update },
+      { new: true, runValidators: true }
     );
   }
 }

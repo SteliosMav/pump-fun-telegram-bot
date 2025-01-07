@@ -21,7 +21,6 @@ interface UserDefaultFields {
 }
 interface UserOptionalFields {
   servicePass?: ServicePass;
-
   lastBumpAt?: Date;
 }
 export interface UserRaw
