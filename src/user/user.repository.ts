@@ -1,4 +1,5 @@
 import {
+  TokenPass,
   UserCreateOptions,
   UserDoc,
   UserIncrementableFields,
@@ -60,20 +61,22 @@ export class UserRepository {
     telegramId: number,
     tokenMint: string
   ): Promise<UserDoc | null> {
-    /**
-     * @note add field string with type safe way !!!
-     */
-    const date: Date = new Date();
+    // Type the payload first and then pass it for more secure types
+    const key: keyof Pick<UserRaw, "usedTokenPasses"> = "usedTokenPasses";
+    const tokenPass: TokenPass = {
+      createdAt: new Date(),
+      bumps: 0,
+    };
     return UserModel.findOneAndUpdate(
       { telegramId },
-      { $set: { [`usedTokenPasses.${tokenMint}`]: date } },
+      { $set: { [`${key}.${tokenMint}`]: tokenPass } },
       { new: true, runValidators: true }
     );
   }
 
   addServicePass(telegramId: number): Promise<UserDoc | null> {
     const update: Pick<UserRaw, "servicePass"> = {
-      servicePass: { createdAt: new Date() },
+      servicePass: { createdAt: new Date(), bumps: 0 },
     };
     return UserModel.findOneAndUpdate({ telegramId }, update, {
       new: true,

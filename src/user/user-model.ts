@@ -14,6 +14,7 @@ import {
   UserVirtuals,
   BumpSettings,
   ServicePass,
+  TokenPass,
 } from "./types";
 
 export const userSchema = new Schema<
@@ -32,7 +33,7 @@ export const userSchema = new Schema<
     isBot: { type: Boolean, required: true },
 
     // === Default fields ===
-    totalBumps: { type: Number, default: 0 },
+    paidBumps: { type: Number, default: 0 },
     totalTokenPasses: { type: Number, default: 1 }, // New users get 1 free token pass
     bumpSettings: {
       type: new Schema<BumpSettings>(
@@ -73,7 +74,13 @@ export const userSchema = new Schema<
     isPumpFunAccountSet: { type: Boolean, required: true, default: false },
     usedTokenPasses: {
       type: Map,
-      of: Date,
+      of: new Schema<TokenPass>(
+        {
+          createdAt: { type: Date, required: true },
+          bumps: { type: Number, default: 0 },
+        },
+        { _id: false }
+      ),
       default: new Map(),
     },
 
@@ -81,6 +88,7 @@ export const userSchema = new Schema<
     servicePass: new Schema<ServicePass>(
       {
         createdAt: { type: Date, required: true },
+        bumps: { type: Number, default: 0 },
         expirationDate: String,
       },
       { _id: false }

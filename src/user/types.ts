@@ -13,11 +13,11 @@ interface UserRequiredFields {
   isBot: boolean;
 }
 interface UserDefaultFields {
-  totalBumps: number;
+  paidBumps: number;
   totalTokenPasses: number;
   bumpSettings: BumpSettings;
   isPumpFunAccountSet: boolean;
-  usedTokenPasses: Map<string, Date>;
+  usedTokenPasses: Map<string, TokenPass>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -41,8 +41,12 @@ export interface BumpSettings {
   priorityFee: number;
 }
 
-export interface ServicePass {
+interface BasicPass {
   createdAt: Date;
+  bumps: number;
+}
+export interface TokenPass extends BasicPass {}
+export interface ServicePass extends BasicPass {
   expirationDate?: Date;
 }
 
@@ -52,7 +56,7 @@ export interface UserVirtuals {
 
 export type UserIncrementableFields = keyof Pick<
   UserRaw,
-  "totalBumps" | "totalTokenPasses" | "usedTokenPasses"
+  "paidBumps" | "totalTokenPasses"
 >;
 
 export interface UserMethods {

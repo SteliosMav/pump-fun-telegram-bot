@@ -20,13 +20,13 @@ connectDB();
 
   // const user = await UserModel.updateBumpSettings(1, { amount: 0.05 });
 
-  // const user = await userRepo.create({
-  //   telegramId: 7,
-  //   encryptedPrivateKey:
-  //     "U2FsdGVkX1/wxcCnZeirjjQvuGqa37ezNlcrle+8RQPsSyeaj+HCfBxlj9ttlzbmcbT3SP8AICg4LpTkXwNnmem2SZMKGoAr3IdttyupD+eZlN5UXs+meEpMRzpnWWu561GNavBuKqMHuroJFa26GA==",
-  //   firstName: "Jacobs",
-  //   isBot: false,
-  // });
+  const user = await userRepo.create({
+    telegramId: 8,
+    encryptedPrivateKey:
+      "U2FsdGVkX1/wxcCnZeirjjQvuGqa37ezNlcrle+8RQPsSyeaj+HCfBxlj9ttlzbmcbT3SP8AICg4LpTkXwNnmem2SZMKGoAr3IdttyupD+eZlN5UXs+meEpMRzpnWWu561GNavBuKqMHuroJFa26GA==",
+    firstName: "Jacobs2",
+    isBot: false,
+  });
 
   // const user = await userRepo.find([3]);
 
@@ -60,8 +60,11 @@ connectDB();
 
   // console.log(users);
 
-  const telegramId = 7;
-  const user = await userRepo.addServicePass(telegramId);
+  // const telegramId = 7;
+  // const user = await userRepo.addUsedTokenPass(
+  //   telegramId,
+  //   "2N7tzEPxF1rsn8mfEWWuApp7GS2YeXi2sqCQtgbbpump"
+  // );
 
   console.log(user);
 
