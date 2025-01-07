@@ -76,10 +76,9 @@ export const userSchema = new Schema<
       type: Map,
       of: new Schema<TokenPass>(
         {
-          createdAt: { type: Date, required: true },
           bumps: { type: Number, default: 0 },
         },
-        { _id: false }
+        { _id: false, timestamps: true } // Nested timestamps are set initially but the updatedAt must be updated manually
       ),
       default: new Map(),
     },
@@ -87,11 +86,10 @@ export const userSchema = new Schema<
     // === Optional fields ===
     servicePass: new Schema<ServicePass>(
       {
-        createdAt: { type: Date, required: true },
         bumps: { type: Number, default: 0 },
-        expirationDate: String,
+        expirationDate: Date,
       },
-      { _id: false }
+      { _id: false, timestamps: true } // Nested timestamps are set initially but the updatedAt must be updated manually
     ),
     lastName: String,
     username: String,

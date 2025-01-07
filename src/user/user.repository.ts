@@ -2,7 +2,6 @@ import {
   TokenPass,
   UserCreateOptions,
   UserDoc,
-  UserIncrementableFields,
   UserRaw,
   UserUpdateOptions,
 } from "./types";
@@ -45,26 +44,61 @@ export class UserRepository {
     }));
   }
 
-  increment(
+  incrementTokenPasses(
     telegramId: number,
-    field: UserIncrementableFields,
     amount: number = 1
   ): Promise<UserDoc | null> {
+    const update: Pick<UserRaw, "totalTokenPasses"> = {
+      totalTokenPasses: amount,
+    };
     return UserModel.findOneAndUpdate(
       { telegramId },
-      { $inc: { [field]: amount } },
+      { $inc: update },
       { new: true, runValidators: true }
     );
+  }
+
+  incrementBumps(
+    telegramId: number,
+    amount: number,
+    context: "paid" | "servicePass" | { tokenPass: string }
+  ): Promise<UserDoc | null> {
+    const dateNow = new Date();
+    const match: Record<string, any> = { telegramId };
+    const update: Record<string, any> = {
+      $set: { lastBumpAt: dateNow },
+    };
+
+    /**
+     * @warning add types for payloads and keys
+     */
+
+    if (context === "paid") {
+      update.$inc = { paidBumps: amount };
+    } else if (context === "servicePass") {
+      match.servicePass = { $type: "object" };
+      update.$inc = { "servicePass.bumps": amount };
+      update.$set["servicePass.updatedAt"] = dateNow;
+    } else if (typeof context === "object" && "tokenPass" in context) {
+      const tokenKey = `usedTokenPasses.${context.tokenPass}`;
+      update.$inc = { [`${tokenKey}.bumps`]: amount };
+      update.$set[`${tokenKey}.updatedAt`] = dateNow;
+    } else {
+      throw new Error("Invalid context provided to increaseBumps");
+    }
+
+    return UserModel.findOneAndUpdate(match, update, {
+      new: true,
+      runValidators: true,
+    });
   }
 
   addUsedTokenPass(
     telegramId: number,
     tokenMint: string
   ): Promise<UserDoc | null> {
-    // Type the payload first and then pass it for more secure types
     const key: keyof Pick<UserRaw, "usedTokenPasses"> = "usedTokenPasses";
-    const tokenPass: TokenPass = {
-      createdAt: new Date(),
+    const tokenPass: Omit<TokenPass, "createdAt" | "updatedAt"> = {
       bumps: 0,
     };
     return UserModel.findOneAndUpdate(
@@ -74,19 +108,26 @@ export class UserRepository {
     );
   }
 
-  addServicePass(telegramId: number): Promise<UserDoc | null> {
-    const update: Pick<UserRaw, "servicePass"> = {
-      servicePass: { createdAt: new Date(), bumps: 0 },
+  addServicePass(
+    telegramId: number,
+    expirationDate?: Date
+  ): Promise<UserDoc | null> {
+    const update: Record<
+      keyof Pick<UserRaw, "servicePass">,
+      Omit<NonNullable<UserRaw["servicePass"]>, "createdAt" | "updatedAt">
+    > = {
+      servicePass: {
+        bumps: 0,
+      },
     };
+
+    if (expirationDate) {
+      update.servicePass.expirationDate = expirationDate;
+    }
+
     return UserModel.findOneAndUpdate({ telegramId }, update, {
       new: true,
       runValidators: true,
     });
   }
-
-  /**
-   * @note add method that adds a certain amount of bumps to the totalBumps
-   * and updates the last bump at property. Consider removing general incremental
-   * method and adding another for adding token pass to the user.
-   */
 }

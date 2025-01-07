@@ -42,8 +42,9 @@ export interface BumpSettings {
 }
 
 interface BasicPass {
-  createdAt: Date;
   bumps: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 export interface TokenPass extends BasicPass {}
 export interface ServicePass extends BasicPass {
@@ -53,11 +54,6 @@ export interface ServicePass extends BasicPass {
 export interface UserVirtuals {
   hasServicePass: boolean;
 }
-
-export type UserIncrementableFields = keyof Pick<
-  UserRaw,
-  "paidBumps" | "totalTokenPasses"
->;
 
 export interface UserMethods {
   getPrivateKey(): string;
