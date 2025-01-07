@@ -29,6 +29,7 @@ export const userSchema = new Schema<
     // === Required fields ===
     telegramId: { type: Number, required: true, min: 1 },
     encryptedPrivateKey: { type: String, required: true },
+    /** @WARNING group telegram related fields under a telegram field */
     firstName: { type: String, required: true },
     isBot: { type: Boolean, required: true },
 

@@ -1,4 +1,5 @@
 import {
+  ServicePass,
   TokenPass,
   UserCreateOptions,
   UserDoc,
@@ -58,36 +59,44 @@ export class UserRepository {
     );
   }
 
+  /**
+   * @warning Before incrementing their servicePass bumps, validate that the user has a valid servicePass.
+   *
+   * Describe if the bumps came from a user who has service-pass, or token-pass for the specific
+   * token he bumped or it was just a paid (as you go) bump.
+   */
   incrementBumps(
     telegramId: number,
     amount: number,
     context: "paid" | "servicePass" | { tokenPass: string }
   ): Promise<UserDoc | null> {
     const dateNow = new Date();
-    const match: Record<string, any> = { telegramId };
     const update: Record<string, any> = {
       $set: { lastBumpAt: dateNow },
     };
 
-    /**
-     * @warning add types for payloads and keys
-     */
-
     if (context === "paid") {
-      update.$inc = { paidBumps: amount };
+      const a: Pick<UserRaw, "paidBumps"> = { paidBumps: amount };
+      update.$inc = a;
     } else if (context === "servicePass") {
-      match.servicePass = { $type: "object" };
-      update.$inc = { "servicePass.bumps": amount };
-      update.$set["servicePass.updatedAt"] = dateNow;
+      const servicePassKey: keyof Pick<UserRaw, "servicePass"> = "servicePass";
+      const bumpsKey: keyof Pick<ServicePass, "bumps"> = "bumps";
+      const updatedAtKey: keyof Pick<ServicePass, "updatedAt"> = "updatedAt";
+      update.$inc = { [`${servicePassKey}.${bumpsKey}`]: amount };
+      update.$set[`${servicePassKey}.${updatedAtKey}`] = dateNow;
     } else if (typeof context === "object" && "tokenPass" in context) {
-      const tokenKey = `usedTokenPasses.${context.tokenPass}`;
-      update.$inc = { [`${tokenKey}.bumps`]: amount };
-      update.$set[`${tokenKey}.updatedAt`] = dateNow;
+      const usedTokenPassesKey: keyof Pick<UserRaw, "usedTokenPasses"> =
+        "usedTokenPasses";
+      const tokenKey = `${usedTokenPassesKey}.${context.tokenPass}`;
+      const bumpsKey: keyof Pick<TokenPass, "bumps"> = "bumps";
+      const updatedAtKey: keyof Pick<TokenPass, "updatedAt"> = "updatedAt";
+      update.$inc = { [`${tokenKey}.${bumpsKey}`]: amount };
+      update.$set[`${tokenKey}.${updatedAtKey}`] = dateNow;
     } else {
       throw new Error("Invalid context provided to increaseBumps");
     }
 
-    return UserModel.findOneAndUpdate(match, update, {
+    return UserModel.findOneAndUpdate({ telegramId }, update, {
       new: true,
       runValidators: true,
     });
