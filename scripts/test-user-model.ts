@@ -7,13 +7,16 @@ const userRepo = new UserRepository();
 connectDB();
 
 (async () => {
-  // const user = await userRepo.create({
-  //   telegramId: 8,
-  //   encryptedPrivateKey:
-  //     "U2FsdGVkX1/wxcCnZeirjjQvuGqa37ezNlcrle+8RQPsSyeaj+HCfBxlj9ttlzbmcbT3SP8AICg4LpTkXwNnmem2SZMKGoAr3IdttyupD+eZlN5UXs+meEpMRzpnWWu561GNavBuKqMHuroJFa26GA==",
-  //   firstName: "Jacobs2",
-  //   isBot: false,
-  // });
+  const payload: any = {
+    encryptedPrivateKey:
+      "U2FsdGVkX1/wxcCnZeirjjQvuGqa37ezNlcrle+8RQPsSyeaj+HCfBxlj9ttlzbmcbT3SP8AICg4LpTkXwNnmem2SZMKGoAr3IdttyupD+eZlN5UXs+meEpMRzpnWWu561GNavBuKqMHuroJFa26GA==",
+    telegram: {
+      id: 1,
+      firstName: "Jacobs2",
+      isBot: false,
+    },
+  };
+  const user = await userRepo.create(payload);
 
   const tokenMint = "Cxtna7tPubvtTUZZ97FS4XYHHxUDpJhEP2ADSDZ4pump";
 
@@ -24,7 +27,7 @@ connectDB();
 
   // const user = await userRepo.addUsedTokenPass(8, tokenMint);
 
-  const user = await userRepo.incrementBumps(8, 4, { tokenPass: tokenMint });
+  // const user = await userRepo.incrementBumps(8, 4, { tokenPass: tokenMint });
 
   console.log(user);
 

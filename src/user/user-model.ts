@@ -15,6 +15,7 @@ import {
   BumpSettings,
   ServicePass,
   TokenPass,
+  TelegramInfo,
 } from "./types";
 
 export const userSchema = new Schema<
@@ -27,11 +28,21 @@ export const userSchema = new Schema<
 >(
   {
     // === Required fields ===
-    telegramId: { type: Number, required: true, min: 1 },
     encryptedPrivateKey: { type: String, required: true },
-    /** @WARNING group telegram related fields under a telegram field */
-    firstName: { type: String, required: true },
-    isBot: { type: Boolean, required: true },
+    telegram: {
+      type: new Schema<TelegramInfo>(
+        {
+          id: { type: Number, required: true, min: 1 },
+          firstName: { type: String, required: true },
+          isBot: { type: Boolean, required: true },
+          lastName: String,
+          username: String,
+          hasBannedBot: Boolean,
+        },
+        { _id: false }
+      ),
+      default: {},
+    },
 
     // === Default fields ===
     paidBumps: { type: Number, default: 0 },
@@ -92,10 +103,7 @@ export const userSchema = new Schema<
       },
       { _id: false, timestamps: true } // Nested timestamps are set initially but the updatedAt must be updated manually
     ),
-    lastName: String,
-    username: String,
     lastBumpAt: Date,
-    hasBannedBot: Boolean,
   },
 
   {

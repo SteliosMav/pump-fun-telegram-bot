@@ -7,10 +7,8 @@ import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
  * - Not needed for critical logic: If a field is critical for system operation, it should have a default.
  */
 interface UserRequiredFields {
-  telegramId: number;
   encryptedPrivateKey: string;
-  firstName: string;
-  isBot: boolean;
+  telegram: TelegramInfo;
 }
 interface UserDefaultFields {
   paidBumps: number;
@@ -23,15 +21,22 @@ interface UserDefaultFields {
 }
 interface UserOptionalFields {
   servicePass?: ServicePass;
-  lastName?: string;
-  username?: string;
+
   lastBumpAt?: Date;
-  hasBannedBot?: boolean;
 }
 export interface UserRaw
   extends UserRequiredFields,
     UserDefaultFields,
     UserOptionalFields {}
+
+export interface TelegramInfo {
+  id: number;
+  firstName: string;
+  isBot: boolean;
+  hasBannedBot?: boolean;
+  lastName?: string;
+  username?: string;
+}
 
 export interface BumpSettings {
   intervalInSeconds: number;
