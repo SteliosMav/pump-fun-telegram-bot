@@ -2,12 +2,10 @@ import {
   ServicePass,
   TelegramInfo,
   TokenPass,
-  UserCreateOptions,
   UserDoc,
   UserRaw,
-  UserUpdateOptions,
 } from "./types";
-import { UserModel } from "./user-model";
+import { UserModel } from "./user.model";
 
 export class UserRepository {
   private get telegramIdPath(): string {
@@ -16,7 +14,9 @@ export class UserRepository {
     return `${telegramKey}.${idKey}`;
   }
 
-  create(user: UserCreateOptions): Promise<UserDoc> {
+  create(
+    user: Pick<UserRaw, "encryptedPrivateKey" | "telegram">
+  ): Promise<UserDoc> {
     return UserModel.create(user);
   }
 
@@ -32,7 +32,7 @@ export class UserRepository {
 
   updateOne(
     telegramId: number,
-    update: UserUpdateOptions
+    update: Partial<UserRaw>
   ): Promise<UserDoc | null> {
     return UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
@@ -43,7 +43,7 @@ export class UserRepository {
 
   updateMany(
     telegramId: number[],
-    update: UserUpdateOptions
+    update: Partial<UserRaw>
   ): Promise<{ matchedCount: number; modifiedCount: number }> {
     return UserModel.updateMany({ [this.telegramIdPath]: telegramId }, update, {
       runValidators: true,

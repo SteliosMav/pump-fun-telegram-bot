@@ -10,7 +10,7 @@ import {
   USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../constants";
 import { errorController } from "../events/error.controller";
-import { UserModel } from "../../../user/user-model";
+import { UserModel } from "../../../user/user.model";
 import { encryptPrivateKey } from "../../../lib/crypto";
 
 // Callback types that edit the message instead of sending a new one

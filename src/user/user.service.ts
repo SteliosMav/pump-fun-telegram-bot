@@ -1,8 +1,5 @@
-import CryptoJS from "crypto-js";
-import { ENCRYPTION_KEY } from "../constants";
 import { BOT_DESCRIPTION, BOT_IMAGE } from "../config";
 import { UserDoc } from "./types";
-import { UserModel } from "./user-model";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import { CustomResponse } from "../shared/types";
 import { SolanaService } from "../solana/solana.service";
