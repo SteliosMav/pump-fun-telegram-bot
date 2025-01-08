@@ -1,4 +1,4 @@
-import { BOT_DESCRIPTION, BOT_IMAGE } from "../config";
+import { BOT_DESCRIPTION, BOT_IMAGE } from "../shared/config";
 import { UserDoc } from "./types";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import { CustomResponse } from "../shared/types";

@@ -1,14 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import { ENV } from "./config";
 
 // === Environment Variables ===
-export const BOT_ACCOUNT_PRIVATE_KEY = process.env
-  .BOT_ACCOUNT_PRIVATE_KEY as string;
-export const ADMIN_ACCOUNT_PRIVATE_KEY = process.env
-  .ADMIN_ACCOUNT_PRIVATE_KEY as string;
-export const HELIUS_API_STANDARD = process.env.HELIUS_API_STANDARD as string; // process.env.QUICK_NODE_API as string;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 export const MONGO_URI = (
   ENV === "production" ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV

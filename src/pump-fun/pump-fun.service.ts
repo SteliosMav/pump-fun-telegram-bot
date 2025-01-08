@@ -29,49 +29,21 @@ export class PumpFunService {
 
   constructor() {}
 
-  async getCoinData(
-    mintStr: string,
-    proxy: string,
-    maxRetries = 5
-  ): Promise<CoinData | null> {
+  getCoinData(mintStr: string): Promise<CoinData> {
     const url = `${this._baseUrl}/coins/${mintStr}`;
-    const agent = new HttpsProxyAgent(proxy);
     const config: AxiosRequestConfig = {
       method: "GET",
       url,
       headers: this._pumpFunHeaders,
     };
 
-    let retries = 0;
-    let err: AxiosError;
-
-    while (retries < maxRetries) {
-      try {
-        // if (config.httpsAgent) {
-        //   console.log("Using proxy...");
-        // }
-        const response = await axios(config);
-        // if (retries > 0) {
-        //   console.warn(
-        //     `Coin data fetched with retries (${retries}/${maxRetries})...`
-        //   );
-        // }
-        return response.data as CoinData; // Success, return the data
-      } catch (e) {
-        err = e as AxiosError;
-        retries++;
-        // If too many requests, use proxy
-        if (err.status === 429 || err.status === 500) {
-          config.httpsAgent = agent;
-        }
-        continue; // Retry
+    return axios(config).then((res) => {
+      if (res.data) {
+        return res.data as CoinData;
+      } else {
+        throw new Error("Coin data not found");
       }
-    }
-
-    console.error(`Failed to fetch coin data after ${maxRetries}.`);
-    console.error("Status: ", err!.status);
-    console.error("Message: ", err!.message);
-    return null; // Return null if max retries are reached
+    });
   }
 
   async login(privateKey: string): Promise<string | null> {

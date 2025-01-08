@@ -2,8 +2,8 @@ import { model, Schema } from "mongoose";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   MIN_VISIBLE_BUMP_AMOUNT,
-} from "../constants";
-import { MAX_BUMPS_LIMIT } from "../config";
+} from "../shared/constants";
+import { MAX_BUMPS_LIMIT } from "../shared/config";
 import { decryptPrivateKey } from "../lib/crypto";
 import {
   UserRaw,

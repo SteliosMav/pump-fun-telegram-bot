@@ -1,5 +1,5 @@
 import { CBQueryCtrlArgs } from "../../types";
-import { PUMP_FUN_URL } from "../../../constants";
+import { PUMP_FUN_URL } from "../../../shared/constants";
 
 // Controller function
 export async function setTokenRequestController({

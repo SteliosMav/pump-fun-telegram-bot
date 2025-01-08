@@ -3,15 +3,17 @@ import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../user/user.service";
 import { SolanaService } from "../../../solana/solana.service";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
-import { pubKeyByPrivKey } from "../../../solana/utils";
+import { pubKeyByPrivKey } from "../../../solana/solana-utils";
 import {
   ADMIN_ACCOUNT_PRIVATE_KEY,
   PERSONAL_TG_ID,
   USER_FRIENDLY_ERROR_MESSAGE,
-} from "../../../constants";
+} from "../../../shared/constants";
 import { errorController } from "../events/error.controller";
 import { UserModel } from "../../../user/user.model";
 import { encryptPrivateKey } from "../../../lib/crypto";
+import bs58 from "bs58";
+import { Keypair } from "@solana/web3.js";
 
 // Callback types that edit the message instead of sending a new one
 // i.e. if the user presses the "Back" button
@@ -54,7 +56,7 @@ export async function startController({
     const isTestUser = from.id === PERSONAL_TG_ID;
     const privateKey = isTestUser
       ? ADMIN_ACCOUNT_PRIVATE_KEY
-      : await solanaService.createSolanaAccount();
+      : bs58.encode(Keypair.generate().secretKey);
 
     if (!privateKey) {
       console.error("Error creating Solana account");

@@ -2,14 +2,14 @@ import TelegramBot from "node-telegram-bot-api";
 import { UserDoc } from "../../../user/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
-import { SIGNATURE_FEE_LAMPORTS } from "../../../constants";
+import { SIGNATURE_FEE_LAMPORTS } from "../../../shared/constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getPumpFunFee } from "../../../pump-fun/util";
 import { userHasServicePass } from "../../../user/util";
-import { BOT_SERVICE_FEE } from "../../../config";
+import { BOT_SERVICE_FEE_IN_SOL } from "../../../shared/config";
 
 export function getSettingsMsg(user: UserDoc) {
-  const serviceFee = userHasServicePass(user) ? 0 : BOT_SERVICE_FEE;
+  const serviceFee = userHasServicePass(user) ? 0 : BOT_SERVICE_FEE_IN_SOL;
   const txFee = SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL;
   return `*Bump price: ${
     serviceFee + user.priorityFee + getPumpFunFee(user.bumpAmount) + txFee

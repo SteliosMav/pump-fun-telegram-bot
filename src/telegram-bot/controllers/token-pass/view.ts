@@ -2,8 +2,8 @@ import TelegramBot from "node-telegram-bot-api";
 import { UserDoc } from "../../../user/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
-import { pubKeyByPrivKey } from "../../../solana/utils";
-import { BOT_TOKEN_PASS_PRICE } from "../../../config";
+import { pubKeyByPrivKey } from "../../../solana/solana-utils";
+import { BOT_TOKEN_PASS_PRICE_IN_SOL } from "../../../shared/config";
 
 export function getTokenPassMsg(user: UserDoc, balance: number) {
   const publicKey = pubKeyByPrivKey(user.privateKey);
@@ -13,7 +13,7 @@ export function getTokenPassMsg(user: UserDoc, balance: number) {
 🎟️ *Token Pass*
 - Pay a *fixed* amount per token
 - Bump it *unlimited* times with *ZERO* service fees
-- Costs *${BOT_TOKEN_PASS_PRICE} SOL* per token`;
+- Costs *${BOT_TOKEN_PASS_PRICE_IN_SOL} SOL* per token`;
 }
 
 export function getTokenPassInlineKeyboard(

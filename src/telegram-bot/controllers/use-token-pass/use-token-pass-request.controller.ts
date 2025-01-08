@@ -1,13 +1,13 @@
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { SolanaService } from "../../../solana/solana.service";
-import { pubKeyByPrivKey } from "../../../solana/utils";
+import { pubKeyByPrivKey } from "../../../solana/solana-utils";
 import { UserService } from "../../../user/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";
 import { settingsController } from "../settings/settings.controller";
-import { SIGNATURE_FEE_LAMPORTS } from "../../../constants";
-import { BOT_TOKEN_PASS_PRICE } from "../../../config";
+import { SIGNATURE_FEE_LAMPORTS } from "../../../shared/constants";
+import { BOT_TOKEN_PASS_PRICE_IN_SOL } from "../../../shared/config";
 
 // Controller function
 export async function useTokenPassRequestController({
@@ -36,7 +36,7 @@ export async function useTokenPassRequestController({
 
     const errMsg = `*You do not have a token pass.* 
     
-Go ahead and buy a token pass for only *${BOT_TOKEN_PASS_PRICE} SOL*`;
+Go ahead and buy a token pass for only *${BOT_TOKEN_PASS_PRICE_IN_SOL} SOL*`;
     errorController({
       bot,
       message,

@@ -1,4 +1,4 @@
-import { MAX_BUMPS_LIMIT } from "../../../config";
+import { MAX_BUMPS_LIMIT } from "../../../shared/config";
 import { CBQueryCtrlArgs } from "../../types";
 
 // Controller function

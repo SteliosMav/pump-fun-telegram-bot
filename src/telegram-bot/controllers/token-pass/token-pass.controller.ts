@@ -3,7 +3,7 @@ import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../user/user.service";
 import { getTokenPassInlineKeyboard, getTokenPassMsg } from "./view";
 import { startController } from "../start/start.controller";
-import { pubKeyByPrivKey } from "../../../solana/utils";
+import { pubKeyByPrivKey } from "../../../solana/solana-utils";
 import { SolanaService } from "../../../solana/solana.service";
 
 // Callback types that edit the message instead of sending a new one

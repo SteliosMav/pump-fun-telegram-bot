@@ -1,5 +1,5 @@
-import { MAX_BUMPS_LIMIT } from "../config";
-import { MIN_VALIDATOR_TIP_IN_SOL } from "../constants";
+import { MAX_BUMPS_LIMIT } from "../shared/config";
+import { MIN_VALIDATOR_TIP_IN_SOL } from "../shared/constants";
 
 const MIN_BUMP_AMOUNT = 0.0123;
 const MAX_BUMP_AMOUNT = 1;

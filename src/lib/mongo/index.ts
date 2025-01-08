@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { MONGO_URI } from "../../constants";
-import { ENV } from "../../config";
+import { MONGO_URI } from "../../shared/constants";
+import { ENV } from "../../shared/config";
 
 // MongoDB connection URI
 const mongoURI = MONGO_URI;

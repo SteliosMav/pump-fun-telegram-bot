@@ -17,7 +17,7 @@ import { getCoinSlug } from "../../../pump-fun/util";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   USER_FRIENDLY_ERROR_MESSAGE,
-} from "../../../constants";
+} from "../../../shared/constants";
 import { getRandomProxy } from "../../../shared/get-random-proxy";
 
 // Controller function

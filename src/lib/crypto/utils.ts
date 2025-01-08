@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { ENCRYPTION_KEY } from "../../constants";
+import { ENCRYPTION_KEY } from "../../shared/constants";
 
 export function encryptPrivateKey(privateKey: string) {
   return CryptoJS.AES.encrypt(privateKey, ENCRYPTION_KEY).toString();

@@ -1,6 +1,6 @@
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { SolanaService } from "../../../solana/solana.service";
-import { pubKeyByPrivKey } from "../../../solana/utils";
+import { pubKeyByPrivKey } from "../../../solana/solana-utils";
 import { UserService } from "../../../user/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { isValidBumpAmount, isValidSol } from "../../validators";
@@ -9,10 +9,10 @@ import { settingsController } from "../settings/settings.controller";
 import {
   SIGNATURE_FEE_LAMPORTS,
   USER_FRIENDLY_ERROR_MESSAGE,
-} from "../../../constants";
+} from "../../../shared/constants";
 import { tokenPassController } from "../token-pass/token-pass.controller";
 import { startController } from "../start/start.controller";
-import { BOT_TOKEN_PASS_PRICE } from "../../../config";
+import { BOT_TOKEN_PASS_PRICE_IN_SOL } from "../../../shared/config";
 
 // Controller function
 export async function buyTokenResponseController({
@@ -40,11 +40,11 @@ export async function buyTokenResponseController({
   const pubKey = pubKeyByPrivKey(user.privateKey);
   const balance = await solanaService.getBalance(pubKey);
   const requiredAmount =
-    SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL + BOT_TOKEN_PASS_PRICE;
+    SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL + BOT_TOKEN_PASS_PRICE_IN_SOL;
   const hasSufficientBalance = balance >= requiredAmount;
 
   if (!hasSufficientBalance) {
-    const errMsg = `*Insufficient balance.* You need to have at least ${requiredAmount} SOL in your wallet. Token price at ${BOT_TOKEN_PASS_PRICE} SOL.`;
+    const errMsg = `*Insufficient balance.* You need to have at least ${requiredAmount} SOL in your wallet. Token price at ${BOT_TOKEN_PASS_PRICE_IN_SOL} SOL.`;
     errorController({
       bot,
       message,
