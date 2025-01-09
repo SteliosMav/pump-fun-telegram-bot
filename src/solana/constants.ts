@@ -27,6 +27,10 @@ export const PUMP_FUN_FEE_ACCOUNT = new PublicKey(
 export const JITO_TIP_ACCOUNT = new PublicKey(
   "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5"
 );
+// Use the same mint for testing to avoid extra rent charges.
+export const TEST_MINT_ACCOUNT = new PublicKey(
+  "9Ji6r29UGjXTbV3QV1o2BHMEN1UkdoEqZRvmqvK2pump"
+);
 
 // === Miscellaneous ===
 export const PUMP_FUN_SWAP_FEE_PERCENT = 0.01;

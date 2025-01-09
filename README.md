@@ -110,3 +110,34 @@ This distinction helps maintain clear boundaries and avoids unnecessarily bloati
 ---
 
 By following this architecture and adhering to the outlined conventions, developers can maintain a clean, modular, and scalable codebase that supports future growth.
+
+### When to Use Flat Parameters vs Options Objects
+
+| **Criterion**            | **Flat Parameters**    | **Options Object**              |
+| ------------------------ | ---------------------- | ------------------------------- |
+| **Number of Parameters** | 2-3                    | More than 3                     |
+| **Parameter Meaning**    | Clear and intuitive    | Complex or requires explanation |
+| **Optional Parameters**  | None                   | Many                            |
+| **Readability**          | Simple and concise     | Clear with named fields         |
+| **Extensibility**        | Rarely changes         | May need to add more parameters |
+| **Usage Context**        | Critical, simple logic | Flexible, configurable logic    |
+
+### Choosing Between `Options`, `Params`, and `DTO` for Function Arguments
+
+| **Name**    | **Usage Context**                                                                                 | **Best Practice**                                                                  |
+| ----------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Options** | Use when the function requires **configurable** or **optional** fields.                           | Suitable for flexible logic and settings, often with many optional fields.         |
+| **Params**  | Use when the function requires a set of **mandatory and essential** inputs for execution.         | Ideal for clear and direct inputs that are necessary for the function to operate.  |
+| **DTO**     | Use for **data transfer** between layers or systems, especially when handling **external input**. | Useful for validation, encapsulating input, and adhering to strict type contracts. |
+
+#### Examples
+
+**Options Example**:
+
+```typescript
+async fetchData(options: { cache?: boolean; retries?: number }): Promise<void> {}
+
+async fetchData(params: { id: string; type: string }): Promise<void> {}
+
+async createUser(userDTO: CreateUserDTO): Promise<void> {}
+```

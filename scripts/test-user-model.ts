@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import connectDB from "../src/lib/mongo";
 import { UserModel } from "../src/user/user.model";
 import { UserRepository } from "../src/user/user.repository";

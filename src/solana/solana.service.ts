@@ -3,14 +3,11 @@ import {
   Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
-  sendAndConfirmTransaction,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
   Transaction,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { SIGNATURE_FEE_LAMPORTS } from "../shared/constants";
-import bs58 from "bs58";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -20,11 +17,7 @@ import {
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../lib/jito";
 import { CustomResponse } from "../shared/types";
-import { isValidValidatorTip } from "../telegram-bot/validators";
-import {
-  BOT_SERVICE_FEE_IN_SOL,
-  BOT_TOKEN_PASS_PRICE_IN_SOL,
-} from "../shared/config";
+import { BOT_SERVICE_FEE_IN_SOL } from "../shared/config";
 import { BumpSettings } from "../user";
 import { BOT_KEYPAIR, HELIUS_API_STANDARD } from "./config";
 import {
@@ -34,6 +27,7 @@ import {
   PUMP_FUN_PROGRAM_ID,
   UNKNOWN_ACCOUNT,
 } from "./constants";
+import { BumpOptions } from "./types";
 
 /**
  * @WARNING Notes:
@@ -50,16 +44,14 @@ export class SolanaService {
     return this.connection.getBalance(publicKey);
   }
 
-  async bump(
-    mint: PublicKey,
-    payer: Keypair,
-    includeBotFee: boolean,
-    {
-      amount,
-      slippage,
-      priorityFee,
-    }: Pick<BumpSettings, "amount" | "slippage" | "priorityFee">
-  ): Promise<CustomResponse<string>> {
+  async bump({
+    mint,
+    payer,
+    includeBotFee,
+    amount,
+    slippage,
+    priorityFee,
+  }: BumpOptions): Promise<CustomResponse<string>> {
     const txBuilder = new Transaction();
 
     // Rent Exemption Check for Token Account
@@ -68,6 +60,11 @@ export class SolanaService {
       payer.publicKey,
       false
     );
+    /**
+     * @WARNING THIS MUST BE CALCULATED ONLY ONCE, SHOULD BE RETURNED
+     * AT THE END AND BE REUSED FOR THE FOLLOWING USER BUMPS AS AN OPTIONAL
+     * PARAMETER
+     */
     const tokenAccountInfo = await this.connection.getAccountInfo(
       tokenAccountAddress
     );
