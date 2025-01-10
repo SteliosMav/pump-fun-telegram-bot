@@ -1,7 +1,7 @@
 import { Keypair } from "@solana/web3.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
-import { CoinData, UserUpdateResponse } from "./types";
+import { PumpFunCoinData, UserUpdateResponse } from "./types";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
@@ -29,7 +29,7 @@ export class PumpFunService {
 
   constructor() {}
 
-  getCoinData(mintStr: string): Promise<CoinData> {
+  getCoinData(mintStr: string): Promise<PumpFunCoinData> {
     const url = `${this._baseUrl}/coins/${mintStr}`;
     const config: AxiosRequestConfig = {
       method: "GET",
@@ -39,7 +39,7 @@ export class PumpFunService {
 
     return axios(config).then((res) => {
       if (res.data) {
-        return res.data as CoinData;
+        return res.data as PumpFunCoinData;
       } else {
         throw new Error("Coin data not found");
       }

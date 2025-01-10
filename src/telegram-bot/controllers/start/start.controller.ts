@@ -3,9 +3,7 @@ import TelegramBot from "node-telegram-bot-api";
 import { UserService } from "../../../user/user.service";
 import { SolanaService } from "../../../solana/solana.service";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
-import { pubKeyByPrivKey } from "../../../solana/solana-utils";
 import {
-  ADMIN_ACCOUNT_PRIVATE_KEY,
   PERSONAL_TG_ID,
   USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../shared/constants";

@@ -1,6 +1,5 @@
 import {
   Connection,
-  Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
   SystemProgram,
@@ -16,9 +15,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../lib/jito";
-import { CustomResponse } from "../shared/types";
 import { BOT_SERVICE_FEE_IN_SOL } from "../shared/config";
-import { BumpSettings } from "../user";
 import { BOT_KEYPAIR, HELIUS_API_STANDARD } from "./config";
 import {
   GLOBAL,
@@ -27,7 +24,7 @@ import {
   PUMP_FUN_PROGRAM_ID,
   UNKNOWN_ACCOUNT,
 } from "./constants";
-import { BumpOptions } from "./types";
+import { BumpOptions, SwapInstructionOptions, LiquidityPool } from "./types";
 
 /**
  * @WARNING Notes:
@@ -36,9 +33,10 @@ import { BumpOptions } from "./types";
  */
 
 export class SolanaService {
-  private connection = new Connection(HELIUS_API_STANDARD, "confirmed");
-
-  constructor(private pumpFunService: PumpFunService) {}
+  constructor(
+    private connection: Connection,
+    private pumpFunService: PumpFunService
+  ) {}
 
   getBalance(publicKey: PublicKey): Promise<number> {
     return this.connection.getBalance(publicKey);
@@ -51,72 +49,143 @@ export class SolanaService {
     amount,
     slippage,
     priorityFee,
-  }: BumpOptions): Promise<CustomResponse<string>> {
+    associatedTokenAccount,
+  }: BumpOptions): Promise<{
+    signature: string;
+    associatedTokenAccount: PublicKey;
+  }> {
     const txBuilder = new Transaction();
 
-    // Rent Exemption Check for Token Account
-    const tokenAccountAddress = await getAssociatedTokenAddress(
-      mint,
-      payer.publicKey,
-      false
-    );
-    /**
-     * @WARNING THIS MUST BE CALCULATED ONLY ONCE, SHOULD BE RETURNED
-     * AT THE END AND BE REUSED FOR THE FOLLOWING USER BUMPS AS AN OPTIONAL
-     * PARAMETER
-     */
-    const tokenAccountInfo = await this.connection.getAccountInfo(
-      tokenAccountAddress
-    );
-    let tokenAccount: PublicKey;
-
-    if (!tokenAccountInfo) {
-      // Add instruction to create the associated token account if it doesn't exist
-      txBuilder.add(
-        createAssociatedTokenAccountInstruction(
-          payer.publicKey,
-          tokenAccountAddress,
-          payer.publicKey,
-          mint
-        )
+    if (!associatedTokenAccount) {
+      associatedTokenAccount = await getAssociatedTokenAddress(
+        mint,
+        payer.publicKey,
+        false
       );
-      tokenAccount = tokenAccountAddress;
-    } else {
-      tokenAccount = tokenAccountAddress;
+      const associatedTokenAccountInfo = await this.connection.getAccountInfo(
+        associatedTokenAccount
+      );
+
+      if (!associatedTokenAccountInfo) {
+        txBuilder.add(
+          createAssociatedTokenAccountInstruction(
+            payer.publicKey,
+            associatedTokenAccount,
+            payer.publicKey,
+            mint
+          )
+        );
+      }
     }
 
-    // Step 1: Transfer bot fee to the bot
     if (includeBotFee) {
-      const botFeeTransferInstruction = SystemProgram.transfer({
-        fromPubkey: payer.publicKey,
-        toPubkey: BOT_KEYPAIR.publicKey,
-        lamports: BOT_SERVICE_FEE_IN_SOL * LAMPORTS_PER_SOL,
-      });
-      txBuilder.add(botFeeTransferInstruction);
+      txBuilder.add(this.botFeeInstruction(payer.publicKey));
     }
 
-    const coinData = await this.pumpFunService.getCoinData(mint.toString());
+    const liquidityPool = await this.getLiquidityPool(mint);
 
-    // Step 2: Buy instructions
-    const tokenOut = Math.floor(
-      (amount * coinData["virtual_token_reserves"]) /
-        coinData["virtual_sol_reserves"]
+    txBuilder.add(
+      this.buyInstruction({
+        mint,
+        lamports: amount,
+        slippage,
+        ownerAccount: payer.publicKey,
+        associatedTokenAccount,
+        liquidityPool,
+      })
     );
-    const maxSolCost = Math.floor(amount * (1 + slippage));
-    const ASSOCIATED_USER = tokenAccount;
-    const BONDING_CURVE = new PublicKey(coinData["bonding_curve"]);
-    const ASSOCIATED_BONDING_CURVE = new PublicKey(
-      coinData["associated_bonding_curve"]
+
+    txBuilder.add(
+      this.sellInstruction({
+        mint,
+        lamports: amount,
+        slippage,
+        ownerAccount: payer.publicKey,
+        associatedTokenAccount,
+        liquidityPool,
+      })
     );
+
+    // **Step 4: Add the Jito validator tip**
+    const tipInstruction = SystemProgram.transfer({
+      fromPubkey: payer.publicKey,
+      toPubkey: JITO_TIP_ACCOUNT,
+      lamports: priorityFee,
+    });
+    txBuilder.add(tipInstruction);
+
+    // Set recentBlockhash before signing the transaction
+    const { blockhash } = await this.connection.getLatestBlockhash("confirmed");
+    txBuilder.recentBlockhash = blockhash;
+    txBuilder.feePayer = payer.publicKey;
+
+    // Sign the transaction
+    txBuilder.sign(payer);
+
+    // Serialize the transaction
+    const serializedTx = txBuilder.serialize();
+
+    const res = await sendTxUsingJito({
+      serializedTx: serializedTx,
+      region: "mainnet", // Change this if you need another region
+    });
+    return {
+      signature: res.result,
+      associatedTokenAccount,
+    };
+  }
+
+  private botFeeInstruction(payer: PublicKey): TransactionInstruction {
+    return SystemProgram.transfer({
+      fromPubkey: payer,
+      toPubkey: BOT_KEYPAIR.publicKey,
+      lamports: BOT_SERVICE_FEE_IN_SOL * LAMPORTS_PER_SOL,
+    });
+  }
+
+  private getLiquidityPool(mint: PublicKey): Promise<LiquidityPool> {
+    return this.pumpFunService.getCoinData(mint.toString()).then(
+      (coinData): LiquidityPool => ({
+        virtualTokenReserves: coinData["virtual_token_reserves"],
+        virtualSolReserves: coinData["virtual_sol_reserves"],
+        bondingCurveAccount: new PublicKey(coinData["bonding_curve"]),
+        associatedBondingCurveAccount: new PublicKey(
+          coinData["associated_bonding_curve"]
+        ),
+      })
+    );
+  }
+
+  private buyInstruction({
+    mint,
+    lamports,
+    slippage,
+    ownerAccount,
+    associatedTokenAccount,
+    liquidityPool,
+  }: SwapInstructionOptions): TransactionInstruction {
+    const tokensToBuy = Math.floor(
+      (lamports * liquidityPool.virtualTokenReserves) /
+        liquidityPool.virtualSolReserves
+    );
+    const maxLamportsToSpend = Math.floor(lamports * (1 + slippage));
 
     const buyKeys = [
       { pubkey: GLOBAL, isSigner: false, isWritable: false },
       { pubkey: PUMP_FUN_FEE_ACCOUNT, isSigner: false, isWritable: true },
       { pubkey: mint, isSigner: false, isWritable: false },
-      { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
-      { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
-      { pubkey: ASSOCIATED_USER, isSigner: false, isWritable: true },
-      { pubkey: payer.publicKey, isSigner: false, isWritable: true },
+      {
+        pubkey: liquidityPool.bondingCurveAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: liquidityPool.associatedBondingCurveAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      { pubkey: associatedTokenAccount, isSigner: false, isWritable: true },
+      { pubkey: ownerAccount, isSigner: false, isWritable: true },
       { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
       { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
       /**
@@ -130,31 +199,50 @@ export class SolanaService {
 
     const buyData = Buffer.concat([
       this._bufferFromUInt64("16927863322537952870"), // Buy operation ID
-      this._bufferFromUInt64(tokenOut),
-      this._bufferFromUInt64(maxSolCost),
+      this._bufferFromUInt64(tokensToBuy),
+      this._bufferFromUInt64(maxLamportsToSpend),
     ]);
 
-    const buyInstruction = new TransactionInstruction({
+    return new TransactionInstruction({
       keys: buyKeys,
       programId: PUMP_FUN_PROGRAM_ID,
       data: buyData,
     });
-    txBuilder.add(buyInstruction);
+  }
 
-    // Step 3: Sell instructions
-    const minSolOutput = Math.floor(
-      (tokenOut * (1 - slippage) * coinData["virtual_sol_reserves"]) /
-        coinData["virtual_token_reserves"]
+  private sellInstruction({
+    mint,
+    lamports,
+    slippage,
+    ownerAccount,
+    associatedTokenAccount,
+    liquidityPool,
+  }: SwapInstructionOptions): TransactionInstruction {
+    const tokensToSell = Math.floor(
+      (lamports * liquidityPool.virtualTokenReserves) /
+        liquidityPool.virtualSolReserves
+    );
+    const minLamports = Math.floor(
+      (tokensToSell * (1 - slippage) * liquidityPool.virtualSolReserves) /
+        liquidityPool.virtualTokenReserves
     );
 
     const sellKeys = [
       { pubkey: GLOBAL, isSigner: false, isWritable: false },
       { pubkey: PUMP_FUN_FEE_ACCOUNT, isSigner: false, isWritable: true },
       { pubkey: mint, isSigner: false, isWritable: false },
-      { pubkey: BONDING_CURVE, isSigner: false, isWritable: true },
-      { pubkey: ASSOCIATED_BONDING_CURVE, isSigner: false, isWritable: true },
-      { pubkey: tokenAccount, isSigner: false, isWritable: true },
-      { pubkey: payer.publicKey, isSigner: false, isWritable: true },
+      {
+        pubkey: liquidityPool.bondingCurveAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: liquidityPool.associatedBondingCurveAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      { pubkey: associatedTokenAccount, isSigner: false, isWritable: true },
+      { pubkey: ownerAccount, isSigner: false, isWritable: true },
       { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
       {
         pubkey: ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -168,55 +256,15 @@ export class SolanaService {
 
     const sellData = Buffer.concat([
       this._bufferFromUInt64("12502976635542562355"), // Sell operation ID
-      this._bufferFromUInt64(tokenOut),
-      this._bufferFromUInt64(minSolOutput),
+      this._bufferFromUInt64(tokensToSell),
+      this._bufferFromUInt64(minLamports),
     ]);
 
-    const sellInstruction = new TransactionInstruction({
+    return new TransactionInstruction({
       keys: sellKeys,
       programId: PUMP_FUN_PROGRAM_ID,
       data: sellData,
     });
-    txBuilder.add(sellInstruction);
-
-    try {
-      // **Step 4: Add the Jito validator tip**
-      const tipInstruction = SystemProgram.transfer({
-        fromPubkey: payer.publicKey,
-        toPubkey: JITO_TIP_ACCOUNT,
-        lamports: priorityFee,
-      });
-      txBuilder.add(tipInstruction);
-
-      // Set recentBlockhash before signing the transaction
-      const { blockhash } = await this.connection.getLatestBlockhash(
-        "confirmed"
-      );
-      txBuilder.recentBlockhash = blockhash;
-      txBuilder.feePayer = payer.publicKey;
-
-      // Sign the transaction
-      txBuilder.sign(payer);
-
-      // Serialize the transaction
-      const serializedTx = txBuilder.serialize();
-
-      const res = await sendTxUsingJito({
-        serializedTx: serializedTx,
-        region: "mainnet", // Change this if you need another region
-      });
-      return {
-        success: true,
-        data: res.result,
-      };
-    } catch (error) {
-      console.error("Error sending transaction:", error);
-      return {
-        success: false,
-        code: "TRANSACTION_FAILED",
-        error,
-      };
-    }
   }
 
   // public async getRequiredBalance(

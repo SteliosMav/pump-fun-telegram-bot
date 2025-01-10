@@ -1,4 +1,4 @@
-export interface CoinData {
+export interface PumpFunCoinData {
   mint: string;
   name: string;
   symbol: string;

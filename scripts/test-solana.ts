@@ -1,16 +1,16 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+
+import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { PumpFunService } from "../src/pump-fun/pump-fun.service";
-import { ADMIN_KEYPAIR } from "../src/solana/config";
+import { ADMIN_KEYPAIR, HELIUS_API_STANDARD } from "../src/solana/config";
 import { SolanaService } from "../src/solana/solana.service";
 import { TEST_MINT_ACCOUNT } from "../src/solana/constants";
 
 (async () => {
-  console.log("Testing solana...");
-
+  const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
   const pumpFunService = new PumpFunService();
-  const solanaService = new SolanaService(pumpFunService);
+  const solanaService = new SolanaService(connection, pumpFunService);
 
   const response = await solanaService.bump({
     mint: TEST_MINT_ACCOUNT,
@@ -21,7 +21,7 @@ import { TEST_MINT_ACCOUNT } from "../src/solana/constants";
     slippage: 0.02,
   });
 
-  console.log("Response: ", response);
+  console.log("Bump response: ", response);
 
   process.exit();
 })();
