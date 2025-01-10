@@ -1,6 +1,5 @@
 import { PublicKey } from "@solana/web3.js";
 
-// === Public Keys ===
 export const PUMP_FUN_PROGRAM_ID = new PublicKey(
   "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"
 );
@@ -32,6 +31,10 @@ export const TEST_MINT_ACCOUNT = new PublicKey(
   "9Ji6r29UGjXTbV3QV1o2BHMEN1UkdoEqZRvmqvK2pump"
 );
 
-// === Miscellaneous ===
+export enum PumpFunOperationIDs {
+  BUY = "16927863322537952870",
+  SELL = "12502976635542562355",
+}
+
 export const PUMP_FUN_SWAP_FEE_PERCENT = 0.01;
 export const ASSOCIATED_TOKEN_ACC_SIZE = 165;

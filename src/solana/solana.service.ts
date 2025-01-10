@@ -1,4 +1,5 @@
 import {
+  AccountInfo,
   Connection,
   LAMPORTS_PER_SOL,
   PublicKey,
@@ -16,12 +17,13 @@ import {
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../lib/jito";
 import { BOT_SERVICE_FEE_IN_SOL } from "../shared/config";
-import { BOT_KEYPAIR, HELIUS_API_STANDARD } from "./config";
+import { BOT_KEYPAIR } from "./config";
 import {
   GLOBAL,
   JITO_TIP_ACCOUNT,
   PUMP_FUN_FEE_ACCOUNT,
   PUMP_FUN_PROGRAM_ID,
+  PumpFunOperationIDs,
   UNKNOWN_ACCOUNT,
 } from "./constants";
 import { BumpOptions, SwapInstructionOptions, LiquidityPool } from "./types";
@@ -57,16 +59,13 @@ export class SolanaService {
     const txBuilder = new Transaction();
 
     if (!associatedTokenAccount) {
-      associatedTokenAccount = await getAssociatedTokenAddress(
+      const response = await this.getAssociatedTokenAccount(
         mint,
-        payer.publicKey,
-        false
+        payer.publicKey
       );
-      const associatedTokenAccountInfo = await this.connection.getAccountInfo(
-        associatedTokenAccount
-      );
+      associatedTokenAccount = response.associatedTokenAccount;
 
-      if (!associatedTokenAccountInfo) {
+      if (!response.exists) {
         txBuilder.add(
           createAssociatedTokenAccountInstruction(
             payer.publicKey,
@@ -106,33 +105,58 @@ export class SolanaService {
       })
     );
 
-    // **Step 4: Add the Jito validator tip**
-    const tipInstruction = SystemProgram.transfer({
-      fromPubkey: payer.publicKey,
-      toPubkey: JITO_TIP_ACCOUNT,
-      lamports: priorityFee,
-    });
-    txBuilder.add(tipInstruction);
+    txBuilder.add(this.validatorTipInstruction(payer.publicKey, priorityFee));
 
-    // Set recentBlockhash before signing the transaction
     const { blockhash } = await this.connection.getLatestBlockhash("confirmed");
     txBuilder.recentBlockhash = blockhash;
-    txBuilder.feePayer = payer.publicKey;
 
-    // Sign the transaction
+    txBuilder.feePayer = payer.publicKey;
     txBuilder.sign(payer);
 
-    // Serialize the transaction
-    const serializedTx = txBuilder.serialize();
-
-    const res = await sendTxUsingJito({
-      serializedTx: serializedTx,
-      region: "mainnet", // Change this if you need another region
-    });
+    const response = await sendTxUsingJito(txBuilder.serialize());
     return {
-      signature: res.result,
+      signature: response.result,
       associatedTokenAccount,
     };
+  }
+
+  /** Calculates the associatedTokenAccount and then retrieves it if it exists */
+  private async getAssociatedTokenAccount(
+    mint: PublicKey,
+    owner: PublicKey
+  ): Promise<
+    | {
+        associatedTokenAccount: PublicKey;
+        associatedTokenAccountInfo: AccountInfo<Buffer>;
+        exists: true;
+      }
+    | {
+        associatedTokenAccount: PublicKey;
+        associatedTokenAccountInfo: null;
+        exists: false;
+      }
+  > {
+    const associatedTokenAccount = await getAssociatedTokenAddress(
+      mint,
+      owner,
+      false
+    );
+    const associatedTokenAccountInfo = await this.connection.getAccountInfo(
+      associatedTokenAccount
+    );
+    if (associatedTokenAccountInfo) {
+      return {
+        associatedTokenAccount,
+        associatedTokenAccountInfo,
+        exists: true,
+      };
+    } else {
+      return {
+        associatedTokenAccount,
+        associatedTokenAccountInfo: null,
+        exists: false,
+      };
+    }
   }
 
   private botFeeInstruction(payer: PublicKey): TransactionInstruction {
@@ -197,11 +221,11 @@ export class SolanaService {
       { pubkey: PUMP_FUN_PROGRAM_ID, isSigner: false, isWritable: false },
     ];
 
-    const buyData = Buffer.concat([
-      this._bufferFromUInt64("16927863322537952870"), // Buy operation ID
-      this._bufferFromUInt64(tokensToBuy),
-      this._bufferFromUInt64(maxLamportsToSpend),
-    ]);
+    const buyData = this.createOperationData(
+      PumpFunOperationIDs.BUY,
+      tokensToBuy,
+      maxLamportsToSpend
+    );
 
     return new TransactionInstruction({
       keys: buyKeys,
@@ -222,7 +246,7 @@ export class SolanaService {
       (lamports * liquidityPool.virtualTokenReserves) /
         liquidityPool.virtualSolReserves
     );
-    const minLamports = Math.floor(
+    const minLamportsToReceive = Math.floor(
       (tokensToSell * (1 - slippage) * liquidityPool.virtualSolReserves) /
         liquidityPool.virtualTokenReserves
     );
@@ -254,17 +278,46 @@ export class SolanaService {
       { pubkey: PUMP_FUN_PROGRAM_ID, isSigner: false, isWritable: false },
     ];
 
-    const sellData = Buffer.concat([
-      this._bufferFromUInt64("12502976635542562355"), // Sell operation ID
-      this._bufferFromUInt64(tokensToSell),
-      this._bufferFromUInt64(minLamports),
-    ]);
+    const sellData = this.createOperationData(
+      PumpFunOperationIDs.SELL,
+      tokensToSell,
+      minLamportsToReceive
+    );
 
     return new TransactionInstruction({
       keys: sellKeys,
       programId: PUMP_FUN_PROGRAM_ID,
       data: sellData,
     });
+  }
+
+  private validatorTipInstruction(
+    payer: PublicKey,
+    tip: number
+  ): TransactionInstruction {
+    return SystemProgram.transfer({
+      fromPubkey: payer,
+      toPubkey: JITO_TIP_ACCOUNT,
+      lamports: tip,
+    });
+  }
+
+  private createOperationData(
+    operation: PumpFunOperationIDs,
+    tokens: number,
+    lamports: number
+  ): Buffer {
+    const bufferFromUInt64 = (value: number | string) => {
+      const buffer = Buffer.alloc(8);
+      buffer.writeBigUInt64LE(BigInt(value));
+      return buffer;
+    };
+
+    return Buffer.concat([
+      bufferFromUInt64(operation),
+      bufferFromUInt64(tokens),
+      bufferFromUInt64(lamports),
+    ]);
   }
 
   // public async getRequiredBalance(
@@ -371,10 +424,4 @@ export class SolanaService {
   //     };
   //   }
   // }
-
-  private _bufferFromUInt64(value: number | string) {
-    let buffer = Buffer.alloc(8);
-    buffer.writeBigUInt64LE(BigInt(value));
-    return buffer;
-  }
 }

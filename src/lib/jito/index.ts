@@ -21,13 +21,10 @@ export function getJitoEndpoint(region: JitoRegion) {
  * @param args.serialisedTx - A single transaction to be sent, in serialised form
  * @param args.region - The region of the Jito endpoint to use
  */
-export async function sendTxUsingJito({
-  serializedTx,
-  region = "mainnet",
-}: {
-  serializedTx: Uint8Array | Buffer | number[];
-  region: JitoRegion;
-}): Promise<JitoResponse> {
+export async function sendTxUsingJito(
+  serializedTx: Uint8Array | Buffer | number[],
+  region: JitoRegion = "frankfurt"
+): Promise<JitoResponse> {
   let rpcEndpoint = getJitoEndpoint(region);
   let encodedTx = bs58.encode(serializedTx);
   let payload = {
