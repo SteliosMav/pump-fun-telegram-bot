@@ -5,9 +5,9 @@ export interface BumpParams
   extends Pick<BumpSettings, "amount" | "slippage" | "priorityFee"> {
   mint: PublicKey;
   payer: Keypair;
-  includeBotFee: boolean;
   associatedTokenAccount: PublicKey;
   createAssociatedTokenAccount: boolean;
+  includeBotFee: boolean;
 }
 
 export interface OperationInstructionParams {

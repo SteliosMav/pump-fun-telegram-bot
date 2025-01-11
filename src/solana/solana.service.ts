@@ -1,8 +1,10 @@
 import {
   AccountInfo,
   Connection,
+  Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
+  sendAndConfirmTransaction,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
   Transaction,
@@ -54,15 +56,26 @@ export class SolanaService {
     return this.connection.getBalance(publicKey);
   }
 
+  transfer(lamports: number, from: Keypair, to: PublicKey): Promise<string> {
+    const transaction = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: from.publicKey,
+        toPubkey: to,
+        lamports,
+      })
+    );
+    return sendAndConfirmTransaction(this.connection, transaction, [from]);
+  }
+
   async bump({
     mint,
     payer,
+    associatedTokenAccount,
+    createAssociatedTokenAccount,
     includeBotFee,
     amount,
     slippage,
     priorityFee,
-    associatedTokenAccount,
-    createAssociatedTokenAccount,
   }: BumpParams): Promise<string> {
     const txBuilder = new Transaction();
 
@@ -336,57 +349,4 @@ export class SolanaService {
       bufferFromUInt64(lamports),
     ]);
   }
-
-  /**
-   * @WARNING The following should not be specific to business logic but a general transfer
-   * of SOL method so it can be re-used for token-pass, service-pass etc.
-   */
-
-  // /**
-  //  * Transfer SOL from payer to receiver.
-  //  * @param payerPrivateKey The private key of the payer as a base58 string.
-  //  * @returns The transaction signature of the transfer.
-  //  */
-  // async applyBuyTokenPassTx(
-  //   payerPrivateKey: string
-  // ): Promise<CustomResponse<string>> {
-  //   // return {
-  //   //   success: true,
-  //   //   data: "signature",
-  //   // };
-  //   try {
-  //     const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
-  //     const payerKeypair = await this._keyPairFromPrivateKey(payerPrivateKey);
-  //     const bot = await this._keyPairFromPrivateKey(this._botPrivateKey);
-  //     const receiverKey = bot.publicKey;
-
-  //     const lamports = BOT_TOKEN_PASS_PRICE_IN_SOL * LAMPORTS_PER_SOL; // Convert SOL to lamports
-
-  //     const transaction = new Transaction().add(
-  //       SystemProgram.transfer({
-  //         fromPubkey: payerKeypair.publicKey,
-  //         toPubkey: receiverKey,
-  //         lamports,
-  //       })
-  //     );
-
-  //     const signature = await sendAndConfirmTransaction(
-  //       connection,
-  //       transaction,
-  //       [payerKeypair]
-  //     );
-
-  //     return {
-  //       success: true,
-  //       data: signature,
-  //     };
-  //   } catch (error) {
-  //     console.error("Error in applyBuyTokenPassTx:", error);
-  //     return {
-  //       success: false,
-  //       code: "TRANSACTION_FAILED",
-  //       error,
-  //     };
-  //   }
-  // }
 }
