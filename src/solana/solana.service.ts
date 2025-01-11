@@ -19,14 +19,19 @@ import { sendTxUsingJito } from "../lib/jito";
 import { BOT_SERVICE_FEE_IN_SOL } from "../shared/config";
 import { BOT_KEYPAIR } from "./config";
 import {
-  GLOBAL,
+  PUMP_FUN_GLOBAL_ACCOUNT,
   JITO_TIP_ACCOUNT,
   PUMP_FUN_FEE_ACCOUNT,
   PUMP_FUN_PROGRAM_ID,
-  PumpFunOperationIDs,
-  UNKNOWN_ACCOUNT,
+  PUMP_FUN_EVENT_AUTHORITY_ACCOUNT,
+  PUMP_FUN_OPERATION_IDS,
 } from "./constants";
-import { BumpOptions, SwapInstructionOptions, LiquidityPool } from "./types";
+import {
+  BumpOptions,
+  SwapInstructionOptions,
+  LiquidityPool,
+  PumpFunOperationIDs,
+} from "./types";
 
 /**
  * @WARNING Notes:
@@ -64,7 +69,6 @@ export class SolanaService {
         payer.publicKey
       );
       associatedTokenAccount = response.associatedTokenAccount;
-
       if (!response.exists) {
         txBuilder.add(
           createAssociatedTokenAccountInstruction(
@@ -114,6 +118,7 @@ export class SolanaService {
     txBuilder.sign(payer);
 
     const response = await sendTxUsingJito(txBuilder.serialize());
+
     return {
       signature: response.result,
       associatedTokenAccount,
@@ -194,35 +199,16 @@ export class SolanaService {
     );
     const maxLamportsToSpend = Math.floor(lamports * (1 + slippage));
 
-    const buyKeys = [
-      { pubkey: GLOBAL, isSigner: false, isWritable: false },
-      { pubkey: PUMP_FUN_FEE_ACCOUNT, isSigner: false, isWritable: true },
-      { pubkey: mint, isSigner: false, isWritable: false },
-      {
-        pubkey: liquidityPool.bondingCurveAccount,
-        isSigner: false,
-        isWritable: true,
-      },
-      {
-        pubkey: liquidityPool.associatedBondingCurveAccount,
-        isSigner: false,
-        isWritable: true,
-      },
-      { pubkey: associatedTokenAccount, isSigner: false, isWritable: true },
-      { pubkey: ownerAccount, isSigner: false, isWritable: true },
-      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
-      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-      /**
-       * @note SYSVAR Account for querying data such as rent calculation.
-       * Not sure if I need it. Got to check.
-       */
-      { pubkey: SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
-      { pubkey: UNKNOWN_ACCOUNT, isSigner: false, isWritable: false },
-      { pubkey: PUMP_FUN_PROGRAM_ID, isSigner: false, isWritable: false },
-    ];
+    const buyKeys = this.createInstructionKeys({
+      operation: "BUY",
+      mint,
+      associatedTokenAccount,
+      ownerAccount,
+      liquidityPool,
+    });
 
-    const buyData = this.createOperationData(
-      PumpFunOperationIDs.BUY,
+    const buyData = this.createInstructionData(
+      "BUY",
       tokensToBuy,
       maxLamportsToSpend
     );
@@ -251,35 +237,16 @@ export class SolanaService {
         liquidityPool.virtualTokenReserves
     );
 
-    const sellKeys = [
-      { pubkey: GLOBAL, isSigner: false, isWritable: false },
-      { pubkey: PUMP_FUN_FEE_ACCOUNT, isSigner: false, isWritable: true },
-      { pubkey: mint, isSigner: false, isWritable: false },
-      {
-        pubkey: liquidityPool.bondingCurveAccount,
-        isSigner: false,
-        isWritable: true,
-      },
-      {
-        pubkey: liquidityPool.associatedBondingCurveAccount,
-        isSigner: false,
-        isWritable: true,
-      },
-      { pubkey: associatedTokenAccount, isSigner: false, isWritable: true },
-      { pubkey: ownerAccount, isSigner: false, isWritable: true },
-      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
-      {
-        pubkey: ASSOCIATED_TOKEN_PROGRAM_ID,
-        isSigner: false,
-        isWritable: false,
-      },
-      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-      { pubkey: UNKNOWN_ACCOUNT, isSigner: false, isWritable: false },
-      { pubkey: PUMP_FUN_PROGRAM_ID, isSigner: false, isWritable: false },
-    ];
+    const sellKeys = this.createInstructionKeys({
+      operation: "SELL",
+      mint,
+      associatedTokenAccount,
+      ownerAccount,
+      liquidityPool,
+    });
 
-    const sellData = this.createOperationData(
-      PumpFunOperationIDs.SELL,
+    const sellData = this.createInstructionData(
+      "SELL",
       tokensToSell,
       minLamportsToReceive
     );
@@ -302,11 +269,65 @@ export class SolanaService {
     });
   }
 
-  private createOperationData(
-    operation: PumpFunOperationIDs,
+  private createInstructionKeys({
+    operation,
+    mint,
+    associatedTokenAccount,
+    ownerAccount,
+    liquidityPool,
+  }: {
+    operation: keyof Pick<PumpFunOperationIDs, "BUY" | "SELL">;
+    mint: PublicKey;
+    associatedTokenAccount: PublicKey;
+    ownerAccount: PublicKey;
+    liquidityPool: LiquidityPool;
+  }): TransactionInstruction["keys"] {
+    return [
+      { pubkey: PUMP_FUN_GLOBAL_ACCOUNT, isSigner: false, isWritable: false },
+      { pubkey: PUMP_FUN_FEE_ACCOUNT, isSigner: false, isWritable: true },
+      { pubkey: mint, isSigner: false, isWritable: false },
+      {
+        pubkey: liquidityPool.bondingCurveAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: liquidityPool.associatedBondingCurveAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      { pubkey: associatedTokenAccount, isSigner: false, isWritable: true },
+      { pubkey: ownerAccount, isSigner: false, isWritable: true },
+      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+      // Applicable only on sell.
+      ...(operation === "SELL"
+        ? [
+            {
+              pubkey: ASSOCIATED_TOKEN_PROGRAM_ID,
+              isSigner: false,
+              isWritable: false,
+            },
+          ]
+        : []),
+      { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+      // Applicable only on buy.
+      ...(operation === "BUY"
+        ? [{ pubkey: SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false }]
+        : []),
+      {
+        pubkey: PUMP_FUN_EVENT_AUTHORITY_ACCOUNT,
+        isSigner: false,
+        isWritable: false,
+      },
+      { pubkey: PUMP_FUN_PROGRAM_ID, isSigner: false, isWritable: false },
+    ];
+  }
+
+  private createInstructionData(
+    operation: keyof Pick<PumpFunOperationIDs, "BUY" | "SELL">,
     tokens: number,
     lamports: number
-  ): Buffer {
+  ): TransactionInstruction["data"] {
     const bufferFromUInt64 = (value: number | string) => {
       const buffer = Buffer.alloc(8);
       buffer.writeBigUInt64LE(BigInt(value));
@@ -314,7 +335,7 @@ export class SolanaService {
     };
 
     return Buffer.concat([
-      bufferFromUInt64(operation),
+      bufferFromUInt64(PUMP_FUN_OPERATION_IDS[operation]),
       bufferFromUInt64(tokens),
       bufferFromUInt64(lamports),
     ]);

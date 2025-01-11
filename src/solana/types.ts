@@ -24,3 +24,8 @@ export interface LiquidityPool {
   bondingCurveAccount: PublicKey;
   associatedBondingCurveAccount: PublicKey;
 }
+
+export interface PumpFunOperationIDs {
+  BUY: "16927863322537952870";
+  SELL: "12502976635542562355";
+}
