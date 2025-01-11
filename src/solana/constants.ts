@@ -28,5 +28,4 @@ export const PUMP_FUN_OPERATION_IDS: PumpFunOperationIDs = {
   SELL: "12502976635542562355",
 };
 
-export const PUMP_FUN_SWAP_FEE_PERCENT = 0.01;
-export const ASSOCIATED_TOKEN_ACC_SIZE = 165;
+export const PUMP_FUN_FEE_PERCENT = 0.01;

@@ -10,6 +10,7 @@ import {
 } from "@solana/web3.js";
 import { PumpFunService } from "../pump-fun/pump-fun.service";
 import {
+  ACCOUNT_SIZE,
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
   getAssociatedTokenAddress,
@@ -27,8 +28,8 @@ import {
   PUMP_FUN_OPERATION_IDS,
 } from "./constants";
 import {
-  BumpOptions,
-  SwapInstructionOptions,
+  BumpParams,
+  OperationInstructionParams,
   LiquidityPool,
   PumpFunOperationIDs,
 } from "./types";
@@ -42,6 +43,10 @@ import {
 export class SolanaService {
   constructor(
     private connection: Connection,
+    /**
+     * @WARNING After creating method in solana service that retrieves token's liquidity
+     * pool, remove pumpFunServcie dependency. It creates circular dependency injection.
+     */
     private pumpFunService: PumpFunService
   ) {}
 
@@ -57,28 +62,19 @@ export class SolanaService {
     slippage,
     priorityFee,
     associatedTokenAccount,
-  }: BumpOptions): Promise<{
-    signature: string;
-    associatedTokenAccount: PublicKey;
-  }> {
+    createAssociatedTokenAccount,
+  }: BumpParams): Promise<string> {
     const txBuilder = new Transaction();
 
-    if (!associatedTokenAccount) {
-      const response = await this.getAssociatedTokenAccount(
-        mint,
-        payer.publicKey
+    if (createAssociatedTokenAccount) {
+      txBuilder.add(
+        createAssociatedTokenAccountInstruction(
+          payer.publicKey,
+          associatedTokenAccount,
+          payer.publicKey,
+          mint
+        )
       );
-      associatedTokenAccount = response.associatedTokenAccount;
-      if (!response.exists) {
-        txBuilder.add(
-          createAssociatedTokenAccountInstruction(
-            payer.publicKey,
-            associatedTokenAccount,
-            payer.publicKey,
-            mint
-          )
-        );
-      }
     }
 
     if (includeBotFee) {
@@ -119,49 +115,49 @@ export class SolanaService {
 
     const response = await sendTxUsingJito(txBuilder.serialize());
 
-    return {
-      signature: response.result,
-      associatedTokenAccount,
-    };
+    return response.result;
   }
 
   /** Calculates the associatedTokenAccount and then retrieves it if it exists */
-  private async getAssociatedTokenAccount(
+  async getAssociatedToken(
     mint: PublicKey,
     owner: PublicKey
   ): Promise<
     | {
-        associatedTokenAccount: PublicKey;
-        associatedTokenAccountInfo: AccountInfo<Buffer>;
+        account: PublicKey;
+        accountInfo: AccountInfo<Buffer>;
         exists: true;
       }
     | {
-        associatedTokenAccount: PublicKey;
-        associatedTokenAccountInfo: null;
+        account: PublicKey;
+        accountInfo: null;
         exists: false;
       }
   > {
-    const associatedTokenAccount = await getAssociatedTokenAddress(
-      mint,
-      owner,
-      false
-    );
-    const associatedTokenAccountInfo = await this.connection.getAccountInfo(
-      associatedTokenAccount
-    );
-    if (associatedTokenAccountInfo) {
+    const account = await getAssociatedTokenAddress(mint, owner, false);
+    const accountInfo = await this.connection.getAccountInfo(account);
+    if (accountInfo) {
       return {
-        associatedTokenAccount,
-        associatedTokenAccountInfo,
+        account,
+        accountInfo,
         exists: true,
       };
     } else {
       return {
-        associatedTokenAccount,
-        associatedTokenAccountInfo: null,
+        account,
+        accountInfo: null,
         exists: false,
       };
     }
+  }
+
+  /**
+   * Currently, the rent rate is a static amount. For associated tokens it's 2039280 lamports.
+   * Non-system accounts must maintain a lamport balance greater than the minimum required
+   * to store its respective data on-chain.
+   */
+  getAssociatedTokenRent() {
+    return this.connection.getMinimumBalanceForRentExemption(ACCOUNT_SIZE);
   }
 
   private botFeeInstruction(payer: PublicKey): TransactionInstruction {
@@ -192,7 +188,7 @@ export class SolanaService {
     ownerAccount,
     associatedTokenAccount,
     liquidityPool,
-  }: SwapInstructionOptions): TransactionInstruction {
+  }: OperationInstructionParams): TransactionInstruction {
     const tokensToBuy = Math.floor(
       (lamports * liquidityPool.virtualTokenReserves) /
         liquidityPool.virtualSolReserves
@@ -227,7 +223,7 @@ export class SolanaService {
     ownerAccount,
     associatedTokenAccount,
     liquidityPool,
-  }: SwapInstructionOptions): TransactionInstruction {
+  }: OperationInstructionParams): TransactionInstruction {
     const tokensToSell = Math.floor(
       (lamports * liquidityPool.virtualTokenReserves) /
         liquidityPool.virtualSolReserves
@@ -341,62 +337,10 @@ export class SolanaService {
     ]);
   }
 
-  // public async getRequiredBalance(
-  //   payerPrivateKey: string,
-  //   priorityFeeInSol: number,
-  //   slippageDecimal: number,
-  //   solAmount: number,
-  //   bumpsLimit: number,
-  //   mintStr: string,
-  //   includeBotFee: boolean = true
-  // ) {
-  //   const connection = new Connection(HELIUS_API_STANDARD, "confirmed");
-  //   const payer = await this._keyPairFromPrivateKey(payerPrivateKey);
-  //   const owner = payer.publicKey;
-  //   const mint = new PublicKey(mintStr);
-
-  //   // Transaction Costs
-  //   const solInLamports = solAmount * LAMPORTS_PER_SOL;
-  //   const solInWithSlippage = solAmount * (1 + slippageDecimal);
-  //   const solInWithSlippageLamports = Math.floor(
-  //     solInWithSlippage * LAMPORTS_PER_SOL
-  //   );
-  //   const swapFee = solInLamports * this.PUMP_FUN_SWAP_FEE_PERCENT; // 1% swap fee for pump.fun
-  //   const signatureFee = SIGNATURE_FEE_LAMPORTS; // 5000 lamports per signature
-  //   const priorityFeeLamports = priorityFeeInSol * LAMPORTS_PER_SOL; // priority fee, if applicable
-  //   let minRentExemption = 0; // rent fee for creating associated token account if it doesn't exist
-  //   const botFee = includeBotFee
-  //     ? BOT_SERVICE_FEE_IN_SOL * LAMPORTS_PER_SOL
-  //     : 0; // bot fee in lamports
-
-  //   // Rent Exemption Check for Token Account
-  //   const tokenAccountAddress = await getAssociatedTokenAddress(
-  //     mint,
-  //     owner,
-  //     false
-  //   );
-  //   const tokenAccountInfo = await connection.getAccountInfo(
-  //     tokenAccountAddress
-  //   );
-
-  //   if (!tokenAccountInfo) {
-  //     // Minimum rent exemption for creating new associated token account
-  //     minRentExemption = await connection.getMinimumBalanceForRentExemption(
-  //       this.ASSOCIATED_TOKEN_ACC_SIZE
-  //     );
-  //   }
-  //   // Calculate total required balance, including slippage and bot fee
-  //   const totalRequiredBalance =
-  //     minRentExemption +
-  //     solInWithSlippageLamports +
-  //     (swapFee + signatureFee + priorityFeeLamports + botFee * bumpsLimit);
-
-  //   // Get the payer's balance
-  //   const payerBalance = await connection.getBalance(payer.publicKey);
-
-  //   // Check if payer has enough balance for all costs
-  //   return { payerBalance, totalRequiredBalance };
-  // }
+  /**
+   * @WARNING The following should not be specific to business logic but a general transfer
+   * of SOL method so it can be re-used for token-pass, service-pass etc.
+   */
 
   // /**
   //  * Transfer SOL from payer to receiver.

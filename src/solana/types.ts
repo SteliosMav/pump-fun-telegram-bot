@@ -1,15 +1,16 @@
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { BumpSettings } from "../user";
 
-export interface BumpOptions
+export interface BumpParams
   extends Pick<BumpSettings, "amount" | "slippage" | "priorityFee"> {
   mint: PublicKey;
   payer: Keypair;
   includeBotFee: boolean;
-  associatedTokenAccount?: PublicKey;
+  associatedTokenAccount: PublicKey;
+  createAssociatedTokenAccount: boolean;
 }
 
-export interface SwapInstructionOptions {
+export interface OperationInstructionParams {
   mint: PublicKey;
   lamports: number;
   slippage: number;

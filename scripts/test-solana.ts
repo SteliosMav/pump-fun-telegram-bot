@@ -12,6 +12,12 @@ import { TEST_MINT_ACCOUNT } from "../src/solana/constants";
   const pumpFunService = new PumpFunService();
   const solanaService = new SolanaService(connection, pumpFunService);
 
+  const rent = await solanaService.getAssociatedTokenRent();
+
+  const associatedToken = await solanaService.getAssociatedToken(
+    TEST_MINT_ACCOUNT,
+    ADMIN_KEYPAIR.publicKey
+  );
   const response = await solanaService.bump({
     mint: TEST_MINT_ACCOUNT,
     payer: ADMIN_KEYPAIR,
@@ -19,6 +25,8 @@ import { TEST_MINT_ACCOUNT } from "../src/solana/constants";
     amount: 0.0123 * LAMPORTS_PER_SOL,
     priorityFee: 0.0001 * LAMPORTS_PER_SOL,
     slippage: 0.02,
+    associatedTokenAccount: associatedToken.account,
+    createAssociatedTokenAccount: !associatedToken.exists,
   });
 
   console.log("Bump response: ", response);
