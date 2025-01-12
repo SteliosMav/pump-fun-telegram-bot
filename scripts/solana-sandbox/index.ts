@@ -20,10 +20,7 @@ const [account1, account2] = SANDBOX_ACCOUNTS;
 
 (async () => {
   const mint = new PublicKey("3AhvoZ9g7waFkVVz56fBGwPSqTt3jtkkGFHCXQnupump");
-  const res1 = await solanaService.getLiquidityPool(mint);
   const res2 = await solanaService.getBondingCurve(mint);
-
-  console.log("Same: ", JSON.stringify(res1) === JSON.stringify(res2));
 
   process.exit();
 })();

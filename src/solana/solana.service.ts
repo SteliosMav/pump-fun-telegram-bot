@@ -186,6 +186,7 @@ export class SolanaService {
       );
     }
 
+    /** @WARNING create a separate file that holds borsh schemas and use the typescript version */
     const bondingCurveSchema = struct([
       u64("discriminator"),
       u64("virtualTokenReserves"),
@@ -356,6 +357,9 @@ export class SolanaService {
     tokens: number,
     lamports: number
   ): TransactionInstruction["data"] {
+    /**
+     * @WARNING Consider adding borsh here
+     */
     const bufferFromUInt64 = (value: number | string) => {
       const buffer = Buffer.alloc(8);
       buffer.writeBigUInt64LE(BigInt(value));
