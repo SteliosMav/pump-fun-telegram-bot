@@ -35,8 +35,8 @@ import {
   PumpFunOperationIDs,
 } from "./types";
 import { deserialize, serialize } from "@dao-xyz/borsh";
-import { BondingCurveAccount } from "./borsh/bonding-curve";
-import { InstructionData } from "./borsh/instruction-data";
+import { BondingCurveAccountSchema } from "./schema/bonding-curve-account-schema";
+import { InstructionSchema } from "./schema/instruction-schema";
 
 export class SolanaService {
   constructor(private connection: Connection) {}
@@ -182,7 +182,7 @@ export class SolanaService {
 
     const parsedData = deserialize(
       Buffer.from(accountInfo.data),
-      BondingCurveAccount
+      BondingCurveAccountSchema
     );
 
     return {
@@ -225,10 +225,10 @@ export class SolanaService {
 
     const buyData = Buffer.from(
       serialize(
-        new InstructionData({
-          operation: PUMP_FUN_OPERATION_IDS.BUY,
-          tokens: tokensToBuy,
-          lamports: maxLamportsToSpend,
+        new InstructionSchema({
+          operation: BigInt(PUMP_FUN_OPERATION_IDS.BUY),
+          tokens: BigInt(tokensToBuy),
+          lamports: BigInt(maxLamportsToSpend),
         })
       )
     );
@@ -267,10 +267,10 @@ export class SolanaService {
 
     const sellData = Buffer.from(
       serialize(
-        new InstructionData({
-          operation: PUMP_FUN_OPERATION_IDS.SELL,
-          tokens: tokensToSell,
-          lamports: minLamportsToReceive,
+        new InstructionSchema({
+          operation: BigInt(PUMP_FUN_OPERATION_IDS.SELL),
+          tokens: BigInt(tokensToSell),
+          lamports: BigInt(minLamportsToReceive),
         })
       )
     );
