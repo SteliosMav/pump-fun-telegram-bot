@@ -32,15 +32,10 @@ import {
 import {
   BumpParams,
   OperationInstructionParams,
-  LiquidityPool,
+  BondingCurve,
   PumpFunOperationIDs,
 } from "./types";
-
-/**
- * @WARNING Notes:
- *
- * 1) Method `getCoinData` should not hit pump.fun bot solana network instead.
- */
+import { struct, u64, bool } from "@coral-xyz/borsh";
 
 export class SolanaService {
   constructor(
@@ -94,7 +89,7 @@ export class SolanaService {
       txBuilder.add(this.botFeeInstruction(payer.publicKey));
     }
 
-    const liquidityPool = await this.getLiquidityPool(mint);
+    const bondingCurve = await this.getBondingCurve(mint);
 
     txBuilder.add(
       this.buyInstruction({
@@ -103,7 +98,7 @@ export class SolanaService {
         slippage,
         ownerAccount: payer.publicKey,
         associatedTokenAccount,
-        liquidityPool,
+        bondingCurve,
       })
     );
 
@@ -114,7 +109,7 @@ export class SolanaService {
         slippage,
         ownerAccount: payer.publicKey,
         associatedTokenAccount,
-        liquidityPool,
+        bondingCurve,
       })
     );
 
@@ -173,6 +168,43 @@ export class SolanaService {
     return this.connection.getMinimumBalanceForRentExemption(ACCOUNT_SIZE);
   }
 
+  async getBondingCurve(mint: PublicKey): Promise<BondingCurve> {
+    const [bondingCurvePDA] = PublicKey.findProgramAddressSync(
+      [Buffer.from("bonding-curve"), mint.toBuffer()],
+      PUMP_FUN_PROGRAM_ID
+    );
+    const associatedBondingCurve = await getAssociatedTokenAddress(
+      mint,
+      bondingCurvePDA,
+      true
+    );
+
+    const accountInfo = await this.connection.getAccountInfo(bondingCurvePDA);
+    if (!accountInfo) {
+      throw new Error(
+        `Could not find bonding curve for token: ${mint.toString()}`
+      );
+    }
+
+    const bondingCurveSchema = struct([
+      u64("discriminator"),
+      u64("virtualTokenReserves"),
+      u64("virtualSolReserves"),
+      u64("realTokenReserves"),
+      u64("realSolReserves"),
+      u64("tokenTotalSupply"),
+      bool("complete"),
+    ]);
+    const parsedData = bondingCurveSchema.decode(accountInfo.data);
+
+    return {
+      virtualTokenReserves: Number(parsedData.virtualTokenReserves),
+      virtualSolReserves: Number(parsedData.virtualSolReserves),
+      account: bondingCurvePDA,
+      associatedAccount: associatedBondingCurve,
+    };
+  }
+
   private botFeeInstruction(payer: PublicKey): TransactionInstruction {
     return SystemProgram.transfer({
       fromPubkey: payer,
@@ -181,30 +213,17 @@ export class SolanaService {
     });
   }
 
-  private getLiquidityPool(mint: PublicKey): Promise<LiquidityPool> {
-    return this.pumpFunService.getCoinData(mint.toString()).then(
-      (coinData): LiquidityPool => ({
-        virtualTokenReserves: coinData["virtual_token_reserves"],
-        virtualSolReserves: coinData["virtual_sol_reserves"],
-        bondingCurveAccount: new PublicKey(coinData["bonding_curve"]),
-        associatedBondingCurveAccount: new PublicKey(
-          coinData["associated_bonding_curve"]
-        ),
-      })
-    );
-  }
-
   private buyInstruction({
     mint,
     lamports,
     slippage,
     ownerAccount,
     associatedTokenAccount,
-    liquidityPool,
+    bondingCurve,
   }: OperationInstructionParams): TransactionInstruction {
     const tokensToBuy = Math.floor(
-      (lamports * liquidityPool.virtualTokenReserves) /
-        liquidityPool.virtualSolReserves
+      (lamports * bondingCurve.virtualTokenReserves) /
+        bondingCurve.virtualSolReserves
     );
     const maxLamportsToSpend = Math.floor(lamports * (1 + slippage));
 
@@ -213,7 +232,7 @@ export class SolanaService {
       mint,
       associatedTokenAccount,
       ownerAccount,
-      liquidityPool,
+      bondingCurve,
     });
 
     const buyData = this.createInstructionData(
@@ -235,15 +254,15 @@ export class SolanaService {
     slippage,
     ownerAccount,
     associatedTokenAccount,
-    liquidityPool,
+    bondingCurve,
   }: OperationInstructionParams): TransactionInstruction {
     const tokensToSell = Math.floor(
-      (lamports * liquidityPool.virtualTokenReserves) /
-        liquidityPool.virtualSolReserves
+      (lamports * bondingCurve.virtualTokenReserves) /
+        bondingCurve.virtualSolReserves
     );
     const minLamportsToReceive = Math.floor(
-      (tokensToSell * (1 - slippage) * liquidityPool.virtualSolReserves) /
-        liquidityPool.virtualTokenReserves
+      (tokensToSell * (1 - slippage) * bondingCurve.virtualSolReserves) /
+        bondingCurve.virtualTokenReserves
     );
 
     const sellKeys = this.createInstructionKeys({
@@ -251,7 +270,7 @@ export class SolanaService {
       mint,
       associatedTokenAccount,
       ownerAccount,
-      liquidityPool,
+      bondingCurve,
     });
 
     const sellData = this.createInstructionData(
@@ -283,25 +302,25 @@ export class SolanaService {
     mint,
     associatedTokenAccount,
     ownerAccount,
-    liquidityPool,
+    bondingCurve,
   }: {
     operation: keyof Pick<PumpFunOperationIDs, "BUY" | "SELL">;
     mint: PublicKey;
     associatedTokenAccount: PublicKey;
     ownerAccount: PublicKey;
-    liquidityPool: LiquidityPool;
+    bondingCurve: BondingCurve;
   }): TransactionInstruction["keys"] {
     return [
       { pubkey: PUMP_FUN_GLOBAL_ACCOUNT, isSigner: false, isWritable: false },
       { pubkey: PUMP_FUN_FEE_ACCOUNT, isSigner: false, isWritable: true },
       { pubkey: mint, isSigner: false, isWritable: false },
       {
-        pubkey: liquidityPool.bondingCurveAccount,
+        pubkey: bondingCurve.account,
         isSigner: false,
         isWritable: true,
       },
       {
-        pubkey: liquidityPool.associatedBondingCurveAccount,
+        pubkey: bondingCurve.associatedAccount,
         isSigner: false,
         isWritable: true,
       },

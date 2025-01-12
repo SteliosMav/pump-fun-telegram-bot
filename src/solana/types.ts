@@ -16,14 +16,14 @@ export interface OperationInstructionParams {
   slippage: number;
   ownerAccount: PublicKey;
   associatedTokenAccount: PublicKey;
-  liquidityPool: LiquidityPool;
+  bondingCurve: BondingCurve;
 }
 
-export interface LiquidityPool {
+export interface BondingCurve {
   virtualTokenReserves: number;
   virtualSolReserves: number;
-  bondingCurveAccount: PublicKey;
-  associatedBondingCurveAccount: PublicKey;
+  account: PublicKey;
+  associatedAccount: PublicKey;
 }
 
 export interface PumpFunOperationIDs {
