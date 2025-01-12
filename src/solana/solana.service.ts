@@ -10,7 +10,6 @@ import {
   Transaction,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { PumpFunService } from "../pump-fun/pump-fun.service";
 import {
   ACCOUNT_SIZE,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -35,17 +34,12 @@ import {
   BondingCurve,
   PumpFunOperationIDs,
 } from "./types";
-import { struct, u64, bool } from "@coral-xyz/borsh";
+import { deserialize, serialize } from "@dao-xyz/borsh";
+import { BondingCurveAccount } from "./borsh/bonding-curve";
+import { InstructionData } from "./borsh/instruction-data";
 
 export class SolanaService {
-  constructor(
-    private connection: Connection,
-    /**
-     * @WARNING After creating method in solana service that retrieves token's liquidity
-     * pool, remove pumpFunServcie dependency. It creates circular dependency injection.
-     */
-    private pumpFunService: PumpFunService
-  ) {}
+  constructor(private connection: Connection) {}
 
   getBalance(publicKey: PublicKey): Promise<number> {
     return this.connection.getBalance(publicKey);
@@ -186,17 +180,10 @@ export class SolanaService {
       );
     }
 
-    /** @WARNING create a separate file that holds borsh schemas and use the typescript version */
-    const bondingCurveSchema = struct([
-      u64("discriminator"),
-      u64("virtualTokenReserves"),
-      u64("virtualSolReserves"),
-      u64("realTokenReserves"),
-      u64("realSolReserves"),
-      u64("tokenTotalSupply"),
-      bool("complete"),
-    ]);
-    const parsedData = bondingCurveSchema.decode(accountInfo.data);
+    const parsedData = deserialize(
+      Buffer.from(accountInfo.data),
+      BondingCurveAccount
+    );
 
     return {
       virtualTokenReserves: Number(parsedData.virtualTokenReserves),
@@ -236,10 +223,14 @@ export class SolanaService {
       bondingCurve,
     });
 
-    const buyData = this.createInstructionData(
-      "BUY",
-      tokensToBuy,
-      maxLamportsToSpend
+    const buyData = Buffer.from(
+      serialize(
+        new InstructionData({
+          operation: PUMP_FUN_OPERATION_IDS.BUY,
+          tokens: tokensToBuy,
+          lamports: maxLamportsToSpend,
+        })
+      )
     );
 
     return new TransactionInstruction({
@@ -274,10 +265,14 @@ export class SolanaService {
       bondingCurve,
     });
 
-    const sellData = this.createInstructionData(
-      "SELL",
-      tokensToSell,
-      minLamportsToReceive
+    const sellData = Buffer.from(
+      serialize(
+        new InstructionData({
+          operation: PUMP_FUN_OPERATION_IDS.SELL,
+          tokens: tokensToSell,
+          lamports: minLamportsToReceive,
+        })
+      )
     );
 
     return new TransactionInstruction({
@@ -350,26 +345,5 @@ export class SolanaService {
       },
       { pubkey: PUMP_FUN_PROGRAM_ID, isSigner: false, isWritable: false },
     ];
-  }
-
-  private createInstructionData(
-    operation: keyof Pick<PumpFunOperationIDs, "BUY" | "SELL">,
-    tokens: number,
-    lamports: number
-  ): TransactionInstruction["data"] {
-    /**
-     * @WARNING Consider adding borsh here
-     */
-    const bufferFromUInt64 = (value: number | string) => {
-      const buffer = Buffer.alloc(8);
-      buffer.writeBigUInt64LE(BigInt(value));
-      return buffer;
-    };
-
-    return Buffer.concat([
-      bufferFromUInt64(PUMP_FUN_OPERATION_IDS[operation]),
-      bufferFromUInt64(tokens),
-      bufferFromUInt64(lamports),
-    ]);
   }
 }
