@@ -235,9 +235,9 @@ export class SolanaService {
     const buyData = Buffer.alloc(InstructionLayout.span);
     InstructionLayout.encode(
       {
-        operation: Number(PUMP_FUN_OPERATION_IDS.BUY),
-        tokens: tokensToBuy,
-        lamports: maxLamportsToSpend,
+        operation: BigInt(PUMP_FUN_OPERATION_IDS.BUY),
+        tokens: BigInt(tokensToBuy),
+        lamports: BigInt(maxLamportsToSpend),
       },
       buyData
     );
@@ -277,9 +277,9 @@ export class SolanaService {
     const sellData = Buffer.alloc(InstructionLayout.span);
     InstructionLayout.encode(
       {
-        operation: Number(PUMP_FUN_OPERATION_IDS.SELL),
-        tokens: tokensToSell,
-        lamports: minLamportsToReceive,
+        operation: BigInt(PUMP_FUN_OPERATION_IDS.SELL),
+        tokens: BigInt(tokensToSell),
+        lamports: BigInt(minLamportsToReceive),
       },
       sellData
     );

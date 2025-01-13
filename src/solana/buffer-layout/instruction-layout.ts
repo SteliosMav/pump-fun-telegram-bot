@@ -1,7 +1,8 @@
-import { struct, nu64 } from "@solana/buffer-layout";
+import { struct } from "@solana/buffer-layout";
+import { u64 } from "@solana/buffer-layout-utils";
 
 export const InstructionLayout = struct<{
-  operation: number;
-  tokens: number;
-  lamports: number;
-}>([nu64("operation"), nu64("tokens"), nu64("lamports")]);
+  operation: bigint;
+  tokens: bigint;
+  lamports: bigint;
+}>([u64("operation"), u64("tokens"), u64("lamports")]);
