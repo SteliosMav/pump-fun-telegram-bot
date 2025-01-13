@@ -5,6 +5,7 @@ import {
   LAMPORTS_PER_SOL,
   PublicKey,
   sendAndConfirmTransaction,
+  Signer,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
   Transaction,
@@ -67,6 +68,7 @@ export class SolanaService {
     priorityFee,
   }: BumpParams): Promise<string> {
     const txBuilder = new Transaction();
+    txBuilder.feePayer = payer.publicKey;
 
     if (createAssociatedTokenAccount) {
       txBuilder.add(
@@ -109,15 +111,7 @@ export class SolanaService {
 
     txBuilder.add(this.validatorTipInstruction(payer.publicKey, priorityFee));
 
-    const { blockhash } = await this.connection.getLatestBlockhash("confirmed");
-    txBuilder.recentBlockhash = blockhash;
-
-    txBuilder.feePayer = payer.publicKey;
-    txBuilder.sign(payer);
-
-    const response = await sendTxUsingJito(txBuilder.serialize());
-
-    return response.result;
+    return this.finalizeTransaction(txBuilder, [payer]);
   }
 
   /** Calculates the associatedTokenAccount and then retrieves it if it exists */
@@ -191,6 +185,20 @@ export class SolanaService {
       account: bondingCurvePDA,
       associatedAccount: associatedBondingCurve,
     };
+  }
+
+  private async finalizeTransaction(
+    transaction: Transaction,
+    signers: Array<Signer>
+  ): Promise<string> {
+    const { blockhash } = await this.connection.getLatestBlockhash("confirmed");
+    transaction.recentBlockhash = blockhash;
+
+    transaction.sign(...signers);
+
+    const response = await sendTxUsingJito(transaction.serialize());
+
+    return response.result;
   }
 
   private botFeeInstruction(payer: PublicKey): TransactionInstruction {
