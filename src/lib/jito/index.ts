@@ -1,8 +1,8 @@
 import bs58 from "bs58";
-import { JitoResponse } from "./type";
+import { BundleStatus, JitoResponse } from "./type";
 
-export type JitoRegion = "mainnet" | "amsterdam" | "frankfurt" | "ny" | "tokyo";
-export const JitoEndpoints = {
+type JitoRegion = "mainnet" | "amsterdam" | "frankfurt" | "ny" | "tokyo";
+const JitoEndpoints = {
   mainnet: "https://mainnet.block-engine.jito.wtf/api/v1/transactions",
   amsterdam:
     "https://amsterdam.mainnet.block-engine.jito.wtf/api/v1/transactions",
@@ -11,7 +11,7 @@ export const JitoEndpoints = {
   ny: "https://ny.mainnet.block-engine.jito.wtf/api/v1/transactions",
   tokyo: "https://tokyo.mainnet.block-engine.jito.wtf/api/v1/transactions",
 };
-export function getJitoEndpoint(region: JitoRegion) {
+function getJitoEndpoint(region: JitoRegion) {
   return JitoEndpoints[region];
 }
 
@@ -42,5 +42,64 @@ export async function sendTxUsingJito(
   if (json.error) {
     throw new Error(json.error.message);
   }
+  return json;
+}
+
+/**
+ * The below code is just for future reference. No need to be used anywhere
+ * in the app at this point - although it's tested and it works.
+ */
+async function sendTxUsingJitoBundles(
+  serializedTxs: (Uint8Array | Buffer | number[])[]
+): Promise<BundleStatus> {
+  let endpoint = "https://mainnet.block-engine.jito.wtf/api/v1/bundles";
+  let payload = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "sendBundle",
+    params: [serializedTxs.map((t) => bs58.encode(t))],
+  };
+
+  let res = await fetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  let json = await res.json();
+  if (json.error) {
+    throw new Error(json.error.message);
+  }
+
+  const bundleId = json.result;
+
+  console.log("Bundle res:", json);
+
+  return getBundleStatus(bundleId);
+}
+
+async function getBundleStatus(id: string): Promise<BundleStatus> {
+  let endpoint = "https://mainnet.block-engine.jito.wtf/api/v1/bundles";
+
+  let payload = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "getBundleStatuses",
+    params: [[id]],
+  };
+
+  let res = await fetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" },
+  });
+
+  let json = await res.json();
+  if (json.error) {
+    throw new Error(json.error.message);
+  }
+
+  console.log("Bundle status response:", json);
+
   return json;
 }

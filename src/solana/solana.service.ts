@@ -39,6 +39,11 @@ import { deserialize, serialize } from "@dao-xyz/borsh";
 import { BondingCurveAccountSchema } from "./schema/bonding-curve-account-schema";
 import { InstructionSchema } from "./schema/instruction-schema";
 
+/**
+ * @note
+ * 1) Use solana's @solana/buffer-layout package to replace borsh library.
+ */
+
 export class SolanaService {
   constructor(private connection: Connection) {}
 

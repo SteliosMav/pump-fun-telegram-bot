@@ -6,7 +6,7 @@ import {
   Connection,
   LAMPORTS_PER_SOL,
   PublicKey,
-  sendAndConfirmTransaction,
+  Transaction,
 } from "@solana/web3.js";
 import { PumpFunService } from "../../src/pump-fun/pump-fun.service";
 import { ADMIN_KEYPAIR, HELIUS_API_STANDARD } from "../../src/solana/config";
@@ -20,7 +20,21 @@ const solanaService = new SolanaService(connection);
 const [account1, account2] = SANDBOX_ACCOUNTS;
 
 (async () => {
-  // await solanaService.test();s
+  // const txBuilder = new Transaction();
+
+  // const { blockhash } = await connection.getLatestBlockhash("confirmed");
+  // txBuilder.recentBlockhash = blockhash;
+
+  // txBuilder.sign(ADMIN_KEYPAIR);
+
+  // // const res1 = await sendTxUsingJito(txBuilder.serialize());
+  // const res1 = await sendTxUsingJitoBundles([txBuilder.serialize()]);
+
+  // const res2 = await getBundleStatus(
+  //   "6dFt6hQXkuWD9dJXFFTmpCNEcyjayXj5xy2U4iXwwPLHHnMk3zjt7h9YBhc7i2oaWgDX15vWbindSvsQfUdVxDU"
+  // );
+
+  // await solanaService.test();
 
   // const associatedToken = await solanaService.getAssociatedToken(
   //   TEST_MINT_ACCOUNT,
