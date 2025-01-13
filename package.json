@@ -13,7 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@dao-xyz/borsh": "^5.2.3",
+    "@solana/buffer-layout": "^4.0.1",
     "@solana/spl-token": "^0.4.9",
     "@solana/web3.js": "^1.95.4",
     "@types/node": "^22.8.6",

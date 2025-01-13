@@ -35,9 +35,8 @@ import {
   BondingCurve,
   PumpFunOperationIDs,
 } from "./types";
-import { deserialize, serialize } from "@dao-xyz/borsh";
-import { BondingCurveAccountSchema } from "./schema/bonding-curve-account-schema";
-import { InstructionSchema } from "./schema/instruction-schema";
+import { BondingCurveAccountLayout } from "./buffer-layout/bonding-curve-account-layout";
+import { InstructionLayout } from "./buffer-layout/instruction-layout";
 
 /**
  * @note
@@ -179,10 +178,7 @@ export class SolanaService {
       );
     }
 
-    const parsedData = deserialize(
-      Buffer.from(accountInfo.data),
-      BondingCurveAccountSchema
-    );
+    const parsedData = BondingCurveAccountLayout.decode(accountInfo.data);
 
     return {
       virtualTokenReserves: Number(parsedData.virtualTokenReserves),
@@ -236,14 +232,14 @@ export class SolanaService {
       bondingCurve,
     });
 
-    const buyData = Buffer.from(
-      serialize(
-        new InstructionSchema({
-          operation: BigInt(PUMP_FUN_OPERATION_IDS.BUY),
-          tokens: BigInt(tokensToBuy),
-          lamports: BigInt(maxLamportsToSpend),
-        })
-      )
+    const buyData = Buffer.alloc(InstructionLayout.span);
+    InstructionLayout.encode(
+      {
+        operation: Number(PUMP_FUN_OPERATION_IDS.BUY),
+        tokens: tokensToBuy,
+        lamports: maxLamportsToSpend,
+      },
+      buyData
     );
 
     return new TransactionInstruction({
@@ -278,14 +274,14 @@ export class SolanaService {
       bondingCurve,
     });
 
-    const sellData = Buffer.from(
-      serialize(
-        new InstructionSchema({
-          operation: BigInt(PUMP_FUN_OPERATION_IDS.SELL),
-          tokens: BigInt(tokensToSell),
-          lamports: BigInt(minLamportsToReceive),
-        })
-      )
+    const sellData = Buffer.alloc(InstructionLayout.span);
+    InstructionLayout.encode(
+      {
+        operation: Number(PUMP_FUN_OPERATION_IDS.SELL),
+        tokens: tokensToSell,
+        lamports: minLamportsToReceive,
+      },
+      sellData
     );
 
     return new TransactionInstruction({
