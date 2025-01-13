@@ -35,8 +35,8 @@ import {
   BondingCurve,
   PumpFunOperationIDs,
 } from "./types";
-import { BondingCurveAccountLayout } from "./buffer-layout/bonding-curve-account-layout";
-import { InstructionLayout } from "./buffer-layout/instruction-layout";
+import { BondingCurveAccountLayout } from "./buffer-layouts/bonding-curve-account-layout";
+import { InstructionLayout } from "./buffer-layouts/instruction-layout";
 
 /**
  * @note
