@@ -35,7 +35,7 @@ This document outlines the key components, folder structure, and best practices 
 - **Consistent Naming**: Use descriptive and meaningful prefixes for files and methods (e.g., `solana.service.ts`, `findUserById`).
 - **Abstraction Layers**:
   - Encapsulate library-specific logic in the `lib` folder to decouple it from application logic.
-  - Use the `shared` folder for reusable utilities and types across modules.
+  - Use the `shared` folder for reusable utilities and types that are not big enough to have their own modules, across modules.
 - **Error Handling**: Validate in the service layer and log or interpret errors appropriately.
 
 ---
@@ -105,7 +105,7 @@ This distinction helps maintain clear boundaries and avoids unnecessarily bloati
 
 1. **Services**: Use the `.service.ts` suffix (e.g., `user.service.ts`) for files implementing business logic.
 2. **Repositories**: Use the `.repository.ts` suffix (e.g., `user.repository.ts`) for database interaction logic.
-3. **Utils**: Use the `.utils.ts` suffix and include the module name as a prefix when necessary (e.g., `solana-utils.ts`).
+3. **Utils**: Use the `-utils.ts` suffix and include the module name as a prefix when necessary (e.g., `solana-utils.ts`).
 
 ---
 

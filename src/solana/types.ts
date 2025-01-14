@@ -27,6 +27,7 @@ export interface BondingCurve {
 }
 
 export interface PumpFunOperationIDs {
+  // Too big to be number type. A string that's later converted to BigInt is preferable.
   BUY: "16927863322537952870";
   SELL: "12502976635542562355";
 }

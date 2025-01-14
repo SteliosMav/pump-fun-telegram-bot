@@ -42,44 +42,23 @@ const [account1, account2] = SANDBOX_ACCOUNTS;
 
   // await solanaService.test();
 
-  for (let index = 0; index < 30; index++) {
-    // (async () => {
-    try {
-      const associatedToken = solanaService
-        .getAssociatedToken(TEST_MINT_ACCOUNT, ADMIN_KEYPAIR.publicKey)
-        .then((res) => console.log("Success! Index: ", index))
-        .catch((e) => {
-          if (e) {
-            console.log("Error! Index: ", index);
-            console.log(e);
-          } else {
-            console.log("Empty error");
-          }
-        });
-      // const associatedToken = await solanaService.getAssociatedToken(
-      //   TEST_MINT_ACCOUNT,
-      //   ADMIN_KEYPAIR.publicKey
-      // );
-      // if (associatedToken.exists) {
-      //   const bumpRes = await solanaService.bump({
-      //     mint: TEST_MINT_ACCOUNT,
-      //     payer: ADMIN_KEYPAIR,
-      //     createAssociatedTokenAccount: false,
-      //     includeBotFee: false,
-      //     amount: 0.0123 * LAMPORTS_PER_SOL,
-      //     slippage: 0.02,
-      //     priorityFee: 0.00005 * LAMPORTS_PER_SOL,
-      //     associatedTokenAccount: associatedToken.account,
-      //   });
-      //   console.log(bumpRes);
-      // }
-    } catch (e) {
-      if (e) {
-        console.log(e);
-      }
-    }
-    // })();
-  }
+  // const associatedToken = await solanaService.getAssociatedToken(
+  //   TEST_MINT_ACCOUNT,
+  //   ADMIN_KEYPAIR.publicKey
+  // );
+  // if (associatedToken.exists) {
+  //   const bumpRes = await solanaService.bump({
+  //     mint: TEST_MINT_ACCOUNT,
+  //     payer: ADMIN_KEYPAIR,
+  //     createAssociatedTokenAccount: false,
+  //     includeBotFee: false,
+  //     amount: 0.0123 * LAMPORTS_PER_SOL,
+  //     slippage: 0.02,
+  //     priorityFee: 0.00005 * LAMPORTS_PER_SOL,
+  //     associatedTokenAccount: associatedToken.account,
+  //   });
+  //   console.log(bumpRes);
+  // }
 
-  // process.exit();
+  process.exit();
 })();
