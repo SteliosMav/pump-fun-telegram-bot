@@ -37,17 +37,13 @@ import {
 } from "./types";
 import { BondingCurveAccountLayout } from "./buffer-layouts/bonding-curve-account-layout";
 import { InstructionLayout } from "./buffer-layouts/instruction-layout";
-
-/**
- * @note
- * 1) Use solana's @solana/buffer-layout package to replace borsh library.
- */
+import { SolanaRPCProvider } from "./solana-rpc-provider";
 
 export class SolanaService {
-  constructor(private connection: Connection) {}
+  constructor(private rpc: SolanaRPCProvider) {}
 
   getBalance(publicKey: PublicKey): Promise<number> {
-    return this.connection.getBalance(publicKey);
+    return this.rpc.connection.getBalance(publicKey);
   }
 
   transfer(lamports: number, from: Keypair, to: PublicKey): Promise<string> {
@@ -58,7 +54,7 @@ export class SolanaService {
         lamports,
       })
     );
-    return sendAndConfirmTransaction(this.connection, transaction, [from]);
+    return sendAndConfirmTransaction(this.rpc.connection, transaction, [from]);
   }
 
   async bump({
@@ -135,7 +131,7 @@ export class SolanaService {
       }
   > {
     const account = await getAssociatedTokenAddress(mint, owner, false);
-    const accountInfo = await this.connection.getAccountInfo(account);
+    const accountInfo = await this.rpc.connection.getAccountInfo(account);
     if (accountInfo) {
       return {
         account,
@@ -157,7 +153,7 @@ export class SolanaService {
    * to store its respective data on-chain.
    */
   getAssociatedTokenRent() {
-    return this.connection.getMinimumBalanceForRentExemption(ACCOUNT_SIZE);
+    return this.rpc.connection.getMinimumBalanceForRentExemption(ACCOUNT_SIZE);
   }
 
   async getBondingCurve(mint: PublicKey): Promise<BondingCurve> {
@@ -171,7 +167,9 @@ export class SolanaService {
       true
     );
 
-    const accountInfo = await this.connection.getAccountInfo(bondingCurvePDA);
+    const accountInfo = await this.rpc.connection.getAccountInfo(
+      bondingCurvePDA
+    );
     if (!accountInfo) {
       throw new Error(
         `Could not find bonding curve for token: ${mint.toString()}`
@@ -192,7 +190,9 @@ export class SolanaService {
     transaction: Transaction,
     signers: Array<Signer>
   ): Promise<string> {
-    const { blockhash } = await this.connection.getLatestBlockhash("confirmed");
+    const { blockhash } = await this.rpc.connection.getLatestBlockhash(
+      "confirmed"
+    );
     transaction.recentBlockhash = blockhash;
 
     transaction.sign(...signers);

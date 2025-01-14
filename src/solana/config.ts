@@ -10,3 +10,4 @@ export const ADMIN_KEYPAIR = keyPairFromEncodedPrivateKey(ADMIN_PRIVATE_KEY);
 
 // === Solana APIs ===
 export const HELIUS_API_STANDARD = process.env.HELIUS_API_STANDARD as string;
+export const QUICKNODE_API = process.env.QUICKNODE_API as string;
