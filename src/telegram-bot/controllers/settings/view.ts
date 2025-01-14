@@ -4,7 +4,7 @@ import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
 import { SIGNATURE_FEE_LAMPORTS } from "../../../shared/constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { getPumpFunFee } from "../../../pump-fun/util";
+import { calculatePumpFunFee } from "../../../pump-fun/util";
 import { userHasServicePass } from "../../../user/util";
 import { BOT_SERVICE_FEE_IN_SOL } from "../../../shared/config";
 
@@ -12,7 +12,7 @@ export function getSettingsMsg(user: UserDoc) {
   const serviceFee = userHasServicePass(user) ? 0 : BOT_SERVICE_FEE_IN_SOL;
   const txFee = SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL;
   return `*Bump price: ${
-    serviceFee + user.priorityFee + getPumpFunFee(user.bumpAmount) + txFee
+    serviceFee + user.priorityFee + calculatePumpFunFee(user.bumpAmount) + txFee
   } SOL* 
 
 It includes:
@@ -20,7 +20,7 @@ It includes:
     serviceFee > 0 ? serviceFee : "0 - _Enjoy ZERO service fees!_ 🎉"
   }
 • Priority fee: ${user.priorityFee}
-• Pump-fun fee: ${getPumpFunFee(user.bumpAmount)}
+• Pump-fun fee: ${calculatePumpFunFee(user.bumpAmount)}
 • Transaction fee: ${txFee}
 
 *- Amount:* _The amount of SOL to use for each bump._

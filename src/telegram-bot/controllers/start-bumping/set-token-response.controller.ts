@@ -13,7 +13,7 @@ import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "../../../shared/types";
 import { SolanaService } from "../../../solana/solana.service";
 import { isUrl } from "../../validators";
-import { getCoinSlug } from "../../../pump-fun/util";
+import { extractMintFromUrl } from "../../../pump-fun/util";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   USER_FRIENDLY_ERROR_MESSAGE,
@@ -54,7 +54,7 @@ export async function setTokenResponseController({
 
   const isUrlBool = isUrl(text);
   const inputType = isUrlBool ? "URL" : "CA";
-  const ca = isUrlBool ? getCoinSlug(text) : text;
+  const ca = isUrlBool ? extractMintFromUrl(text) : text;
 
   const proxy = getRandomProxy();
   const coinData = await pumpFunService.getCoinData(ca, proxy);

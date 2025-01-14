@@ -1,6 +1,6 @@
 import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../shared/constants";
 import { PumpFunService } from "../../../pump-fun/pump-fun.service";
-import { getCoinSlug } from "../../../pump-fun/util";
+import { extractMintFromUrl } from "../../../pump-fun/util";
 import { getRandomProxy } from "../../../shared/get-random-proxy";
 import { SolanaService } from "../../../solana/solana.service";
 import { UserService } from "../../../user/user.service";
@@ -43,7 +43,7 @@ export async function useTokenPassResponseController({
   const text = message.text as string;
   const isUrlBool = isUrl(text);
   const inputType = isUrlBool ? "URL" : "CA";
-  const ca = isUrlBool ? getCoinSlug(text) : text;
+  const ca = isUrlBool ? extractMintFromUrl(text) : text;
 
   const proxy = getRandomProxy();
   const coinData = await pumpFunService.getCoinData(ca, proxy);

@@ -32,14 +32,22 @@ export interface PumpFunCoinData {
   usd_market_cap: number;
 }
 
-export interface UserUpdateResponse {
-  address: string;
-  likes_received: number;
-  mentions_received: number;
-  username: string;
-  profile_image: string;
-  last_username_update_timestamp: number;
-  followers: number;
-  following: number;
-  bio: string;
+export type UserUpdateResponse =
+  | { error: string }
+  | {
+      address: string;
+      likes_received: number;
+      mentions_received: number;
+      username: string;
+      profile_image: string;
+      last_username_update_timestamp: number;
+      followers: number;
+      following: number;
+      bio: string;
+    };
+
+export interface PumpFunProfile {
+  username: string; // Maximum of 10 characters
+  bio: string; // Maximum of 250 characters
+  imageUrl?: string;
 }

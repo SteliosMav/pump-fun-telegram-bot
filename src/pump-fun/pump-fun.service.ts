@@ -1,18 +1,12 @@
 import { Keypair } from "@solana/web3.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
-import { PumpFunCoinData, UserUpdateResponse } from "./types";
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { HttpsProxyAgent } from "https-proxy-agent";
-
-export enum TransactionMode {
-  Simulation,
-  Execution,
-}
+import { PumpFunProfile, UserUpdateResponse } from "./types";
+import axios from "axios";
 
 export class PumpFunService {
-  private _baseUrl = "https://frontend-api.pump.fun";
-  private _pumpFunHeaders = {
+  private origin = "https://frontend-api.pump.fun";
+  private headers = {
     "Content-Type": "application/json",
     "User-Agent":
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
@@ -29,150 +23,55 @@ export class PumpFunService {
 
   constructor() {}
 
-  getCoinData(mintStr: string): Promise<PumpFunCoinData> {
-    const url = `${this._baseUrl}/coins/${mintStr}`;
-    const config: AxiosRequestConfig = {
-      method: "GET",
-      url,
-      headers: this._pumpFunHeaders,
-    };
-
-    return axios(config).then((res) => {
-      if (res.data) {
-        return res.data as PumpFunCoinData;
-      } else {
-        throw new Error("Coin data not found");
-      }
-    });
-  }
-
-  async login(privateKey: string): Promise<string | null> {
-    // Step 1: Initialize keypair from the private key
-    const secretKey = bs58.decode(privateKey); // Decode the base58 private key
-    const keypair = Keypair.fromSecretKey(secretKey);
-
-    // Step 2: Generate a timestamp and create the sign-in message
+  async login(keypair: Keypair): Promise<string> {
     const timestamp = Date.now();
     const message = `Sign in to pump.fun: ${timestamp}`;
     const encodedMessage = new TextEncoder().encode(message);
 
-    // Step 3: Sign the message using tweetnacl
     const signatureUint8Array = nacl.sign.detached(
       encodedMessage,
       keypair.secretKey
     );
-    const signature = bs58.encode(signatureUint8Array); // Encode signature in base58
+    const signature = bs58.encode(signatureUint8Array);
 
-    // Step 4: Prepare the payload
     const payload = {
       address: keypair.publicKey.toBase58(),
       signature: signature,
       timestamp: timestamp,
     };
 
-    // Step 5: Send the login request using fetch
-    try {
-      const response = await fetch(`${this._baseUrl}/auth/login`, {
-        method: "POST",
-        headers: this._pumpFunHeaders,
-        body: JSON.stringify(payload),
-      });
+    const loginRes = await axios.post(`${this.origin}/auth/login`, payload, {
+      headers: this.headers,
+    });
 
-      // Get set-cookie header from response
-      const setCookieHeader = response.headers.get("set-cookie");
-      const data = await response.json();
-      return setCookieHeader;
-    } catch (error) {
-      console.error("Error during login:", error);
-      return null;
+    const setCookieHeader = loginRes.headers["set-cookie"];
+    if (!setCookieHeader || !setCookieHeader.length) {
+      throw new Error("Failed retrieving cookie header");
     }
+
+    return setCookieHeader.join("; ");
   }
 
   async updateProfile(
-    username: string,
-    imageUrl: string,
-    bio: string,
-    authCookie: string
-  ): Promise<UserUpdateResponse | null> {
-    // Step 1: Prepare the payload with the user profile data
-    const payload = {
-      username,
-      bio,
-      profileImage: imageUrl,
-    };
-
-    // Step 2: Send the profile update request using fetch
-    try {
-      const response = await fetch(`${this._baseUrl}/users`, {
-        method: "POST",
+    authCookie: string,
+    update: PumpFunProfile
+  ): Promise<PumpFunProfile> {
+    const updateRes = await axios.post<UserUpdateResponse>(
+      `${this.origin}/users`,
+      update,
+      {
         headers: {
-          ...this._pumpFunHeaders,
+          ...this.headers,
           Cookie: authCookie,
         },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        const data: UserUpdateResponse = await response.json();
-        if (data.address) {
-          return data;
-        } else {
-          console.error("Profile update failed:", data);
-          return null;
-        }
-      } else {
-        console.error("Profile update failed:", await response.json());
-        return null;
       }
-    } catch (error) {
-      console.error("Error during profile update:", error);
-      return null;
-    }
-  }
+    );
 
-  async comment(
-    text: string,
-    mint: string,
-    authCookie: string,
-    proxyToken: string
-  ): Promise<boolean> {
-    // URL for posting comments
-    const commentUrl = `${this._baseUrl}/comment`;
-
-    // Payload for the comment
-    const payload = {
-      text,
-      mint,
-    };
-
-    // Headers including authCookie and x-aws-proxy-token
-    const headers = {
-      ...this._pumpFunHeaders,
-      Cookie: authCookie,
-      "x-aws-proxy-token": proxyToken,
-    };
-
-    try {
-      // Make the POST request
-      const response = await fetch(commentUrl, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        console.log(`Successfully commented: ${text} on ${mint}`);
-        return true;
-      } else {
-        const errorResponse = await response.text();
-        console.error(
-          `Failed to post comment. Status: ${response.status}, Response: ${errorResponse}`
-        );
-        return false;
-      }
-    } catch (error) {
-      console.error("Error during comment posting:", error);
-      return false;
+    const f = updateRes.data;
+    if ("address" in updateRes.data) {
+      return update;
+    } else {
+      throw updateRes.data;
     }
   }
 }
