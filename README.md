@@ -64,6 +64,10 @@ The modular folder structure ensures separation of concerns and scalability:
 ├── solana/
 │ ├── solana.service.ts
 │ ├── solana-utils.ts
+├── telegram-bot/
+│ ├── controllers
+│ ├── telegram-bot.service.ts
+│ ├── telegram-bot-utils.ts
 ├── lib/
 │ ├── mongoose/
 │ │ ├── connect-db.ts
