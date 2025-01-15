@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --require tsconfig-paths/register --respawn src/telegram-bot/bot.ts",
+    "start": "ts-node-dev --require tsconfig-paths/register --respawn src/telegram-bot/run.ts",
     "draft": "ts-node-dev --require tsconfig-paths/register draft.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
