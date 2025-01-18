@@ -1,17 +1,18 @@
 import TelegramBot from "node-telegram-bot-api";
 import { catchErrors } from "./middleware";
 import { TELEGRAM_BOT_TOKEN } from "../shared/constants";
-import { CallbackType, UserMap, UserState } from "./types";
+import { CallbackType } from "./types";
 import { initUserState } from "./util";
 import { startController } from "./controllers/start/start.controller";
 import { controllersMap, responseControllersMap } from "./router";
+import { UserState, UserStore } from "./user-store";
 
 export class Bot {
   private bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
 
-  constructor(private userMap: UserMap) {}
+  constructor(private userStore: UserStore) {}
 
-  init() {
+  init(): void {
     this.initStartListener();
     this.initCallbackQueryListener();
     this.initMessageListeners();
@@ -35,9 +36,9 @@ export class Bot {
         await this.handleStartParams(message);
 
         // Init use-state functions
-        const getUserState = () => this.userMap.get(userTgId);
+        const getUserState = () => this.userStore.get(userTgId);
         const setUserState = (state: UserState) =>
-          this.userMap.set(userTgId, state);
+          this.userStore.set(userTgId, state);
 
         // Init user's state
         const oldUserState = getUserState();
@@ -77,9 +78,9 @@ export class Bot {
           const userTgId = callbackQuery.from.id;
 
           // Init use-state functions
-          const getUserState = () => this.userMap.get(userTgId);
+          const getUserState = () => this.userStore.get(userTgId);
           const setUserState = (state: UserState) =>
-            this.userMap.set(userTgId, state);
+            this.userStore.set(userTgId, state);
 
           // Init user's state
           const oldUserState = getUserState();
@@ -125,9 +126,9 @@ export class Bot {
       const userTgId = message.from.id;
 
       // Init user's state
-      const getUserState = () => this.userMap.get(userTgId);
+      const getUserState = () => this.userStore.get(userTgId);
       const setUserState = (state: UserState) =>
-        this.userMap.set(userTgId, state);
+        this.userStore.set(userTgId, state);
 
       // Init user's state
       const oldUserState = getUserState();

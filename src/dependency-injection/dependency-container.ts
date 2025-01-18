@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 /** 
  * @example
 
@@ -42,5 +44,32 @@ export class DependencyContainer {
       throw new Error(`Dependency ${key} not found in container.`);
     }
     return instance as T;
+  }
+
+  // Bootstrap application with the main class
+  inject<T>(MainClass: new (...args: any[]) => T): T {
+    this.registerDependencies();
+    return this.createInstance(MainClass);
+  }
+
+  // Register all dependencies (internal method)
+  private registerDependencies(): void {
+    // Add your dependency registrations here
+    this.register(new ProxyRotator());
+    this.register(new PumpFunService());
+    this.register(new CommentGenerator());
+    this.register(
+      new AccountGenerator(
+        this.resolve(ProxyRotator),
+        this.resolve(PumpFunService)
+      )
+    );
+  }
+
+  // Create an instance of the main class with resolved dependencies
+  private createInstance<T>(ClassRef: new (...args: any[]) => T): T {
+    const paramTypes = Reflect.getMetadata("design:paramtypes", ClassRef) || [];
+    const dependencies = paramTypes.map((param: any) => this.resolve(param));
+    return new ClassRef(...dependencies);
   }
 }

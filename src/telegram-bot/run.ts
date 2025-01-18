@@ -1,23 +1,23 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { UserMap, UserState } from "./types";
 import connectDB from "../lib/mongo";
 import { cleanUserStateInterval } from "./util";
 import { Bot } from "./bot";
 import { Server } from "./server";
+import { UserStore } from "./user-store";
+import { DependencyContainer } from "../dependency-injection/dependency-container";
 
-// MongoDB connection
-connectDB();
+(async () => {
+  // MongoDB connection
+  await connectDB();
 
-// User state management
-const userMap: UserMap = new Map<number, UserState>();
-cleanUserStateInterval(userMap);
+  // Inject bot with dependencies and initialize it
+  const container = new DependencyContainer();
+  const bot = container.inject(Bot);
+  bot.init();
 
-// Init bot
-const bot = new Bot();
-bot.init();
-
-// Init server for health-checks
-const server = new Server();
-server.init();
+  // Init server for health-checks
+  const server = new Server();
+  await server.init();
+})();

@@ -18,9 +18,16 @@ export class Server {
     }
   });
 
-  init() {
-    this.server.listen(8080, () => {
-      console.log("Health check server is running on port 8080");
+  init(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        this.server.listen(8080, () => {
+          console.log("Health check server is running on port 8080");
+          resolve();
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }
