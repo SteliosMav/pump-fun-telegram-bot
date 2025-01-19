@@ -1,17 +1,15 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigService } from "@nestjs/config";
+import { Configuration } from "../../shared/config/config.interface";
 
 @Module({
   imports: [
     MongooseModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>("mongoUri"),
-        autoIndex:
-          configService.get<string>("environment") === "production"
-            ? false
-            : true,
+      useFactory: (configService: ConfigService<Configuration>) => ({
+        uri: configService.get("MONGO_URI"),
+        autoIndex: configService.get("ENV") === "production" ? false : true,
       }),
     }),
   ],

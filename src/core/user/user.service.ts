@@ -1,4 +1,4 @@
-import { BOT_DESCRIPTION, BOT_IMAGE } from "../../shared/config";
+import { BOT_DESCRIPTION, BOT_IMAGE } from "../../shared/constants";
 import { UserDoc } from "./types";
 import { CustomResponse } from "../../shared/types";
 import { UserRepository } from "./user.repository";

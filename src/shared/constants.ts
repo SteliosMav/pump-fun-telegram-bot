@@ -1,17 +1,3 @@
-import { ENV } from "./config";
-
-// === Environment Variables ===
-export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
-export const MONGO_URI = (
-  ENV === "production" ? process.env.MONGO_URI_PROD : process.env.MONGO_URI_DEV
-) as string;
-export const PERSONAL_TG_ID = +(process.env.PERSONAL_TG_ID as string) as number;
-export const TELEGRAM_BOT_TOKEN = (
-  ENV === "production"
-    ? process.env.TELEGRAM_BOT_TOKEN_PROD
-    : process.env.TELEGRAM_BOT_TOKEN_DEV
-) as string;
-
 // === Bot ===
 export const BOT_WEBSITE_URL = "https://www.ezpump.fun";
 export const USER_FRIENDLY_ERROR_MESSAGE =
@@ -26,3 +12,12 @@ export const SIGNATURE_FEE_LAMPORTS = 5000;
 
 // === JITO ===
 export const MIN_VALIDATOR_TIP_IN_SOL = 0.00001; // 1,000 lamports
+
+// === Config ===
+export const BOT_IMAGE =
+  "https://pump.mypinata.cloud/ipfs/QmRSbGEC7Ezikm4WXm45DuTsmoLYbYXNkZRvHfyC9KEnv7";
+// Bot description must be maximum 250 characters
+export const BOT_DESCRIPTION = `🎁FREE token-pass for new users! 🌐 Add "ez" in front of "pump.fun" | Telegram: "ez_" and "pump_" and "bot". The most reliable, cheap and easy to use!`;
+export const BOT_SERVICE_FEE_IN_SOL = 0.00019;
+export const BOT_TOKEN_PASS_PRICE_IN_SOL = 0.07;
+export const MAX_BUMPS_LIMIT = 250;

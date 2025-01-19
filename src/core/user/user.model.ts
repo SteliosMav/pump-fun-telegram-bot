@@ -3,8 +3,7 @@ import {
   MIN_VALIDATOR_TIP_IN_SOL,
   MIN_VISIBLE_BUMP_AMOUNT,
 } from "../../shared/constants";
-import { MAX_BUMPS_LIMIT } from "../../shared/config";
-import { decryptPrivateKey } from "../../lib/crypto";
+import { MAX_BUMPS_LIMIT } from "../../shared/constants";
 import {
   UserRaw,
   UserMethods,
@@ -134,9 +133,10 @@ export const userSchema = new Schema<
 
     // === Methods ===
     methods: {
-      getPrivateKey() {
-        return decryptPrivateKey(this.encryptedPrivateKey);
-      },
+      // The below method now needs to be accessed through config service
+      // getPrivateKey() {
+      //   return decryptPrivateKey(this.encryptedPrivateKey);
+      // },
     },
 
     // === Query helpers ===

@@ -1,14 +1,20 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from "@nestjs/common";
 import TelegramBot from "node-telegram-bot-api";
-import { TELEGRAM_BOT_TOKEN } from "../shared/constants";
 import { HandlerRegistry } from "./handler-system/handler-registry.service";
+import { ConfigService } from "@nestjs/config";
+import { Configuration } from "../shared/config/config.interface";
 
 @Injectable()
 export class TelegramBotService implements OnModuleInit, OnModuleDestroy {
   private bot: TelegramBot;
 
-  constructor(private readonly handlerRegistry: HandlerRegistry) {
-    this.bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
+  constructor(
+    private readonly configService: ConfigService<Configuration>,
+    private readonly handlerRegistry: HandlerRegistry
+  ) {
+    this.bot = new TelegramBot(this.configService.get("TELEGRAM_BOT_TOKEN")!, {
+      polling: true,
+    });
   }
 
   async onModuleInit() {

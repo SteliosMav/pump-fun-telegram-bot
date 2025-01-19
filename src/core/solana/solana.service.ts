@@ -19,8 +19,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../../lib/jito";
-import { BOT_SERVICE_FEE_IN_SOL } from "../../shared/config";
-import { BOT_KEYPAIR } from "./config";
+import { BOT_SERVICE_FEE_IN_SOL } from "../../shared/constants";
 import {
   PUMP_FUN_GLOBAL_ACCOUNT,
   JITO_TIP_ACCOUNT,
@@ -39,10 +38,19 @@ import { BondingCurveAccountLayout } from "./buffer-layouts/bonding-curve-accoun
 import { InstructionLayout } from "./buffer-layouts/instruction-layout";
 import { SolanaRpcService } from "./solana-rpc.service";
 import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { Configuration } from "../../shared/config/config.interface";
 
 @Injectable()
 export class SolanaService {
-  constructor(private readonly rpc: SolanaRpcService) {}
+  private readonly botAccount = new PublicKey(
+    this.configService.get("BOT_ACCOUNT")!
+  );
+
+  constructor(
+    private readonly configService: ConfigService<Configuration>,
+    private readonly rpc: SolanaRpcService
+  ) {}
 
   getBalance(publicKey: PublicKey): Promise<number> {
     return this.rpc.connection.getBalance(publicKey);
@@ -207,7 +215,7 @@ export class SolanaService {
   private botFeeInstruction(payer: PublicKey): TransactionInstruction {
     return SystemProgram.transfer({
       fromPubkey: payer,
-      toPubkey: BOT_KEYPAIR.publicKey,
+      toPubkey: this.botAccount,
       lamports: BOT_SERVICE_FEE_IN_SOL * LAMPORTS_PER_SOL,
     });
   }
