@@ -1,5 +1,5 @@
 import { Keypair } from "@solana/web3.js";
-import { PumpFunService } from "../../src/pump-fun/pump-fun.service";
+import { PumpFunService } from "../../src/core/pump-fun/pump-fun.service";
 
 const pumpFunService = new PumpFunService();
 

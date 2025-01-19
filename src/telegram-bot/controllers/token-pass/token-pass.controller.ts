@@ -1,10 +1,10 @@
 import { CallbackType, CBQueryCtrlArgs, CtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
-import { UserService } from "../../../user/user.service";
+import { UserService } from "../../../core/user/user.service";
 import { getTokenPassInlineKeyboard, getTokenPassMsg } from "./view";
 import { startController } from "../start/start.controller";
-import { pubKeyByPrivKey } from "../../../solana/solana-utils";
-import { SolanaService } from "../../../solana/solana.service";
+import { pubKeyByPrivKey } from "../../../core/solana/solana-utils";
+import { SolanaService } from "../../../core/solana/solana.service";
 
 // Callback types that edit the message instead of sending a new one
 // i.e. if the user presses the "Token Pass" button

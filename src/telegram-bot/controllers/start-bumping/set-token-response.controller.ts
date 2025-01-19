@@ -1,4 +1,4 @@
-import { UserService } from "../../../user/user.service";
+import { UserService } from "../../../core/user/user.service";
 import {
   CallbackType,
   CBQueryCtrlArgs,
@@ -7,13 +7,13 @@ import {
 } from "../../types";
 import { startController } from "../start/start.controller";
 import { errorController } from "../events/error.controller";
-import { PumpFunService } from "../../../pump-fun/pump-fun.service";
+import { PumpFunService } from "../../../core/pump-fun/pump-fun.service";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { loadingController } from "../events/loading.controller";
 import { CustomResponse, ErrorResponse } from "../../../shared/types";
-import { SolanaService } from "../../../solana/solana.service";
+import { SolanaService } from "../../../core/solana/solana.service";
 import { isUrl } from "../../validators";
-import { extractMintFromUrl } from "../../../pump-fun/util";
+import { extractMintFromUrl } from "../../../core/pump-fun/util";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   USER_FRIENDLY_ERROR_MESSAGE,

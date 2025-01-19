@@ -1,6 +1,6 @@
 import { CallbackType, CBQueryCtrlArgs, CtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
-import { UserService } from "../../../user/user.service";
+import { UserService } from "../../../core/user/user.service";
 import { getSettingsInlineKeyboard, getSettingsMsg } from "./view";
 import { startController } from "../start/start.controller";
 

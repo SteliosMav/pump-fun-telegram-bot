@@ -1,7 +1,7 @@
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { SolanaService } from "../../../solana/solana.service";
-import { pubKeyByPrivKey } from "../../../solana/solana-utils";
-import { UserService } from "../../../user/user.service";
+import { SolanaService } from "../../../core/solana/solana.service";
+import { pubKeyByPrivKey } from "../../../core/solana/solana-utils";
+import { UserService } from "../../../core/user/user.service";
 import { CBQueryCtrlArgs, MsgCtrlArgs } from "../../types";
 import { isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";

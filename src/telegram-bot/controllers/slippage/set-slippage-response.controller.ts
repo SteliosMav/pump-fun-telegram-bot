@@ -1,4 +1,4 @@
-import { UserService } from "../../../user/user.service";
+import { UserService } from "../../../core/user/user.service";
 import { MsgCtrlArgs } from "../../types";
 import { isValidSlippage } from "../../validators";
 import { errorController } from "../events/error.controller";

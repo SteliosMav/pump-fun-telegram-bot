@@ -11,5 +11,15 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": true // Required for compatibility with modern decorators
-  }
+  },
+  // "include": ["src/api"],
+  "exclude": [
+    "src/core/user",
+    "src/telegram-bot", // Include after the errors are resolved
+    "src/solana",
+    "src/shared",
+    "src/core/pump-fun",
+    "src/lib",
+    "src/dependency-injection"
+  ]
 }

@@ -1,5 +1,5 @@
 import { Keypair } from "@solana/web3.js";
-import { keyPairFromEncodedPrivateKey } from "../../src/solana/solana-utils";
+import { keyPairFromEncodedPrivateKey } from "../../src/core/solana/solana-utils";
 
 export const SANDBOX_ACCOUNTS: Array<Keypair> = [
   "5m3E42AeJic6GxVwtBBdMFZcEWLL5hpFLTsVKfJg2xgr47w7rzmQKsSbnpeGmaQoNg15gn2ccbhvpNCJFbn2HPZy",

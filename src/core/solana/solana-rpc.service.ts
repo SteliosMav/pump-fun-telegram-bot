@@ -1,7 +1,9 @@
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import { HELIUS_API_STANDARD, QUICKNODE_API } from "./config";
+import { Inject, Injectable } from "@nestjs/common";
 
-export class SolanaRPCProvider {
+@Injectable()
+export class SolanaRpcService {
   get connection(): Connection {
     if (this.provider === "rotate") {
       const currentConnection = this.rpcProviders[this.index];
@@ -20,10 +22,12 @@ export class SolanaRPCProvider {
   }
 
   constructor(
-    private provider: "quicknode" | "helius" | "devnet" | "rotate" = "rotate"
+    @Inject("RPC_PROVIDER")
+    private readonly provider: "quicknode" | "helius" | "devnet" | "rotate",
+    @Inject("RPC_PROVIDERS") private readonly rpcProviders: string[]
   ) {
     let api = clusterApiUrl("devnet");
-    switch (provider) {
+    switch (this.provider) {
       case "helius":
         api = HELIUS_API_STANDARD;
         break;
@@ -33,7 +37,6 @@ export class SolanaRPCProvider {
     this.staticConnection = new Connection(api, "confirmed");
   }
 
-  private rpcProviders: string[] = [QUICKNODE_API, HELIUS_API_STANDARD];
   private index: number = 0;
 
   private staticConnection: Connection = new Connection(

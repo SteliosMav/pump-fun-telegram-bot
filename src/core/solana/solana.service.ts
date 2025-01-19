@@ -18,8 +18,8 @@ import {
   getAssociatedTokenAddress,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { sendTxUsingJito } from "../lib/jito";
-import { BOT_SERVICE_FEE_IN_SOL } from "../shared/config";
+import { sendTxUsingJito } from "../../lib/jito";
+import { BOT_SERVICE_FEE_IN_SOL } from "../../shared/config";
 import { BOT_KEYPAIR } from "./config";
 import {
   PUMP_FUN_GLOBAL_ACCOUNT,
@@ -37,10 +37,12 @@ import {
 } from "./types";
 import { BondingCurveAccountLayout } from "./buffer-layouts/bonding-curve-account-layout";
 import { InstructionLayout } from "./buffer-layouts/instruction-layout";
-import { SolanaRPCProvider } from "./solana-rpc-provider";
+import { SolanaRpcService } from "./solana-rpc.service";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class SolanaService {
-  constructor(private rpc: SolanaRPCProvider) {}
+  constructor(private readonly rpc: SolanaRpcService) {}
 
   getBalance(publicKey: PublicKey): Promise<number> {
     return this.rpc.connection.getBalance(publicKey);

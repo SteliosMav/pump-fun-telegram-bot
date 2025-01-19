@@ -3,7 +3,9 @@ import bs58 from "bs58";
 import nacl from "tweetnacl";
 import { PumpFunProfile, UserUpdateResponse } from "./types";
 import axios from "axios";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class PumpFunService {
   private origin = "https://frontend-api.pump.fun";
   private headers = {
@@ -20,8 +22,6 @@ export class PumpFunService {
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "cross-site",
   };
-
-  constructor() {}
 
   async login(keypair: Keypair): Promise<string> {
     const timestamp = Date.now();

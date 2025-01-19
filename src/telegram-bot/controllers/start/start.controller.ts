@@ -1,14 +1,14 @@
 import { CallbackType, CtrlArgs, MsgCtrlArgs } from "../../types";
 import TelegramBot from "node-telegram-bot-api";
-import { UserService } from "../../../user/user.service";
-import { SolanaService } from "../../../solana/solana.service";
+import { UserService } from "../../../core/user/user.service";
+import { SolanaService } from "../../../core/solana/solana.service";
 import { getStartingInlineKeyboard, getStartingMsg } from "./view";
 import {
   PERSONAL_TG_ID,
   USER_FRIENDLY_ERROR_MESSAGE,
 } from "../../../shared/constants";
 import { errorController } from "../events/error.controller";
-import { UserModel } from "../../../user/user.model";
+import { UserModel } from "../../../core/user/user.model";
 import { encryptPrivateKey } from "../../../lib/crypto";
 import bs58 from "bs58";
 import { Keypair } from "@solana/web3.js";

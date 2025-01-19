@@ -1,8 +1,8 @@
 import TelegramBot from "node-telegram-bot-api";
-import { UserDoc } from "../../../user/types";
+import { UserDoc } from "../../../core/user/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
-import { pubKeyByPrivKey } from "../../../solana/solana-utils";
+import { pubKeyByPrivKey } from "../../../core/solana/solana-utils";
 import { BOT_TOKEN_PASS_PRICE_IN_SOL } from "../../../shared/config";
 
 export function getTokenPassMsg(user: UserDoc, balance: number) {

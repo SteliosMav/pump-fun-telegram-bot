@@ -1,11 +1,11 @@
 import TelegramBot from "node-telegram-bot-api";
-import { UserDoc } from "../../../user/types";
+import { UserDoc } from "../../../core/user/types";
 import { CallbackType } from "../../types";
 import { getGoBackBtn } from "../../../shared/inline-keyboard-button";
 import { SIGNATURE_FEE_LAMPORTS } from "../../../shared/constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { calculatePumpFunFee } from "../../../pump-fun/util";
-import { userHasServicePass } from "../../../user/util";
+import { calculatePumpFunFee } from "../../../core/pump-fun/util";
+import { userHasServicePass } from "../../../core/user/util";
 import { BOT_SERVICE_FEE_IN_SOL } from "../../../shared/config";
 
 export function getSettingsMsg(user: UserDoc) {

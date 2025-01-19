@@ -1,5 +1,5 @@
 import { Keypair, PublicKey } from "@solana/web3.js";
-import { BumpSettings } from "../user";
+import { BumpSettings } from "../user/types";
 
 export interface BumpParams
   extends Pick<BumpSettings, "amount" | "slippage" | "priorityFee"> {

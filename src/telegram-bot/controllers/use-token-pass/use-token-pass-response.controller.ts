@@ -1,9 +1,9 @@
 import { USER_FRIENDLY_ERROR_MESSAGE } from "../../../shared/constants";
-import { PumpFunService } from "../../../pump-fun/pump-fun.service";
-import { extractMintFromUrl } from "../../../pump-fun/util";
+import { PumpFunService } from "../../../core/pump-fun/pump-fun.service";
+import { extractMintFromUrl } from "../../../core/pump-fun/util";
 import { getRandomProxy } from "../../../shared/get-random-proxy";
-import { SolanaService } from "../../../solana/solana.service";
-import { UserService } from "../../../user/user.service";
+import { SolanaService } from "../../../core/solana/solana.service";
+import { UserService } from "../../../core/user/user.service";
 import { MsgCtrlArgs } from "../../types";
 import { isUrl, isValidBumpAmount, isValidSol } from "../../validators";
 import { errorController } from "../events/error.controller";

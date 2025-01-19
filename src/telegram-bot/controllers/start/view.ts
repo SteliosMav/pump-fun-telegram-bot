@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
-import { UserDoc } from "../../../user/types";
+import { UserDoc } from "../../../core/user/types";
 import { CallbackType } from "../../types";
-import { pubKeyByPrivKey } from "../../../solana/solana-utils";
+import { pubKeyByPrivKey } from "../../../core/solana/solana-utils";
 import { BOT_WEBSITE_URL } from "../../../shared/constants";
 import { refreshBalanceBtn } from "../../../shared/inline-keyboard-button";
 
