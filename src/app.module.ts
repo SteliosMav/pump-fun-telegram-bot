@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
-import { TelegramBotModule } from "./telegram-bot";
+import { BotModule } from "./telegram-bot";
 import { DatabaseModule } from "./core/database";
 import { SolanaModule } from "./core/solana";
 import { PumpFunModule } from "./core/pump-fun";
@@ -14,10 +14,10 @@ import { CryptoModule } from "./core/crypto";
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.ENV}`,
       isGlobal: true,
-      validate, // Use the custom validation function
+      validate,
     }),
     DatabaseModule,
-    TelegramBotModule,
+    BotModule,
     SolanaModule,
     PumpFunModule,
     UserModule,

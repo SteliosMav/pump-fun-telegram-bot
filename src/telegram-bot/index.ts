@@ -1,1 +1,1 @@
-export { TelegramBotModule } from "./telegram-bot.module";
+export { BotModule } from "./bot.module";
