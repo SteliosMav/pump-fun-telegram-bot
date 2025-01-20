@@ -1,7 +1,7 @@
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { Configuration } from "../../shared/config/config.interface";
+import { Configuration } from "../../shared/config";
 
 @Injectable()
 export class SolanaRpcService {

@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import CryptoJS from 'crypto-js';
-import { Configuration } from '../../shared/config/config.interface';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import CryptoJS from "crypto-js";
+import { Configuration } from "../../shared/config";
 
 @Injectable()
 export class CryptoService {
   private readonly encryptionKey: string;
 
   constructor(private readonly configService: ConfigService<Configuration>) {
-    this.encryptionKey = this.configService.get('ENCRYPTION_KEY')!;
+    this.encryptionKey = this.configService.get("ENCRYPTION_KEY")!;
   }
 
   encryptPrivateKey(privateKey: string): string {

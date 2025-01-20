@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit, OnModuleDestroy } from "@nestjs/common";
 import TelegramBot from "node-telegram-bot-api";
 import { HandlerRegistry } from "./handler-system/handler-registry.service";
 import { ConfigService } from "@nestjs/config";
-import { Configuration } from "../shared/config/config.interface";
+import { Configuration } from "../shared/config";
 
 @Injectable()
 export class TelegramBotService implements OnModuleInit, OnModuleDestroy {

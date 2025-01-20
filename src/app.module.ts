@@ -6,7 +6,7 @@ import { SolanaModule } from "./core/solana";
 import { PumpFunModule } from "./core/pump-fun";
 import { UserModule } from "./core/user";
 import { ConfigModule } from "@nestjs/config";
-import { configValidationSchema } from "./shared/config/config-validation";
+import { validate } from "./shared/config";
 import { CryptoModule } from "./core/crypto";
 
 @Module({
@@ -14,7 +14,7 @@ import { CryptoModule } from "./core/crypto";
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.ENV}`,
       isGlobal: true,
-      validationSchema: configValidationSchema,
+      validate, // Use the custom validation function
     }),
     DatabaseModule,
     TelegramBotModule,

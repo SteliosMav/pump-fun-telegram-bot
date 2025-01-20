@@ -39,7 +39,7 @@ import { InstructionLayout } from "./buffer-layouts/instruction-layout";
 import { SolanaRpcService } from "./solana-rpc.service";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { Configuration } from "../../shared/config/config.interface";
+import { Configuration } from "../../shared/config";
 
 @Injectable()
 export class SolanaService {
