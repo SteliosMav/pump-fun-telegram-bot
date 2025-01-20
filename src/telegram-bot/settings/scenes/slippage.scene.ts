@@ -1,11 +1,11 @@
 import { Scene, SceneEnter, On, Ctx } from "nestjs-telegraf";
-import { BotContext } from "../bot.context";
+import { BotContext } from "../../bot.context";
 
 @Scene("slippageScene")
 export class SlippageScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
-    await ctx.reply("Enter the slippage percentage:");
+    await ctx.reply("Enter the slippage percentage (e.g., 2):");
   }
 
   @On("text")

@@ -1,7 +1,7 @@
 import { Scenes } from "telegraf";
 
 export interface BotSessionData extends Scenes.SceneSessionData {
-  lastCallback?: string;
+  lastCallback?: string | null;
   slippage?: number;
 }
 

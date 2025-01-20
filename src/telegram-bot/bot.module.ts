@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common";
 import { TelegrafModule } from "nestjs-telegraf";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { BotUpdate } from "./bot.update";
-import { SlippageModule } from "./slippage/slippage.module";
+import { StartUpdate } from "./start/start.update";
 import { session } from "telegraf";
 import { Configuration } from "../shared/config";
+import { SettingsModule } from "./settings/settings.module";
+import { StartModule } from "./start/start.module";
 
 /**
  * @WARNING need to implement custom logic that will clean sessions periodically
@@ -22,8 +23,8 @@ import { Configuration } from "../shared/config";
         middlewares: [session()],
       }),
     }),
-    SlippageModule,
+    StartModule,
+    SettingsModule,
   ],
-  providers: [BotUpdate],
 })
 export class BotModule {}
