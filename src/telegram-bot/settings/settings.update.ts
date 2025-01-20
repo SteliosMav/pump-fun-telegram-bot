@@ -5,23 +5,13 @@ import { BotContext } from "../bot.context";
 export class SettingsUpdate {
   @Action("SET_SLIPPAGE")
   async onSetSlippage(@Ctx() ctx: BotContext) {
-    // Acknowledge the callback
     await ctx.answerCbQuery();
-
-    // Route to the corresponding scene
-    ctx.scene.enter("slippageScene");
+    ctx.scene.enter("slippage");
   }
 
-  @Action("BACK")
+  @Action("START")
   async onBack(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
-    await ctx.reply("Returning to the start page...", {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Start Bumping", callback_data: "START_BUMPING" }],
-          [{ text: "Settings", callback_data: "SETTINGS" }],
-        ],
-      },
-    });
+    ctx.scene.enter("start");
   }
 }

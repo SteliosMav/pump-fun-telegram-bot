@@ -5,36 +5,19 @@ import { BotContext } from "../bot.context";
 export class StartUpdate {
   @Command("start")
   async onStart(@Ctx() ctx: BotContext, @Next() next: () => Promise<void>) {
-    await ctx.reply("Welcome to the bot! Press a button to proceed.", {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Start Bumping", callback_data: "START_BUMPING" }],
-          [{ text: "Settings", callback_data: "SETTINGS" }],
-        ],
-      },
-    });
-
-    // Pass control to other handlers if necessary
-    await next();
+    ctx.scene.enter("start");
+    // await next(); // Pass control to other handlers if necessary
   }
 
   @Action("START_BUMPING")
   async onStartBumping(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
-    await ctx.reply("Bumping started!");
-    // Logic to start bumping goes here
+    ctx.scene.enter("startBumping");
   }
 
   @Action("SETTINGS")
   async onSettings(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
-    await ctx.reply("Redirecting to settings...", {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Set Slippage", callback_data: "SET_SLIPPAGE" }],
-          [{ text: "Back", callback_data: "BACK" }],
-        ],
-      },
-    });
+    ctx.scene.enter("settings");
   }
 }

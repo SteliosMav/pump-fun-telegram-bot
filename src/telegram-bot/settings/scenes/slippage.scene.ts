@@ -1,7 +1,7 @@
 import { Scene, SceneEnter, On, Ctx } from "nestjs-telegraf";
 import { BotContext } from "../../bot.context";
 
-@Scene("slippageScene")
+@Scene("slippage")
 export class SlippageScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {

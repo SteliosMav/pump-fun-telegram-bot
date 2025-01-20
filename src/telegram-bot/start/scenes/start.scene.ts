@@ -1,26 +1,17 @@
-import { Scene, SceneEnter, On, Ctx } from "nestjs-telegraf";
+import { Scene, SceneEnter, Ctx } from "nestjs-telegraf";
 import { Scenes } from "telegraf";
 
-@Scene("slippageScene")
-export class SlippageScene {
+@Scene("start")
+export class StartScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: Scenes.SceneContext) {
-    await ctx.reply("Enter the slippage percentage:");
-  }
-
-  @On("text")
-  async onSlippageInput(@Ctx() ctx: Scenes.SceneContext) {
-    if (!ctx.message || !("text" in ctx.message)) {
-      await ctx.reply("Invalid input. Please send a text message.");
-      return;
-    }
-
-    const slippage = parseFloat(ctx.message.text);
-    if (isNaN(slippage)) {
-      await ctx.reply("Invalid input. Please enter a valid number.");
-    } else {
-      await ctx.reply(`Slippage set to ${slippage}%.`);
-      ctx.scene.leave(); // Exit scene
-    }
+    await ctx.reply("Welcome to the bot! Press a button to proceed.", {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "Start Bumping", callback_data: "START_BUMPING" }],
+          [{ text: "Settings", callback_data: "SETTINGS" }],
+        ],
+      },
+    });
   }
 }
