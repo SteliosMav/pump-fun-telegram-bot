@@ -8,12 +8,6 @@ import { Injectable } from "@nestjs/common";
 export class BotUpdate {
   constructor(@InjectBot() private readonly bot: Telegraf<BotContext>) {}
 
-  @On("message")
-  async onMessage(@Ctx() ctx: BotContext) {
-    console.log("Fallback message handler triggered:", ctx.message);
-    await ctx.reply("Message received!");
-  }
-
   @Command("start")
   async onStart(@Ctx() ctx: BotContext) {
     console.log("Command received");
@@ -37,7 +31,6 @@ export class BotUpdate {
 
   @On("text")
   async onText(@Ctx() ctx: BotContext) {
-    console.log("Text received");
-    console.log("Text received:", ctx.message);
+    await ctx.reply("Message received!");
   }
 }

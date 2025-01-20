@@ -6,6 +6,11 @@ import { SlippageModule } from "./slippage/slippage.module";
 import { session } from "telegraf";
 import { Configuration } from "../shared/config";
 
+/**
+ * @WARNING need to implement custom logic that will clean sessions periodically
+ * if they have not been updated any time soon.
+ */
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
