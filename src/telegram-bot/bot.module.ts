@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TelegrafModule } from "nestjs-telegraf";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { StartUpdate } from "./start/start.update";
 import { session } from "telegraf";
 import { Configuration } from "../shared/config";
 import { SettingsModule } from "./settings/settings.module";

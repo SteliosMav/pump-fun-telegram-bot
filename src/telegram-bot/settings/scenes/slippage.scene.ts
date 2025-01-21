@@ -19,7 +19,7 @@ export class SlippageScene {
     if (isNaN(slippage)) {
       await ctx.reply("Invalid input. Please enter a valid number.");
     } else {
-      ctx.session.slippage = slippage / 100;
+      // ctx.session.slippage = slippage / 100;
       await ctx.reply(`Slippage set to ${slippage}%.`);
       ctx.scene.leave(); // Exit the scene
     }
