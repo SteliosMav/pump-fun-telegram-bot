@@ -1,3 +1,5 @@
+npm i --legacy-peer-deps
+
 # Project Architecture Overview
 
 This document outlines the key components, folder structure, and best practices for ensuring consistency, scalability, and maintainability in the project.

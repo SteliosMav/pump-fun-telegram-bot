@@ -1,10 +1,11 @@
 import { Scene, SceneEnter, Ctx } from "nestjs-telegraf";
-import { Scenes } from "telegraf";
+import { BotContext } from "../../bot.context";
 
 @Scene("start")
 export class StartScene {
   @SceneEnter()
-  async onSceneEnter(@Ctx() ctx: Scenes.SceneContext) {
+  async onSceneEnter(@Ctx() ctx: BotContext) {
+    ctx.from?.first_name;
     await ctx.reply("Welcome to the bot! Press a button to proceed.", {
       reply_markup: {
         inline_keyboard: [
