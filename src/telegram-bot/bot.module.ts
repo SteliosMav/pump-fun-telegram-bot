@@ -4,28 +4,24 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { Configuration } from "../shared/config";
 import { SettingsModule } from "./settings/settings.module";
 import { StartModule } from "./start/start.module";
-import { sessionMiddleware } from "./shared/middlewares/session.middleware";
-
-/**
- * @WARNING need to implement custom logic that will clean sessions periodically
- * if they have not been updated any time soon.
- */
+import { SessionService } from "./shared/middlewares/session/session.service";
+import { SessionModule } from "./shared/middlewares/session/session.module";
+import { validateContextMiddleware } from "./shared/middlewares/validate-context.middleware";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TelegrafModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService<Configuration>) => ({
+      imports: [ConfigModule, SessionModule],
+      inject: [ConfigService, SessionService],
+      useFactory: (
+        configService: ConfigService<Configuration>,
+        sessionService: SessionService
+      ) => ({
         token: configService.get("TELEGRAM_BOT_TOKEN")!,
         middlewares: [
-          sessionMiddleware,
-          // Test session middleware
-          (ctx, next) => {
-            console.log("Session:", ctx.session);
-            return next();
-          },
+          validateContextMiddleware,
+          sessionService.getMiddleware(),
         ],
       }),
     }),

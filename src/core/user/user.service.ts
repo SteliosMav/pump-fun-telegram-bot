@@ -1,5 +1,5 @@
 import { BOT_DESCRIPTION, BOT_IMAGE } from "../../shared/constants";
-import { UserDoc } from "./types";
+import { TelegramInfo, UserDoc } from "./types";
 import { CustomResponse } from "../../shared/types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
@@ -7,6 +7,17 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class UserService {
   constructor(private userRepo: UserRepository) {}
+
+  getUserByTgId(telegramId: number): Promise<UserDoc | null> {
+    return this.userRepo.find(telegramId);
+  }
+
+  createUser(
+    telegram: TelegramInfo,
+    encryptedPrivateKey: string
+  ): Promise<UserDoc> {
+    return this.userRepo.create({ telegram, encryptedPrivateKey });
+  }
 
   // async setUpUsersPumpFunAcc(
   //   telegramId: number,

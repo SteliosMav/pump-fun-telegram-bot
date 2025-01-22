@@ -40,6 +40,8 @@ import { SolanaRpcService } from "./solana-rpc.service";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Configuration } from "../../shared/config";
+import { CryptoService } from "../crypto/crypto.service";
+import bs58 from "bs58";
 
 @Injectable()
 export class SolanaService {
@@ -49,8 +51,14 @@ export class SolanaService {
 
   constructor(
     private readonly configService: ConfigService<Configuration>,
-    private readonly rpc: SolanaRpcService
+    private readonly rpc: SolanaRpcService,
+    private readonly cryptoService: CryptoService
   ) {}
+
+  createEncryptedPrivateKey(): string {
+    const privateKey = bs58.encode(Keypair.generate().secretKey);
+    return this.cryptoService.encryptPrivateKey(privateKey);
+  }
 
   getBalance(publicKey: PublicKey): Promise<number> {
     return this.rpc.connection.getBalance(publicKey);
