@@ -1,4 +1,4 @@
-import { Scene, SceneEnter, On, Ctx } from "nestjs-telegraf";
+import { Scene, SceneEnter, On, Ctx, Command, Next } from "nestjs-telegraf";
 import { BotContext } from "../../bot.context";
 
 @Scene("slippage")
@@ -9,19 +9,21 @@ export class SlippageScene {
   }
 
   @On("text")
-  async onSlippageInput(@Ctx() ctx: BotContext) {
-    if (!ctx.message || !("text" in ctx.message)) {
-      await ctx.reply("Invalid input. Please send a text message.");
-      return;
+  async onSlippageInput(
+    @Ctx() ctx: BotContext,
+    @Next() next: () => Promise<void>
+  ) {
+    // If the input starts with a command, allow it to propagate
+    if (ctx.message.text.startsWith("/")) {
+      return next();
     }
 
     const slippage = parseFloat(ctx.message.text);
     if (isNaN(slippage)) {
       await ctx.reply("Invalid input. Please enter a valid number.");
     } else {
-      // ctx.session.slippage = slippage / 100;
       await ctx.reply(`Slippage set to ${slippage}%.`);
-      ctx.scene.leave(); // Exit the scene
+      ctx.scene.leave();
     }
   }
 }

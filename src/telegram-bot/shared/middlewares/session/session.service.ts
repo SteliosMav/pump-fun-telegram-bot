@@ -38,7 +38,11 @@ export class SessionService implements OnModuleInit {
 
       if (!user) {
         // === Create User ===
-        await ctx.reply("Welcome! Creating a wallet for you...");
+        const sentMessage = await ctx.reply(
+          "Welcome! Creating a wallet for you..."
+        );
+        const messageId = sentMessage.message_id;
+
         const tgInfo: TelegramInfo = {
           id: ctx.from.id,
           username: ctx.from.username,
@@ -50,7 +54,13 @@ export class SessionService implements OnModuleInit {
           tgInfo,
           this.solanaService.createEncryptedPrivateKey()
         );
-        await ctx.reply("Your wallet has been created!");
+
+        await ctx.telegram.editMessageText(
+          ctx.chat.id,
+          messageId,
+          undefined,
+          "Your wallet has been created!"
+        );
       }
 
       const sessionMiddlewareFn = session({
