@@ -8,6 +8,7 @@ interface UserRequiredFields {
   telegram: TelegramInfo;
 }
 interface UserDefaultFields {
+  role: "USER" | "ADMIN";
   paidBumps: number;
   totalTokenPasses: number;
   bumpSettings: BumpSettings;

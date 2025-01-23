@@ -48,6 +48,11 @@ export const userSchema = new Schema<
     },
 
     // === Default fields ===
+    role: {
+      type: String,
+      enum: ["USER", "ADMIN"],
+      default: "USER",
+    },
     paidBumps: { type: Number, default: 0 },
     totalTokenPasses: { type: Number, default: 1 }, // New users get 1 free token pass
     bumpSettings: {
@@ -132,12 +137,11 @@ export const userSchema = new Schema<
     },
 
     // === Methods ===
-    methods: {
-      // The below method now needs to be accessed through config service
-      // getPrivateKey() {
-      //   return decryptPrivateKey(this.encryptedPrivateKey);
-      // },
-    },
+    // methods: {
+    //   getPrivateKey() {
+    //     return decryptPrivateKey(this.encryptedPrivateKey);
+    //   },
+    // },
 
     // === Query helpers ===
     query: {
