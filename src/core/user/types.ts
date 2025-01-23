@@ -58,7 +58,7 @@ export interface UserVirtuals {
 }
 
 export interface UserMethods {
-  // getPrivateKey(): string;
+  getPrivateKey(): string;
 }
 
 export interface UserStatics {}
