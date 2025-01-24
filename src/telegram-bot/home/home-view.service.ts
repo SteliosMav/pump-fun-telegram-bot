@@ -12,20 +12,18 @@ export class HomeViewService {
 
   getMarkdown(user: UserDoc, balance: number): string {
     // ...
-    return `💳   *Wallet*: \`${user.publicKey}\`
-💰   *Balance*: \`${balance}\` SOL
+    return `💳   Wallet:  \`${user.publicKey}\`
+💰   Balance:  \`${balance}\`
 
 
 *To get started:*
 
-*1)*  Deposit some *SOL* into your *wallet* address shown above
+    *1)*  Deposit some *SOL* into your *wallet* address shown above.
+    *2)*  Press the *${this.BUMP_WORDING}* button.
+    *3)*  Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
 
-*2)*  Press the *${this.BUMP_WORDING}* button
-
-*3)*  Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
-
-${user.hasServicePass ? "" : `\n🎟️  *Token pass:*  ${user.tokenPassesLeft}`}
-💎  *Service pass:*  ${
+${user.hasServicePass ? "" : `\n🎟️  Token pass:  *${user.tokenPassesLeft}*`}
+💎  Service pass:  ${
       user.hasServicePass
         ? "*Congratulations! Enjoy service fee FREE bumps!*"
         : "_(coming soon!)_"

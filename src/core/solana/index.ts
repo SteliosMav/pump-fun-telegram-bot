@@ -1,5 +1,2 @@
 export { SolanaModule } from "./solana.module";
-export {
-  keyPairFromEncodedPrivateKey,
-  getPublicKeyStringFromEncodedPrivateKey,
-} from "./solana-utils";
+export { toKeypair, toPublicKey } from "./solana-utils";

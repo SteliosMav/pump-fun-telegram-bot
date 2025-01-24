@@ -15,13 +15,9 @@ import {
   ServicePass,
   TokenPass,
   TelegramInfo,
-  UserDoc,
 } from "./types";
 import { CryptoService } from "../crypto/crypto.service";
-import {
-  getPublicKeyStringFromEncodedPrivateKey,
-  keyPairFromEncodedPrivateKey,
-} from "../solana";
+import { toKeypair } from "../solana";
 
 /**
  * @improvements Break down the schema into smaller schemas
@@ -133,7 +129,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
             const privateKey = cryptoService.decryptPrivateKey(
               this.encryptedPrivateKey
             );
-            return getPublicKeyStringFromEncodedPrivateKey(privateKey);
+            return toKeypair(privateKey).publicKey.toString();
           },
         },
         tokenPassesLeft: {

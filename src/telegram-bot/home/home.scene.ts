@@ -2,6 +2,8 @@ import { Scene, SceneEnter, Ctx } from "nestjs-telegraf";
 import { BotContext } from "../bot.context";
 import { HomeViewService } from "./home-view.service";
 import { SharedAction } from "../shared/constants";
+import { SolanaService } from "../../core/solana/solana.service";
+import { toPublicKey } from "../../core/solana";
 
 /**
  * @WARNING improvements:
@@ -11,12 +13,17 @@ import { SharedAction } from "../shared/constants";
 
 @Scene(SharedAction.HOME)
 export class HomeScene {
-  constructor(private readonly homeViewService: HomeViewService) {}
+  constructor(
+    private readonly homeViewService: HomeViewService,
+    private readonly solanaService: SolanaService
+  ) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
     const user = ctx.session.user;
-    const balance = 0;
+    const balance = await this.solanaService.getBalance(
+      toPublicKey(user.publicKey)
+    );
     await ctx.reply(this.homeViewService.getMarkdown(user, balance), {
       parse_mode: "Markdown",
       link_preview_options: {

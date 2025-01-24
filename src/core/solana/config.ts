@@ -1,12 +1,12 @@
-// import { keyPairFromEncodedPrivateKey } from "./solana-utils";
+// import { toKeypair } from "./solana-utils";
 
 // // === Solana Private Keys ===
 // const BOT_ACCOUNT = process.env.BOT_ACCOUNT as string;
 // const ADMIN_PRIVATE_KEY = process.env.ADMIN_PRIVATE_KEY as string;
 
 // // === Solana Keypairs ===
-// export const BOT_KEYPAIR = keyPairFromEncodedPrivateKey(BOT_ACCOUNT);
-// export const ADMIN_KEYPAIR = keyPairFromEncodedPrivateKey(ADMIN_PRIVATE_KEY);
+// export const BOT_KEYPAIR = toKeypair(BOT_ACCOUNT);
+// export const ADMIN_KEYPAIR = toKeypair(ADMIN_PRIVATE_KEY);
 
 // // === Solana APIs ===
 // export const HELIUS_API_STANDARD = process.env.HELIUS_API_STANDARD as string;
