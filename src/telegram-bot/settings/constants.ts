@@ -1,4 +1,4 @@
-export enum SettingsCallbackType {
+export enum SettingsAction {
   SET_AMOUNT = "SET_AMOUNT",
   SET_INTERVAL = "SET_INTERVAL",
   SET_SLIPPAGE = "SET_SLIPPAGE",

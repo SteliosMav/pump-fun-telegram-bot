@@ -1,13 +1,13 @@
 import { InlineKeyboardButton } from "telegraf/typings/core/types/typegram";
-import { HomeCallbackType } from "../../home/constants";
-import { SharedCallbackType } from "../constants";
+import { HomeAction } from "../../home/constants";
 
-export const refreshBalanceBtn: () => InlineKeyboardButton = () => ({
-  text: `🔄  Refresh Balance`,
-  callback_data: HomeCallbackType.REFRESH_BALANCE,
-});
+export function refreshBalanceButton(): InlineKeyboardButton {
+  return {
+    text: `🔄  Refresh Balance`,
+    callback_data: HomeAction.REFRESH_BALANCE,
+  };
+}
 
-export const backBtn: () => InlineKeyboardButton = () => ({
-  text: `⬅️  Back`,
-  callback_data: SharedCallbackType.HOME,
-});
+export function backButton(action: string): InlineKeyboardButton {
+  return { text: `⬅️  Back`, callback_data: action };
+}

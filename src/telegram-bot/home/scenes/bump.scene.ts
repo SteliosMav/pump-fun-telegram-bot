@@ -2,6 +2,7 @@ import { Scene, SceneEnter, Ctx, On } from "nestjs-telegraf";
 import { HomeService } from "../home.service";
 import { BotContext } from "../../bot.context";
 import { BumpStatus } from "../types";
+import { HomeAction } from "../constants";
 
 /**
  * @WARNING The bumping doesn't stop after the user cancels although the scene is left
@@ -9,8 +10,8 @@ import { BumpStatus } from "../types";
  * running.
  */
 
-@Scene("startBumping")
-export class StartBumpingScene {
+@Scene(HomeAction.START_BUMPING)
+export class BumpScene {
   constructor(private readonly startService: HomeService) {}
 
   @SceneEnter()
@@ -18,7 +19,7 @@ export class StartBumpingScene {
     ctx.session.bumpStatus = BumpStatus.BUMPING;
     await ctx.reply("Bumping started!");
 
-    await this.startService.startBumping(ctx.from?.id);
+    await this.startService.bump(ctx.from?.id);
 
     await ctx.reply("Bumping finished!");
     ctx.scene.leave();

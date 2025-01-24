@@ -1,7 +1,8 @@
-import { Scene, SceneEnter, On, Ctx, Command, Next } from "nestjs-telegraf";
+import { Scene, SceneEnter, On, Ctx, Next } from "nestjs-telegraf";
 import { BotContext } from "../../bot.context";
+import { SettingsAction } from "../constants";
 
-@Scene("slippage")
+@Scene(SettingsAction.SET_SLIPPAGE)
 export class SlippageScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {

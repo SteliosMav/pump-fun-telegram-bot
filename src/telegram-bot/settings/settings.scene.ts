@@ -1,7 +1,8 @@
 import { Scene, SceneEnter, On, Ctx } from "nestjs-telegraf";
-import { BotContext } from "../../bot.context";
+import { BotContext } from "../bot.context";
+import { SharedAction } from "../shared/constants";
 
-@Scene("settings")
+@Scene(SharedAction.SETTINGS)
 export class SettingsScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
