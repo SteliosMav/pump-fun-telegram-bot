@@ -1,4 +1,4 @@
-export enum StartCallbackType {
+export enum HomeCallbackType {
   REFRESH_BALANCE = "REFRESH_BALANCE",
   START_BUMPING = "START_BUMPING",
   STOP_BUMPING = "STOP_BUMPING",

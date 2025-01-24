@@ -1,5 +1,5 @@
 import { Scene, SceneEnter, Ctx, On } from "nestjs-telegraf";
-import { StartService } from "../start.service";
+import { HomeService } from "../home.service";
 import { BotContext } from "../../bot.context";
 import { BumpStatus } from "../types";
 
@@ -11,7 +11,7 @@ import { BumpStatus } from "../types";
 
 @Scene("startBumping")
 export class StartBumpingScene {
-  constructor(private readonly startService: StartService) {}
+  constructor(private readonly startService: HomeService) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {

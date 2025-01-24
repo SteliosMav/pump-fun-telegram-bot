@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { HydratedDocument, Schema } from "mongoose";
 import {
   MIN_VALIDATOR_TIP_IN_SOL,
   MIN_VISIBLE_BUMP_AMOUNT,
@@ -15,9 +15,13 @@ import {
   ServicePass,
   TokenPass,
   TelegramInfo,
+  UserDoc,
 } from "./types";
 import { CryptoService } from "../crypto/crypto.service";
-import { keyPairFromEncodedPrivateKey } from "../solana";
+import {
+  getPublicKeyStringFromEncodedPrivateKey,
+  keyPairFromEncodedPrivateKey,
+} from "../solana";
 
 /**
  * @improvements Break down the schema into smaller schemas
@@ -122,9 +126,14 @@ export const createUserSchema = (cryptoService: CryptoService) => {
       virtuals: {
         publicKey: {
           get(): string {
-            return keyPairFromEncodedPrivateKey(
+            /**
+             * @note For some reason the methods are not available in the virtuals
+             * in order to reuse the this.getPrivateKey(). Typescript keeps complain.
+             */
+            const privateKey = cryptoService.decryptPrivateKey(
               this.encryptedPrivateKey
-            ).publicKey.toString();
+            );
+            return getPublicKeyStringFromEncodedPrivateKey(privateKey);
           },
         },
         tokenPassesLeft: {

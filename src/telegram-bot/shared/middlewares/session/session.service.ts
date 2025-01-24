@@ -3,7 +3,7 @@ import { MiddlewareFn, session } from "telegraf";
 import { UserService } from "../../../../core/user/user.service";
 import { BotContext, BotSessionData } from "../../../bot.context";
 import { TelegramInfo, UserDoc } from "../../../../core/user/types";
-import { BumpStatus } from "../../../start/types";
+import { BumpStatus } from "../../../home/types";
 import { SolanaService } from "../../../../core/solana/solana.service";
 
 @Injectable()

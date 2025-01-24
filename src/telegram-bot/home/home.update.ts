@@ -2,10 +2,10 @@ import { Command, Action, Ctx, Update, Next } from "nestjs-telegraf";
 import { BotContext } from "../bot.context";
 
 @Update()
-export class StartUpdate {
+export class HomeUpdate {
   @Command("start")
   async onStart(@Ctx() ctx: BotContext, @Next() next: () => Promise<void>) {
-    ctx.scene.enter("start");
+    ctx.scene.enter("home");
     // await next(); // Pass control to other handlers if necessary
   }
 

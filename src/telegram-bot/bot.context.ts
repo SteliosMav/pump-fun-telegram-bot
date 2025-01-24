@@ -1,5 +1,5 @@
 import { Scenes } from "telegraf";
-import { BumpStatus } from "./start/types";
+import { BumpStatus } from "./home/types";
 import {
   Chat,
   Message,

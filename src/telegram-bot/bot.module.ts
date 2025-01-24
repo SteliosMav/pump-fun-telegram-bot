@@ -3,7 +3,7 @@ import { TelegrafModule } from "nestjs-telegraf";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { Configuration } from "../shared/config";
 import { SettingsModule } from "./settings/settings.module";
-import { StartModule } from "./start/start.module";
+import { HomeModule } from "./home/home.module";
 import { SessionService } from "./shared/middlewares/session/session.service";
 import { SessionModule } from "./shared/middlewares/session/session.module";
 import { validateContextMiddleware } from "./shared/middlewares/validate-context.middleware";
@@ -25,7 +25,7 @@ import { validateContextMiddleware } from "./shared/middlewares/validate-context
         ],
       }),
     }),
-    StartModule,
+    HomeModule,
     SettingsModule,
   ],
 })
