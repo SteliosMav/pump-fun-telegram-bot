@@ -17,6 +17,7 @@ import {
   TelegramInfo,
 } from "./types";
 import { CryptoService } from "../crypto/crypto.service";
+import { keyPairFromEncodedPrivateKey } from "../solana";
 
 /**
  * @improvements Break down the schema into smaller schemas
@@ -119,6 +120,18 @@ export const createUserSchema = (cryptoService: CryptoService) => {
     {
       // === Virtual fields ===
       virtuals: {
+        publicKey: {
+          get(): string {
+            return keyPairFromEncodedPrivateKey(
+              this.encryptedPrivateKey
+            ).publicKey.toString();
+          },
+        },
+        tokenPassesLeft: {
+          get(): number {
+            return this.totalTokenPasses - this.usedTokenPasses.size;
+          },
+        },
         hasServicePass: {
           get(): boolean {
             if (this.servicePass && this.servicePass.createdAt) {

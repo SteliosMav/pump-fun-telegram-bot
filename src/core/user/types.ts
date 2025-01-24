@@ -54,6 +54,8 @@ export interface ServicePass extends BasicPass {
 }
 
 export interface UserVirtuals {
+  publicKey: string;
+  tokenPassesLeft: number;
   hasServicePass: boolean;
 }
 

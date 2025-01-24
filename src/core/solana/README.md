@@ -1,3 +1,7 @@
+All amounts of sol especially inside the solana module should exist as lamports.
+
+All solana public accounts should be of PublicKey class and all private accounts should be of KeyPair class inside the solana module. Outside of this module it's okay for them to be strings, either encrypted (if they are secrets) or normal bs58 format (if they are public).
+
 ### Buffer Layouts
 
 Structures that serialize and de-serialize buffers from and to javascript objects.
