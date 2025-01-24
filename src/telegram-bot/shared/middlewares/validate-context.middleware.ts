@@ -27,7 +27,9 @@ export const validateContextMiddleware: MiddlewareFn<
   // === Validate Message ===
   // Only text messages are supported for now. In the future, we can add support for other types.
   // Just create separate interfaces for each type of message like `TextContext`, `PhotoContext`, etc.
-  if (!ctx.message || !("text" in ctx.message)) {
+  const isTextContext = ctx.message && "text" in ctx.message;
+  const isCallbackContext = ctx.callbackQuery && "data" in ctx.callbackQuery;
+  if (!isTextContext && !isCallbackContext) {
     console.warn("Unsupported message type");
     logUser(ctx);
     return;
