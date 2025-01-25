@@ -1,9 +1,16 @@
 import { Action, Ctx, Update } from "nestjs-telegraf";
 import { BotContext } from "../bot.context";
 import { SettingsAction } from "./constants";
+import { SharedAction } from "../shared/constants";
 
 @Update()
 export class SettingsUpdate {
+  @Action(SharedAction.HOME)
+  async onGoToStart(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(SharedAction.HOME);
+  }
+
   @Action(SettingsAction.SET_SLIPPAGE)
   async onSetSlippage(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();

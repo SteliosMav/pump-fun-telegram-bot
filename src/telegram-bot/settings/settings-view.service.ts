@@ -42,31 +42,31 @@ It includes:
     const backBtn = backButton(SharedAction.HOME);
     return [
       [
+        backBtn,
         {
           text: `💰  ${amount} Amount`,
           callback_data: SettingsAction.SET_AMOUNT,
         },
+      ],
+      [
         {
           text: `📈   ${slippage * 100}% Slippage`,
           callback_data: SettingsAction.SET_SLIPPAGE,
         },
-      ],
-      [
         {
           text: `🕑   ${intervalInSeconds}s Frequency`,
           callback_data: SettingsAction.SET_INTERVAL,
         },
+      ],
+      [
         {
           text: `⚡  ${priorityFee} Priority Fee`,
           callback_data: SettingsAction.SET_PRIORITY_FEE,
         },
-      ],
-      [
         {
           text: `♻️  ${limit} Bump${limit === 1 ? "" : "s"}`,
           callback_data: SettingsAction.SET_BUMPS_LIMIT,
         },
-        backBtn,
       ],
     ];
   }
