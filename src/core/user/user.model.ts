@@ -1,9 +1,5 @@
-import { HydratedDocument, Schema } from "mongoose";
-import {
-  MIN_VALIDATOR_TIP_IN_SOL,
-  MIN_VISIBLE_BUMP_AMOUNT,
-} from "../../shared/constants";
-import { MAX_BUMPS_LIMIT } from "../../shared/constants";
+import { Schema } from "mongoose";
+import { MIN_VALIDATOR_TIP_IN_SOL } from "../../shared/constants";
 import {
   UserRaw,
   UserMethods,
@@ -18,6 +14,7 @@ import {
 } from "./types";
 import { CryptoService } from "../crypto/crypto.service";
 import { toKeypair } from "../solana";
+import { validationRules } from "../../shared/validation-rules";
 
 /**
  * @improvements Break down the schema into smaller schemas
@@ -63,31 +60,33 @@ export const createUserSchema = (cryptoService: CryptoService) => {
           {
             intervalInSeconds: {
               type: Number,
-              default: 10,
-              max: 60,
-              min: 1,
+              default: validationRules.bumpSettings.intervalInSeconds.default,
+              max: validationRules.bumpSettings.intervalInSeconds.max,
+              min: validationRules.bumpSettings.intervalInSeconds.min,
             },
             amount: {
               type: Number,
-              default: MIN_VISIBLE_BUMP_AMOUNT,
-              max: 1,
-              min: MIN_VISIBLE_BUMP_AMOUNT,
+              default: validationRules.bumpSettings.amount.default,
+              max: validationRules.bumpSettings.amount.max,
+              min: validationRules.bumpSettings.amount.min,
             },
             limit: {
               type: Number,
-              default: 10,
-              max: MAX_BUMPS_LIMIT,
-              min: 1,
+              default: validationRules.bumpSettings.limit.default,
+              max: validationRules.bumpSettings.limit.max,
+              min: validationRules.bumpSettings.limit.min,
             },
             slippage: {
               type: Number,
-              default: 0.02,
+              default: validationRules.bumpSettings.slippage.default,
+              max: validationRules.bumpSettings.slippage.max,
+              min: validationRules.bumpSettings.slippage.min,
             },
             priorityFee: {
               type: Number,
-              default: 0.0001,
-              min: MIN_VALIDATOR_TIP_IN_SOL,
-              max: 1,
+              default: validationRules.bumpSettings.priorityFee.default,
+              max: validationRules.bumpSettings.priorityFee.max,
+              min: validationRules.bumpSettings.priorityFee.min,
             },
           },
           { _id: false }

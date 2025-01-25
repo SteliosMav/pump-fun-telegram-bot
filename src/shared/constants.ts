@@ -5,7 +5,6 @@ export const USER_FRIENDLY_ERROR_MESSAGE =
 
 // === Pump.fun ===
 export const PUMP_FUN_URL = "https://pump.fun";
-export const MIN_VISIBLE_BUMP_AMOUNT = 0.0123;
 
 // === Solana ===
 export const SIGNATURE_FEE_LAMPORTS = 5000;
@@ -20,4 +19,3 @@ export const BOT_IMAGE =
 export const BOT_DESCRIPTION = `🎁FREE token-pass for new users! 🌐 Add "ez" in front of "pump.fun" | Telegram: "ez_" and "pump_" and "bot". The most reliable, cheap and easy to use!`;
 export const BOT_SERVICE_FEE_IN_SOL = 0.00019;
 export const BOT_TOKEN_PASS_PRICE_IN_SOL = 0.07;
-export const MAX_BUMPS_LIMIT = 250;
