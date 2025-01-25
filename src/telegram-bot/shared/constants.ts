@@ -9,8 +9,11 @@ export enum SharedCommand {
 
 export enum SharedAction {
   GO_TO_HOME = "GO_TO_HOME",
+  RENDER_HOME = "RENDER_HOME",
   GO_TO_SETTINGS = "GO_TO_SETTINGS",
+  RENDER_SETTINGS = "RENDER_SETTINGS",
   GO_TO_TOKEN_PASS = "GO_TO_TOKEN_PASS",
+  RENDER_TOKEN_PASS = "RENDER_TOKEN_PASS",
 }
 
 export const DEFAULT_REPLY_OPTIONS: {

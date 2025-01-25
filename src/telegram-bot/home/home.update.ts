@@ -7,8 +7,7 @@ import { HomeAction } from "./constants";
 export class HomeUpdate {
   @Command(SharedCommand.START)
   async onGoToStart(@Ctx() ctx: BotContext, @Next() next: () => Promise<void>) {
-    ctx.scene.enter(SharedAction.GO_TO_HOME);
-    // await next(); // Pass control to other handlers if necessary
+    ctx.scene.enter(SharedAction.RENDER_HOME);
   }
 
   @Action(HomeAction.START_BUMPING)

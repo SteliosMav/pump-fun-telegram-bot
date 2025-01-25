@@ -1,13 +1,21 @@
 import { Scene, SceneEnter, On, Ctx, Next } from "nestjs-telegraf";
 import { BotContext } from "../../bot.context";
 import { SettingsAction } from "../constants";
-import { SlippageDto } from "./slippage.dto";
+import { SlippagePercentageDto } from "./slippage-percentage.dto";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { validationRules } from "../../../shared/validation-rules";
+import { SettingsService } from "../settings.service";
+import { SharedAction } from "../../shared/constants";
+
+/**
+ * @WARNING test nestjs default filter exemption to see if it works.
+ */
 
 @Scene(SettingsAction.SET_SLIPPAGE)
 export class SlippageScene {
+  constructor(private readonly settingsService: SettingsService) {}
+
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
     await ctx.reply("Enter the slippage percentage (e.g., 2):");
@@ -24,32 +32,32 @@ export class SlippageScene {
     }
 
     // Parse and validate input
-    const slippageInput: SlippageDto = {
-      slippage: parseFloat(ctx.message.text),
+    const slippageInput: SlippagePercentageDto = {
+      slippagePercentage: parseFloat(ctx.message.text),
     };
-    const slippageDto: SlippageDto = plainToInstance(
-      SlippageDto,
+    const slippageDto: SlippagePercentageDto = plainToInstance(
+      SlippagePercentageDto,
       slippageInput
     );
     const errors = await validate(slippageDto);
 
     if (errors.length) {
       // Provide detailed feedback to the user
-      const { slippage } = validationRules.bumpSettings;
-      const minPercentage = slippage.min * 100;
-      const maxPercentage = slippage.max * 100;
+      const minPercentage = validationRules.bumpSettings.slippage.min * 100;
+      const maxPercentage = validationRules.bumpSettings.slippage.max * 100;
 
       await ctx.reply(
         `Invalid input. Slippage must be an integer between ${minPercentage} and ${maxPercentage}. Please try again.`
       );
     } else {
-      const { slippage } = slippageDto;
+      const { slippagePercentage } = slippageDto;
+      const slippageDecimal = slippagePercentage / 100;
 
-      // Save user's slippage
-      // ...
+      // Update user's slippage
+      await this.settingsService.updateSlippage(ctx.session, slippageDecimal);
 
-      await ctx.reply(`Slippage set to ${slippage}%.`);
-      ctx.scene.leave();
+      // Render settings page
+      ctx.scene.enter(SharedAction.RENDER_SETTINGS);
     }
   }
 }

@@ -7,13 +7,18 @@ import { toPublicKey } from "../../core/solana";
 
 /**
  * @WARNING improvements:
- * 3) Add user's balance to the view. Consider storing it in the session and updating it
+ * 1) Add user's balance to the view. Consider storing it in the session and updating it
  *    after (a few seconds) the user bumps a meme coin or when user presses the refresh
  *    balance button.
  */
 
-@Scene(SharedAction.GO_TO_HOME)
-export class HomeScene {
+/**
+ * This scene will render the home page by sending a new message to the user.
+ * It is used for when the user types the /start command, or the bot must send
+ * a new home page to the user after they entered a text or wizard steps.
+ */
+@Scene(SharedAction.RENDER_HOME)
+export class RenderHomeScene {
   constructor(
     private readonly homeViewService: HomeViewService,
     private readonly solanaService: SolanaService
@@ -21,7 +26,6 @@ export class HomeScene {
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
-    const comingFromCallbackQuery = ctx.callbackQuery ? true : false;
     const user = ctx.session.user;
     const balance = await this.solanaService.getBalance(
       toPublicKey(user.publicKey)
@@ -29,20 +33,11 @@ export class HomeScene {
     const message = this.homeViewService.getMarkdown(user, balance);
     const buttons = this.homeViewService.getButtons();
 
-    if (comingFromCallbackQuery) {
-      await ctx.editMessageText(message, {
-        ...DEFAULT_REPLY_OPTIONS,
-        reply_markup: {
-          inline_keyboard: buttons,
-        },
-      });
-    } else {
-      await ctx.reply(this.homeViewService.getMarkdown(user, balance), {
-        ...DEFAULT_REPLY_OPTIONS,
-        reply_markup: {
-          inline_keyboard: buttons,
-        },
-      });
-    }
+    await ctx.reply(message, {
+      ...DEFAULT_REPLY_OPTIONS,
+      reply_markup: {
+        inline_keyboard: buttons,
+      },
+    });
   }
 }

@@ -3,7 +3,7 @@ import { validationRules } from "../../../shared/validation-rules";
 
 const { slippage } = validationRules.bumpSettings;
 
-export class SlippageDto {
+export class SlippagePercentageDto {
   /**
    * Slippage is stored and used internally as a decimal, but user's
    * input format is percentage
@@ -11,5 +11,5 @@ export class SlippageDto {
   @IsInt()
   @Min(slippage.min * 100)
   @Max(slippage.max * 100)
-  slippage!: number;
+  slippagePercentage!: number;
 }

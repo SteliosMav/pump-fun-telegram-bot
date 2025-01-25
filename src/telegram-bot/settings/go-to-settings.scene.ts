@@ -4,7 +4,7 @@ import { DEFAULT_REPLY_OPTIONS, SharedAction } from "../shared/constants";
 import { SettingsViewService } from "./settings-view.service";
 
 @Scene(SharedAction.GO_TO_SETTINGS)
-export class SettingsScene {
+export class GoToSettingsScene {
   constructor(private readonly settingsViewService: SettingsViewService) {}
 
   @SceneEnter()

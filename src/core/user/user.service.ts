@@ -1,6 +1,4 @@
-import { BOT_DESCRIPTION, BOT_IMAGE } from "../../shared/constants";
 import { TelegramInfo, UserDoc } from "./types";
-import { CustomResponse } from "../../shared/types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
 
@@ -17,6 +15,10 @@ export class UserService {
     encryptedPrivateKey: string
   ): Promise<UserDoc> {
     return this.userRepo.create({ telegram, encryptedPrivateKey });
+  }
+
+  updateSlippage(telegramId: number, slippage: number) {
+    return this.userRepo.updateBumpSettings(telegramId, { slippage });
   }
 
   // async setUpUsersPumpFunAcc(
