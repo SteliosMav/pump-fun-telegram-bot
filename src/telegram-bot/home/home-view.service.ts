@@ -18,7 +18,7 @@ export class HomeViewService {
 To get started:
     1)  Deposit some SOL into your wallet address shown above.
     2)  Press the *${this.BUMP_WORDING}* button.
-    3)  Enter meme coin's *CA* or *URL* and enjoy bumping! 🔥
+    3)  Enter meme coin's *CA* or *URL* and enjoy bumping!  🔥
 ${user.hasServicePass ? "" : `\n🎟️  Token pass:  *${user.tokenPassesLeft}*`}
 💎  Service pass:  ${
       user.hasServicePass
@@ -37,11 +37,11 @@ Reach out to us:
         refreshBalanceButton(),
         {
           text: "🎟️  Token Pass",
-          callback_data: SharedAction.TOKEN_PASS,
+          callback_data: SharedAction.GO_TO_TOKEN_PASS,
         },
         {
           text: `⚙️  Settings`,
-          callback_data: SharedAction.SETTINGS,
+          callback_data: SharedAction.GO_TO_SETTINGS,
         },
       ],
       [

@@ -39,7 +39,7 @@ It includes:
   getButtons(user: UserDoc): InlineKeyboardButton[][] {
     const { amount, slippage, intervalInSeconds, priorityFee, limit } =
       user.bumpSettings;
-    const backBtn = backButton(SharedAction.HOME);
+    const backBtn = backButton(SharedAction.GO_TO_HOME);
     return [
       [
         backBtn,

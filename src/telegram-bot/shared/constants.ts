@@ -1,5 +1,4 @@
 import {
-  InlineKeyboardButton,
   LinkPreviewOptions,
   ParseMode,
 } from "telegraf/typings/core/types/typegram";
@@ -9,9 +8,9 @@ export enum SharedCommand {
 }
 
 export enum SharedAction {
-  HOME = "HOME",
-  SETTINGS = "SETTINGS",
-  TOKEN_PASS = "TOKEN_PASS",
+  GO_TO_HOME = "GO_TO_HOME",
+  GO_TO_SETTINGS = "GO_TO_SETTINGS",
+  GO_TO_TOKEN_PASS = "GO_TO_TOKEN_PASS",
 }
 
 export const DEFAULT_REPLY_OPTIONS: {

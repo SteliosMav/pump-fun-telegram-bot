@@ -12,7 +12,7 @@ import { toPublicKey } from "../../core/solana";
  *    balance button.
  */
 
-@Scene(SharedAction.HOME)
+@Scene(SharedAction.GO_TO_HOME)
 export class HomeScene {
   constructor(
     private readonly homeViewService: HomeViewService,

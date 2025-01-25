@@ -3,7 +3,7 @@ import { BotContext } from "../bot.context";
 import { DEFAULT_REPLY_OPTIONS, SharedAction } from "../shared/constants";
 import { SettingsViewService } from "./settings-view.service";
 
-@Scene(SharedAction.SETTINGS)
+@Scene(SharedAction.GO_TO_SETTINGS)
 export class SettingsScene {
   constructor(private readonly settingsViewService: SettingsViewService) {}
 

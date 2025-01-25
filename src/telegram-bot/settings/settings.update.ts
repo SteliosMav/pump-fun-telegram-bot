@@ -5,10 +5,10 @@ import { SharedAction } from "../shared/constants";
 
 @Update()
 export class SettingsUpdate {
-  @Action(SharedAction.HOME)
+  @Action(SharedAction.GO_TO_HOME)
   async onGoToStart(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
-    ctx.scene.enter(SharedAction.HOME);
+    ctx.scene.enter(SharedAction.GO_TO_HOME);
   }
 
   @Action(SettingsAction.SET_SLIPPAGE)
