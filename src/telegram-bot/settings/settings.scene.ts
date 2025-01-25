@@ -10,11 +10,13 @@ export class SettingsScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
     const user = ctx.session.user;
+    const message = this.settingsViewService.getMarkdown(user);
+    const buttons = this.settingsViewService.getButtons(user);
 
-    await ctx.reply(this.settingsViewService.getMarkdown(user), {
+    await ctx.editMessageText(message, {
       ...DEFAULT_REPLY_OPTIONS,
       reply_markup: {
-        inline_keyboard: this.settingsViewService.getButtons(user),
+        inline_keyboard: buttons,
       },
     });
   }

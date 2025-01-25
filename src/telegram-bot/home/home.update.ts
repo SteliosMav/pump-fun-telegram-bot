@@ -6,7 +6,7 @@ import { HomeAction } from "./constants";
 @Update()
 export class HomeUpdate {
   @Command(SharedCommand.START)
-  async onStart(@Ctx() ctx: BotContext, @Next() next: () => Promise<void>) {
+  async onGoToStart(@Ctx() ctx: BotContext, @Next() next: () => Promise<void>) {
     ctx.scene.enter(SharedAction.GO_TO_HOME);
     // await next(); // Pass control to other handlers if necessary
   }
@@ -18,7 +18,7 @@ export class HomeUpdate {
   }
 
   @Action(SharedAction.GO_TO_SETTINGS)
-  async onSettings(@Ctx() ctx: BotContext) {
+  async onGoToSettings(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
     ctx.scene.enter(SharedAction.GO_TO_SETTINGS);
   }

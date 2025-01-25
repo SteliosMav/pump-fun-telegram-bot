@@ -21,16 +21,28 @@ export class HomeScene {
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
+    const comingFromCallbackQuery = ctx.callbackQuery ? true : false;
     const user = ctx.session.user;
     const balance = await this.solanaService.getBalance(
       toPublicKey(user.publicKey)
     );
+    const message = this.homeViewService.getMarkdown(user, balance);
+    const buttons = this.homeViewService.getButtons();
 
-    await ctx.reply(this.homeViewService.getMarkdown(user, balance), {
-      ...DEFAULT_REPLY_OPTIONS,
-      reply_markup: {
-        inline_keyboard: this.homeViewService.getButtons(),
-      },
-    });
+    if (comingFromCallbackQuery) {
+      await ctx.editMessageText(message, {
+        ...DEFAULT_REPLY_OPTIONS,
+        reply_markup: {
+          inline_keyboard: buttons,
+        },
+      });
+    } else {
+      await ctx.reply(this.homeViewService.getMarkdown(user, balance), {
+        ...DEFAULT_REPLY_OPTIONS,
+        reply_markup: {
+          inline_keyboard: buttons,
+        },
+      });
+    }
   }
 }

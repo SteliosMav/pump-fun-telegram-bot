@@ -64,7 +64,7 @@ export class SessionService implements OnModuleInit {
       }
 
       const sessionMiddlewareFn = session({
-        // === New Session ===
+        // === New Session Process ===
         defaultSession: (): BotSessionData => {
           const dateNow = new Date();
           const expirationDate = new Date(
