@@ -30,17 +30,24 @@ export class SolanaRpcService {
     let api = clusterApiUrl("devnet");
     switch (this.provider) {
       case "helius":
-        api = this.configService.get("HELIUS_API_STANDARD");
+        api = this.configService.get<Configuration["HELIUS_API_STANDARD"]>(
+          "HELIUS_API_STANDARD"
+        );
         break;
       case "quicknode":
-        api = this.configService.get("QUICKNODE_API");
+        api =
+          this.configService.get<Configuration["QUICKNODE_API"]>(
+            "QUICKNODE_API"
+          );
     }
     this.staticConnection = new Connection(api, "confirmed");
   }
 
   private rpcProviders: string[] = [
-    this.configService.get("HELIUS_API_STANDARD"),
-    this.configService.get("QUICKNODE_API"),
+    this.configService.get<Configuration["HELIUS_API_STANDARD"]>(
+      "HELIUS_API_STANDARD"
+    ),
+    this.configService.get<Configuration["QUICKNODE_API"]>("QUICKNODE_API"),
   ];
   private index: number = 0;
 

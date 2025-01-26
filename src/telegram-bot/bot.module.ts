@@ -26,7 +26,10 @@ import { BotExceptionFilter } from "./bot-exception.filter";
         configService: ConfigService<Configuration, true>,
         sessionService: SessionService
       ) => ({
-        token: configService.get("TELEGRAM_BOT_TOKEN")!,
+        token:
+          configService.get<Configuration["TELEGRAM_BOT_TOKEN"]>(
+            "TELEGRAM_BOT_TOKEN"
+          )!,
         middlewares: [
           validateContextMiddleware,
           sessionService.getMiddleware(),

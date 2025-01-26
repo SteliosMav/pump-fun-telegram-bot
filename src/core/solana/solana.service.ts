@@ -46,7 +46,7 @@ import bs58 from "bs58";
 @Injectable()
 export class SolanaService {
   private readonly botAccount = new PublicKey(
-    this.configService.get("BOT_ACCOUNT")!
+    this.configService.get<Configuration["BOT_ACCOUNT"]>("BOT_ACCOUNT")!
   );
 
   constructor(

@@ -10,7 +10,8 @@ export class CryptoService {
   constructor(
     private readonly configService: ConfigService<Configuration, true>
   ) {
-    this.encryptionKey = this.configService.get("ENCRYPTION_KEY")!;
+    this.encryptionKey =
+      this.configService.get<Configuration["ENCRYPTION_KEY"]>("ENCRYPTION_KEY");
   }
 
   encryptPrivateKey(privateKey: string): string {

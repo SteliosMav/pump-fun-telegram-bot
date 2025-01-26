@@ -8,8 +8,11 @@ import { Configuration } from "../../shared/config";
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService<Configuration, true>) => ({
-        uri: configService.get("MONGO_URI"),
-        autoIndex: configService.get("ENV") === "production" ? false : true,
+        uri: configService.get<Configuration["MONGO_URI"]>("MONGO_URI"),
+        autoIndex:
+          configService.get<Configuration["ENV"]>("ENV") === "production"
+            ? false
+            : true,
       }),
     }),
   ],
