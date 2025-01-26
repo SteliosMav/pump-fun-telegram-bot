@@ -29,10 +29,8 @@ export class SessionService implements OnModuleInit {
       const sessionKey = `${ctx.from.id}:${ctx.chat.id}`; // Check if native method exists in telegraf for getting the session key
       const userSession = this.store.get(sessionKey);
       if (userSession && userSession.expiresAt > new Date()) {
-        console.log("User found in session!");
         user = userSession.user;
       } else {
-        console.log("User not found in session, fetching from DB...");
         user = await this.userService.getUserByTgId(ctx.from.id);
       }
 

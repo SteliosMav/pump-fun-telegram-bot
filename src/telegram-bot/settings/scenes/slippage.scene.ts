@@ -8,17 +8,13 @@ import { validationRules } from "../../../shared/validation-rules";
 import { SettingsService } from "../settings.service";
 import { SharedAction } from "../../shared/constants";
 
-/**
- * @WARNING test nestjs default filter exemption to see if it works.
- */
-
 @Scene(SettingsAction.SET_SLIPPAGE)
 export class SlippageScene {
   constructor(private readonly settingsService: SettingsService) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
-    await ctx.reply("Enter the slippage percentage (e.g., 2):");
+    await ctx.reply("Enter the slippage percentage (e.g. 2):");
   }
 
   @On("text")
