@@ -7,7 +7,7 @@ import { Configuration } from "../../shared/config";
   imports: [
     MongooseModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService<Configuration>) => ({
+      useFactory: (configService: ConfigService<Configuration, true>) => ({
         uri: configService.get("MONGO_URI"),
         autoIndex: configService.get("ENV") === "production" ? false : true,
       }),

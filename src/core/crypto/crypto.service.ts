@@ -7,7 +7,9 @@ import { Configuration } from "../../shared/config";
 export class CryptoService {
   private readonly encryptionKey: string;
 
-  constructor(private readonly configService: ConfigService<Configuration>) {
+  constructor(
+    private readonly configService: ConfigService<Configuration, true>
+  ) {
     this.encryptionKey = this.configService.get("ENCRYPTION_KEY")!;
   }
 

@@ -23,7 +23,7 @@ import { BotExceptionFilter } from "./bot-exception.filter";
       imports: [ConfigModule, SessionModule],
       inject: [ConfigService, SessionService],
       useFactory: (
-        configService: ConfigService<Configuration>,
+        configService: ConfigService<Configuration, true>,
         sessionService: SessionService
       ) => ({
         token: configService.get("TELEGRAM_BOT_TOKEN")!,

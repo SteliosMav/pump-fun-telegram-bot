@@ -50,7 +50,7 @@ export class SolanaService {
   );
 
   constructor(
-    private readonly configService: ConfigService<Configuration>,
+    private readonly configService: ConfigService<Configuration, true>,
     private readonly rpc: SolanaRpcService,
     private readonly cryptoService: CryptoService
   ) {}
