@@ -73,8 +73,6 @@ async function sendTxUsingJitoBundles(
 
   const bundleId = json.result;
 
-  console.log("Bundle res:", json);
-
   return getBundleStatus(bundleId);
 }
 
@@ -98,8 +96,6 @@ async function getBundleStatus(id: string): Promise<BundleStatus> {
   if (json.error) {
     throw new Error(json.error.message);
   }
-
-  console.log("Bundle status response:", json);
 
   return json;
 }

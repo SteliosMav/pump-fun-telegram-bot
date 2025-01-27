@@ -10,11 +10,16 @@ import { SharedAction } from "../../../shared/constants";
 
 @Scene(SettingsAction.SET_INTERVAL)
 export class IntervalScene {
+  private readonly min = validationRules.bumpSettings.intervalInSeconds.min;
+  private readonly max = validationRules.bumpSettings.intervalInSeconds.max;
+
   constructor(private readonly settingsService: SettingsService) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
-    await ctx.reply("Choose frequency from 1 to 60 seconds (e.g. 10):");
+    await ctx.reply(
+      `Choose frequency from ${this.min} to ${this.max} seconds:`
+    );
   }
 
   @On("text")
@@ -35,17 +40,12 @@ export class IntervalScene {
       IntervalInSecondsDto,
       intervalInput
     );
-    console.log(intervalDto);
     const errors = await validate(intervalDto);
-    console.log(errors);
 
     if (errors.length) {
       // Provide detailed feedback to the user
-      const min = validationRules.bumpSettings.intervalInSeconds.min;
-      const max = validationRules.bumpSettings.intervalInSeconds.max;
-
       await ctx.reply(
-        `Invalid input. Interval must be a number from ${min} to ${max}. Please try again.`
+        `Invalid input. Interval must be a number from ${this.min} to ${this.max}. Please try again.`
       );
     } else {
       // Update user's interval

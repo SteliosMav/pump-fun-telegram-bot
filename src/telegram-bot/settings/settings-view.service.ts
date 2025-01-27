@@ -65,7 +65,7 @@ It includes:
         },
         {
           text: `♻️  ${limit} Bump${limit === 1 ? "" : "s"}`,
-          callback_data: SettingsAction.SET_BUMPS_LIMIT,
+          callback_data: SettingsAction.SET_LIMIT,
         },
       ],
     ];

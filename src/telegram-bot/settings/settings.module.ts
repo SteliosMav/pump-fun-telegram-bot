@@ -9,6 +9,7 @@ import { RenderSettingsScene } from "./render-settings.scene";
 import { AmountScene } from "./scenes/amount/amount.scene";
 import { IntervalScene } from "./scenes/interval/interval.scene";
 import { PriorityFeeScene } from "./scenes/priority-fee/priority-fee.scene";
+import { LimitScene } from "./scenes/limit/limit.scene";
 
 @Module({
   providers: [
@@ -21,6 +22,7 @@ import { PriorityFeeScene } from "./scenes/priority-fee/priority-fee.scene";
     AmountScene,
     IntervalScene,
     PriorityFeeScene,
+    LimitScene,
   ],
   imports: [UserModule],
 })

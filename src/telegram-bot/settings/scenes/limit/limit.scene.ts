@@ -1,28 +1,27 @@
 import { Scene, SceneEnter, On, Ctx, Next } from "nestjs-telegraf";
 import { BotContext } from "../../../bot.context";
 import { SettingsAction } from "../../constants";
-import { AmountDto } from "./amount.dto";
+import { LimitDto } from "./limit.dto";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { validationRules } from "../../../../shared/validation-rules";
 import { SettingsService } from "../../settings.service";
 import { SharedAction } from "../../../shared/constants";
-import _ from "lodash";
 
-@Scene(SettingsAction.SET_AMOUNT)
-export class AmountScene {
-  private readonly min = validationRules.bumpSettings.amount.min;
-  private readonly max = validationRules.bumpSettings.amount.max;
+@Scene(SettingsAction.SET_LIMIT)
+export class LimitScene {
+  private readonly min = validationRules.bumpSettings.limit.min;
+  private readonly max = validationRules.bumpSettings.limit.max;
 
   constructor(private readonly settingsService: SettingsService) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
-    await ctx.reply(`Enter the bump amount in SOL (min: ${this.min}):`);
+    await ctx.reply(`Choose bumps limit from ${this.min} to ${this.max}:`);
   }
 
   @On("text")
-  async onAmountInput(
+  async onLimitInput(
     @Ctx() ctx: BotContext,
     @Next() next: () => Promise<void>
   ) {
@@ -32,21 +31,20 @@ export class AmountScene {
     }
 
     // Parse and validate input
-    const decimalsToKeep = this.min.toString().replace(".", "").length - 1;
-    const amountInput: AmountDto = {
-      amount: _.floor(parseFloat(ctx.message.text), decimalsToKeep), // Keep 4 decimal digits
+    const limitInput: LimitDto = {
+      limit: parseFloat(ctx.message.text),
     };
-    const amountDto: AmountDto = plainToInstance(AmountDto, amountInput);
-    const errors = await validate(amountDto);
+    const limitDto: LimitDto = plainToInstance(LimitDto, limitInput);
+    const errors = await validate(limitDto);
 
     if (errors.length) {
       // Provide detailed feedback to the user
       await ctx.reply(
-        `Invalid input. Amount must be a number between ${this.min} and ${this.max}. Please try again.`
+        `Invalid input. Limit must be a number from ${this.min} to ${this.max}. Please try again.`
       );
     } else {
-      // Update user's amount
-      await this.settingsService.updateAmount(ctx.session, amountDto.amount);
+      // Update user's limit
+      await this.settingsService.updateLimit(ctx.session, limitDto.limit);
 
       // Render settings page
       ctx.scene.enter(SharedAction.RENDER_SETTINGS);

@@ -43,4 +43,9 @@ export class SettingsService {
     );
     session.user.bumpSettings.priorityFee = priorityFee;
   }
+
+  async updateLimit(session: BotSessionData, limit: number): Promise<void> {
+    await this.userService.updateLimit(session.user.telegram.id, limit);
+    session.user.bumpSettings.limit = limit;
+  }
 }

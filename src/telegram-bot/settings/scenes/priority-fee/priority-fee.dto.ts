@@ -1,4 +1,4 @@
-import { Min, Max, IsNumber } from "class-validator";
+import { Min, Max } from "class-validator";
 import { validationRules } from "../../../../shared/validation-rules";
 import { IsSol } from "../../../../shared";
 

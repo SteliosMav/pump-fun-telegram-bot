@@ -34,4 +34,10 @@ export class SettingsUpdate {
     await ctx.answerCbQuery();
     ctx.scene.enter(SettingsAction.SET_PRIORITY_FEE);
   }
+
+  @Action(SettingsAction.SET_LIMIT)
+  async onSetLimit(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(SettingsAction.SET_LIMIT);
+  }
 }

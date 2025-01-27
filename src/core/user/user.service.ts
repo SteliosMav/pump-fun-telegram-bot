@@ -33,6 +33,10 @@ export class UserService {
     return this.userRepo.updateBumpSettings(telegramId, { priorityFee });
   }
 
+  updateLimit(telegramId: number, limit: number) {
+    return this.userRepo.updateBumpSettings(telegramId, { limit });
+  }
+
   // async setUpUsersPumpFunAcc(
   //   telegramId: number,
   //   privateKey: string
