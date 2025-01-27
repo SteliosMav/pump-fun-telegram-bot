@@ -4,10 +4,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch TypeScript",
-      "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceFolder}/draft.ts"], // Path to your entry file
-      "cwd": "${workspaceFolder}"
+      "name": "Launch via npm start",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
     }
   ]
 }

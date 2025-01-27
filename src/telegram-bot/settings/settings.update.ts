@@ -11,6 +11,12 @@ export class SettingsUpdate {
     ctx.scene.enter(SharedAction.GO_TO_HOME);
   }
 
+  @Action(SettingsAction.SET_AMOUNT)
+  async onSetAmount(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(SettingsAction.SET_AMOUNT);
+  }
+
   @Action(SettingsAction.SET_SLIPPAGE)
   async onSetSlippage(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();

@@ -8,39 +8,50 @@ import { HomeAction } from "./constants";
 
 @Injectable()
 export class HomeViewService {
-  private readonly BUMP_WORDING = "Start Bumping";
+  private readonly BUMP_WORDING = "START BUMPING";
 
   getMarkdown(user: UserDoc, balance: number): string {
-    // ...
-    return `💳   Wallet:  \`${user.publicKey}\`
-💰   Balance:  \`${balance}\`
+    return `💳   *Wallet:*   \`${user.publicKey}\`
 
-To get started:
-    1)  Deposit some *SOL* into your wallet address shown above.
-    2)  Press the *${this.BUMP_WORDING}* button.
-    3)  Enter meme coin's *CA* or *URL* and enjoy bumping!  🔥
-${user.hasServicePass ? "" : `\n🎟️  Token pass:  *${user.tokenPassesLeft}*`}
-💎  Service pass:  ${
+💰   *Balance:*   \`${balance}\`
+${
+  user.hasServicePass
+    ? ""
+    : `\n🎟️   *Token passes:*   \`${user.tokenPassesLeft}\``
+}
+
+💎   *Service pass:*   ${
       user.hasServicePass
         ? "*Congratulations! Enjoy service fee FREE bumps!*"
         : "❌"
     }
 
 
-Reach out to us:
-🌐 [ezpump.fun](${BOT_WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport`;
+*To get started:*
+
+    1️⃣   Deposit some *SOL* into your wallet address shown above.
+
+    2️⃣   Press the *${this.BUMP_WORDING}* button.
+
+    3️⃣   Enter a meme coin's *CA* or *URL* and enjoy bumping!`;
+    /** @note Add the below to a contact/help page */
+    // Reach out to us:
+    // 🌐 [ezpump.fun](${BOT_WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport
   }
 
   getButtons(): InlineKeyboardButton[][] {
     return [
       [
+        /**
+         * Can be removed
+         */
         refreshBalanceButton(),
         {
-          text: "🎟️  Token Pass",
+          text: "🎟️  TOKEN PASSES",
           callback_data: SharedAction.GO_TO_TOKEN_PASS,
         },
         {
-          text: `⚙️  Settings`,
+          text: `⚙️  SETTINGS`,
           callback_data: SharedAction.GO_TO_SETTINGS,
         },
       ],

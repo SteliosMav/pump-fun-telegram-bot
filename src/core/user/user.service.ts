@@ -21,6 +21,10 @@ export class UserService {
     return this.userRepo.updateBumpSettings(telegramId, { slippage });
   }
 
+  updateAmount(telegramId: number, amount: number) {
+    return this.userRepo.updateBumpSettings(telegramId, { amount });
+  }
+
   // async setUpUsersPumpFunAcc(
   //   telegramId: number,
   //   privateKey: string

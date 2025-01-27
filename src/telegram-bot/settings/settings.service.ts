@@ -8,9 +8,17 @@ export class SettingsService {
 
   async updateSlippage(
     session: BotSessionData,
-    slippage: number
+    slippageDecimal: number
   ): Promise<void> {
-    await this.userService.updateSlippage(session.user.telegram.id, slippage);
-    session.user.bumpSettings.slippage = slippage;
+    await this.userService.updateSlippage(
+      session.user.telegram.id,
+      slippageDecimal
+    );
+    session.user.bumpSettings.slippage = slippageDecimal;
+  }
+
+  async updateAmount(session: BotSessionData, amount: number): Promise<void> {
+    await this.userService.updateAmount(session.user.telegram.id, amount);
+    session.user.bumpSettings.amount = amount;
   }
 }

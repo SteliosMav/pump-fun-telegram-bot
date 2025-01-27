@@ -1,12 +1,12 @@
 import { Scene, SceneEnter, On, Ctx, Next } from "nestjs-telegraf";
-import { BotContext } from "../../bot.context";
-import { SettingsAction } from "../constants";
+import { BotContext } from "../../../bot.context";
+import { SettingsAction } from "../../constants";
 import { SlippagePercentageDto } from "./slippage-percentage.dto";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
-import { validationRules } from "../../../shared/validation-rules";
-import { SettingsService } from "../settings.service";
-import { SharedAction } from "../../shared/constants";
+import { validationRules } from "../../../../shared/validation-rules";
+import { SettingsService } from "../../settings.service";
+import { SharedAction } from "../../../shared/constants";
 
 @Scene(SettingsAction.SET_SLIPPAGE)
 export class SlippageScene {

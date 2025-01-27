@@ -1,5 +1,5 @@
 import { Min, Max, IsInt } from "class-validator";
-import { validationRules } from "../../../shared/validation-rules";
+import { validationRules } from "../../../../shared/validation-rules";
 
 const { slippage } = validationRules.bumpSettings;
 

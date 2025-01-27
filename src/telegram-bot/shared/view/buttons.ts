@@ -3,7 +3,7 @@ import { HomeAction } from "../../home/constants";
 
 export function refreshBalanceButton(): InlineKeyboardButton {
   return {
-    text: `🔄  Refresh Balance`,
+    text: `🔄  REFRESH`,
     callback_data: HomeAction.REFRESH_BALANCE,
   };
 }

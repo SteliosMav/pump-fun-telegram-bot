@@ -1,11 +1,12 @@
 import { Module } from "@nestjs/common";
 import { SettingsService } from "./settings.service";
 import { SettingsUpdate } from "./settings.update";
-import { SlippageScene } from "./scenes/slippage.scene";
+import { SlippageScene } from "./scenes/slippage/slippage.scene";
 import { GoToSettingsScene } from "./go-to-settings.scene";
 import { SettingsViewService } from "./settings-view.service";
 import { UserModule } from "../../core/user";
 import { RenderSettingsScene } from "./render-settings.scene";
+import { AmountScene } from "./scenes/amount/amount.scene";
 
 @Module({
   providers: [
@@ -15,6 +16,7 @@ import { RenderSettingsScene } from "./render-settings.scene";
     GoToSettingsScene,
     RenderSettingsScene,
     SettingsViewService,
+    AmountScene,
   ],
   imports: [UserModule],
 })
