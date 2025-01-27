@@ -32,4 +32,15 @@ export class SettingsService {
     );
     session.user.bumpSettings.intervalInSeconds = intervalInSeconds;
   }
+
+  async updatePriorityFee(
+    session: BotSessionData,
+    priorityFee: number
+  ): Promise<void> {
+    await this.userService.updatePriorityFee(
+      session.user.telegram.id,
+      priorityFee
+    );
+    session.user.bumpSettings.priorityFee = priorityFee;
+  }
 }

@@ -28,4 +28,10 @@ export class SettingsUpdate {
     await ctx.answerCbQuery();
     ctx.scene.enter(SettingsAction.SET_INTERVAL);
   }
+
+  @Action(SettingsAction.SET_PRIORITY_FEE)
+  async onSetPriorityFee(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(SettingsAction.SET_PRIORITY_FEE);
+  }
 }

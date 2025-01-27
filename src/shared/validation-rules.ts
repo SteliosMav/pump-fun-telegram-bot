@@ -13,7 +13,7 @@ export const validationRules = {
     priorityFee: {
       min: MIN_VALIDATOR_TIP_IN_SOL,
       max: 1,
-      default: MIN_VALIDATOR_TIP_IN_SOL,
+      default: 0.0001,
     },
   },
 };

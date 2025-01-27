@@ -8,6 +8,7 @@ import { UserModule } from "../../core/user";
 import { RenderSettingsScene } from "./render-settings.scene";
 import { AmountScene } from "./scenes/amount/amount.scene";
 import { IntervalScene } from "./scenes/interval/interval.scene";
+import { PriorityFeeScene } from "./scenes/priority-fee/priority-fee.scene";
 
 @Module({
   providers: [
@@ -19,6 +20,7 @@ import { IntervalScene } from "./scenes/interval/interval.scene";
     SettingsViewService,
     AmountScene,
     IntervalScene,
+    PriorityFeeScene,
   ],
   imports: [UserModule],
 })

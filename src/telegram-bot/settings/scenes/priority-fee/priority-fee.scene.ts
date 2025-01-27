@@ -1,7 +1,7 @@
 import { Scene, SceneEnter, On, Ctx, Next } from "nestjs-telegraf";
 import { BotContext } from "../../../bot.context";
 import { SettingsAction } from "../../constants";
-import { AmountDto } from "./amount.dto";
+import { PriorityFeeDto } from "./priority-fee.dto";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { validationRules } from "../../../../shared/validation-rules";
@@ -9,17 +9,17 @@ import { SettingsService } from "../../settings.service";
 import { SharedAction } from "../../../shared/constants";
 import _ from "lodash";
 
-@Scene(SettingsAction.SET_AMOUNT)
-export class AmountScene {
+@Scene(SettingsAction.SET_PRIORITY_FEE)
+export class PriorityFeeScene {
   constructor(private readonly settingsService: SettingsService) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
-    await ctx.reply("Enter the amount in SOL (e.g. 0.015):");
+    await ctx.reply("Enter the priority fee in SOL (e.g. 0.0001):");
   }
 
   @On("text")
-  async onAmountInput(
+  async onPriorityFeeInput(
     @Ctx() ctx: BotContext,
     @Next() next: () => Promise<void>
   ) {
@@ -29,24 +29,31 @@ export class AmountScene {
     }
 
     // Parse and validate input
-    const min = validationRules.bumpSettings.amount.min;
+    const min = validationRules.bumpSettings.priorityFee.min;
     const decimalsToKeep = min.toString().replace(".", "").length - 1;
-    const amountInput: AmountDto = {
-      amount: _.floor(parseFloat(ctx.message.text), decimalsToKeep), // Keep 4 decimal digits
+    const priorityFeeInput: PriorityFeeDto = {
+      priorityFee: _.floor(parseFloat(ctx.message.text), decimalsToKeep), // Keep 5 decimal digits
     };
-    const amountDto: AmountDto = plainToInstance(AmountDto, amountInput);
-    const errors = await validate(amountDto);
+    console.log(priorityFeeInput);
+    const priorityFeeDto: PriorityFeeDto = plainToInstance(
+      PriorityFeeDto,
+      priorityFeeInput
+    );
+    const errors = await validate(priorityFeeDto);
 
     if (errors.length) {
       // Provide detailed feedback to the user
-      const max = validationRules.bumpSettings.amount.max;
+      const max = validationRules.bumpSettings.priorityFee.max;
 
       await ctx.reply(
-        `Invalid input. Amount must be a number between ${min} and ${max}. Please try again.`
+        `Invalid input. Priority fee must be a number between ${min} and ${max}. Please try again.`
       );
     } else {
-      // Update user's amount
-      await this.settingsService.updateAmount(ctx.session, amountDto.amount);
+      // Update user's priorityFee
+      await this.settingsService.updatePriorityFee(
+        ctx.session,
+        priorityFeeDto.priorityFee
+      );
 
       // Render settings page
       ctx.scene.enter(SharedAction.RENDER_SETTINGS);
