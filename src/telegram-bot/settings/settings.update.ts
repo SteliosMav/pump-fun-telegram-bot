@@ -22,4 +22,10 @@ export class SettingsUpdate {
     await ctx.answerCbQuery();
     ctx.scene.enter(SettingsAction.SET_SLIPPAGE);
   }
+
+  @Action(SettingsAction.SET_INTERVAL)
+  async onSetInterval(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(SettingsAction.SET_INTERVAL);
+  }
 }

@@ -7,6 +7,7 @@ import { SettingsViewService } from "./settings-view.service";
 import { UserModule } from "../../core/user";
 import { RenderSettingsScene } from "./render-settings.scene";
 import { AmountScene } from "./scenes/amount/amount.scene";
+import { IntervalScene } from "./scenes/interval/interval.scene";
 
 @Module({
   providers: [
@@ -17,6 +18,7 @@ import { AmountScene } from "./scenes/amount/amount.scene";
     RenderSettingsScene,
     SettingsViewService,
     AmountScene,
+    IntervalScene,
   ],
   imports: [UserModule],
 })

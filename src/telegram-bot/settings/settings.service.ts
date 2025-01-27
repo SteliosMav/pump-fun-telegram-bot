@@ -21,4 +21,15 @@ export class SettingsService {
     await this.userService.updateAmount(session.user.telegram.id, amount);
     session.user.bumpSettings.amount = amount;
   }
+
+  async updateInterval(
+    session: BotSessionData,
+    intervalInSeconds: number
+  ): Promise<void> {
+    await this.userService.updateInterval(
+      session.user.telegram.id,
+      intervalInSeconds
+    );
+    session.user.bumpSettings.intervalInSeconds = intervalInSeconds;
+  }
 }

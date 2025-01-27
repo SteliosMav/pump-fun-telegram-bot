@@ -25,6 +25,10 @@ export class UserService {
     return this.userRepo.updateBumpSettings(telegramId, { amount });
   }
 
+  updateInterval(telegramId: number, intervalInSeconds: number) {
+    return this.userRepo.updateBumpSettings(telegramId, { intervalInSeconds });
+  }
+
   // async setUpUsersPumpFunAcc(
   //   telegramId: number,
   //   privateKey: string
