@@ -1,5 +1,6 @@
 import { InlineKeyboardButton } from "telegraf/typings/core/types/typegram";
 import { HomeAction } from "../../home/constants";
+import { SharedAction } from "../constants";
 
 export function refreshBalanceButton(): InlineKeyboardButton {
   return {
@@ -8,6 +9,6 @@ export function refreshBalanceButton(): InlineKeyboardButton {
   };
 }
 
-export function backButton(action: string): InlineKeyboardButton {
+export function backButton(action: SharedAction): InlineKeyboardButton {
   return { text: `⬅️  Back`, callback_data: action };
 }

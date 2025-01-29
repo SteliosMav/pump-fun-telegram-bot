@@ -33,6 +33,7 @@ import {
   OperationInstructionParams,
   BondingCurve,
   PumpFunOperationIDs,
+  TransferParams,
 } from "./types";
 import { BondingCurveAccountLayout } from "./buffer-layouts/bonding-curve-account-layout";
 import { InstructionLayout } from "./buffer-layouts/instruction-layout";
@@ -64,15 +65,25 @@ export class SolanaService {
     return this.rpc.connection.getBalance(publicKey);
   }
 
-  transfer(lamports: number, from: Keypair, to: PublicKey): Promise<string> {
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: from.publicKey,
-        toPubkey: to,
-        lamports,
-      })
-    );
-    return sendAndConfirmTransaction(this.rpc.connection, transaction, [from]);
+  transfer(params: TransferParams): Promise<string> {
+    const { lamports, from, to, useJito } = params;
+
+    if (useJito) {
+      params.validatorTip;
+    } else {
+      // Priority fee is missing. I dunno if it's necessary.
+      const { priorityFee } = params;
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: from.publicKey,
+          toPubkey: to,
+          lamports,
+        })
+      );
+      return sendAndConfirmTransaction(this.rpc.connection, transaction, [
+        from,
+      ]);
+    }
   }
 
   async bump({

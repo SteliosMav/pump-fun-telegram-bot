@@ -31,3 +31,13 @@ export interface PumpFunOperationIDs {
   BUY: "16927863322537952870";
   SELL: "12502976635542562355";
 }
+
+export type TransferParams = {
+  lamports: number;
+  from: Keypair;
+  to: PublicKey;
+} & UseJitoParams;
+
+type UseJitoParams =
+  | { useJito: true; validatorTip: number }
+  | { useJito: false; priorityFee: number };

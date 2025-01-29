@@ -47,8 +47,8 @@ ${
          */
         refreshBalanceButton(),
         {
-          text: "🎟️  TOKEN PASSES",
-          callback_data: SharedAction.GO_TO_TOKEN_PASS,
+          text: "💵  PRICING",
+          callback_data: SharedAction.GO_TO_PRICING,
         },
         {
           text: `⚙️  SETTINGS`,

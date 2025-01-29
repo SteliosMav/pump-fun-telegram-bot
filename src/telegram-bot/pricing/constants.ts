@@ -1,0 +1,7 @@
+export enum PricingAction {
+  BUY_SERVICE_PASS = "BUY_SERVICE_PASS",
+  BUY_TOKEN_PASS = "BUY_TOKEN_PASS",
+  USE_TOKEN_PASS = "USE_TOKEN_PASS",
+}
+
+export const BUY_PASS_VALIDATOR_TIP = 0.0001;
