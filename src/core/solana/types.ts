@@ -36,8 +36,5 @@ export type TransferParams = {
   lamports: number;
   from: Keypair;
   to: PublicKey;
-} & UseJitoParams;
-
-type UseJitoParams =
-  | { useJito: true; validatorTip: number }
-  | { useJito?: false; priorityFee: number };
+  validatorTip: number;
+};

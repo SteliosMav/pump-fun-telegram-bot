@@ -44,17 +44,7 @@ export class PricingService {
       lamports: totalPrice,
       from: toKeypair(privateKey),
       to: BOT_ACCOUNT,
-
-      // Use-Jito config
-      ...(this.userJito
-        ? {
-            useJito: true,
-            validatorTip: toLamports(BUY_PLAN_VALIDATOR_TIP_IN_SOL),
-          }
-        : {
-            useJito: false,
-            priorityFee: toLamports(BUY_PLAN_PRIORITY_FEE_IN_SOL),
-          }),
+      validatorTip: toLamports(BUY_PLAN_VALIDATOR_TIP_IN_SOL),
     });
   }
 

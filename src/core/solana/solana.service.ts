@@ -61,40 +61,43 @@ export class SolanaService {
     return this.rpc.connection.getBalance(publicKey);
   }
 
-  transfer(params: TransferParams): Promise<string> {
-    const { lamports, from, to, useJito } = params;
+  /** Transfer SOL using JITO and polling for transaction status response */
+  async transfer(params: TransferParams): Promise<string> {
+    const { lamports, from, to, validatorTip } = params;
+    const transaction = new Transaction();
 
-    if (useJito) {
-      const { validatorTip } = params;
-      /** @improvement Add JITO transaction support */
-      throw "Using JITO to transfer SOL is not yet implemented";
-    } else {
-      const { priorityFee } = params;
-      const transaction = new Transaction();
+    // Add Validator Tip Instruction
+    transaction.add(
+      SystemProgram.transfer({
+        fromPubkey: from.publicKey,
+        toPubkey: JITO_TIP_ACCOUNT,
+        lamports: validatorTip,
+      })
+    );
 
-      // Add priority fee instruction
-      if (priorityFee && priorityFee > 0) {
-        transaction.add(
-          ComputeBudgetProgram.setComputeUnitPrice({
-            microLamports: priorityFee, // Priority fee in micro-lamports
-          })
-        );
-      }
+    // Add Transfer Instruction
+    transaction.add(
+      SystemProgram.transfer({
+        fromPubkey: from.publicKey,
+        toPubkey: to,
+        lamports,
+      })
+    );
 
-      // Add transfer instruction
-      transaction.add(
-        SystemProgram.transfer({
-          fromPubkey: from.publicKey,
-          toPubkey: to,
-          lamports,
-        })
-      );
+    // Fetch latest blockhash and sign the transaction
+    const { blockhash } = await this.rpc.connection.getLatestBlockhash(
+      "confirmed"
+    );
+    transaction.recentBlockhash = blockhash;
+    transaction.feePayer = from.publicKey;
+    transaction.sign(from);
 
-      // Send transaction
-      return sendAndConfirmTransaction(this.rpc.connection, transaction, [
-        from,
-      ]);
-    }
+    // Send transaction using Jito
+    const response = await sendTxUsingJito(transaction.serialize());
+    const signature = response.result;
+
+    // Poll for transaction confirmation
+    return this.waitForTransactionConfirmation(signature);
   }
 
   async bump({
@@ -224,6 +227,41 @@ export class SolanaService {
       account: bondingCurvePDA,
       associatedAccount: associatedBondingCurve,
     };
+  }
+
+  /**
+   * Waits for JITO transaction confirmation by polling, for up to 10 seconds.
+   */
+  private async waitForTransactionConfirmation(
+    signature: string
+  ): Promise<string> {
+    const startTime = Date.now();
+    const maxWaitTime = 10_000; // 10 seconds
+
+    // Keep loop up until max wait-time
+    while (Date.now() - startTime < maxWaitTime) {
+      const status = await this.rpc.connection.getSignatureStatus(signature, {
+        searchTransactionHistory: true,
+      });
+
+      if (
+        status?.value?.confirmationStatus === "confirmed" ||
+        status?.value?.confirmationStatus === "finalized"
+      ) {
+        // Transaction confirmed
+        return signature;
+      }
+
+      // Wait 1 second before retrying
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+    // Transaction could not be confirmed
+    throw new Error(
+      `Transaction ${signature} did not confirm within ${
+        maxWaitTime / 1000
+      } seconds.`
+    );
   }
 
   private async finalizeTransaction(
