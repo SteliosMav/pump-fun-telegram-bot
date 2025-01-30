@@ -23,16 +23,17 @@ export class BuyServicePassScene {
 
     if (!hasSufficientBalance) {
       // === Insufficient Balance ===
-      await ctx.reply(
-        `You do not have enough balance. Minimum required balance for a service-pass is: ${toSol(
-          requiredBalance
-        )} (Solana fees included)`,
-        { ...DEFAULT_REPLY_OPTIONS }
+      const message = this.viewService.getInsufficientBalanceMsg(
+        toSol(requiredBalance)
       );
+      await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
       return;
     }
 
     // === Transaction ===
+    const loadingMessage = await ctx.reply(`Processing transaction...`, {
+      ...DEFAULT_REPLY_OPTIONS,
+    });
     const signature = await this.pricingService.buy(
       "SERVICE_PASS",
       user.getPrivateKey()
@@ -40,6 +41,12 @@ export class BuyServicePassScene {
 
     // === Success Message ===
     const message = this.viewService.getSuccessMsg();
-    await ctx.editMessageText(message, { ...DEFAULT_REPLY_OPTIONS });
+    await ctx.telegram.editMessageText(
+      ctx.chat.id,
+      loadingMessage.message_id,
+      undefined,
+      message,
+      { ...DEFAULT_REPLY_OPTIONS }
+    );
   }
 }

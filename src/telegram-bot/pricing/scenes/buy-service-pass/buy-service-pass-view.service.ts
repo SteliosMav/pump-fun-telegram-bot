@@ -7,4 +7,8 @@ export class BuyServicePassViewService {
     
 Enjoy ZERO service-fee bumps!`;
   }
+
+  getInsufficientBalanceMsg(requiredBalanceInSol: number): string {
+    return `You do not have enough balance. Minimum required balance for a service-pass is: ${requiredBalanceInSol} (Solana fees included)`;
+  }
 }

@@ -15,7 +15,7 @@ import {
 
 @Injectable()
 export class PricingService {
-  private readonly isPriceInclusive: boolean = true;
+  private readonly isPriceInclusive: boolean = false;
   private readonly userJito: boolean = false;
 
   constructor(private readonly solanaService: SolanaService) {}
@@ -27,13 +27,13 @@ export class PricingService {
   getMinBalanceFor(plan: Plan) {
     const planPrice = this.getPlanPrice(plan);
     const additionalFees = this.isPriceInclusive
-      ? SIGNATURE_FEE +
+      ? 0
+      : SIGNATURE_FEE +
         toLamports(
           this.userJito
             ? BUY_PLAN_VALIDATOR_TIP_IN_SOL
             : BUY_PLAN_PRIORITY_FEE_IN_SOL
-        )
-      : 0;
+        );
     return planPrice + additionalFees;
   }
 
