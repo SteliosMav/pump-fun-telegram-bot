@@ -10,7 +10,7 @@ export class GoToSettingsScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
     const user = ctx.session.user;
-    const message = this.settingsViewService.getMarkdown(user);
+    const message = this.settingsViewService.getMessage(user);
     const buttons = this.settingsViewService.getButtons(user);
 
     await ctx.editMessageText(message, {

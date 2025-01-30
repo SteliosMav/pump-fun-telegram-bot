@@ -1,4 +1,4 @@
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { Keypair, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import bs58 from "bs58";
 
 /**
@@ -14,4 +14,12 @@ export function toKeypair(privateKey: string): Keypair {
 
 export const toPublicKey = (key: string): PublicKey => {
   return new PublicKey(key);
+};
+
+export const toLamports = (sol: number): number => {
+  return sol * LAMPORTS_PER_SOL;
+};
+
+export const toSol = (lamports: number): number => {
+  return Number((lamports / LAMPORTS_PER_SOL).toFixed(9));
 };

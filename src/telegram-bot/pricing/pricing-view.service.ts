@@ -7,7 +7,7 @@ import { PricingAction } from "./constants";
 
 @Injectable()
 export class PricingViewService {
-  getMarkdown(user: UserDoc, balance: number): string {
+  getMessage(user: UserDoc, balance: number): string {
     return `PRICING...`;
   }
 

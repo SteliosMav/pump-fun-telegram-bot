@@ -1,0 +1,45 @@
+import { Scene, SceneEnter, Ctx } from "nestjs-telegraf";
+import { BotContext } from "../../../bot.context";
+import { DEFAULT_REPLY_OPTIONS } from "../../../shared/constants";
+import { PricingAction } from "../../constants";
+import { PricingService } from "../../pricing.service";
+import { toSol } from "../../../../core/solana";
+import { BuyServicePassViewService } from "./buy-service-pass-view.service";
+
+@Scene(PricingAction.BUY_SERVICE_PASS)
+export class BuyServicePassScene {
+  constructor(
+    private readonly pricingService: PricingService,
+    private readonly viewService: BuyServicePassViewService
+  ) {}
+
+  @SceneEnter()
+  async onSceneEnter(@Ctx() ctx: BotContext) {
+    const user = ctx.session.user;
+    const userBalance = await this.pricingService.getBalance(user.publicKey);
+    const requiredBalance =
+      this.pricingService.getMinBalanceFor("SERVICE_PASS");
+    const hasSufficientBalance = userBalance >= requiredBalance;
+
+    if (!hasSufficientBalance) {
+      // === Insufficient Balance ===
+      await ctx.reply(
+        `You do not have enough balance. Minimum required balance for a service-pass is: ${toSol(
+          requiredBalance
+        )} (Solana fees included)`,
+        { ...DEFAULT_REPLY_OPTIONS }
+      );
+      return;
+    }
+
+    // === Transaction ===
+    const signature = await this.pricingService.buy(
+      "SERVICE_PASS",
+      user.getPrivateKey()
+    );
+
+    // === Success Message ===
+    const message = this.viewService.getSuccessMsg();
+    await ctx.editMessageText(message, { ...DEFAULT_REPLY_OPTIONS });
+  }
+}

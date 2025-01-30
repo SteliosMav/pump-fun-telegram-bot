@@ -1,2 +1,2 @@
 export { SolanaModule } from "./solana.module";
-export { toKeypair, toPublicKey } from "./solana-utils";
+export { toKeypair, toPublicKey, toLamports, toSol } from "./solana-utils";

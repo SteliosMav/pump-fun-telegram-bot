@@ -4,7 +4,8 @@ import { PricingViewService } from "./pricing-view.service";
 import { SolanaModule } from "../../core/solana";
 import { GoToPricingScene } from "./pricing.scene";
 import { PricingService } from "./pricing.service";
-import { BuyServicePassScene } from "./scenes/buy-service-pass.scene";
+import { BuyServicePassScene } from "./scenes/buy-service-pass/buy-service-pass.scene";
+import { BuyServicePassViewService } from "./scenes/buy-service-pass/buy-service-pass-view.service";
 
 @Module({
   providers: [
@@ -14,6 +15,7 @@ import { BuyServicePassScene } from "./scenes/buy-service-pass.scene";
     // Services
     PricingService,
     PricingViewService,
+    BuyServicePassViewService,
 
     // Scenes
     GoToPricingScene,

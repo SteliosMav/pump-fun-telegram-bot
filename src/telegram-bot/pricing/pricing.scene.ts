@@ -8,7 +8,7 @@ import { toPublicKey } from "../../core/solana";
 @Scene(SharedAction.GO_TO_PRICING)
 export class GoToPricingScene {
   constructor(
-    private readonly pricingViewService: PricingViewService,
+    private readonly viewService: PricingViewService,
     private readonly solanaService: SolanaService
   ) {}
 
@@ -18,8 +18,8 @@ export class GoToPricingScene {
     const balance = await this.solanaService.getBalance(
       toPublicKey(user.publicKey)
     );
-    const message = this.pricingViewService.getMarkdown(user, balance);
-    const buttons = this.pricingViewService.getButtons();
+    const message = this.viewService.getMessage(user, balance);
+    const buttons = this.viewService.getButtons();
 
     await ctx.editMessageText(message, {
       ...DEFAULT_REPLY_OPTIONS,

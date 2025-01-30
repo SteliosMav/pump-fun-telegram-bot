@@ -26,10 +26,6 @@ export class Configuration {
 
   @IsString()
   @IsNotEmpty()
-  BOT_ACCOUNT!: string;
-
-  @IsString()
-  @IsNotEmpty()
   ADMIN_PRIVATE_KEY!: string;
 
   @IsUrl()

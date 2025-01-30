@@ -10,7 +10,7 @@ import { HomeAction } from "./constants";
 export class HomeViewService {
   private readonly BUMP_WORDING = "START BUMPING";
 
-  getMarkdown(user: UserDoc, balance: number): string {
+  getMessage(user: UserDoc, balance: number): string {
     return `💳   *Wallet:*   \`${user.publicKey}\`
 
 💰   *Balance:*   \`${balance}\`

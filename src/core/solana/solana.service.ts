@@ -1,6 +1,5 @@
 import {
   AccountInfo,
-  Connection,
   Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
@@ -19,7 +18,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../../lib/jito";
-import { BOT_SERVICE_FEE_IN_SOL } from "../../shared/constants";
+import { BOT_ACCOUNT, BOT_SERVICE_FEE_IN_SOL } from "../../shared/constants";
 import {
   PUMP_FUN_GLOBAL_ACCOUNT,
   JITO_TIP_ACCOUNT,
@@ -46,10 +45,6 @@ import bs58 from "bs58";
 
 @Injectable()
 export class SolanaService {
-  private readonly botAccount = new PublicKey(
-    this.configService.get<Configuration["BOT_ACCOUNT"]>("BOT_ACCOUNT")!
-  );
-
   constructor(
     private readonly configService: ConfigService<Configuration, true>,
     private readonly rpc: SolanaRpcService,
@@ -69,10 +64,12 @@ export class SolanaService {
     const { lamports, from, to, useJito } = params;
 
     if (useJito) {
-      params.validatorTip;
+      const { validatorTip } = params;
+      /** @improvement Add JITO transaction support */
+      throw "Using JITO to transfer SOL is not yet implemented";
     } else {
-      // Priority fee is missing. I dunno if it's necessary.
       const { priorityFee } = params;
+      /** @improvement Add priority fee */
       const transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey: from.publicKey,
@@ -234,7 +231,7 @@ export class SolanaService {
   private botFeeInstruction(payer: PublicKey): TransactionInstruction {
     return SystemProgram.transfer({
       fromPubkey: payer,
-      toPubkey: this.botAccount,
+      toPubkey: BOT_ACCOUNT,
       lamports: BOT_SERVICE_FEE_IN_SOL * LAMPORTS_PER_SOL,
     });
   }

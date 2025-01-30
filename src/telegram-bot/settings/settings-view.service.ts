@@ -1,9 +1,6 @@
 import { InlineKeyboardButton } from "telegraf/typings/core/types/typegram";
 import { UserDoc } from "../../core/user/types";
-import {
-  BOT_SERVICE_FEE_IN_SOL,
-  SIGNATURE_FEE_LAMPORTS,
-} from "../../shared/constants";
+import { BOT_SERVICE_FEE_IN_SOL, SIGNATURE_FEE } from "../../shared/constants";
 import { backButton } from "../shared/view/buttons";
 import { Injectable } from "@nestjs/common";
 import { SharedAction } from "../shared/constants";
@@ -13,10 +10,10 @@ import { calculatePumpFunFee } from "../../core/pump-fun";
 
 @Injectable()
 export class SettingsViewService {
-  getMarkdown(user: UserDoc): string {
+  getMessage(user: UserDoc): string {
     const { priorityFee, amount } = user.bumpSettings;
     const serviceFee = user.hasServicePass ? 0 : BOT_SERVICE_FEE_IN_SOL;
-    const txFee = SIGNATURE_FEE_LAMPORTS / LAMPORTS_PER_SOL;
+    const txFee = SIGNATURE_FEE / LAMPORTS_PER_SOL;
     return `*Bump price: ${
       serviceFee + priorityFee + calculatePumpFunFee(amount) + txFee
     } SOL* 

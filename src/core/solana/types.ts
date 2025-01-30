@@ -40,4 +40,4 @@ export type TransferParams = {
 
 type UseJitoParams =
   | { useJito: true; validatorTip: number }
-  | { useJito: false; priorityFee: number };
+  | { useJito?: false; priorityFee: number };

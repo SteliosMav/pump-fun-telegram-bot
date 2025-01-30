@@ -5,6 +5,7 @@ import { LoggerService } from "../core/logger/logger.service";
 import _ from "lodash";
 import { Scenes } from "telegraf";
 import { v4 as uuid } from "uuid";
+import { BOT_SUPPORT_USERNAME } from "../shared/constants";
 
 @Catch()
 export class BotExceptionFilter implements ExceptionFilter {
@@ -27,8 +28,10 @@ export class BotExceptionFilter implements ExceptionFilter {
 
     // Send a response to the user
     await ctx.reply(
-      `An error occurred due to high demand. Please try again in a moment.
+      `An unexpected error occurred, probably due to high demand. Please try again in a moment.
       
+If error continues to show, contact our support team: @${BOT_SUPPORT_USERNAME}
+
 We appreciate your patience!  🙏`
     );
     ctx.scene.leave();

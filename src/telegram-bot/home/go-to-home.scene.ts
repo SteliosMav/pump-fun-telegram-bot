@@ -20,7 +20,7 @@ import { toPublicKey } from "../../core/solana";
 @Scene(SharedAction.GO_TO_HOME)
 export class GoToHomeScene {
   constructor(
-    private readonly homeViewService: HomeViewService,
+    private readonly viewService: HomeViewService,
     private readonly solanaService: SolanaService
   ) {}
 
@@ -30,8 +30,8 @@ export class GoToHomeScene {
     const balance = await this.solanaService.getBalance(
       toPublicKey(user.publicKey)
     );
-    const message = this.homeViewService.getMarkdown(user, balance);
-    const buttons = this.homeViewService.getButtons();
+    const message = this.viewService.getMessage(user, balance);
+    const buttons = this.viewService.getButtons();
 
     await ctx.editMessageText(message, {
       ...DEFAULT_REPLY_OPTIONS,

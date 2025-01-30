@@ -4,4 +4,7 @@ export enum PricingAction {
   USE_TOKEN_PASS = "USE_TOKEN_PASS",
 }
 
-export const BUY_PASS_VALIDATOR_TIP = 0.0001;
+export const BUY_PLAN_VALIDATOR_TIP_IN_SOL = 0.0001;
+export const BUY_PLAN_PRIORITY_FEE_IN_SOL = 0.001;
+
+export const IS_PRICE_INCLUSIVE = false;
