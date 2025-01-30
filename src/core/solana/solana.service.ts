@@ -1,5 +1,6 @@
 import {
   AccountInfo,
+  ComputeBudgetProgram,
   Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
@@ -69,14 +70,27 @@ export class SolanaService {
       throw "Using JITO to transfer SOL is not yet implemented";
     } else {
       const { priorityFee } = params;
-      /** @improvement Add priority fee */
-      const transaction = new Transaction().add(
+      const transaction = new Transaction();
+
+      // Add priority fee instruction
+      if (priorityFee && priorityFee > 0) {
+        transaction.add(
+          ComputeBudgetProgram.setComputeUnitPrice({
+            microLamports: priorityFee, // Priority fee in micro-lamports
+          })
+        );
+      }
+
+      // Add transfer instruction
+      transaction.add(
         SystemProgram.transfer({
           fromPubkey: from.publicKey,
           toPubkey: to,
           lamports,
         })
       );
+
+      // Send transaction
       return sendAndConfirmTransaction(this.rpc.connection, transaction, [
         from,
       ]);
