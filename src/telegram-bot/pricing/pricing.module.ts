@@ -2,7 +2,8 @@ import { Module } from "@nestjs/common";
 import { PricingUpdate } from "./pricing.update";
 import { PricingViewService } from "./pricing-view.service";
 import { SolanaModule } from "../../core/solana";
-import { GoToPricingScene } from "./pricing.scene";
+import { GoToPricingScene } from "./go-to-pricing.scene";
+import { RenderPricingScene } from "./render-pricing.scene";
 import { PricingService } from "./pricing.service";
 import { BuyServicePassScene } from "./scenes/buy-service-pass/buy-service-pass.scene";
 import { BuyServicePassViewService } from "./scenes/buy-service-pass/buy-service-pass-view.service";
@@ -20,6 +21,7 @@ import { UserModule } from "../../core/user";
     PricingViewService,
     BuyServicePassViewService,
     BuyTokenPassViewService,
+    RenderPricingScene,
 
     // Scenes
     GoToPricingScene,

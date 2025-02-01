@@ -52,4 +52,11 @@ export class UserService {
   ): Promise<UserDoc | null> {
     return this.userRepo.addServicePass(telegramId, expirationDate);
   }
+
+  incrementTokenPassesLeft(
+    telegramId: number,
+    amount?: number
+  ): Promise<UserDoc | null> {
+    return this.userRepo.incrementTokenPassesLeft(telegramId, amount);
+  }
 }

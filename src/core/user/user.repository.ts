@@ -74,7 +74,7 @@ export class UserRepository {
     return this.setNestedProperties(telegramId, "bumpSettings", updates);
   }
 
-  incrementTokenPasses(
+  incrementTokenPassesLeft(
     telegramId: number,
     amount: number = 1
   ): Promise<UserDoc | null> {

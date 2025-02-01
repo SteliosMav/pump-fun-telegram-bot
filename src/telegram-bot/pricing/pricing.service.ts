@@ -65,6 +65,19 @@ export class PricingService {
     session.user = updatedUser;
   }
 
+  async incrementTokenPassesLeft(session: BotSessionData): Promise<void> {
+    const telegramId = session.user.telegram.id;
+    const updatedUser = await this.userService.incrementTokenPassesLeft(
+      telegramId
+    );
+
+    if (!updatedUser) {
+      throw new Error(getUserNotFoundForUpdateMsg(telegramId));
+    }
+
+    session.user = updatedUser;
+  }
+
   private getPriceFor(plan: Plan): number {
     return toLamports(
       plan === "TOKEN_PASS"

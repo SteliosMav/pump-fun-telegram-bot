@@ -1,6 +1,6 @@
 import { Scene, SceneEnter, Ctx } from "nestjs-telegraf";
 import { BotContext } from "../../../bot.context";
-import { DEFAULT_REPLY_OPTIONS } from "../../../shared/constants";
+import { DEFAULT_REPLY_OPTIONS, SharedAction } from "../../../shared/constants";
 import { PricingAction } from "../../constants";
 import { PricingService } from "../../pricing.service";
 import { toSol } from "../../../../core/solana";
@@ -40,7 +40,7 @@ export class BuyTokenPassScene {
     );
 
     // === Update User ===
-    // ...
+    await this.pricingService.incrementTokenPassesLeft(ctx.session);
 
     // === Success Message ===
     const message = this.viewToken.getSuccessMsg();
@@ -51,5 +51,8 @@ export class BuyTokenPassScene {
       message,
       { ...DEFAULT_REPLY_OPTIONS }
     );
+
+    // === Redirect To Pricing ===
+    ctx.scene.enter(SharedAction.RENDER_PRICING);
   }
 }
