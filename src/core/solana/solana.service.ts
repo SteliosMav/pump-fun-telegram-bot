@@ -1,10 +1,8 @@
 import {
   AccountInfo,
-  ComputeBudgetProgram,
   Keypair,
   LAMPORTS_PER_SOL,
   PublicKey,
-  sendAndConfirmTransaction,
   Signer,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
@@ -39,15 +37,13 @@ import { BondingCurveAccountLayout } from "./buffer-layouts/bonding-curve-accoun
 import { InstructionLayout } from "./buffer-layouts/instruction-layout";
 import { SolanaRpcService } from "./solana-rpc.service";
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { Configuration } from "../../shared/config";
 import { CryptoService } from "../crypto/crypto.service";
 import bs58 from "bs58";
+import { delay } from "../../shared/utils";
 
 @Injectable()
 export class SolanaService {
   constructor(
-    private readonly configService: ConfigService<Configuration, true>,
     private readonly rpc: SolanaRpcService,
     private readonly cryptoService: CryptoService
   ) {}
@@ -61,7 +57,9 @@ export class SolanaService {
     return this.rpc.connection.getBalance(publicKey);
   }
 
-  /** Transfer SOL using JITO and polling for transaction status response */
+  /**
+   * Transfer SOL using JITO and polling for transaction status response
+   */
   async transfer(params: TransferParams): Promise<string> {
     const { lamports, from, to, validatorTip } = params;
     const transaction = new Transaction();
@@ -97,6 +95,7 @@ export class SolanaService {
     const signature = response.result;
 
     // Poll for transaction confirmation
+    await delay(2000); // Give a 2 seconds head start
     return this.waitForTransactionConfirmation(signature);
   }
 
@@ -236,7 +235,7 @@ export class SolanaService {
     signature: string
   ): Promise<string> {
     const startTime = Date.now();
-    const maxWaitTime = 10_000; // 10 seconds
+    const maxWaitTime = 8_000; // 8 seconds
 
     // Keep loop up until max wait-time
     while (Date.now() - startTime < maxWaitTime) {
