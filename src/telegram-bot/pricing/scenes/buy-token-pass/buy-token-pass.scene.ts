@@ -4,13 +4,13 @@ import { DEFAULT_REPLY_OPTIONS } from "../../../shared/constants";
 import { PricingAction } from "../../constants";
 import { PricingService } from "../../pricing.service";
 import { toSol } from "../../../../core/solana";
-import { BuyServicePassViewService } from "./buy-service-pass-view.service";
+import { BuyTokenPassViewService } from "./buy-token-pass-view.service";
 
-@Scene(PricingAction.BUY_SERVICE_PASS)
-export class BuyServicePassScene {
+@Scene(PricingAction.BUY_TOKEN_PASS)
+export class BuyTokenPassScene {
   constructor(
     private readonly pricingService: PricingService,
-    private readonly viewService: BuyServicePassViewService
+    private readonly viewToken: BuyTokenPassViewService
   ) {}
 
   @SceneEnter()
@@ -18,12 +18,12 @@ export class BuyServicePassScene {
     const user = ctx.session.user;
     const userBalance = await this.pricingService.getBalance(user.publicKey);
     const requiredBalance =
-      this.pricingService.calculateFinalPriceFor("SERVICE_PASS");
+      this.pricingService.calculateFinalPriceFor("TOKEN_PASS");
     const hasSufficientBalance = userBalance >= requiredBalance;
 
     if (!hasSufficientBalance) {
       // === Insufficient Balance ===
-      const message = this.viewService.getInsufficientBalanceMsg(
+      const message = this.viewToken.getInsufficientBalanceMsg(
         toSol(requiredBalance)
       );
       await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
@@ -35,7 +35,7 @@ export class BuyServicePassScene {
       ...DEFAULT_REPLY_OPTIONS,
     });
     const signature = await this.pricingService.buy(
-      "SERVICE_PASS",
+      "TOKEN_PASS",
       user.getPrivateKey()
     );
 
@@ -43,7 +43,7 @@ export class BuyServicePassScene {
     // ...
 
     // === Success Message ===
-    const message = this.viewService.getSuccessMsg();
+    const message = this.viewToken.getSuccessMsg();
     await ctx.telegram.editMessageText(
       ctx.chat.id,
       loadingMessage.message_id,
