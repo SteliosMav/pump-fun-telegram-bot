@@ -12,13 +12,19 @@ import {
   BUY_PLAN_PRIORITY_FEE_IN_SOL,
   BUY_PLAN_VALIDATOR_TIP_IN_SOL,
 } from "./constants";
+import { UserService } from "../../core/user/user.service";
+import { BotSessionData } from "../bot.context";
+import { getUserNotFoundForUpdateMsg } from "../../shared/error-messages";
 
 @Injectable()
 export class PricingService {
   private readonly includeTxFees: boolean = true;
   private readonly userJito: boolean = false;
 
-  constructor(private readonly solanaService: SolanaService) {}
+  constructor(
+    private readonly solanaService: SolanaService,
+    private readonly userService: UserService
+  ) {}
 
   getBalance(publicKey: string) {
     return this.solanaService.getBalance(toPublicKey(publicKey));
@@ -46,6 +52,17 @@ export class PricingService {
       to: BOT_ACCOUNT,
       validatorTip: toLamports(BUY_PLAN_VALIDATOR_TIP_IN_SOL),
     });
+  }
+
+  async addServicePass(session: BotSessionData): Promise<void> {
+    const telegramId = session.user.telegram.id;
+    const updatedUser = await this.userService.addServicePass(telegramId);
+
+    if (!updatedUser) {
+      throw new Error(getUserNotFoundForUpdateMsg(telegramId));
+    }
+
+    session.user = updatedUser;
   }
 
   private getPriceFor(plan: Plan): number {

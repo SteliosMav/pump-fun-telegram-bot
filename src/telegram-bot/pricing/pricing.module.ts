@@ -8,6 +8,7 @@ import { BuyServicePassScene } from "./scenes/buy-service-pass/buy-service-pass.
 import { BuyServicePassViewService } from "./scenes/buy-service-pass/buy-service-pass-view.service";
 import { BuyTokenPassScene } from "./scenes/buy-token-pass/buy-token-pass.scene";
 import { BuyTokenPassViewService } from "./scenes/buy-token-pass/buy-token-pass-view.service";
+import { UserModule } from "../../core/user";
 
 @Module({
   providers: [
@@ -25,6 +26,6 @@ import { BuyTokenPassViewService } from "./scenes/buy-token-pass/buy-token-pass-
     BuyServicePassScene,
     BuyTokenPassScene,
   ],
-  imports: [SolanaModule],
+  imports: [SolanaModule, UserModule],
 })
 export class PricingModule {}

@@ -40,7 +40,7 @@ export class BuyServicePassScene {
     );
 
     // === Update User ===
-    // ...
+    await this.pricingService.addServicePass(ctx.session);
 
     // === Success Message ===
     const message = this.viewService.getSuccessMsg();
