@@ -5,6 +5,7 @@ import { refreshBalanceButton } from "../shared/view/buttons";
 import { Injectable } from "@nestjs/common";
 import { SharedAction } from "../shared/constants";
 import { HomeAction } from "./constants";
+import { toYYYYMMDD } from "../../shared/utils/date-utils";
 
 @Injectable()
 export class HomeViewService {
@@ -22,7 +23,11 @@ ${
 
 💎   *Service pass:*   ${
       user.hasServicePass
-        ? "*Congratulations! Enjoy service fee FREE bumps!*"
+        ? `Service fee FREE bumps${
+            user.servicePass?.expirationDate
+              ? ` until *${toYYYYMMDD(user.servicePass?.expirationDate)}*`
+              : ""
+          }!   🎉`
         : "❌"
     }
 

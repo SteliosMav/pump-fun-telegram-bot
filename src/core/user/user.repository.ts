@@ -17,29 +17,29 @@ export class UserRepository {
     return `${telegramKey}.${idKey}`;
   }
 
-  constructor(@InjectModel("User") private readonly userModel: UserModelType) {}
+  constructor(@InjectModel("User") private readonly UserModel: UserModelType) {}
 
   create(
     user: Pick<UserRaw, "encryptedPrivateKey" | "telegram">
   ): Promise<UserDoc> {
-    return this.userModel.create(user);
+    return this.UserModel.create(user);
   }
 
   find(telegramId: number): Promise<UserDoc | null> {
-    return this.userModel.findOne({ [this.telegramIdPath]: telegramId });
+    return this.UserModel.findOne({ [this.telegramIdPath]: telegramId });
   }
 
   findNewsletterRecipients(): Promise<number[]> {
-    return this.userModel
-      .find({}, { [this.telegramIdPath]: 1, _id: 0 })
-      .then((users) => users.map((user) => user.telegram.id));
+    return this.UserModel.find({}, { [this.telegramIdPath]: 1, _id: 0 }).then(
+      (users) => users.map((user) => user.telegram.id)
+    );
   }
 
   updateOne(
     telegramId: number,
     update: Partial<UserRaw>
   ): Promise<UserDoc | null> {
-    return this.userModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
       update,
       { new: true, runValidators: true }
@@ -50,14 +50,16 @@ export class UserRepository {
     telegramId: number[],
     update: Partial<UserRaw>
   ): Promise<{ matchedCount: number; modifiedCount: number }> {
-    return this.userModel
-      .updateMany({ [this.telegramIdPath]: telegramId }, update, {
+    return this.UserModel.updateMany(
+      { [this.telegramIdPath]: telegramId },
+      update,
+      {
         runValidators: true,
-      })
-      .then((result) => ({
-        matchedCount: result.matchedCount,
-        modifiedCount: result.modifiedCount,
-      }));
+      }
+    ).then((result) => ({
+      matchedCount: result.matchedCount,
+      modifiedCount: result.modifiedCount,
+    }));
   }
 
   updateTelegramInfo(
@@ -81,7 +83,7 @@ export class UserRepository {
     const update: Pick<UserRaw, "totalTokenPasses"> = {
       totalTokenPasses: amount,
     };
-    return this.userModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
       { $inc: update },
       { new: true, runValidators: true }
@@ -125,7 +127,7 @@ export class UserRepository {
       throw new Error("Invalid context provided to increaseBumps");
     }
 
-    return this.userModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
       update,
       {
@@ -144,7 +146,7 @@ export class UserRepository {
     const tokenPass: Omit<TokenPass, "createdAt" | "updatedAt"> = {
       bumps: 0,
     };
-    return this.userModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
       { $set: { [`${usedTokenPassesKey}.${tokenMint}`]: tokenPass } },
       { new: true, runValidators: true }
@@ -168,7 +170,7 @@ export class UserRepository {
       update.servicePass.expirationDate = expirationDate;
     }
 
-    return this.userModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
       update,
       {
@@ -189,7 +191,7 @@ export class UserRepository {
       update[`${field}.${key}`] = value;
     }
 
-    return this.userModel.findOneAndUpdate(
+    return this.UserModel.findOneAndUpdate(
       { [this.telegramIdPath]: telegramId },
       { $set: update },
       { new: true, runValidators: true }
