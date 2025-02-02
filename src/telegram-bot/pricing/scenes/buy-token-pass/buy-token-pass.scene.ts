@@ -10,7 +10,7 @@ import { BuyTokenPassViewService } from "./buy-token-pass-view.service";
 export class BuyTokenPassScene {
   constructor(
     private readonly pricingService: PricingService,
-    private readonly viewToken: BuyTokenPassViewService
+    private readonly viewService: BuyTokenPassViewService
   ) {}
 
   @SceneEnter()
@@ -23,7 +23,7 @@ export class BuyTokenPassScene {
 
     if (!hasSufficientBalance) {
       // === Insufficient Balance ===
-      const message = this.viewToken.getInsufficientBalanceMsg(
+      const message = this.viewService.getInsufficientBalanceMsg(
         toSol(requiredBalance)
       );
       await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
@@ -43,7 +43,7 @@ export class BuyTokenPassScene {
     await this.pricingService.incrementTokenPassesLeft(ctx.session);
 
     // === Success Message ===
-    const message = this.viewToken.getSuccessMsg();
+    const message = this.viewService.getSuccessMsg();
     await ctx.telegram.editMessageText(
       ctx.chat.id,
       loadingMessage.message_id,

@@ -59,4 +59,8 @@ export class UserService {
   ): Promise<UserDoc | null> {
     return this.userRepo.incrementTokenPassesLeft(telegramId, amount);
   }
+
+  addUsedTokenPass(telegramId: number, mint: string): Promise<UserDoc | null> {
+    return this.userRepo.addUsedTokenPass(telegramId, mint);
+  }
 }

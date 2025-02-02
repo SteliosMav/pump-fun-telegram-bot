@@ -78,6 +78,20 @@ export class PricingService {
     session.user = updatedUser;
   }
 
+  async useTokenPass(session: BotSessionData, mint: string) {
+    const telegramId = session.user.telegram.id;
+    const updatedUser = await this.userService.addUsedTokenPass(
+      telegramId,
+      mint
+    );
+
+    if (!updatedUser) {
+      throw new Error(getUserNotFoundForUpdateMsg(telegramId));
+    }
+
+    session.user = updatedUser;
+  }
+
   private getPriceFor(plan: Plan): number {
     return toLamports(
       plan === "TOKEN_PASS"

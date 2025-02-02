@@ -10,6 +10,8 @@ import { BuyServicePassViewService } from "./scenes/buy-service-pass/buy-service
 import { BuyTokenPassScene } from "./scenes/buy-token-pass/buy-token-pass.scene";
 import { BuyTokenPassViewService } from "./scenes/buy-token-pass/buy-token-pass-view.service";
 import { UserModule } from "../../core/user";
+import { UseTokenPassScene } from "./scenes/use-token-pass/use-token-pass.scene";
+import { UseTokenPassViewService } from "./scenes/use-token-pass/use-token-pass-view.service";
 
 @Module({
   providers: [
@@ -22,11 +24,13 @@ import { UserModule } from "../../core/user";
     BuyServicePassViewService,
     BuyTokenPassViewService,
     RenderPricingScene,
+    UseTokenPassViewService,
 
     // Scenes
     GoToPricingScene,
     BuyServicePassScene,
     BuyTokenPassScene,
+    UseTokenPassScene,
   ],
   imports: [SolanaModule, UserModule],
 })

@@ -1,6 +1,5 @@
 import { InlineKeyboardButton } from "telegraf/typings/core/types/typegram";
 import { UserDoc } from "../../core/user/types";
-import { BOT_WEBSITE_URL } from "../../shared/constants";
 import { refreshBalanceButton } from "../shared/view/buttons";
 import { Injectable } from "@nestjs/common";
 import { SharedAction } from "../shared/constants";

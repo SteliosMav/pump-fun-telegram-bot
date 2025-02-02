@@ -3,9 +3,7 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class BuyTokenPassViewService {
   getSuccessMsg(): string {
-    return `Congratulations, you've just bought a token-pass!
-    
-Enjoy ZERO service-fee bumps for this token!`;
+    return `Congratulations, you've just bought a token-pass!`;
   }
 
   getInsufficientBalanceMsg(requiredBalanceInSol: number): string {

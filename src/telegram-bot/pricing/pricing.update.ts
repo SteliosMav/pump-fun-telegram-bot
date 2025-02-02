@@ -22,6 +22,12 @@ export class PricingUpdate {
     ctx.scene.enter(PricingAction.BUY_TOKEN_PASS);
   }
 
+  @Action(PricingAction.USE_TOKEN_PASS)
+  async onUseTokenPass(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(PricingAction.USE_TOKEN_PASS);
+  }
+
   @Action(SharedAction.GO_TO_SETTINGS)
   async onGoToSettings(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();

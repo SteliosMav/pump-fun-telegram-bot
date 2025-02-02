@@ -23,3 +23,15 @@ export const toLamports = (sol: number): number => {
 export const toSol = (lamports: number): number => {
   return Number((lamports / LAMPORTS_PER_SOL).toFixed(9));
 };
+
+/**
+ * Accepts a possible solana address string and returns weather it's valid format or not
+ */
+export function isValidSolanaAddress(address: string): boolean {
+  try {
+    const publicKey = new PublicKey(address);
+    return PublicKey.isOnCurve(publicKey.toBytes());
+  } catch (err) {
+    return false;
+  }
+}
