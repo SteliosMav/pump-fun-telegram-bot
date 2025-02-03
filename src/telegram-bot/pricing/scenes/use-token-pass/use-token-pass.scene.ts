@@ -49,13 +49,12 @@ export class UseTokenPassScene {
 
     if (errors.length) {
       // === Invalid input ===
-      console.log("Errors:", errors);
       const promptMessage = this.viewService.getPromptMsg();
       await ctx.reply(`Invalid input. ${promptMessage}`);
       return;
     }
 
-    // // === Update User ===
+    // === Update User ===
     const { mint } = mintDto;
     await this.pricingService.useTokenPass(ctx.session, mint);
 
