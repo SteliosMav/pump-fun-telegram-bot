@@ -5,10 +5,10 @@ import { SharedAction } from "../shared/constants";
 
 @Update()
 export class SettingsUpdate {
-  @Action(SharedAction.GO_TO_HOME)
-  async onGoToStart(@Ctx() ctx: BotContext) {
+  @Action(SharedAction.GO_TO_SETTINGS)
+  async onGoToSettings(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
-    ctx.scene.enter(SharedAction.GO_TO_HOME);
+    ctx.scene.enter(SharedAction.GO_TO_SETTINGS);
   }
 
   @Action(SettingsAction.SET_AMOUNT)

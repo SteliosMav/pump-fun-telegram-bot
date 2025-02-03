@@ -5,9 +5,10 @@ import { PricingAction } from "./constants";
 
 @Update()
 export class PricingUpdate {
-  @Command(SharedCommand.START)
-  async onGoToStart(@Ctx() ctx: BotContext, @Next() next: () => Promise<void>) {
-    ctx.scene.enter(SharedAction.RENDER_HOME);
+  @Action(SharedAction.GO_TO_PRICING)
+  async onGoToPricing(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
+    ctx.scene.enter(SharedAction.GO_TO_PRICING);
   }
 
   @Action(PricingAction.BUY_SERVICE_PASS)
@@ -26,11 +27,5 @@ export class PricingUpdate {
   async onUseTokenPass(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
     ctx.scene.enter(PricingAction.USE_TOKEN_PASS);
-  }
-
-  @Action(SharedAction.GO_TO_SETTINGS)
-  async onGoToSettings(@Ctx() ctx: BotContext) {
-    await ctx.answerCbQuery();
-    ctx.scene.enter(SharedAction.GO_TO_SETTINGS);
   }
 }

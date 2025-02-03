@@ -1,6 +1,5 @@
 import { InlineKeyboardButton } from "telegraf/typings/core/types/typegram";
 import { UserDoc } from "../../core/user/types";
-import { refreshBalanceButton } from "../shared/view/buttons";
 import { Injectable } from "@nestjs/common";
 import { SharedAction } from "../shared/constants";
 import { HomeAction } from "./constants";
@@ -38,18 +37,15 @@ ${
     2️⃣   Press the *${this.BUMP_WORDING}* button.
 
     3️⃣   Enter a meme coin's *CA* or *URL* and enjoy bumping!`;
-    /** @note Add the below to a contact/help page */
-    // Reach out to us:
-    // 🌐 [ezpump.fun](${BOT_WEBSITE_URL})    ✉️ [info@ezpump.fun](mailto:info@ezpump.fun)  ❓@ezpumpsupport
   }
 
   getButtons(): InlineKeyboardButton[][] {
     return [
       [
-        /**
-         * Can be removed
-         */
-        refreshBalanceButton(),
+        {
+          text: "🌐  INFO",
+          callback_data: SharedAction.GO_TO_INFO,
+        },
         {
           text: "💵  PRICING",
           callback_data: SharedAction.GO_TO_PRICING,

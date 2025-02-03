@@ -10,6 +10,7 @@ import { validateContextMiddleware } from "./shared/middlewares/validate-context
 import { APP_FILTER } from "@nestjs/core";
 import { BotExceptionFilter } from "./bot-exception.filter";
 import { PricingModule } from "./pricing/pricing.module";
+import { InfoModule } from "./info/info.module";
 
 @Module({
   providers: [
@@ -19,6 +20,7 @@ import { PricingModule } from "./pricing/pricing.module";
     },
   ],
   imports: [
+    // === Configuration ===
     ConfigModule.forRoot(),
     TelegrafModule.forRootAsync({
       imports: [ConfigModule, SessionModule],
@@ -32,14 +34,18 @@ import { PricingModule } from "./pricing/pricing.module";
             "TELEGRAM_BOT_TOKEN"
           )!,
         middlewares: [
+          // === Middlewares ===
           validateContextMiddleware,
           sessionService.getMiddleware(),
         ],
       }),
     }),
+
+    // === Features ===
     HomeModule,
     SettingsModule,
     PricingModule,
+    InfoModule,
   ],
 })
 export class BotModule {}
