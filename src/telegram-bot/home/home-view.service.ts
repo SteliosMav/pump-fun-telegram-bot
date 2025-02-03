@@ -10,26 +10,25 @@ export class HomeViewService {
   private readonly BUMP_WORDING = "START BUMPING";
 
   getMessage(user: UserDoc, balance: number): string {
-    return `💳   *Wallet:*   \`${user.publicKey}\`
+    return `${
+      user.hasServicePass
+        ? `*💎   Enjoy service fee FREE bumps!*${
+            user.servicePass?.expirationDate
+              ? `   -   _Until ${toYYYYMMDD(user.servicePass?.expirationDate)}_`
+              : ""
+          }\n\n\n`
+        : ``
+    }💳   *Wallet:*   \`${user.publicKey}\`
 
 💰   *Balance:*   \`${balance}\`
+
 ${
   user.hasServicePass
     ? ""
-    : `\n🎟️   *Token passes:*   \`${user.tokenPassesLeft}\``
+    : `\n🎟️   *Token passes:*   \`${user.tokenPassesLeft}\`
+    
+💎   *Service pass:*   ❌\n\n`
 }
-
-💎   *Service pass:*   ${
-      user.hasServicePass
-        ? `Service fee FREE bumps${
-            user.servicePass?.expirationDate
-              ? ` until *${toYYYYMMDD(user.servicePass?.expirationDate)}*`
-              : ""
-          }!   🎉`
-        : "❌"
-    }
-
-
 *To get started:*
 
     1️⃣   Deposit some *SOL* into your wallet address shown above.
