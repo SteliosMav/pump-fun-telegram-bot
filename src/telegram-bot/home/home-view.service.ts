@@ -12,7 +12,7 @@ export class HomeViewService {
   getMessage(user: UserDoc, balance: number): string {
     return `${
       user.hasServicePass
-        ? `*💎   Enjoy service fee FREE bumps!*${
+        ? `*💎   Enjoy ZERO service-fee bumps!*${
             user.servicePass?.expirationDate
               ? `   -   _Until ${toYYYYMMDD(user.servicePass?.expirationDate)}_`
               : ""
