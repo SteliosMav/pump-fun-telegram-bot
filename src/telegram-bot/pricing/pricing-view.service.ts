@@ -13,7 +13,7 @@ import {
 @Injectable()
 export class PricingViewService {
   getMessage(user: UserDoc, balance: number): string {
-    return `*📌   PRICING*
+    return `*📌  PRICING*
 ━━━━━━━━
 
 💰  *Pay-Per-Bump*   -   _(${BOT_SERVICE_FEE_IN_SOL} SOL)_ 
@@ -31,7 +31,7 @@ export class PricingViewService {
    - Perfect for focused pumping
 
 
-_“The more you bump, the more you grow. Grab a pass and pump smarter!   🚀”_`;
+_“The more you bump, the more you grow. Grab a pass and pump smarter!”_`;
   }
 
   getButtons(): InlineKeyboardButton[][] {

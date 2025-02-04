@@ -7,6 +7,7 @@ import { SharedAction } from "../shared/constants";
 import { SettingsAction } from "./constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { calculatePumpFunFee } from "../../core/pump-fun";
+import { toLamports, toSol } from "../../core/solana";
 
 @Injectable()
 export class SettingsViewService {
@@ -14,23 +15,30 @@ export class SettingsViewService {
     const { priorityFee, amount } = user.bumpSettings;
     const serviceFee = user.hasServicePass ? 0 : BOT_SERVICE_FEE_IN_SOL;
     const txFee = SIGNATURE_FEE / LAMPORTS_PER_SOL;
-    return `*Bump price: ${
-      serviceFee + priorityFee + calculatePumpFunFee(amount) + txFee
-    } SOL* 
+    const pumpFunFee = calculatePumpFunFee(amount);
+    const totalFee = toSol(
+      toLamports(serviceFee + priorityFee + pumpFunFee + txFee)
+    );
 
-It includes:
-• Service fee: ${
-      serviceFee > 0 ? serviceFee : "0 - _Enjoy ZERO service fees!_ 🎉"
-    }
-• Priority fee: ${priorityFee}
-• Pump-fun fee: ${calculatePumpFunFee(amount)}
-• Transaction fee: ${txFee}
+    return `*📌  SETTINGS*
+━━━━━━━━
 
-*- Amount:* _The amount of SOL to use for each bump._
-*- Slippage:* _The maximum percentage change in token price you are willing to accept during bumps._
-*- Frequency:* _The time interval (in seconds) between each bump._
-*- Priority Fee:* _Transactions with higher priority fees are processed faster, especially during high network traffic. Transactions delayed by more than a minute may fail._
-*- Bumps:* _The total number of bumps you want to perform._`;
+   *Total Cost*:                 *${totalFee}  SOL*
+  ━━━━━━             ━━━━━━━  
+   Service Fee:               ${
+     serviceFee > 0 ? `${serviceFee}  SOL` : "0.00  SOL"
+   }     
+   Priority Fee:              ${priorityFee}  SOL    
+   Pump Fun Fee:         ${pumpFunFee}  SOL   
+   Transaction Fee:      ${txFee}  SOL    
+
+ 
+  *Settings                Explanation:*
+  - Amount:             Shown as trades on pump.fun  
+  - Slippage:            Max % price change allowed  
+  - Frequency:        Time interval between bumps  
+  - Priority Fee:       Higher fee = faster processing  
+  - Bumps:               Total bumps to execute`;
   }
 
   getButtons(user: UserDoc): InlineKeyboardButton[][] {
@@ -39,32 +47,30 @@ It includes:
     const backBtn = backButton(SharedAction.GO_TO_HOME);
     return [
       [
-        backBtn,
         {
           text: `💰  ${amount} Amount`,
           callback_data: SettingsAction.SET_AMOUNT,
         },
-      ],
-      [
-        {
-          text: `📈   ${slippage * 100}% Slippage`,
-          callback_data: SettingsAction.SET_SLIPPAGE,
-        },
-        {
-          text: `🕑   ${intervalInSeconds}s Frequency`,
-          callback_data: SettingsAction.SET_INTERVAL,
-        },
-      ],
-      [
         {
           text: `⚡  ${priorityFee} Priority Fee`,
           callback_data: SettingsAction.SET_PRIORITY_FEE,
+        },
+      ],
+      [
+        {
+          text: `📈  ${slippage * 100}% Slippage`,
+          callback_data: SettingsAction.SET_SLIPPAGE,
+        },
+        {
+          text: `🕑  ${intervalInSeconds}s Frequency`,
+          callback_data: SettingsAction.SET_INTERVAL,
         },
         {
           text: `♻️  ${limit} Bump${limit === 1 ? "" : "s"}`,
           callback_data: SettingsAction.SET_LIMIT,
         },
       ],
+      [backBtn],
     ];
   }
 }

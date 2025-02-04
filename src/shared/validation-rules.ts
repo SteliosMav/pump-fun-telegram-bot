@@ -9,7 +9,7 @@ export const validationRules = {
     },
     slippage: { min: 0.01, max: 0.5, default: 0.02 },
     intervalInSeconds: { min: 1, max: 60, default: 10 },
-    limit: { min: 1, max: 250, default: 10 },
+    limit: { min: 1, max: 250, default: 50 },
     priorityFee: {
       min: MIN_VALIDATOR_TIP_IN_SOL,
       max: 1,
