@@ -55,30 +55,31 @@ export class SetTokenToBumpScene {
       return;
     }
 
+    const mint = mintDto.mint;
     const user = ctx.session.user;
     const userBalance = await this.homeService.getBalance(user.publicKey);
     const requiredBalance = this.pricingService.calculateRequiredBalanceFor(
       "PAY_PER_BUMP",
       user,
-      mintDto.mint
+      mint
     );
     const hasSufficientBalance = userBalance >= requiredBalance;
 
-    if (!hasSufficientBalance) {
-      // === Insufficient Balance ===
-      const bumpPrice = this.pricingService.calculateBumpPrice(
-        user,
-        mintDto.mint
-      );
-      const message = this.viewService.getInsufficientBalanceMsg(
-        toSol(requiredBalance),
-        toSol(bumpPrice)
-      );
-      await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
-      return;
-    }
+    // if (!hasSufficientBalance) {
+    //   // === Insufficient Balance ===
+    //   const bumpPrice = this.pricingService.calculateBumpPrice(
+    //     user,
+    //     mint
+    //   );
+    //   const message = this.viewService.getInsufficientBalanceMsg(
+    //     toSol(requiredBalance),
+    //     toSol(bumpPrice)
+    //   );
+    //   await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
+    //   return;
+    // }
 
     // === Start Bumping ===
-    ctx.scene.enter(HomeAction.START_BUMPING);
+    ctx.scene.enter(HomeAction.START_BUMPING, { mint });
   }
 }

@@ -3,6 +3,8 @@ import { HomeService } from "../../home.service";
 import { BotContext } from "../../../bot.context";
 import { BumpStatus } from "../../types";
 import { HomeAction } from "../../constants";
+import { SharedAction } from "../../../shared/constants";
+import { StartBumpingSceneCtx } from "./types";
 
 /**
  * @WARNING The bumping doesn't stop after the user cancels although the scene is left
@@ -15,14 +17,18 @@ export class StartBumpingScene {
   constructor(private readonly startService: HomeService) {}
 
   @SceneEnter()
-  async onSceneEnter(@Ctx() ctx: BotContext) {
+  async onSceneEnter(@Ctx() ctx: StartBumpingSceneCtx) {
     ctx.session.bumpStatus = BumpStatus.BUMPING;
-    await ctx.reply("Bumping started!");
+    const { mint } = ctx.scene.state;
 
+    // === Start bumping ===
+    await ctx.reply(`Bumping started for mint: ${mint}`);
     await this.startService.bump(ctx.from?.id);
 
+    // === Bump finished ===
+    // Update user ...
     await ctx.reply("Bumping finished!");
-    ctx.scene.leave();
+    await ctx.scene.enter(SharedAction.RENDER_HOME);
   }
 
   /** Cancel bumping if user takes whatever action, while the bumping is active */
