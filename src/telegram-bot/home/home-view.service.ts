@@ -57,7 +57,7 @@ ${
       [
         {
           text: `🔥  ${this.BUMP_WORDING}`,
-          callback_data: HomeAction.SET_TOKEN,
+          callback_data: HomeAction.SET_TOKEN_TO_BUMP,
         },
       ],
     ];

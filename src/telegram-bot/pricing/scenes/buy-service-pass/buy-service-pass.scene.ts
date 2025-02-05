@@ -18,7 +18,7 @@ export class BuyServicePassScene {
     const user = ctx.session.user;
     const userBalance = await this.pricingService.getBalance(user.publicKey);
     const requiredBalance =
-      this.pricingService.calculateFinalPriceFor("SERVICE_PASS");
+      this.pricingService.calculateRequiredBalanceFor("SERVICE_PASS");
     const hasSufficientBalance = userBalance >= requiredBalance;
 
     if (!hasSufficientBalance) {

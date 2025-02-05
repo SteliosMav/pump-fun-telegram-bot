@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { SolanaAccount, TrimmedString } from "../../../../shared/validators";
+import { SolanaAccount, TrimmedString } from "../../../shared/validators";
 
 export class MintDto {
   @Transform(({ value }) => MintDto.extractMint(value))

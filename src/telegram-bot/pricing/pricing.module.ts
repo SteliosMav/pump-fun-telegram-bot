@@ -33,5 +33,6 @@ import { UseTokenPassViewService } from "./scenes/use-token-pass/use-token-pass-
     UseTokenPassScene,
   ],
   imports: [SolanaModule, UserModule],
+  exports: [PricingService],
 })
 export class PricingModule {}

@@ -10,6 +10,7 @@ import { AmountScene } from "./scenes/amount/amount.scene";
 import { IntervalScene } from "./scenes/interval/interval.scene";
 import { PriorityFeeScene } from "./scenes/priority-fee/priority-fee.scene";
 import { LimitScene } from "./scenes/limit/limit.scene";
+import { PricingModule } from "../pricing/pricing.module";
 
 @Module({
   providers: [
@@ -24,6 +25,6 @@ import { LimitScene } from "./scenes/limit/limit.scene";
     PriorityFeeScene,
     LimitScene,
   ],
-  imports: [UserModule],
+  imports: [UserModule, PricingModule],
 })
 export class SettingsModule {}

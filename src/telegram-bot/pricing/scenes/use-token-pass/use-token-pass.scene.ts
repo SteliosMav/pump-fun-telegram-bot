@@ -4,7 +4,7 @@ import { DEFAULT_REPLY_OPTIONS, SharedAction } from "../../../shared/constants";
 import { PricingAction } from "../../constants";
 import { PricingService } from "../../pricing.service";
 import { UseTokenPassViewService } from "./use-token-pass-view.service";
-import { MintDto } from "./mint.dto";
+import { MintDto } from "../../../shared/dto/mint.dto";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
@@ -31,7 +31,7 @@ export class UseTokenPassScene {
   }
 
   @On("text")
-  async onLimitInput(
+  async onTokenToUseInput(
     @Ctx() ctx: BotContext,
     @Next() next: () => Promise<void>
   ) {

@@ -7,23 +7,24 @@ import { SharedAction } from "../shared/constants";
 import { SettingsAction } from "./constants";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { calculatePumpFunFee } from "../../core/pump-fun";
-import { toLamports, toSol } from "../../core/solana";
+import { PricingService } from "../pricing/pricing.service";
+import { toSol } from "../../core/solana";
 
 @Injectable()
 export class SettingsViewService {
+  constructor(private readonly pricingService: PricingService) {}
+
   getMessage(user: UserDoc): string {
     const { priorityFee, amount } = user.bumpSettings;
     const serviceFee = user.hasServicePass ? 0 : BOT_SERVICE_FEE_IN_SOL;
     const txFee = SIGNATURE_FEE / LAMPORTS_PER_SOL;
     const pumpFunFee = calculatePumpFunFee(amount);
-    const totalFee = toSol(
-      toLamports(serviceFee + priorityFee + pumpFunFee + txFee)
-    );
+    const bumpPrice = toSol(this.pricingService.calculateBumpPrice(user));
 
     return `*📌  SETTINGS*
 ━━━━━━━━
 
-   *Total Cost*:                 *${totalFee}  SOL*
+   *Total Cost*:                 *${bumpPrice}  SOL*
   ━━━━━━             ━━━━━━━  
    Service Fee:               ${
      serviceFee > 0 ? `${serviceFee}  SOL` : "0.00  SOL"

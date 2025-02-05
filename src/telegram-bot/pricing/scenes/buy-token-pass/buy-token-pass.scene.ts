@@ -18,7 +18,7 @@ export class BuyTokenPassScene {
     const user = ctx.session.user;
     const userBalance = await this.pricingService.getBalance(user.publicKey);
     const requiredBalance =
-      this.pricingService.calculateFinalPriceFor("TOKEN_PASS");
+      this.pricingService.calculateRequiredBalanceFor("TOKEN_PASS");
     const hasSufficientBalance = userBalance >= requiredBalance;
 
     if (!hasSufficientBalance) {
