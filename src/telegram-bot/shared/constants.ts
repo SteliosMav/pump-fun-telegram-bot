@@ -5,6 +5,9 @@ import {
 
 export enum SharedCommand {
   START = "start",
+  INFO = "info",
+  PRICING = "pricing",
+  SETTINGS = "settings",
 }
 
 export enum SharedAction {
@@ -15,6 +18,7 @@ export enum SharedAction {
   GO_TO_PRICING = "GO_TO_PRICING",
   RENDER_PRICING = "RENDER_PRICING",
   GO_TO_INFO = "GO_TO_INFO",
+  RENDER_INFO = "RENDER_INFO",
 }
 
 export const DEFAULT_REPLY_OPTIONS: {

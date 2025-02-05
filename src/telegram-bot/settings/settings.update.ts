@@ -1,10 +1,15 @@
-import { Action, Ctx, Update } from "nestjs-telegraf";
+import { Action, Command, Ctx, Update } from "nestjs-telegraf";
 import { BotContext } from "../bot.context";
 import { SettingsAction } from "./constants";
-import { SharedAction } from "../shared/constants";
+import { SharedAction, SharedCommand } from "../shared/constants";
 
 @Update()
 export class SettingsUpdate {
+  @Command(SharedCommand.SETTINGS)
+  async onRenderInfo(@Ctx() ctx: BotContext) {
+    ctx.scene.enter(SharedAction.RENDER_SETTINGS);
+  }
+
   @Action(SharedAction.GO_TO_SETTINGS)
   async onGoToSettings(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();

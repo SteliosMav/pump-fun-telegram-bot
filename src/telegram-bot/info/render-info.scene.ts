@@ -3,8 +3,8 @@ import { BotContext } from "../bot.context";
 import { DEFAULT_REPLY_OPTIONS, SharedAction } from "../shared/constants";
 import { InfoViewService } from "./info-view.service";
 
-@Scene(SharedAction.GO_TO_INFO)
-export class GoToInfoScene {
+@Scene(SharedAction.RENDER_INFO)
+export class RenderInfoScene {
   constructor(private readonly viewService: InfoViewService) {}
 
   @SceneEnter()
@@ -12,7 +12,7 @@ export class GoToInfoScene {
     const message = this.viewService.getMessage();
     const buttons = this.viewService.getButtons();
 
-    await ctx.editMessageText(message, {
+    await ctx.reply(message, {
       ...DEFAULT_REPLY_OPTIONS,
       reply_markup: {
         inline_keyboard: buttons,

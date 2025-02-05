@@ -5,6 +5,11 @@ import { PricingAction } from "./constants";
 
 @Update()
 export class PricingUpdate {
+  @Command(SharedCommand.PRICING)
+  async onRenderInfo(@Ctx() ctx: BotContext) {
+    ctx.scene.enter(SharedAction.RENDER_PRICING);
+  }
+
   @Action(SharedAction.GO_TO_PRICING)
   async onGoToPricing(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
