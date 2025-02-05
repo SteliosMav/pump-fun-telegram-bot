@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { SolanaService } from "../../core/solana/solana.service";
-import { toKeypair, toLamports, toPublicKey } from "../../core/solana";
+import { toKeypair, toLamports, toPublicKey, toSol } from "../../core/solana";
 import {
   BOT_ACCOUNT,
   BOT_SERVICE_FEE_IN_SOL,
@@ -48,7 +48,7 @@ export class PricingService {
 
     const priorityFee = user.bumpSettings.priorityFee;
     const pumpFunFee = calculatePumpFunFee(user.bumpSettings.amount);
-    const txFee = SIGNATURE_FEE / toLamports(1); // Convert lamports to SOL
+    const txFee = toSol(SIGNATURE_FEE);
 
     return toLamports(serviceFee + priorityFee + pumpFunFee + txFee);
   }
