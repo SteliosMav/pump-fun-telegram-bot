@@ -37,10 +37,10 @@ export interface TelegramInfo {
 
 export interface BumpSettings {
   intervalInSeconds: number;
-  amount: number;
+  amountInSol: number;
   limit: number;
   slippage: number;
-  priorityFee: number;
+  priorityFeeInSol: number;
 }
 
 interface BasicPass {

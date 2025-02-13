@@ -24,8 +24,11 @@ export class UserService {
     return this.userRepo.updateBumpSettings(telegramId, { slippage });
   }
 
-  updateAmount(telegramId: number, amount: number): Promise<UserDoc | null> {
-    return this.userRepo.updateBumpSettings(telegramId, { amount });
+  updateAmount(
+    telegramId: number,
+    amountInSol: number
+  ): Promise<UserDoc | null> {
+    return this.userRepo.updateBumpSettings(telegramId, { amountInSol });
   }
 
   updateInterval(
@@ -37,9 +40,9 @@ export class UserService {
 
   updatePriorityFee(
     telegramId: number,
-    priorityFee: number
+    priorityFeeInSol: number
   ): Promise<UserDoc | null> {
-    return this.userRepo.updateBumpSettings(telegramId, { priorityFee });
+    return this.userRepo.updateBumpSettings(telegramId, { priorityFeeInSol });
   }
 
   updateLimit(telegramId: number, limit: number): Promise<UserDoc | null> {

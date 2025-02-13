@@ -21,7 +21,6 @@ export class HomeViewService {
     }💳   *Wallet:*   \`${user.publicKey}\`
 
 💰   *Balance:*   \`${balance}\`
-
 ${
   user.hasServicePass
     ? ""

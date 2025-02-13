@@ -1,6 +1,10 @@
 import bs58 from "bs58";
 import { BundleStatus, JitoResponse } from "./type";
 
+/**
+ * @WARNING THIS SHOULD BECOME A SERVICE USED BY SOLANA-SERVICE
+ */
+
 type JitoRegion = "mainnet" | "amsterdam" | "frankfurt" | "ny" | "tokyo";
 const JitoEndpoints = {
   mainnet: "https://mainnet.block-engine.jito.wtf/api/v1/transactions",

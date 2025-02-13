@@ -46,11 +46,11 @@ export class PricingService {
       ? 0
       : BOT_SERVICE_FEE_IN_SOL;
 
-    const priorityFee = user.bumpSettings.priorityFee;
-    const pumpFunFee = calculatePumpFunFee(user.bumpSettings.amount);
+    const { priorityFeeInSol } = user.bumpSettings;
+    const pumpFunFee = calculatePumpFunFee(user.bumpSettings.amountInSol);
     const txFee = toSol(SIGNATURE_FEE);
 
-    return toLamports(serviceFee + priorityFee + pumpFunFee + txFee);
+    return toLamports(serviceFee + priorityFeeInSol + pumpFunFee + txFee);
   }
 
   /**
@@ -61,9 +61,8 @@ export class PricingService {
   ): number {
     if (plan === "PAY_PER_BUMP") {
       const pricePerBump = this.calculateBumpPrice(user, mint);
-      const amount = toLamports(user.bumpSettings.amount);
-      const slippage =
-        toLamports(user.bumpSettings.amount) * user.bumpSettings.slippage;
+      const amount = toLamports(user.bumpSettings.amountInSol);
+      const slippage = amount * user.bumpSettings.slippage;
 
       return Math.floor(
         amount + slippage + pricePerBump * user.bumpSettings.limit

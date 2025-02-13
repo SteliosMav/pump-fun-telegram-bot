@@ -15,10 +15,10 @@ export class SettingsViewService {
   constructor(private readonly pricingService: PricingService) {}
 
   getMessage(user: UserDoc): string {
-    const { priorityFee, amount } = user.bumpSettings;
+    const { priorityFeeInSol, amountInSol } = user.bumpSettings;
     const serviceFee = user.hasServicePass ? 0 : BOT_SERVICE_FEE_IN_SOL;
     const txFee = SIGNATURE_FEE / LAMPORTS_PER_SOL;
-    const pumpFunFee = calculatePumpFunFee(amount);
+    const pumpFunFee = calculatePumpFunFee(amountInSol);
     const bumpPrice = toSol(this.pricingService.calculateBumpPrice(user));
 
     return `*📌  SETTINGS*
@@ -29,7 +29,7 @@ export class SettingsViewService {
    Service Fee:               ${
      serviceFee > 0 ? `${serviceFee}  SOL` : "0.00  SOL"
    }     
-   Priority Fee:              ${priorityFee}  SOL    
+   Priority Fee:              ${priorityFeeInSol}  SOL    
    Pump Fun Fee:         ${pumpFunFee}  SOL   
    Transaction Fee:      ${txFee}  SOL    
 
@@ -43,17 +43,22 @@ export class SettingsViewService {
   }
 
   getButtons(user: UserDoc): InlineKeyboardButton[][] {
-    const { amount, slippage, intervalInSeconds, priorityFee, limit } =
-      user.bumpSettings;
+    const {
+      amountInSol,
+      slippage,
+      intervalInSeconds,
+      priorityFeeInSol,
+      limit,
+    } = user.bumpSettings;
     const backBtn = backButton(SharedAction.GO_TO_HOME);
     return [
       [
         {
-          text: `💰  ${amount} Amount`,
+          text: `💰  ${amountInSol} Amount`,
           callback_data: SettingsAction.SET_AMOUNT,
         },
         {
-          text: `⚡  ${priorityFee} Priority Fee`,
+          text: `⚡  ${priorityFeeInSol} Priority Fee`,
           callback_data: SettingsAction.SET_PRIORITY_FEE,
         },
       ],

@@ -1,5 +1,4 @@
 import { Schema } from "mongoose";
-import { MIN_VALIDATOR_TIP_IN_SOL } from "../../shared/constants";
 import {
   UserRaw,
   UserMethods,
@@ -17,7 +16,7 @@ import { toKeypair } from "../solana";
 import { validationRules } from "../../shared/validation-rules";
 
 /**
- * @improvements Break down the schema into smaller schemas
+ * @improvements Break down the schema into smaller schemas.
  */
 
 export const createUserSchema = (cryptoService: CryptoService) => {
@@ -64,7 +63,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
               max: validationRules.bumpSettings.intervalInSeconds.max,
               min: validationRules.bumpSettings.intervalInSeconds.min,
             },
-            amount: {
+            amountInSol: {
               type: Number,
               default: validationRules.bumpSettings.amount.default,
               max: validationRules.bumpSettings.amount.max,
@@ -82,7 +81,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
               max: validationRules.bumpSettings.slippage.max,
               min: validationRules.bumpSettings.slippage.min,
             },
-            priorityFee: {
+            priorityFeeInSol: {
               type: Number,
               default: validationRules.bumpSettings.priorityFee.default,
               max: validationRules.bumpSettings.priorityFee.max,

@@ -14,32 +14,29 @@ import { StartBumpingSceneCtx } from "./types";
 
 @Scene(HomeAction.START_BUMPING)
 export class StartBumpingScene {
-  constructor(private readonly startService: HomeService) {}
+  constructor(private readonly homeService: HomeService) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: StartBumpingSceneCtx) {
-    ctx.session.bumpStatus = BumpStatus.BUMPING;
     const { mint } = ctx.scene.state;
 
-    // === Start bumping ===
+    // === Start Bumping ===
     await ctx.reply(`Bumping started for mint: ${mint}`);
-    await this.startService.bump(ctx.from?.id);
+    await this.homeService.bump(ctx.session);
 
-    // === Bump finished ===
-    // Update user ...
+    // === Respond With Success ===
     await ctx.reply("Bumping finished!");
     await ctx.scene.enter(SharedAction.RENDER_HOME);
   }
 
-  /** Cancel bumping if user takes whatever action, while the bumping is active */
-  @On("text")
+  /**
+   * Cancel bumping if user takes any action while the bumping is active.
+   */
+  @On(["text", "callback_query"])
   async onText(@Ctx() ctx: BotContext) {
-    await this.cancelBumping(ctx);
-  }
-
-  @On("callback_query")
-  async onCallbackQuery(@Ctx() ctx: BotContext) {
-    await ctx.answerCbQuery();
+    if (ctx.callbackQuery) {
+      await ctx.answerCbQuery();
+    }
     await this.cancelBumping(ctx);
   }
 
