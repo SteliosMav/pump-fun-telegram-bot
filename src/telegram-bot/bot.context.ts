@@ -1,5 +1,4 @@
 import { Scenes } from "telegraf";
-import { BumpStatus } from "./home/types";
 import {
   Chat,
   Message,
@@ -7,9 +6,10 @@ import {
   User,
 } from "telegraf/typings/core/types/typegram";
 import { UserDoc } from "../core/user/types";
+import { BumpingState } from "./shared/classes/bumping-state";
 
 export interface BotSessionData {
-  bumpStatus: BumpStatus;
+  bumpingState: BumpingState;
   user: UserDoc;
   expiresAt: Date;
 }

@@ -1,7 +1,6 @@
 import { Scene, SceneEnter, Ctx, On } from "nestjs-telegraf";
 import { HomeService } from "../../home.service";
 import { BotContext } from "../../../bot.context";
-import { BumpStatus } from "../../types";
 import { HomeAction } from "../../constants";
 import { SharedAction } from "../../../shared/constants";
 import { StartBumpingSceneCtx } from "./types";
@@ -22,7 +21,7 @@ export class StartBumpingScene {
 
     // === Start Bumping ===
     await ctx.reply(`Bumping started for mint: ${mint}`);
-    await this.homeService.bump(ctx.session);
+    await this.homeService.bump(ctx.session, mint);
 
     // === Respond With Success ===
     await ctx.reply("Bumping finished!");

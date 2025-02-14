@@ -3,8 +3,8 @@ import { MiddlewareFn, session } from "telegraf";
 import { UserService } from "../../../../core/user/user.service";
 import { BotContext, BotSessionData } from "../../../bot.context";
 import { TelegramInfo, UserDoc } from "../../../../core/user/types";
-import { BumpStatus } from "../../../home/types";
 import { SolanaService } from "../../../../core/solana/solana.service";
+import { BumpingState } from "../../classes/bumping-state";
 
 @Injectable()
 export class SessionService implements OnModuleInit {
@@ -72,7 +72,7 @@ export class SessionService implements OnModuleInit {
           );
           const sessionData: BotSessionData = {
             user: user,
-            bumpStatus: BumpStatus.NOT_BUMPING,
+            bumpingState: BumpingState.create(),
             expiresAt: expirationDate,
           };
           return sessionData;

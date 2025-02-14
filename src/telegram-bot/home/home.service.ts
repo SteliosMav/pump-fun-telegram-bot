@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { SolanaService } from "../../core/solana/solana.service";
 import { toPublicKey } from "../../core/solana";
 import { BotSessionData } from "../bot.context";
-import { BumpStatus } from "./types";
+import { delay } from "../../shared/utils";
 
 @Injectable()
 export class HomeService {
@@ -12,8 +12,8 @@ export class HomeService {
     return this.solanaService.getBalance(toPublicKey(publicKey));
   }
 
-  async bump(session: BotSessionData): Promise<void> {
-    session.bumpStatus = BumpStatus.BUMPING;
+  async bump(session: BotSessionData, mint: string): Promise<void> {
+    const { bumpingState: state } = session;
     const {
       limit,
       intervalInSeconds,
@@ -23,16 +23,43 @@ export class HomeService {
     } = session.user.bumpSettings;
 
     // === Start Interval ===
-    // A while look can be set here that sends requests without waiting for
-    // the previous request's response. If an error or two occurres in one of the
-    // requests, a boolean should be set that would prevent the loop from going on.
-    // Also that boolean should be affected from any user's interaction as well,
-    // that would cancel the bot's bumping.
-    // ...
+    state.startBumping();
+    for (let i = 0; i < limit; i++) {
+      if (state.shouldCancel) {
+        break;
+      }
+
+      console.log(`Executing bump ${i + 1}/${limit}...`);
+
+      try {
+        // Bump
+        await this.mockBump();
+        state.incrementSuccess();
+
+        if (i < limit - 1) {
+          // Delay next iteration
+          await delay(intervalInSeconds * 1000);
+        }
+      } catch (error) {
+        // Error
+        state.incrementFailure();
+        if (state.isMaxFailedBumpsReached) {
+          break;
+        }
+      }
+    }
 
     // === Update User ===
     // Update user in database as well as on the session object based on the
     // response from the database.
     // ...
+  }
+
+  private mockBump(): Promise<void> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
   }
 }
