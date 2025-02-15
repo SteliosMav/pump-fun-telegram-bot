@@ -22,34 +22,42 @@ export class HomeService {
       priorityFeeInSol,
     } = session.user.bumpSettings;
 
-    // === Start Interval ===
-    state.startBumping();
-    for (let i = 0; i < limit; i++) {
+    // Start Interval
+    state.started();
+    for (let i = 1; i <= limit; i++) {
+      // Cancel
       if (state.shouldCancel) {
+        state.canceled();
         break;
       }
 
-      console.log(`Executing bump ${i + 1}/${limit}...`);
-
       try {
-        // Bump
+        // Perform bump
         await this.mockBump();
         state.incrementSuccess();
 
-        if (i < limit - 1) {
-          // Delay next iteration
+        // Delay next iteration
+        const isLastIteration = i === limit;
+        if (isLastIteration) {
+          state.finished();
+        } else {
           await delay(intervalInSeconds * 1000);
         }
       } catch (error) {
         // Error
         state.incrementFailure();
         if (state.isMaxFailedBumpsReached) {
+          if (state.hasSuccessfulBumps) {
+            state.cancelBy("MAX_FAILED_ATTEMPTS");
+          } else {
+            throw error;
+          }
           break;
         }
       }
     }
 
-    // === Update User ===
+    // Update Use
     // Update user in database as well as on the session object based on the
     // response from the database.
     // ...
@@ -57,9 +65,7 @@ export class HomeService {
 
   private mockBump(): Promise<void> {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
+      setTimeout(resolve, 2000);
     });
   }
 }

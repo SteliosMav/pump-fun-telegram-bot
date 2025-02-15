@@ -9,6 +9,7 @@ import { GoToHomeScene } from "./go-to-home.scene";
 import { StartBumpingScene } from "./scenes/start-bumping/start-bumping.scene";
 import { SetTokenToBumpViewService } from "./scenes/set-token-to-bump/set-token-to-bump-view.service";
 import { PricingModule } from "../pricing/pricing.module";
+import { StartBumpingViewService } from "./scenes/start-bumping/start-bumping-view.service";
 
 @Module({
   providers: [
@@ -19,6 +20,7 @@ import { PricingModule } from "../pricing/pricing.module";
     HomeService,
     HomeViewService,
     SetTokenToBumpViewService,
+    StartBumpingViewService,
 
     // Scenes
     RenderHomeScene,

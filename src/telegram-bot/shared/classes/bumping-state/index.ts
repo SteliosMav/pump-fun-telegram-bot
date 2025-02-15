@@ -1,4 +1,8 @@
-import { BumpingStateJSON, BumpingStatusType } from "./types";
+import {
+  BumpingStateJSON,
+  BumpingStatusType,
+  CancellationReason,
+} from "./types";
 
 export class BumpingState {
   private _status: BumpingStatusType;
@@ -7,6 +11,7 @@ export class BumpingState {
   private _succeeded: number = 0;
   private _failed: number = 0;
   private readonly _maxFailedBumps: number = 3;
+  private _reason?: CancellationReason;
 
   private constructor(status: BumpingStatusType) {
     this._status = status;
@@ -21,20 +26,36 @@ export class BumpingState {
   }
 
   /** State Check Getters */
+  get isNotBumping(): boolean {
+    return this._status === "NOT_BUMPING";
+  }
+
   get isBumping(): boolean {
     return this._status === "BUMPING";
   }
 
-  get isNotBumping(): boolean {
-    return this._status === "NOT_BUMPING";
+  get isFinished(): boolean {
+    return this._status === "FINISHED";
   }
 
   get shouldCancel(): boolean {
     return this._status === "SHOULD_CANCEL";
   }
 
-  get status(): BumpingStatusType {
-    return this._status;
+  get isCanceled(): boolean {
+    return this._status === "CANCELED";
+  }
+
+  get isCanceledByUserRequest(): boolean {
+    return this.isCanceled && this._reason === "USER_REQUEST";
+  }
+
+  get isCanceledByUserActivity(): boolean {
+    return this.isCanceled && this._reason === "USER_ACTIVITY";
+  }
+
+  get isCanceledByFailedAttempts(): boolean {
+    return this.isCanceled && this._reason === "MAX_FAILED_ATTEMPTS";
   }
 
   /** Time Tracking Getters */
@@ -46,9 +67,10 @@ export class BumpingState {
     return this._endedAt;
   }
 
+  /** Returns the duration in milliseconds between the start and end times */
   get duration(): number {
-    return this._startedAt && this._endedAt
-      ? this._endedAt.getTime() - this._startedAt.getTime()
+    return this.endedAt && this.startedAt
+      ? this.endedAt.getTime() - this.startedAt.getTime()
       : 0;
   }
 
@@ -61,27 +83,37 @@ export class BumpingState {
     return this._succeeded;
   }
 
-  /**
-   * Checks if the max number of failed bumps has been reached.
-   * @returns {boolean} True if the max failed bumps limit is reached, false otherwise.
-   */
+  get maxFailedBumps(): number {
+    return this._maxFailedBumps;
+  }
+
   get isMaxFailedBumpsReached(): boolean {
-    return this._failed >= this._maxFailedBumps;
+    return this._failed >= this.maxFailedBumps;
+  }
+
+  get hasSuccessfulBumps(): boolean {
+    return this.successCount > 0;
   }
 
   /** State Mutation Methods */
-  startBumping(): void {
+  started(): void {
     this._status = "BUMPING";
     this._startedAt = new Date();
   }
 
-  stopBumping(): void {
-    this._status = "NOT_BUMPING";
+  finished(): void {
+    this._status = "FINISHED";
     this._endedAt = new Date();
   }
 
-  requestCancel(): void {
+  cancelBy(reason: CancellationReason): void {
     this._status = "SHOULD_CANCEL";
+    this._reason = reason;
+  }
+
+  canceled(): void {
+    this._status = "CANCELED";
+    this._endedAt = new Date();
   }
 
   incrementSuccess(): void {
@@ -95,13 +127,14 @@ export class BumpingState {
   /** Serializes the session into JSON. */
   toJSON(): BumpingStateJSON {
     return {
-      bumpStatus: this._status,
+      status: this._status,
       duration: this.duration,
       startedAt: this._startedAt?.toISOString(),
       endedAt: this._endedAt?.toISOString(),
       succeeded: this._succeeded,
       failed: this._failed,
       isMaxFailedBumpsReached: this.isMaxFailedBumpsReached,
+      reason: this._reason,
     };
   }
 }

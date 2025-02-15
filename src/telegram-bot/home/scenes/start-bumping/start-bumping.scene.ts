@@ -4,6 +4,7 @@ import { BotContext } from "../../../bot.context";
 import { HomeAction } from "../../constants";
 import { SharedAction } from "../../../shared/constants";
 import { StartBumpingSceneCtx } from "./types";
+import { StartBumpingViewService } from "./start-bumping-view.service";
 
 /**
  * @WARNING The bumping doesn't stop after the user cancels although the scene is left
@@ -13,18 +14,26 @@ import { StartBumpingSceneCtx } from "./types";
 
 @Scene(HomeAction.START_BUMPING)
 export class StartBumpingScene {
-  constructor(private readonly homeService: HomeService) {}
+  constructor(
+    private readonly homeService: HomeService,
+    private readonly viewService: StartBumpingViewService
+  ) {}
 
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: StartBumpingSceneCtx) {
     const { mint } = ctx.scene.state;
+    const { bumpingState: state } = ctx.session;
 
-    // === Start Bumping ===
-    await ctx.reply(`Bumping started for mint: ${mint}`);
+    // Start Bumping
+    const startMsg = this.viewService.getBumpingStartedMsg();
+    await ctx.reply(startMsg);
     await this.homeService.bump(ctx.session, mint);
 
-    // === Respond With Success ===
-    await ctx.reply("Bumping finished!");
+    // Bump status response
+    const message = this.viewService.getBumpDataMsg(state);
+    await ctx.reply(message, { parse_mode: "Markdown" });
+
+    // Redirect
     await ctx.scene.enter(SharedAction.RENDER_HOME);
   }
 
@@ -40,7 +49,11 @@ export class StartBumpingScene {
   }
 
   private async cancelBumping(ctx: BotContext) {
-    await ctx.reply("Bumping cancelled due to user activity!");
+    ctx.session.bumpingState.cancelBy("USER_ACTIVITY");
+    const message = this.viewService.getCancelingBumpingMsg(
+      ctx.session.bumpingState
+    );
+    await ctx.reply(message);
     ctx.scene.leave();
   }
 }
