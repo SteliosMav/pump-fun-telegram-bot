@@ -12,7 +12,7 @@ export class StartBumpingViewService {
   }
 
   getBumpDataMsg(state: BumpingState): string {
-    const durationText = state.duration.difference("h? m? s?");
+    const durationText = state.duration.inHumanFriendly();
 
     let statusText = "";
     let reasonText = "";
@@ -20,7 +20,7 @@ export class StartBumpingViewService {
     if (state.isFinished) {
       statusText = "✅ Completed";
     } else {
-      statusText = "Canceled ❌";
+      statusText = "⚠️ Canceled";
       if (state.isCanceledByUserRequest) {
         reasonText = "User request";
       } else if (state.isCanceledByUserActivity) {
@@ -30,9 +30,9 @@ export class StartBumpingViewService {
       }
     }
 
-    return `\`Status:      ${statusText}${
-      reasonText ? `\nReason:      ${reasonText}` : ``
-    }
+    return `*Bumping Finished!*
+
+\`Status:      ${statusText}${reasonText ? `\nReason:      ${reasonText}` : ``}
 Duration:    ${durationText}
 Succeeded:   ${state.successCount}
 Failed:      ${state.failureCount}\``;

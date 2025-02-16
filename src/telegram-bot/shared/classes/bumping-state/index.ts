@@ -1,4 +1,4 @@
-import { DateRange } from "../date-range";
+import { Duration } from "../duration";
 import {
   BumpingStateJSON,
   BumpingStatusType,
@@ -69,9 +69,9 @@ export class BumpingState {
   }
 
   /** Returns the duration in milliseconds between the start and end times */
-  get duration(): DateRange {
+  get duration(): Duration {
     const dateNow = new Date();
-    return new DateRange(this.startedAt || dateNow, this.endedAt || dateNow);
+    return new Duration(this.startedAt || dateNow, this.endedAt || dateNow);
   }
 
   /** Session Data Getters */
