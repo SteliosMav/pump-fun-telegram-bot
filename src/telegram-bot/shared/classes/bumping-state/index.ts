@@ -1,3 +1,4 @@
+import { DateRange } from "../date-range";
 import {
   BumpingStateJSON,
   BumpingStatusType,
@@ -68,10 +69,9 @@ export class BumpingState {
   }
 
   /** Returns the duration in milliseconds between the start and end times */
-  get duration(): number {
-    return this.endedAt && this.startedAt
-      ? this.endedAt.getTime() - this.startedAt.getTime()
-      : 0;
+  get duration(): DateRange {
+    const dateNow = new Date();
+    return new DateRange(this.startedAt || dateNow, this.endedAt || dateNow);
   }
 
   /** Session Data Getters */
@@ -128,7 +128,6 @@ export class BumpingState {
   toJSON(): BumpingStateJSON {
     return {
       status: this._status,
-      duration: this.duration,
       startedAt: this._startedAt?.toISOString(),
       endedAt: this._endedAt?.toISOString(),
       succeeded: this._succeeded,

@@ -12,25 +12,10 @@ export class StartBumpingViewService {
   }
 
   getBumpDataMsg(state: BumpingState): string {
-    const lastedLessThanMinute = state.duration < 1000 * 60;
+    const durationText = state.duration.difference("h? m? s?");
 
-    let durationText = "";
     let statusText = "";
     let reasonText = "";
-
-    const addPlural = (amount: number): string => (amount > 1 ? "s" : "");
-
-    if (lastedLessThanMinute) {
-      const durationInSeconds = Math.round(state.duration / 1000);
-      durationText = `${durationInSeconds} second${addPlural(
-        durationInSeconds
-      )}`;
-    } else {
-      const durationInMinutes = Math.round(state.duration / 1000 / 60);
-      durationText = `${durationInMinutes} minute${addPlural(
-        durationInMinutes
-      )}`;
-    }
 
     if (state.isFinished) {
       statusText = "✅ Completed";
