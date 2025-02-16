@@ -36,6 +36,7 @@
     "dotenv": "^16.4.5",
     "https-proxy-agent": "^7.0.5",
     "lodash": "^4.17.21",
+    "luxon": "^3.5.0",
     "mongoose": "^8.9.5",
     "nest-winston": "^1.10.2",
     "nestjs-telegraf": "^2.8.1",
@@ -44,7 +45,6 @@
     "rxjs": "^7.8.1",
     "telegraf": "^4.16.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
     "uuid": "^11.0.5",
     "winston": "^3.17.0"
   },
@@ -53,7 +53,9 @@
     "@types/crypto-js": "^4.2.2",
     "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.14",
+    "@types/luxon": "^3.4.2",
     "cross-env": "^7.0.3",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3"
   }
 }

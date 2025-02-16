@@ -1,10 +1,11 @@
-export interface RawDateRangeDif {
+export interface DateRangeBreakdown {
   years: number;
   months: number;
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
+  milliseconds: number;
 }
 
-export type DifFormat = "h? m? s?";
+export type DateDifferenceFormat = "h? m? s?" | "in-milliseconds";

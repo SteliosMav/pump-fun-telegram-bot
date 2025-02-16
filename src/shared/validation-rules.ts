@@ -16,4 +16,4 @@ export const validationRules = {
       default: 0.0001,
     },
   },
-};
+} as const;
