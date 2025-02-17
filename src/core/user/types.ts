@@ -57,6 +57,7 @@ export interface UserVirtuals {
   publicKey: string;
   tokenPassesLeft: number;
   hasServicePass: boolean;
+  isAdmin: boolean;
 }
 
 export interface UserMethods {

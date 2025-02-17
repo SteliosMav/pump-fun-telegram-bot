@@ -1,4 +1,9 @@
-import { Catch, ExceptionFilter } from "@nestjs/common";
+import {
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  HttpStatus,
+} from "@nestjs/common";
 import { ExecutionContextHost } from "@nestjs/core/helpers/execution-context-host";
 import { TelegrafExecutionContext } from "nestjs-telegraf";
 import { LoggerService } from "../core/logger/logger.service";
@@ -12,6 +17,7 @@ export class BotExceptionFilter implements ExceptionFilter {
   constructor(private readonly logger: LoggerService) {}
 
   async catch(exception: unknown, host: ExecutionContextHost) {
+    console.log("Exception:", (exception as any).status);
     const telegrafCtx = TelegrafExecutionContext.create(host);
     const ctx: Scenes.SceneContext = telegrafCtx.getContext();
 
@@ -26,6 +32,11 @@ export class BotExceptionFilter implements ExceptionFilter {
     if (!_.isEmpty(exception)) logData.error = exception;
     this.logger.error("Uncaught error from the bot:", logData);
 
+    if (isForbidden(exception)) {
+      // Don't inform user of protected modules such as `/admin`
+      return;
+    }
+
     // Send a response to the user
     await ctx.reply(
       `An unexpected error occurred, probably due to high demand. Please try again in a moment.
@@ -35,5 +46,12 @@ If error continues to show, contact our support team: @${BOT_SUPPORT_USERNAME}
 We appreciate your patience!  🙏`
     );
     ctx.scene.leave();
+  }
+}
+
+function isForbidden(exception: unknown) {
+  const isHttpException = exception instanceof HttpException;
+  if (isHttpException) {
+    return exception.getStatus() === HttpStatus.FORBIDDEN;
   }
 }

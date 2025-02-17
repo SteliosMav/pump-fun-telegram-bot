@@ -3,6 +3,10 @@ import {
   ParseMode,
 } from "telegraf/typings/core/types/typegram";
 
+/**
+ * @NOTE All of the following commands and actions can go to their
+ * corresponding modules. No need to be shared. They have modules.
+ */
 export enum SharedCommand {
   START = "start",
   INFO = "info",

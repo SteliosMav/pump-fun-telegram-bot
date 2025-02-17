@@ -11,6 +11,7 @@ import { APP_FILTER } from "@nestjs/core";
 import { BotExceptionFilter } from "./bot-exception.filter";
 import { PricingModule } from "./pricing/pricing.module";
 import { InfoModule } from "./info/info.module";
+import { AdminModule } from "./admin/admin.module";
 
 @Module({
   providers: [
@@ -46,6 +47,7 @@ import { InfoModule } from "./info/info.module";
     SettingsModule,
     PricingModule,
     InfoModule,
+    AdminModule,
   ],
 })
 export class BotModule {}

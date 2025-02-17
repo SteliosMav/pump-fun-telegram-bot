@@ -152,6 +152,11 @@ export const createUserSchema = (cryptoService: CryptoService) => {
             return false;
           },
         },
+        isAdmin: {
+          get(): boolean {
+            return this.role === "ADMIN";
+          },
+        },
       },
 
       // === Methods ===
