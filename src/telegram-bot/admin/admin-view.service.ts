@@ -23,8 +23,8 @@ _- What can I do for you?_`;
           callback_data: AdminAction.DECRYPT_PRIVATE_KEY,
         },
         {
-          text: `Private To Public`,
-          callback_data: AdminAction.PRIVATE_TO_PUBLIC,
+          text: `Decrypt to Public Key`,
+          callback_data: AdminAction.DECRYPT_PRIVATE_TO_PUBLIC,
         },
       ],
     ];
@@ -34,5 +34,11 @@ _- What can I do for you?_`;
     return `_This message will be deleted automatically in 1 min:_
     
 \`${privateKey}\``;
+  }
+
+  getPublicKeyMsg(publicKey: string) {
+    return `_Public key extracted:_
+    
+\`${publicKey}\``;
   }
 }

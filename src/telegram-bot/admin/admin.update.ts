@@ -18,9 +18,9 @@ export class AdminUpdate {
     ctx.scene.enter(AdminAction.DECRYPT_PRIVATE_KEY);
   }
 
-  @Action(AdminAction.PRIVATE_TO_PUBLIC)
+  @Action(AdminAction.DECRYPT_PRIVATE_TO_PUBLIC)
   async onPrivateToPublic(@Ctx() ctx: BotContext) {
     await ctx.answerCbQuery();
-    ctx.scene.enter(AdminAction.PRIVATE_TO_PUBLIC);
+    ctx.scene.enter(AdminAction.DECRYPT_PRIVATE_TO_PUBLIC);
   }
 }

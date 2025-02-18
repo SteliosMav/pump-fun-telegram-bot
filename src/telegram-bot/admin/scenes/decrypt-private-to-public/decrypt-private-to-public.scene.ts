@@ -5,13 +5,14 @@ import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import _ from "lodash";
 import { AdminService } from "../../admin.service";
-import { EncryptedPrivateKeyDto } from "../../dto/encrypted-private-key.dto";
 import { AdminViewService } from "../../admin-view.service";
 import { DEFAULT_REPLY_OPTIONS } from "../../../shared/constants";
 import { PrivateKeyDto } from "../../dto/private-key.dto";
+import { toKeypair } from "../../../../core/solana";
+import { EncryptedPrivateKeyDto } from "../../dto/encrypted-private-key.dto";
 
-@Scene(AdminAction.DECRYPT_PRIVATE_KEY)
-export class DecryptPrivateKeyScene {
+@Scene(AdminAction.DECRYPT_PRIVATE_TO_PUBLIC)
+export class DecryptPrivateToPublicScene {
   constructor(
     private readonly adminService: AdminService,
     private readonly viewService: AdminViewService
@@ -78,13 +79,13 @@ export class DecryptPrivateKeyScene {
     }
 
     // Success response
-    const message = await ctx.reply(
-      this.viewService.getPrivateKeyMsg(privateKeyDto.privateKey),
+    const keypair = toKeypair(privateKeyDto.privateKey);
+    await ctx.reply(
+      this.viewService.getPublicKeyMsg(keypair.publicKey.toString()),
       {
         ...DEFAULT_REPLY_OPTIONS,
       }
     );
-    this.adminService.deleteMessageAfterDelay(ctx, message);
     ctx.scene.leave();
   }
 }
