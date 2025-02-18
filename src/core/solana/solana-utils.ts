@@ -35,3 +35,12 @@ export function isValidSolanaAddress(address: string): boolean {
     return false;
   }
 }
+
+export function isValidPrivateKey(key: string): boolean {
+  try {
+    const keyPair = toKeypair(key);
+    return isValidSolanaAddress(keyPair.publicKey.toString());
+  } catch (err) {
+    return false;
+  }
+}

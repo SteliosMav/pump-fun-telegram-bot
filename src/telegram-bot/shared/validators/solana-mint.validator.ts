@@ -5,7 +5,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from "class-validator";
-import { isValidSolanaAddress } from "../../core/solana";
+import { isValidSolanaAddress } from "../../../core/solana";
 
 /**
  * Validator Constraint: Ensures mint is a valid Solana address.

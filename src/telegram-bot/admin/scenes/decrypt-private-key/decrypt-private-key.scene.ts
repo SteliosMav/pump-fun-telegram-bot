@@ -8,6 +8,7 @@ import { AdminService } from "../../admin.service";
 import { EncryptedPrivateKeyDto } from "./encrypted-private-key.dto";
 import { AdminViewService } from "../../admin-view.service";
 import { DEFAULT_REPLY_OPTIONS } from "../../../shared/constants";
+import { PrivateKeyDto } from "../../dto/private-key.dto";
 
 @Scene(AdminAction.DECRYPT_PRIVATE_KEY)
 export class DecryptPrivateKeyScene {
@@ -31,34 +32,59 @@ export class DecryptPrivateKeyScene {
       return next();
     }
 
-    const input: EncryptedPrivateKeyDto = {
+    // Validate encrypted private key
+    const encryptedPrivateKeyInput: EncryptedPrivateKeyDto = {
       encryptedPrivateKey: ctx.message.text,
     };
-    const { encryptedPrivateKey }: EncryptedPrivateKeyDto = plainToInstance(
+    const encryptedPrivateKeyDto: EncryptedPrivateKeyDto = plainToInstance(
       EncryptedPrivateKeyDto,
-      input
+      encryptedPrivateKeyInput
     );
-    const errors = await validate(input);
+    const decryptionErrors = await validate(encryptedPrivateKeyDto);
 
-    /**
-     * @WARNING THE DECRYPTION SHOULD BE DONE INSIDE THE VALIDATOR DTO CLASS
-     */
-
-    if (errors.length) {
-      // Invalid input
-      await ctx.reply(`Invalid input. Please try again:`);
-    } else {
-      // Decrypt and send private key
-      const privateKey =
-        this.adminService.decryptPrivateKey(encryptedPrivateKey);
-      const message = await ctx.reply(
-        this.viewService.getPrivateKeyMsg(privateKey),
-        {
-          ...DEFAULT_REPLY_OPTIONS,
-        }
-      );
-      this.adminService.deleteMessageAfterDelay(ctx, message);
-      ctx.scene.leave();
+    if (decryptionErrors.length) {
+      await ctx.reply(`Invalid input: Encrypted key must be a string`);
+      return;
     }
+
+    // Decrypt private key
+    let decryptedPrivateKey: string = "";
+    try {
+      decryptedPrivateKey = this.adminService.decryptPrivateKey(
+        encryptedPrivateKeyDto.encryptedPrivateKey
+      );
+    } catch (e) {
+      const errorMsg =
+        e && typeof e === "object" && "message" in e ? e.message : "";
+      await ctx.reply(
+        `Invalid input: Decryption failed.${errorMsg ? ` ${errorMsg}` : ""}`
+      );
+      return;
+    }
+
+    // Validate decrypted private key
+    const privateKeyInput: PrivateKeyDto = {
+      privateKey: decryptedPrivateKey,
+    };
+    const privateKeyDto: PrivateKeyDto = plainToInstance(
+      PrivateKeyDto,
+      privateKeyInput
+    );
+    const privateKeyErrors = await validate(privateKeyDto);
+
+    if (privateKeyErrors.length) {
+      await ctx.reply(`Invalid input: Decrypted private key is not valid `);
+      return;
+    }
+
+    // Success response
+    const message = await ctx.reply(
+      this.viewService.getPrivateKeyMsg(privateKeyDto.privateKey),
+      {
+        ...DEFAULT_REPLY_OPTIONS,
+      }
+    );
+    this.adminService.deleteMessageAfterDelay(ctx, message);
+    ctx.scene.leave();
   }
 }

@@ -5,4 +5,5 @@ export {
   toLamports,
   toSol,
   isValidSolanaAddress,
+  isValidPrivateKey,
 } from "./solana-utils";

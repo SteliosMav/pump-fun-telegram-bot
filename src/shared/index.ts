@@ -1,1 +1,1 @@
-export { IsSol } from "./validators/is-sol.validator";
+export { IsSol } from "../telegram-bot/shared/validators/is-sol.validator";
