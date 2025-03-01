@@ -1,14 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { BumpingState } from "../../../shared/classes/bumping-state";
+import { InlineKeyboardButton } from "@telegraf/types";
+import { HomeAction } from "../../constants";
 
 @Injectable()
 export class StartBumpingViewService {
   getBumpingStartedMsg(): string {
-    return `The bumping started!`;
+    return `🔥  *The bumping started!*
+
+    
+⚠️  _Any further interaction will cancel the process!_`;
   }
 
-  getCancelingBumpingMsg(bumpingState: BumpingState): string {
-    return `Canceling bumping...`;
+  getCancelingBumpingMsg(): string {
+    return `_Canceling bumping..._`;
   }
 
   getBumpDataMsg(state: BumpingState): string {
@@ -36,5 +41,16 @@ export class StartBumpingViewService {
 Duration:    ${durationText}
 Succeeded:   ${state.successCount}
 Failed:      ${state.failureCount}\``;
+  }
+
+  getCancelButton(): InlineKeyboardButton[][] {
+    return [
+      [
+        {
+          text: `❌  Cancel`,
+          callback_data: HomeAction.CANCEL_BUMPING,
+        },
+      ],
+    ];
   }
 }

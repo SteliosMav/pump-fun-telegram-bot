@@ -2,15 +2,9 @@ import { Scene, SceneEnter, Ctx, On } from "nestjs-telegraf";
 import { HomeService } from "../../home.service";
 import { BotContext } from "../../../bot.context";
 import { HomeAction } from "../../constants";
-import { SharedAction } from "../../../shared/constants";
+import { DEFAULT_REPLY_OPTIONS, SharedAction } from "../../../shared/constants";
 import { StartBumpingSceneCtx } from "./types";
 import { StartBumpingViewService } from "./start-bumping-view.service";
-
-/**
- * @WARNING The bumping doesn't stop after the user cancels although the scene is left
- * and the cancellation message is sent. This is because the setTimeout is still
- * running.
- */
 
 @Scene(HomeAction.START_BUMPING)
 export class StartBumpingScene {
@@ -26,12 +20,16 @@ export class StartBumpingScene {
 
     // Start Bumping
     const startMsg = this.viewService.getBumpingStartedMsg();
-    await ctx.reply(startMsg);
+    const buttons = this.viewService.getCancelButton();
+    await ctx.reply(startMsg, {
+      ...DEFAULT_REPLY_OPTIONS,
+      reply_markup: { inline_keyboard: buttons },
+    });
     await this.homeService.bump(ctx.session, mint);
 
     // Bump status response
-    const message = this.viewService.getBumpDataMsg(state);
-    await ctx.reply(message, { parse_mode: "Markdown" });
+    const responseMsg = this.viewService.getBumpDataMsg(state);
+    await ctx.reply(responseMsg, { ...DEFAULT_REPLY_OPTIONS });
 
     // Redirect
     await ctx.scene.enter(SharedAction.RENDER_HOME);
@@ -50,10 +48,8 @@ export class StartBumpingScene {
 
   private async cancelBumping(ctx: BotContext) {
     ctx.session.bumpingState.cancelBy("USER_ACTIVITY");
-    const message = this.viewService.getCancelingBumpingMsg(
-      ctx.session.bumpingState
-    );
-    await ctx.reply(message);
+    const message = this.viewService.getCancelingBumpingMsg();
+    await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
     ctx.scene.leave();
   }
 }
