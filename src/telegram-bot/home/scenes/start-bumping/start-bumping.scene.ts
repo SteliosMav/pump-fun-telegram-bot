@@ -18,18 +18,30 @@ export class StartBumpingScene {
     const { mint } = ctx.scene.state;
     const { bumpingState: state } = ctx.session;
 
+    // Reset previous bumping state
+    state.reset();
+
     // Start Bumping
     const startMsg = this.viewService.getBumpingStartedMsg();
     const keyboard = this.viewService.getCancelButton();
-    await ctx.reply(startMsg, {
+    const { message_id: bumpingStartedMsgId } = await ctx.reply(startMsg, {
       ...DEFAULT_REPLY_OPTIONS,
       reply_markup: { inline_keyboard: keyboard },
     });
-    await this.homeService.bump(ctx.session, mint);
+    ctx.session.botLastMessageId = bumpingStartedMsgId;
+    await this.homeService.startBumping(ctx.session, mint);
 
     // Bump status response
     const responseMsg = this.viewService.getBumpDataMsg(state);
-    await ctx.reply(responseMsg, { ...DEFAULT_REPLY_OPTIONS });
+    await ctx.telegram.editMessageText(
+      ctx.chat.id,
+      ctx.session.botLastMessageId,
+      undefined,
+      responseMsg,
+      {
+        ...DEFAULT_REPLY_OPTIONS,
+      }
+    );
 
     // Redirect
     await ctx.scene.enter(SharedAction.RENDER_HOME);
@@ -47,9 +59,28 @@ export class StartBumpingScene {
   }
 
   private async cancelBumping(ctx: BotContext) {
-    ctx.session.bumpingState.cancelBy("USER_ACTIVITY");
+    const hasCallbackQueryData =
+      ctx.callbackQuery && "data" in ctx.callbackQuery;
+    const userRequested =
+      hasCallbackQueryData && ctx.callbackQuery.data === "CANCEL_BUMPING";
+    ctx.session.bumpingState.cancelBy(
+      userRequested ? "USER_REQUESTED" : "USER_ACTIVITY"
+    );
+
+    if (!ctx.session.botLastMessageId) {
+      throw new Error(
+        "Bot last message ID is missing when trying to cancel bumping."
+      );
+    }
+
     const message = this.viewService.getCancelingBumpingMsg();
-    await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
+    await ctx.telegram.editMessageText(
+      ctx.chat.id,
+      ctx.session.botLastMessageId,
+      undefined,
+      message,
+      { ...DEFAULT_REPLY_OPTIONS }
+    );
     ctx.scene.leave();
   }
 }

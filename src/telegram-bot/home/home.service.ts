@@ -12,7 +12,7 @@ export class HomeService {
     return this.solanaService.getBalance(toPublicKey(publicKey));
   }
 
-  async bump(session: BotSessionData, mint: string): Promise<void> {
+  async startBumping(session: BotSessionData, mint: string): Promise<void> {
     const { bumpingState: state } = session;
     const {
       limit,
@@ -57,7 +57,6 @@ export class HomeService {
       }
     }
 
-    // Update Use
     // Update user in database as well as on the session object based on the
     // response from the database.
     // ...

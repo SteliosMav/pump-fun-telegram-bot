@@ -27,7 +27,7 @@ export class StartBumpingViewService {
     } else {
       statusText = "⚠️ Canceled";
       if (state.isCanceledByUserRequest) {
-        reasonText = "User request";
+        reasonText = "User requested";
       } else if (state.isCanceledByUserActivity) {
         reasonText = "User activity";
       } else if (state.isCanceledByFailedAttempts) {

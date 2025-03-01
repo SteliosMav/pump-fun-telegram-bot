@@ -74,6 +74,7 @@ export class SessionService implements OnModuleInit {
             user: user,
             bumpingState: BumpingState.create(),
             expiresAt: expirationDate,
+            botLastMessageId: null,
           };
           return sessionData;
         },

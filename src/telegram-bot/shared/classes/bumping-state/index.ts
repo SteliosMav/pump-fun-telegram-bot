@@ -48,7 +48,7 @@ export class BumpingState {
   }
 
   get isCanceledByUserRequest(): boolean {
-    return this.isCanceled && this._reason === "USER_REQUEST";
+    return this.isCanceled && this._reason === "USER_REQUESTED";
   }
 
   get isCanceledByUserActivity(): boolean {
@@ -135,5 +135,14 @@ export class BumpingState {
       isMaxFailedBumpsReached: this.isMaxFailedBumpsReached,
       reason: this._reason,
     };
+  }
+
+  reset(): void {
+    this._status = "NOT_BUMPING";
+    this._startedAt = undefined;
+    this._endedAt = undefined;
+    this._succeeded = 0;
+    this._failed = 0;
+    this._reason = undefined;
   }
 }

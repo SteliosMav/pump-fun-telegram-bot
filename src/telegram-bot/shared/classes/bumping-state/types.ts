@@ -16,6 +16,6 @@ export interface BumpingStateJSON {
 }
 
 export type CancellationReason =
-  | "USER_REQUEST"
+  | "USER_REQUESTED"
   | "USER_ACTIVITY"
   | "MAX_FAILED_ATTEMPTS";

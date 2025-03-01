@@ -12,6 +12,7 @@ export interface BotSessionData {
   bumpingState: BumpingState;
   user: UserDoc;
   expiresAt: Date;
+  botLastMessageId: number | null;
 }
 
 interface TextMessage extends Message.TextMessage {
