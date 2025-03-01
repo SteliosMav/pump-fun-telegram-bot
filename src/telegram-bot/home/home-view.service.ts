@@ -13,8 +13,8 @@ export class HomeViewService {
     return `${
       user.hasServicePass
         ? `*💎   Enjoy ZERO service-fee bumps !*${
-            user.servicePass?.expirationDate
-              ? `   -   _Until ${toYYYYMMDD(user.servicePass?.expirationDate)}_`
+            user.servicePass?.expiresAt
+              ? `   -   _Until ${toYYYYMMDD(user.servicePass?.expiresAt)}_`
               : ""
           }\n\n\n`
         : ``

@@ -3,10 +3,15 @@ import { SolanaService } from "../../core/solana/solana.service";
 import { toPublicKey } from "../../core/solana";
 import { BotSessionData } from "../bot.context";
 import { delay } from "../../shared/utils";
+import { UserService } from "../../core/user/user.service";
+import { getUserNotFoundForUpdateMsg } from "../../shared/error-messages";
 
 @Injectable()
 export class HomeService {
-  constructor(private readonly solanaService: SolanaService) {}
+  constructor(
+    private readonly solanaService: SolanaService,
+    private readonly userService: UserService
+  ) {}
 
   getBalance(publicKey: string): Promise<number> {
     return this.solanaService.getBalance(toPublicKey(publicKey));
@@ -57,14 +62,40 @@ export class HomeService {
       }
     }
 
-    // Update user in database as well as on the session object based on the
-    // response from the database.
-    // ...
+    // Update user
+    await this.incrementBumps(session, state.successCount, mint);
   }
 
   private mockBump(): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
+  }
+
+  private async incrementBumps(
+    session: BotSessionData,
+    amount: number,
+    mintUsed: string
+  ): Promise<void> {
+    const telegramId = session.user.telegram.id;
+    let context: "paid" | "servicePass" | { tokenPass: string } = "paid";
+
+    if (session.user.hasServicePass) {
+      context = "servicePass";
+    } else if (session.user.usedTokenPasses.has(mintUsed)) {
+      context = { tokenPass: mintUsed };
+    }
+
+    const updatedUser = await this.userService.incrementBumps(
+      telegramId,
+      amount,
+      context
+    );
+
+    if (!updatedUser) {
+      throw new Error(getUserNotFoundForUpdateMsg(telegramId));
+    }
+
+    session.user = updatedUser;
   }
 }

@@ -10,6 +10,7 @@ import { StartBumpingScene } from "./scenes/start-bumping/start-bumping.scene";
 import { SetTokenToBumpViewService } from "./scenes/set-token-to-bump/set-token-to-bump-view.service";
 import { PricingModule } from "../pricing/pricing.module";
 import { StartBumpingViewService } from "./scenes/start-bumping/start-bumping-view.service";
+import { UserModule } from "../../core/user";
 
 @Module({
   providers: [
@@ -28,6 +29,6 @@ import { StartBumpingViewService } from "./scenes/start-bumping/start-bumping-vi
     SetTokenToBumpScene,
     StartBumpingScene,
   ],
-  imports: [SolanaModule, PricingModule],
+  imports: [SolanaModule, PricingModule, UserModule],
 })
 export class HomeModule {}

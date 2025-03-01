@@ -108,7 +108,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
       servicePass: new Schema<ServicePass>(
         {
           bumps: { type: Number, default: 0 },
-          expirationDate: Date,
+          expiresAt: Date,
         },
         { _id: false, timestamps: true } // Nested timestamps are set initially but the updatedAt must be updated manually
       ),
@@ -138,11 +138,11 @@ export const createUserSchema = (cryptoService: CryptoService) => {
         hasServicePass: {
           get(): boolean {
             if (this.servicePass && this.servicePass.createdAt) {
-              const expirationDate = this.servicePass.expirationDate
-                ? new Date(this.servicePass.expirationDate)
+              const expiresAt = this.servicePass.expiresAt
+                ? new Date(this.servicePass.expiresAt)
                 : null;
-              if (expirationDate) {
-                if (expirationDate > new Date()) {
+              if (expiresAt) {
+                if (expiresAt > new Date()) {
                   return true;
                 }
               } else {

@@ -51,9 +51,9 @@ export class UserService {
 
   addServicePass(
     telegramId: number,
-    expirationDate?: Date
+    expiresAt?: Date
   ): Promise<UserDoc | null> {
-    return this.userRepo.addServicePass(telegramId, expirationDate);
+    return this.userRepo.addServicePass(telegramId, expiresAt);
   }
 
   incrementTokenPassesLeft(
@@ -65,5 +65,13 @@ export class UserService {
 
   addUsedTokenPass(telegramId: number, mint: string): Promise<UserDoc | null> {
     return this.userRepo.addUsedTokenPass(telegramId, mint);
+  }
+
+  incrementBumps(
+    telegramId: number,
+    amount: number,
+    context: "paid" | "servicePass" | { tokenPass: string }
+  ): Promise<UserDoc | null> {
+    return this.userRepo.incrementBumps(telegramId, amount, context);
   }
 }

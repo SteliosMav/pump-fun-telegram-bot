@@ -65,7 +65,7 @@ export class SessionService implements OnModuleInit {
         // === New Session Process ===
         defaultSession: (): BotSessionData => {
           const dateNow = new Date();
-          const expirationDate = new Date(
+          const expiresAt = new Date(
             dateNow.setMilliseconds(
               dateNow.getMilliseconds() + this.expirationTime
             )
@@ -73,7 +73,7 @@ export class SessionService implements OnModuleInit {
           const sessionData: BotSessionData = {
             user: user,
             bumpingState: BumpingState.create(),
-            expiresAt: expirationDate,
+            expiresAt,
             botLastMessageId: null,
           };
           return sessionData;

@@ -155,7 +155,7 @@ export class UserRepository {
 
   addServicePass(
     telegramId: number,
-    expirationDate?: Date
+    expiresAt?: Date
   ): Promise<UserDoc | null> {
     const update: Record<
       keyof Pick<UserRaw, "servicePass">,
@@ -166,8 +166,8 @@ export class UserRepository {
       },
     };
 
-    if (expirationDate) {
-      update.servicePass.expirationDate = expirationDate;
+    if (expiresAt) {
+      update.servicePass.expiresAt = expiresAt;
     }
 
     return this.UserModel.findOneAndUpdate(

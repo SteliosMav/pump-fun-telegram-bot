@@ -50,7 +50,7 @@ interface BasicPass {
 }
 export interface TokenPass extends BasicPass {}
 export interface ServicePass extends BasicPass {
-  expirationDate?: Date;
+  expiresAt?: Date;
 }
 
 export interface UserVirtuals {

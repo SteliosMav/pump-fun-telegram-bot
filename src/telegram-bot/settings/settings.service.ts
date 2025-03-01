@@ -26,10 +26,7 @@ export class SettingsService {
 
   async updateAmount(session: BotSessionData, amount: number): Promise<void> {
     const telegramId = session.user.telegram.id;
-    const updatedUser = await this.userService.updateAmount(
-      session.user.telegram.id,
-      amount
-    );
+    const updatedUser = await this.userService.updateAmount(telegramId, amount);
 
     if (!updatedUser) {
       throw new Error(getUserNotFoundForUpdateMsg(telegramId));
@@ -44,7 +41,7 @@ export class SettingsService {
   ): Promise<void> {
     const telegramId = session.user.telegram.id;
     const updatedUser = await this.userService.updateInterval(
-      session.user.telegram.id,
+      telegramId,
       intervalInSeconds
     );
 
@@ -61,7 +58,7 @@ export class SettingsService {
   ): Promise<void> {
     const telegramId = session.user.telegram.id;
     const updatedUser = await this.userService.updatePriorityFee(
-      session.user.telegram.id,
+      telegramId,
       priorityFee
     );
 
@@ -74,10 +71,7 @@ export class SettingsService {
 
   async updateLimit(session: BotSessionData, limit: number): Promise<void> {
     const telegramId = session.user.telegram.id;
-    const updatedUser = await this.userService.updateLimit(
-      session.user.telegram.id,
-      limit
-    );
+    const updatedUser = await this.userService.updateLimit(telegramId, limit);
 
     if (!updatedUser) {
       throw new Error(getUserNotFoundForUpdateMsg(telegramId));
