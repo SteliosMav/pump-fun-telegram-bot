@@ -20,10 +20,10 @@ export class StartBumpingScene {
 
     // Start Bumping
     const startMsg = this.viewService.getBumpingStartedMsg();
-    const buttons = this.viewService.getCancelButton();
+    const keyboard = this.viewService.getCancelButton();
     await ctx.reply(startMsg, {
       ...DEFAULT_REPLY_OPTIONS,
-      reply_markup: { inline_keyboard: buttons },
+      reply_markup: { inline_keyboard: keyboard },
     });
     await this.homeService.bump(ctx.session, mint);
 
@@ -36,10 +36,10 @@ export class StartBumpingScene {
   }
 
   /**
-   * Cancel bumping if user takes any action while the bumping is active.
+   * Cancel bumping if user interacts with the bot while the bumping is active.
    */
   @On(["text", "callback_query"])
-  async onText(@Ctx() ctx: BotContext) {
+  async onUserInteraction(@Ctx() ctx: BotContext) {
     if (ctx.callbackQuery) {
       await ctx.answerCbQuery();
     }
