@@ -24,22 +24,23 @@ export class SettingsViewService {
     return `*📌  SETTINGS*
 ━━━━━━━━
 
-   *Total Cost*:                 *${bumpPrice}  SOL*
-  ━━━━━━             ━━━━━━━  
-   Service Fee:               ${
-     serviceFee > 0 ? `${serviceFee}  SOL` : "0.00  SOL"
-   }     
-   Priority Fee:              ${priorityFeeInSol}  SOL    
-   Pump Fun Fee:         ${pumpFunFee}  SOL   
-   Transaction Fee:      ${txFee}  SOL    
+\`Total Cost:        ${bumpPrice}  SOL
+--------------------------------
+Service Fee:       ${serviceFee > 0 ? `${serviceFee}   SOL` : "0.00  SOL"}
+Priority Fee:      ${priorityFeeInSol}    SOL    
+Pump Fun Fee:      ${pumpFunFee}  SOL   
+Transaction Fee:   ${txFee}  SOL\`    
 
- 
-  *Settings                Explanation:*
-  - Amount:             Shown as trades on pump.fun  
-  - Slippage:            Max % price change allowed  
-  - Frequency:        Time interval between bumps  
-  - Priority Fee:       Higher fee = faster processing  
-  - Bumps:               Total bumps to execute`;
+
+💰  *Amount:*  Displayed as trades on pump.fun _(no charge applied)_
+
+⚡  *Priority Fee:*  A higher fee results in faster processing
+
+📈  *Slippage:*  Maximum price change allowable
+
+🕑  *Frequency:*  Time between bumps
+
+♻️  *Bumps:*  Total number of bumps to execute`;
   }
 
   getButtons(user: UserDoc): InlineKeyboardButton[][] {
@@ -54,25 +55,27 @@ export class SettingsViewService {
     return [
       [
         {
-          text: `💰  ${amountInSol} Amount`,
+          text: `💰  AMOUNT:  ${amountInSol}`,
           callback_data: SettingsAction.SET_AMOUNT,
-        },
-        {
-          text: `⚡  ${priorityFeeInSol} Priority Fee`,
-          callback_data: SettingsAction.SET_PRIORITY_FEE,
         },
       ],
       [
         {
-          text: `📈  ${slippage * 100}% Slippage`,
-          callback_data: SettingsAction.SET_SLIPPAGE,
+          text: `⚡  PRIORITY FEE:  ${priorityFeeInSol}`,
+          callback_data: SettingsAction.SET_PRIORITY_FEE,
         },
         {
-          text: `🕑  ${intervalInSeconds}s Frequency`,
+          text: `📈  SLIPPAGE:  ${slippage * 100}%`,
+          callback_data: SettingsAction.SET_SLIPPAGE,
+        },
+      ],
+      [
+        {
+          text: `🕑  FREQUENCY:  ${intervalInSeconds}s`,
           callback_data: SettingsAction.SET_INTERVAL,
         },
         {
-          text: `♻️  ${limit} Bump${limit === 1 ? "" : "s"}`,
+          text: `♻️  BUMP${limit === 1 ? "" : "S"}:  ${limit}`,
           callback_data: SettingsAction.SET_LIMIT,
         },
       ],

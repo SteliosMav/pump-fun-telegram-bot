@@ -9,5 +9,5 @@ import { SharedAction } from "../constants";
 // }
 
 export function backButton(action: SharedAction): InlineKeyboardButton {
-  return { text: `⬅️  Back`, callback_data: action };
+  return { text: `⬅️  BACK`, callback_data: action };
 }
