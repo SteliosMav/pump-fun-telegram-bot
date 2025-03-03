@@ -6,6 +6,7 @@ import {
   UserDoc,
   UserModelType,
   UserRaw,
+  UserRequiredFields,
 } from "./types";
 import { InjectModel } from "@nestjs/mongoose";
 
@@ -19,9 +20,7 @@ export class UserRepository {
 
   constructor(@InjectModel("User") private readonly UserModel: UserModelType) {}
 
-  create(
-    user: Pick<UserRaw, "encryptedPrivateKey" | "telegram">
-  ): Promise<UserDoc> {
+  create(user: Partial<UserRaw> & UserRequiredFields): Promise<UserDoc> {
     return this.UserModel.create(user);
   }
 

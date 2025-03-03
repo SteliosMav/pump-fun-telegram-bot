@@ -4,6 +4,7 @@ import { Injectable } from "@nestjs/common";
 import { SharedAction } from "../shared/constants";
 import { HomeAction } from "./constants";
 import { toYYYYMMDD } from "../../shared/utils/date-utils";
+import { toSol } from "../../core/solana";
 
 @Injectable()
 export class HomeViewService {
@@ -20,7 +21,7 @@ export class HomeViewService {
         : ``
     }💳   *Wallet:*   \`${user.publicKey}\`
 
-💰   *Balance:*   \`${balance}\`
+💰   *Balance:*   \`${toSol(balance)}\`
 ${
   user.hasServicePass
     ? ""

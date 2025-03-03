@@ -3,7 +3,7 @@ import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
 // Both required and default fields are mandatory, but default fields are
 // not needed during user initialization as they get default values from mongoose,
 // whereas required fields must be provided because their values can't be guessed.
-interface UserRequiredFields {
+export interface UserRequiredFields {
   encryptedPrivateKey: string;
   telegram: TelegramInfo;
 }

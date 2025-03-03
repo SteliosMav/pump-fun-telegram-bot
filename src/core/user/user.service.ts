@@ -1,10 +1,14 @@
-import { TelegramInfo, UserDoc } from "./types";
+import { ConfigService } from "@nestjs/config";
+import { TelegramInfo, UserDoc, UserRaw, UserRequiredFields } from "./types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UserService {
-  constructor(private userRepo: UserRepository) {}
+  constructor(
+    private readonly userRepo: UserRepository,
+    private readonly configService: ConfigService
+  ) {}
 
   getUserByTgId(telegramId: number): Promise<UserDoc | null> {
     return this.userRepo.find(telegramId);
@@ -14,7 +18,21 @@ export class UserService {
     telegram: TelegramInfo,
     encryptedPrivateKey: string
   ): Promise<UserDoc> {
-    return this.userRepo.create({ telegram, encryptedPrivateKey });
+    // Assign role
+    const personalTelegramId = Number(
+      this.configService.get<string>("PERSONAL_TG_ID")
+    );
+    const isUserMe = telegram.id === personalTelegramId;
+    const newUser: Partial<UserRaw> & UserRequiredFields = {
+      telegram,
+      encryptedPrivateKey,
+    };
+    if (isUserMe) {
+      newUser.role = "ADMIN";
+    }
+
+    // Save user
+    return this.userRepo.create(newUser);
   }
 
   updateSlippage(

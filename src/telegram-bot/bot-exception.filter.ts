@@ -17,7 +17,6 @@ export class BotExceptionFilter implements ExceptionFilter {
   constructor(private readonly logger: LoggerService) {}
 
   async catch(exception: unknown, host: ExecutionContextHost) {
-    console.log("Exception:", (exception as any).status);
     const telegrafCtx = TelegrafExecutionContext.create(host);
     const ctx: Scenes.SceneContext = telegrafCtx.getContext();
 

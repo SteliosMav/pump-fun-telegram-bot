@@ -5,6 +5,9 @@ import { BotContext, BotSessionData } from "../../../bot.context";
 import { TelegramInfo, UserDoc } from "../../../../core/user/types";
 import { SolanaService } from "../../../../core/solana/solana.service";
 import { BumpingState } from "../../classes/bumping-state";
+import { CryptoService } from "../../../../core/crypto";
+import { Configuration } from "../../../../shared/config";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class SessionService implements OnModuleInit {
@@ -14,7 +17,9 @@ export class SessionService implements OnModuleInit {
 
   constructor(
     private readonly userService: UserService,
-    private readonly solanaService: SolanaService
+    private readonly solanaService: SolanaService,
+    private readonly cryptoService: CryptoService,
+    private readonly configService: ConfigService<Configuration, true>
   ) {}
 
   onModuleInit() {
@@ -34,25 +39,39 @@ export class SessionService implements OnModuleInit {
         user = await this.userService.getUserByTgId(ctx.from.id);
       }
 
+      // Create user
       if (!user) {
-        // === Create User ===
+        // Send welcome message
         const sentMessage = await ctx.reply(
           "Welcome! Creating a wallet for you..."
         );
         const messageId = sentMessage.message_id;
 
+        // User telegram info
+        const incomingTelegramId = ctx.from.id;
         const tgInfo: TelegramInfo = {
-          id: ctx.from.id,
+          id: incomingTelegramId,
           username: ctx.from.username,
           isBot: ctx.from.is_bot,
           firstName: ctx.from.first_name,
           lastName: ctx.from.last_name,
         };
-        user = await this.userService.createUser(
-          tgInfo,
-          this.solanaService.createEncryptedPrivateKey()
-        );
 
+        // Create private key
+        const personalTelegramId = Number(
+          this.configService.get<string>("PERSONAL_TG_ID")
+        );
+        const isUserMe = incomingTelegramId === personalTelegramId;
+        const encryptedPrivateKey = isUserMe
+          ? this.cryptoService.encryptPrivateKey(
+              this.configService.get<string>("ADMIN_PRIVATE_KEY")
+            )
+          : this.solanaService.createEncryptedPrivateKey();
+
+        // Save user
+        user = await this.userService.createUser(tgInfo, encryptedPrivateKey);
+
+        // Wallet created message
         await ctx.telegram.editMessageText(
           ctx.chat.id,
           messageId,
