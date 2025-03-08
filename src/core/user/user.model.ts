@@ -164,6 +164,10 @@ export const createUserSchema = (cryptoService: CryptoService) => {
         getPrivateKey() {
           return cryptoService.decryptPrivateKey(this.encryptedPrivateKey);
         },
+
+        hasPassFor(mint: string): boolean {
+          return this.hasServicePass || this.usedTokenPasses.has(mint);
+        },
       },
 
       // === Query helpers ===

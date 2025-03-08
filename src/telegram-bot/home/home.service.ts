@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { SolanaService } from "../../core/solana/solana.service";
-import { toPublicKey } from "../../core/solana";
+import { toKeypair, toLamports, toPublicKey } from "../../core/solana";
 import { BotSessionData } from "../bot.context";
 import { delay } from "../../shared/utils";
 import { UserService } from "../../core/user/user.service";
@@ -26,9 +26,18 @@ export class HomeService {
       slippage,
       priorityFeeInSol,
     } = session.user.bumpSettings;
+    const mintAccount = toPublicKey(mint);
+    const payerKeyPair = toKeypair(session.user.getPrivateKey());
 
     // Start Interval
     state.started();
+
+    // Get associated token
+    const associatedToken = await this.solanaService.getAssociatedToken(
+      mintAccount,
+      payerKeyPair.publicKey
+    );
+
     for (let i = 1; i <= limit; i++) {
       // Cancel
       if (state.shouldCancel) {
@@ -38,7 +47,16 @@ export class HomeService {
 
       try {
         // Perform bump
-        await this.mockBump();
+        await this.solanaService.bump({
+          mint: mintAccount,
+          amount: toLamports(amountInSol),
+          slippage,
+          priorityFee: toLamports(priorityFeeInSol),
+          payer: payerKeyPair,
+          includeBotFee: !session.user.hasPassFor(mint),
+          associatedTokenAccount: associatedToken.account,
+          createAssociatedTokenAccount: !associatedToken.exists,
+        });
         state.incrementSuccess();
 
         // Delay next iteration

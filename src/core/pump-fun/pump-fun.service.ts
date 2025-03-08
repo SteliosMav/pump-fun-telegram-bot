@@ -4,6 +4,7 @@ import nacl from "tweetnacl";
 import { PumpFunProfile, UserUpdateResponse } from "./types";
 import axios from "axios";
 import { Injectable } from "@nestjs/common";
+import { BOT_DESCRIPTION, BOT_IMAGE } from "./constants";
 
 @Injectable()
 export class PumpFunService {
@@ -23,7 +24,17 @@ export class PumpFunService {
     "Sec-Fetch-Site": "cross-site",
   };
 
-  async login(keypair: Keypair): Promise<string> {
+  async createProfile(keypair: Keypair): Promise<PumpFunProfile> {
+    const authCookie = await this.login(keypair);
+    const updatedProfile = await this.updateProfile(authCookie, {
+      username: this.generateUsername(),
+      bio: BOT_DESCRIPTION,
+      imageUrl: BOT_IMAGE,
+    });
+    return updatedProfile;
+  }
+
+  private async login(keypair: Keypair): Promise<string> {
     const timestamp = Date.now();
     const message = `Sign in to pump.fun: ${timestamp}`;
     const encodedMessage = new TextEncoder().encode(message);
@@ -52,7 +63,7 @@ export class PumpFunService {
     return setCookieHeader.join("; ");
   }
 
-  async updateProfile(
+  private async updateProfile(
     authCookie: string,
     update: PumpFunProfile
   ): Promise<PumpFunProfile> {
@@ -67,11 +78,30 @@ export class PumpFunService {
       }
     );
 
-    const f = updateRes.data;
     if ("address" in updateRes.data) {
       return update;
     } else {
       throw updateRes.data;
     }
+  }
+
+  private generateUsername(): string {
+    function generateCustomID(alphabet: string, length: number): string {
+      let result = "";
+      const characters = alphabet.split("");
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters[Math.floor(Math.random() * charactersLength)];
+      }
+      return result;
+    }
+
+    const alphabet =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const id = generateCustomID(alphabet, 3);
+
+    const randomNumber = Math.floor(Math.random() * 10);
+
+    return `ezpump${randomNumber}${id}`; // The whole username must be max 10 characters
   }
 }

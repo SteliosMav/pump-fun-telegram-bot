@@ -11,7 +11,8 @@ export const PUMP_FUN_GLOBAL_ACCOUNT = new PublicKey(
   "4wTV1YmiEkRvAtNtsSGPtUrqRYQMe5SKy2uB4Jjaxnjf"
 );
 export const PUMP_FUN_FEE_ACCOUNT = new PublicKey(
-  "CebN5WGQ4jvEPvsVU4EoHEpgzq1VV7AbicfhtW4xC9iM"
+  "CebN5WGQ4jvEPvsVU4EoHEpgzq1VV7AbicfhtW4xC9iM" // Previous
+  // "62qc2CNXwrYqQScmEdiZFFAnJR262PxWEuNQtxfafNgV" // New
 );
 
 export const JITO_TIP_ACCOUNT = new PublicKey(

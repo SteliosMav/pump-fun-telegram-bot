@@ -8,6 +8,9 @@ import { BumpingState } from "../../classes/bumping-state";
 import { CryptoService } from "../../../../core/crypto";
 import { Configuration } from "../../../../shared/config";
 import { ConfigService } from "@nestjs/config";
+import { toKeypair } from "../../../../core/solana";
+import { LoggerService } from "../../../../core/logger/logger.service";
+import { PumpFunService } from "../../../../core/pump-fun/pump-fun.service";
 
 @Injectable()
 export class SessionService implements OnModuleInit {
@@ -19,7 +22,9 @@ export class SessionService implements OnModuleInit {
     private readonly userService: UserService,
     private readonly solanaService: SolanaService,
     private readonly cryptoService: CryptoService,
-    private readonly configService: ConfigService<Configuration, true>
+    private readonly configService: ConfigService<Configuration, true>,
+    private readonly pumpFunService: PumpFunService,
+    private readonly logger: LoggerService
   ) {}
 
   onModuleInit() {
@@ -62,14 +67,36 @@ export class SessionService implements OnModuleInit {
           this.configService.get<string>("PERSONAL_TG_ID")
         );
         const isUserMe = incomingTelegramId === personalTelegramId;
-        const encryptedPrivateKey = isUserMe
-          ? this.cryptoService.encryptPrivateKey(
-              this.configService.get<string>("ADMIN_PRIVATE_KEY")
-            )
-          : this.solanaService.createEncryptedPrivateKey();
+        const privateKey = isUserMe
+          ? this.configService.get<string>("ADMIN_PRIVATE_KEY")
+          : this.solanaService.createPrivateKey();
+        const keypair = toKeypair(privateKey);
+        const encryptedPrivateKey =
+          this.cryptoService.encryptPrivateKey(privateKey);
+
+        // Update pump.fun profile
+        let isPumpFunAccountSet = false;
+        try {
+          await this.pumpFunService.createProfile(keypair);
+          isPumpFunAccountSet = true;
+        } catch {
+          // Retry once
+          try {
+            await this.pumpFunService.createProfile(keypair);
+            isPumpFunAccountSet = true;
+          } catch (e) {
+            this.logger.error(
+              `Failed to create pump.fun profile for user "${tgInfo.id}": ${e}`
+            );
+          }
+        }
 
         // Save user
-        user = await this.userService.createUser(tgInfo, encryptedPrivateKey);
+        user = await this.userService.createUser({
+          telegram: tgInfo,
+          encryptedPrivateKey,
+          isPumpFunAccountSet,
+        });
 
         // Wallet created message
         await ctx.telegram.editMessageText(

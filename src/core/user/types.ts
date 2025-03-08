@@ -62,6 +62,7 @@ export interface UserVirtuals {
 
 export interface UserMethods {
   getPrivateKey(): string;
+  hasPassFor(mint: string): boolean;
 }
 
 export interface UserStatics {}

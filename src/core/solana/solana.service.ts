@@ -48,9 +48,8 @@ export class SolanaService {
     private readonly cryptoService: CryptoService
   ) {}
 
-  createEncryptedPrivateKey(): string {
-    const privateKey = bs58.encode(Keypair.generate().secretKey);
-    return this.cryptoService.encryptPrivateKey(privateKey);
+  createPrivateKey(): string {
+    return bs58.encode(Keypair.generate().secretKey);
   }
 
   getBalance(publicKey: PublicKey): Promise<number> {

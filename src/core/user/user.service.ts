@@ -14,25 +14,18 @@ export class UserService {
     return this.userRepo.find(telegramId);
   }
 
-  createUser(
-    telegram: TelegramInfo,
-    encryptedPrivateKey: string
-  ): Promise<UserDoc> {
+  createUser(user: Partial<UserRaw> & UserRequiredFields): Promise<UserDoc> {
     // Assign role
     const personalTelegramId = Number(
       this.configService.get<string>("PERSONAL_TG_ID")
     );
-    const isUserMe = telegram.id === personalTelegramId;
-    const newUser: Partial<UserRaw> & UserRequiredFields = {
-      telegram,
-      encryptedPrivateKey,
-    };
+    const isUserMe = user.telegram.id === personalTelegramId;
     if (isUserMe) {
-      newUser.role = "ADMIN";
+      user.role = "ADMIN";
     }
 
     // Save user
-    return this.userRepo.create(newUser);
+    return this.userRepo.create(user);
   }
 
   updateSlippage(

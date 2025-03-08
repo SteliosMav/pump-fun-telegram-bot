@@ -65,19 +65,16 @@ export class SetTokenToBumpScene {
     );
     const hasSufficientBalance = userBalance >= requiredBalance;
 
-    // if (!hasSufficientBalance) {
-    //   // === Insufficient Balance ===
-    //   const bumpPrice = this.pricingService.calculateBumpPrice(
-    //     user,
-    //     mint
-    //   );
-    //   const message = this.viewService.getInsufficientBalanceMsg(
-    //     toSol(requiredBalance),
-    //     toSol(bumpPrice)
-    //   );
-    //   await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
-    //   return;
-    // }
+    if (!hasSufficientBalance) {
+      // === Insufficient Balance ===
+      const bumpPrice = this.pricingService.calculateBumpPrice(user, mint);
+      const message = this.viewService.getInsufficientBalanceMsg(
+        toSol(requiredBalance),
+        toSol(bumpPrice)
+      );
+      await ctx.reply(message, { ...DEFAULT_REPLY_OPTIONS });
+      return;
+    }
 
     // === Start Bumping ===
     ctx.scene.enter(HomeAction.START_BUMPING, { mint });

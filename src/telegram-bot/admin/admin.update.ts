@@ -8,7 +8,7 @@ import { AdminGuard } from "./admin.guard";
 @UseGuards(AdminGuard)
 export class AdminUpdate {
   @Command(AdminCommand.ADMIN)
-  async onRenderInfo(@Ctx() ctx: BotContext) {
+  async onRenderAdmin(@Ctx() ctx: BotContext) {
     ctx.scene.enter(AdminAction.RENDER_ADMIN);
   }
 
