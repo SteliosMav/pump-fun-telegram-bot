@@ -14,7 +14,7 @@ import { LoggerModule } from "./core/logger/logger.module";
   imports: [
     LoggerModule,
     ConfigModule.forRoot({
-      envFilePath: `.env.${process.env.ENV}`,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
       isGlobal: true,
       validate,
     }),

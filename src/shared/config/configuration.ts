@@ -2,9 +2,9 @@ import { IsEnum, IsNumber, IsString, IsNotEmpty, IsUrl } from "class-validator";
 
 export class Configuration {
   @IsEnum(["development", "production"], {
-    message: 'ENV must be either "development" or "production"',
+    message: 'NODE_ENV must be either "development" or "production"',
   })
-  ENV!: "development" | "production";
+  NODE_ENV!: "development" | "production";
 
   @IsNumber()
   PORT!: number;

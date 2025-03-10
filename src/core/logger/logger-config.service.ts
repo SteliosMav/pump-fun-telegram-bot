@@ -20,7 +20,7 @@ import chalk from "chalk";
 
 @Injectable()
 export class LoggerConfigService implements WinstonModuleOptionsFactory {
-  private env = this.configService.get<Configuration["ENV"]>("ENV");
+  private env = this.configService.get<Configuration["NODE_ENV"]>("NODE_ENV");
 
   constructor(
     private readonly configService: ConfigService<Configuration, true>

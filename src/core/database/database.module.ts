@@ -10,7 +10,8 @@ import { Configuration } from "../../shared/config";
       useFactory: (configService: ConfigService<Configuration, true>) => ({
         uri: configService.get<Configuration["MONGO_URI"]>("MONGO_URI"),
         autoIndex:
-          configService.get<Configuration["ENV"]>("ENV") === "production"
+          configService.get<Configuration["NODE_ENV"]>("NODE_ENV") ===
+          "production"
             ? false
             : true,
       }),
