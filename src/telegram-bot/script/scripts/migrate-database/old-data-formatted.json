@@ -1,0 +1,4778 @@
+[
+  {
+    "telegram": {
+      "id": 7607729063,
+      "username": "pump_r_bot",
+      "firstName": "Telegram Solana Bot",
+      "lastName": "",
+      "isBot": true
+    },
+    "bumpSettings": {
+      "amountInSol": 0.1,
+      "intervalInSeconds": 1,
+      "limit": 3,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/LqZ1AY+5N5vwGfmJOF65q7INTZC6vB8m60eMe1PLF+gDYWirb9utnpFsAmqRk035HWbo6w1Or4NqSwn/U8X+qsdco4/PsmzZuajk919C8vFZRUZ31gSt7QsxBKWmpDOyoumjAeH+1yQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-11T09:40:32.520Z",
+    "updatedAt": "2024-12-26T12:57:34.852Z"
+  },
+  {
+    "telegram": {
+      "id": 7921947176,
+      "username": "",
+      "firstName": "Ntinos",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/Cc2iLlV5ElEX2k2HN0YlGIEg74OJLeJxwb6j0VTr40guG8K48V6SKpScvtvEVpirNwfZwsnssDCvU9rNwszyQAgxvu1neYOY7U2TEJAOLTiwB+SuIvGtyR70ZEkgrRY2dZNfJYj4FZQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-11-28T07:52:11.676Z",
+    "paidBumps": 37,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-14T14:44:36.994Z",
+    "updatedAt": "2024-12-26T12:57:35.531Z"
+  },
+  {
+    "telegram": {
+      "id": 7628783700,
+      "username": "",
+      "firstName": "Nina",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 15,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+fkyNNoOTlsgx+YmKZt7WJjtUpgWBio4QRNcDFFd0ypsPNQbKJMZMah/okukziyiMFjQrNIABtHaXjrzsJRn2d/biG9y6FaVvLb/MWvue5ZAh7EwAJWaA/7Y3i2S8SpXiRuxkQrs2MaA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-11-28T07:52:01.702Z",
+    "paidBumps": 15,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-17T15:14:41.575Z",
+    "updatedAt": "2024-12-26T12:57:36.188Z"
+  },
+  {
+    "telegram": {
+      "id": 7256064596,
+      "username": "",
+      "firstName": "Manos",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+Uwj/86sOC7MLD6dARHZy14oImxHZvBlZZA0z+hxU/lPBEXEppRbtEyy2NeMiLmPCWO3mfqFuQvML8CjQi5WDHNowCsP0f1LSqF1rmHhTYQeng+3dsQXoIj6g9b7vke108wsoAaboJFg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-08T11:34:45.254Z",
+    "paidBumps": 26,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-22T13:45:32.701Z",
+    "updatedAt": "2024-12-26T12:57:36.913Z"
+  },
+  {
+    "telegram": {
+      "id": 351504731,
+      "username": "azhmakhanbetov",
+      "firstName": "Erbolat",
+      "lastName": "aifccrypto",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/1qo83qJz9fN1LrSEXnIiRdVm/s14YijeSZFymDyjmLzCuFiWm8wpJRhgaTfcKRBKKVYWGW0LnCgEe2LhKC9aNaPsKM/0mDxye0Pm8k3MB1h3tw27IOCIT0wzIWFLo0QZER4qhgFtbQQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-23T09:35:37.073Z",
+    "updatedAt": "2024-12-26T12:57:37.985Z"
+  },
+  {
+    "telegram": {
+      "id": 5463569231,
+      "username": "SWOOPX",
+      "firstName": "WESTCOAST DON!",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.05,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19qipUfRsCWhXfO/DLF/W17pB/f7tdJoXQ4N12jueisfx4AzGxLPOX+LMo1iB9pawjviB+C+UmYMaVs+Sy3PWgX8AVgo613VzIXlnQhi+ams5V5Gmyaj+36dI+wL0vgjXaq2PE/ogZMhw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-25T10:11:30.207Z",
+    "updatedAt": "2024-12-26T12:57:38.630Z"
+  },
+  {
+    "telegram": {
+      "id": 8012286881,
+      "username": "",
+      "firstName": "Menia",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 15,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/9HDkX2IBtuPELv6qno5nLMdeFSU8+HCBGze3xZ3J7xnyHE5a4cp99FdI0YL4TavofY2zuvKKlr2FtgZCGG5qNDZ+aSfikYwg9qAPy1NlCBGEHT2gGcfkyzNwPGDw7icmiypiWb4dI8Q==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-11-28T07:52:14.372Z",
+    "paidBumps": 35,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-25T14:59:42.725Z",
+    "updatedAt": "2024-12-26T12:57:39.332Z"
+  },
+  {
+    "telegram": {
+      "id": 5443919850,
+      "username": "detect1234",
+      "firstName": "Pex",
+      "lastName": "Nope",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.05,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19yqf3ckPoRXZNCPZTkqEGb4K6IZyuGlwBLUROUaCIynLt40Oqm6dDEn/OaeopIM2XfdeyovUgUQxB83zCSzQG52ekULFjJZ1FmR5A3zBGLfSuLaDskOISorGGmXXI9syREdKkGXVpYgQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-26T07:28:10.652Z",
+    "updatedAt": "2024-12-26T12:57:39.996Z"
+  },
+  {
+    "telegram": {
+      "id": 6084011491,
+      "username": "Nokiahh",
+      "firstName": "Nokia 3310",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 20,
+      "limit": 200,
+      "slippage": 0.01,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18cbeCkzZ20axJrn+mpvevnhyDfcLVuQb3j6XlRwlvE9ozdqOd8qPePwi13ydZ9IWeXrZbfktkflRzzaQZU6dgh/6rueE+bVejJmhBmUDm0A8hDBY6Mfv+PeHz4+v8+wF0sIsxwIpCxjg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-07T23:34:02.513Z",
+    "paidBumps": 316,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-29T12:31:29.887Z",
+    "updatedAt": "2024-12-26T12:57:40.649Z"
+  },
+  {
+    "telegram": {
+      "id": 6416185160,
+      "username": "nikos_dimi",
+      "firstName": "Nikos",
+      "lastName": "Dim",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 6454.56,
+      "priorityFeeInSol": 456456
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/2yhrtxf/UHxFXdkW/Mx5WHdddidNS80JcKOw2KMc/WynsigFAnPm6IAHMY+ibYpjfEnekrbq/V6RD8tGqiPfhezEQPBLFIhxbEGtzGJ0Zn82bewJhe/TWmnbiMCK4WbEoVMyjAJHKRA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 0,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-29T16:55:03.686Z",
+    "updatedAt": "2024-12-26T12:57:41.298Z"
+  },
+  {
+    "telegram": {
+      "id": 5056325745,
+      "username": "Gabiontheflux",
+      "firstName": "Gabriel",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/YsWiufNvzhnLhVoAN8E0B0OaQA51kyGPLanRTIOl2Sveo0xtj2ycLpCPm/n01oHp/MjZH+niaInqQ2VgXqTiEntL3uPGn9+gEJqg21Vv+CVV9R4ttsBQdkmyBdp6YRupON66TVdxxZw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-11-30T21:31:54.605Z",
+    "updatedAt": "2024-12-26T12:57:41.924Z"
+  },
+  {
+    "telegram": {
+      "id": 6101782915,
+      "username": "Jelaniabdull",
+      "firstName": "jelani Abdul 🐾",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19LZmCZD01RHELmnc5yHtlRr7VE7AQgwQkuslItTXCFryR6lQFOgvOwE40vHHNoFd7mCloI+9qgnm4fClkVrR611V/HAa22FU4NY2gKOPlFDA3iSnM7A3gLgBaXKpLPAvCYj9L+pvV6SA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-01T10:55:04.795Z",
+    "updatedAt": "2024-12-26T12:57:42.627Z"
+  },
+  {
+    "telegram": {
+      "id": 7826794460,
+      "username": "",
+      "firstName": "Bonnie",
+      "lastName": "Bonnie",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+fwcreLBaZzf5pqqtFUqYORFd0i887jh5CDBeZsxh82/qgNsgtV4J8Sye5K7Le0+WrFpoxDHFJFfIUbf2IRarbeC/puPLjJ40COzbbshIMWMBKOgeCW7lVrua61KuSUPjWoEo29BE4Rg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T05:52:09.888Z",
+    "updatedAt": "2024-12-26T12:57:43.281Z"
+  },
+  {
+    "telegram": {
+      "id": 6652414689,
+      "username": "marketingtokentrending",
+      "firstName": "Marketing Token Solana",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18PEji0S/T/T6OEEjR8Rp2RNaiNobZQtAl9QMLyWK1Ekt8kQniD25AqF69u+heW4uVnAMubPnkqyJrgHUdvEx9dxTBUBSWsGyMncvbG9NFjRKZsgWI68S+AA2ZpY3nQJJSO/LJe+LKQsA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T14:26:51.497Z",
+    "updatedAt": "2024-12-26T12:57:44.303Z"
+  },
+  {
+    "telegram": {
+      "id": 7044584303,
+      "username": "",
+      "firstName": "Raymond",
+      "lastName": "Hagg",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/8zOmY+xK8MiuwJlbHNwwKQzZ/Uo89bk0xig4ZkzTWg+6xTDIsoUCtD+fAzpitlvfnD+iz/1X9YAQYPk+DINdtsQnIQPmEGJXdTEKXHIafmOmrj5G/GqocukrHsmODVWzVCtgqa4sx4w==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-08T08:08:18.375Z",
+    "paidBumps": 20,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "AQUaGPGAyiNfnXm9GDaiEeNqjqyR1YuzQQgjzbHspump": {
+        "createdAt": "2024-12-08T08:00:03.611Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-02T15:06:58.745Z",
+    "updatedAt": "2024-12-26T12:57:45.264Z"
+  },
+  {
+    "telegram": {
+      "id": 7335565066,
+      "username": "",
+      "firstName": "Robert",
+      "lastName": "Rainer",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 100,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+u2dLzs03CZFmhnQFwnYQNsHKjcsMsXrctvjk5t+Wu2WKi/uQawqgNaXd7RHdobfXQpI65nm83piYLiceh33C6qwgUTmrBMCJwMrxJXMZqsWPNzBtmVa5gyAkdKp6RypnENu4lPdOP7w==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-02T20:49:21.353Z",
+    "paidBumps": 100,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T15:09:31.322Z",
+    "updatedAt": "2024-12-26T12:57:45.957Z"
+  },
+  {
+    "telegram": {
+      "id": 832286374,
+      "username": "crypto_sestra",
+      "firstName": "eqiewu",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 100,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+DwGCYLkphlBCVIDOL5J5TpXy/9d6eem7GW3USU0RxRcTBod10/8rvTwcNLl49HPCoZtJiYYc2jhtf4Hots4xVQ+fGXoSLf/AMzUdhpFzSJxXM2lH0Nyq1+zOQ6cCbcP/yq8IWgYsnBw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-03T19:54:30.499Z",
+    "paidBumps": 410,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T15:44:58.600Z",
+    "updatedAt": "2025-01-03T16:49:32.816Z"
+  },
+  {
+    "telegram": {
+      "id": 7054912617,
+      "username": "h3ntaiibioticz",
+      "firstName": "Ayane",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19jCfcmYtvLB1iZDZhH8GKoQziFRqcIdgXK2QnDVgv5j71MOJ9cUEzv5XqVMA0joV+IfF0cpdiwbYIFvztDamg7MgVo7aqqUknuNT3Fxuv94vd/emhQjxWrtNCWOhPd4MPjMW+4Xlw+Wg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T16:13:42.335Z",
+    "updatedAt": "2024-12-26T12:57:47.333Z"
+  },
+  {
+    "telegram": {
+      "id": 1527588273,
+      "username": "halilkrds",
+      "firstName": "Halil",
+      "lastName": "K",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+sa4u9DWJou1lc5yU2yFPAELGv+xjtLUHXZRXnGk48jB4NSdu2zfjE3yqrAjp/oAVo/uX9mJJtWp3ogqNDsFdv2j9BjP4cfF9Q2Ye9+4SdSTV/VCZ8Mlg/8LZnykgl2VnBBKhRiH6xRw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T16:34:25.239Z",
+    "updatedAt": "2024-12-26T12:57:48.037Z"
+  },
+  {
+    "telegram": {
+      "id": 6621085152,
+      "username": "iHdKwB",
+      "firstName": "MERCEDES C63 OWNER",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 5,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18A0VW85gg0U+PM0qV5dgaTG62w+XRje4NCLQxxsm17hqEAXUhG2aom+B9BdwgqwPQ0ibc2b61cypKDDJG6ZRRChvZS1bfa+WpqPvv88GuCsomfZK4oThhnufgFApXv05kjNr/Pqpytxg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-02T16:50:54.042Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T16:35:28.903Z",
+    "updatedAt": "2024-12-26T12:57:48.717Z"
+  },
+  {
+    "telegram": {
+      "id": 5827078322,
+      "username": "Hushpuppirefunds",
+      "firstName": "Hushpuppi",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19a2LjyD0B2ykRtiRJ+Q6KMlQ5ll3D2p/VXPx9Ls+hzhsW+XSyb+4w5oKI6/k/kj4vcw3yZIFX6szVArPqhWuOfGOiiEabKyh0tFIFrr7hC4/A8rsN23MTPqNYcSIQ8mVsXZITrKOSmVA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T16:49:53.171Z",
+    "updatedAt": "2024-12-26T12:57:49.416Z"
+  },
+  {
+    "telegram": {
+      "id": 5081812003,
+      "username": "nitlk",
+      "firstName": "Нит",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+Rn4XkWKaZrIaXWrzyonYZfOHKHL7PRq+Xl+s3ASkSDZvyfkUXl+IBLtiAkYxcHFUc2yInUCe1XH6iFSCEMgC99M7N99Qm4ToNuN7OJ3ydSHISHKca64Vwu00OCQMnRLd1LaYLjT0kjA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T17:27:21.551Z",
+    "updatedAt": "2024-12-26T12:57:50.098Z"
+  },
+  {
+    "telegram": {
+      "id": 7291331094,
+      "username": "j0hn3m",
+      "firstName": "John",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/EBeeKAvSTFxcwfmzjnGqfpJCJXEz/5jmKynY5/1SbzoX55CzTiiYgOIqAHAinmPd+BglXuHQ/y02lVIl5akFBILgX/5lThMekn3ZQo+nh7LjS7UqoU4UqDf/FD2vbG32DjAldQXkK1Q==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T17:27:58.616Z",
+    "updatedAt": "2024-12-26T12:57:50.788Z"
+  },
+  {
+    "telegram": {
+      "id": 6921215255,
+      "username": "jeanpierretapin",
+      "firstName": "GANDALF",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18TMwnlsU1MePYKGUkmS3eygFduwGQClKzvkCuaJ2TeD0MG6qb6T8bbOtVK5ztcDy29BqIrFr+U6zLZOYm44rD0UmrNVxxkGbCK+sUXkWRZ8ajQc0/NpXC+gKbK5DOrfx3fMPtmaehpXg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T17:57:46.164Z",
+    "updatedAt": "2024-12-26T12:57:51.465Z"
+  },
+  {
+    "telegram": {
+      "id": 485202029,
+      "username": "honcsok",
+      "firstName": "Attila",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+bGQsCN/9valMGm4cEWYqCCHDI97kj0rRH5d8fqRDppu5rIoWZB8oozsrGB1IW5dMSTVSTL+4v5qzXgGLSGFPiK1cOegBqCRtZgRhvtzk0ct+Cx+O5HXGgJIvb2vFHdZF1sAdUQyq/hQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T18:12:44.716Z",
+    "updatedAt": "2024-12-26T12:57:52.150Z"
+  },
+  {
+    "telegram": {
+      "id": 5479041508,
+      "username": "",
+      "firstName": "Matys",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+yFwLGLtx32JeYsCrSqXTEG569SkKXpecN2oGAqOA3JjhOo+C4CD206RLRMYJdIkKSHSUo/qquHGI+dPtnqsR0zvz6cz/wjocGkgfGa2QM6e/dszYUOjD6nnYIwR8L7QbeeOiaFWcNtg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T18:49:19.892Z",
+    "updatedAt": "2024-12-26T12:57:52.826Z"
+  },
+  {
+    "telegram": {
+      "id": 1514800986,
+      "username": "offsergi",
+      "firstName": "Sxrgi 🫧",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19maXXWGZsQKSCix9DaBTU9mFI8bBPzt+e8L97nn5UZ8omFn96wIfewL/C34RQHWjnBMT7XUbSUacIuPE+z8jaKVz9tGI4JVp2iwmM7knONtAWZoPMwSMu8oeuynH02CZ9iHHZkCEG8zQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-02T18:49:36.896Z",
+    "updatedAt": "2024-12-26T12:57:53.609Z"
+  },
+  {
+    "telegram": {
+      "id": 508835316,
+      "username": "Demchenko209",
+      "firstName": "Максим",
+      "lastName": "Демченко",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/cyAgh5hDoFZWle0CLXhxSmEIMTSCsNuu4FJ5Q0AzpwU9t8cELd1ck+CyvR38KB273c5W9JdOTuKlicYfg12BkGmEeB91mSOtAes+70jD65HSBTdrjvNYritzMd0cisobxWad3bmgr+A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T00:09:53.206Z",
+    "updatedAt": "2024-12-26T12:57:54.923Z"
+  },
+  {
+    "telegram": {
+      "id": 5349013032,
+      "username": "Axeel_010",
+      "firstName": "Axeel 🐾 Ⓜ️ MEMES SPELL✨ 🦉🐐📦 Bums 🐈‍⬛",
+      "lastName": "🐾 BabyDoge PAWS PLUTON",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 15,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18SbjB8Y+nwNppTPOFFoG7yDrNMc53Y5ZlLaElYMqTWCKx4sctOu9WpafcD9B6IyPyv6MNwoq8GuGUesbu60t6ZAPS8BZ2/8feD3kAUTtFRc3GzgNx7SeEj5jAiirgcvKS2YHGtjFJINg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "2xWwdy16zEjnKftFfjNBbR3vkmUwecLEWi1iR2CLpump": {
+        "createdAt": "2024-12-14T09:09:27.967Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T00:25:24.174Z",
+    "updatedAt": "2024-12-26T12:57:55.549Z"
+  },
+  {
+    "telegram": {
+      "id": 1057121608,
+      "username": "WhoisAlex_8",
+      "firstName": "Alex",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+JPYyG1htVTKPROYuKIRZ0bPOUksbXRvVP5DBgD+oA0emwB5AVsdaGxSHKBDxUuR4WoQ3m8VDNu0wn/7EviYrDY/JkdQKpcaNd6VxFhthAQoTL5Zcue6KHuvoLU34BwudDqe57hlqgKA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T00:41:56.208Z",
+    "updatedAt": "2024-12-26T12:57:56.212Z"
+  },
+  {
+    "telegram": {
+      "id": 5291246022,
+      "username": "t_madmax",
+      "firstName": "Toxa",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX186lk9pxJ6mo7u96IqzhDScXmIDv1mDWDF1QnQeb75NCQNRfM6wwn6cP64NV2C4Pa+W1qK3/kjZLYMZzWAlhksLx9qJoH/fAP05o1XMrR/QN5DNetpyJk4XU/7if05jig4Q80gUFkOLTA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T00:56:08.039Z",
+    "updatedAt": "2024-12-26T12:57:56.864Z"
+  },
+  {
+    "telegram": {
+      "id": 581685779,
+      "username": "intertwone",
+      "firstName": "Olsen",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX194ZoaiLtdDSbnVyUP/+QX8v9ggqA+vqCC5nfSmISfn1ttzndcZ2QJqkROD3D+6k0nCFMfCfYB6yJOw9odB3MXhOwrjFhciDGIUjDNjxFil3l2FsQLQ3qEsU4A41/On7GersxG7M5Fewg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T01:15:14.478Z",
+    "updatedAt": "2024-12-26T12:57:57.546Z"
+  },
+  {
+    "telegram": {
+      "id": 5603628972,
+      "username": "rafaelccruz",
+      "firstName": "Rafael",
+      "lastName": "C",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/k48h/LMgxQpx1WNhWON90o0GkOaQlqs0h1I6pI9Q6ceayF0sEx9juyJjEymig+9se/idPBJmzpI1cjfgdOBe3x6cu8sDev7MsR2Cgw+yp2V5Qc422XVUqsaJ+GQgHTNUuUBhjHbDh7A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T01:42:28.659Z",
+    "updatedAt": "2024-12-26T12:57:58.196Z"
+  },
+  {
+    "telegram": {
+      "id": 5814055807,
+      "username": "madurotoken",
+      "firstName": "$$$$ 💈",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.05,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18NY50x2JV+Y4taNqQ33pVkhOictZTb5rxIEly0TydQFxlFZvId+kC7fZoZcf/E2dbVuRFgpxCSrAqOUyRAb0sfYeNck29cr0iv05a/7jXRnXLOMs4n825vL0emByfJ9tcP3KnDO2BlzA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T08:22:21.020Z",
+    "updatedAt": "2024-12-26T12:57:58.852Z"
+  },
+  {
+    "telegram": {
+      "id": 1905572302,
+      "username": "khan_on",
+      "firstName": "Khan",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX188Fso+zvmZSpsQNuGinGwxvJQyAfASaIBs1VjMrdWulzqK9sTTG+VxBtPqcPXvp/WOSy0ta96SfXuujiIKEEoRx3269T/0V9meamrxi2PbSP5V84mgdzY3xGiKyeZdTpY0go4ZussKLA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T11:16:55.717Z",
+    "updatedAt": "2024-12-26T12:57:59.537Z"
+  },
+  {
+    "telegram": {
+      "id": 5156872018,
+      "username": "dv_s69",
+      "firstName": "DV",
+      "lastName": "S69",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/6XRcMhXF3ikQrNkiGcJ6qircUYIoJ5pZOcviYzZ6Wf03kOsfo3LMxK25OEK4LbtP367kiMqL706JZ6x9fZ5XHgATGPWLOQTH/adHcP6ldSRhPqTcHPYltmbtto2/1g9XxuvVmDbksSA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T14:04:00.669Z",
+    "updatedAt": "2024-12-26T12:58:00.184Z"
+  },
+  {
+    "telegram": {
+      "id": 7167753415,
+      "username": "Whatevermang",
+      "firstName": "Ten",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 3,
+      "limit": 250,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18vYZApIS5m/Kb6mi2YKcphUgUUDd5sLAC2j/mMwe6lQ5injf8kLm2IYxGqo7EATzgQF5M35Oy4458GL1dWPDgFPcSDLOX8W5gchvdOGNsdeLX3GGfKX8tQX3p0HI8tC17QcVKRM9H8+Q==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-25T14:09:28.765Z",
+    "paidBumps": 1932,
+    "role": "USER",
+    "totalTokenPasses": 14,
+    "usedTokenPasses": {
+      "GmRnV9xK5SPiwa8ZtSSB43eK7fsLAFi4A2rkhrEVpump": {
+        "createdAt": "2024-12-03T16:39:47.086Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "9fdspUeASiJYY6Uoodys85VMhu8AbUBcYxr7H1mHpump": {
+        "createdAt": "2024-12-04T02:38:13.457Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "7XSFwGstXuTqcxem56ncsUwdbqg6RZUP8bAg84gzpump": {
+        "createdAt": "2024-12-04T03:10:06.962Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "4WcSijmuyxTCohtGQ4B2viQGwnLs4kppjJ7whLmZpump": {
+        "createdAt": "2024-12-04T07:14:36.960Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "LFnBxtvUDJXP17zm6xSBsEJ1HiSv9q36RAtqpjipump": {
+        "createdAt": "2024-12-06T01:31:53.705Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "eqRcMzS4Z1v7VwVayTYnxJMWMz9tnSMMYA54PhNpump": {
+        "createdAt": "2024-12-06T16:35:03.590Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "6TZTtgfPzSEtuoNgYkgZKaJ8t7yFssg9H5y7HCAepump": {
+        "createdAt": "2024-12-12T11:46:16.378Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "ConcX7Kh13WWfXUaJXty2ZkcTUm73CLphvHdzb4Zpump": {
+        "createdAt": "2024-12-12T21:19:21.139Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "HL2FrRrToimKDdaJzPvSDPYuBvn2xqQsMuortUvvQ6tZ": {
+        "createdAt": "2024-12-13T07:25:39.970Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "3nXRjwCbD3hfdzGpHRovdjduN8eRWtY928YcNKcWpump": {
+        "createdAt": "2024-12-16T05:49:47.769Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "4bQbDVKUaRpwFgcshuTijbhxHoio8gGTjhdsEfDMpump": {
+        "createdAt": "2024-12-18T06:27:27.329Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "CMbb4FFsqRWYj1mU6i7rD8f53wgZUmbf6PgzrNhepump": {
+        "createdAt": "2024-12-23T16:37:28.246Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "E591DqH7aT6VcKoPyh39BNZ3QvUm8Tbob65hhg9Xpump": {
+        "createdAt": "2025-01-25T13:55:22.208Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T16:31:31.971Z",
+    "updatedAt": "2025-01-25T14:09:28.799Z"
+  },
+  {
+    "telegram": {
+      "id": 6346731394,
+      "username": "",
+      "firstName": "B",
+      "lastName": "P",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.05,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+rkvXqryUIi8rV3o6Z1T/hwFjFR2Y7/lO7azDXiEKVF69TNNuJKH7ebQtVl3u/tvZbWgbUIWh4uGzvh/jY8E/6rVKvX7/kWjU0UYdHoNMAn2ox/y8EAEcQuXBSeClaE2XbCZWQQJsAhA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T17:13:44.326Z",
+    "updatedAt": "2024-12-26T12:58:01.550Z"
+  },
+  {
+    "telegram": {
+      "id": 6399693923,
+      "username": "J5ontg",
+      "firstName": "J",
+      "lastName": "P",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18soPwLNeSHnKPdsAjVM3wF1LH0QG/sdhoAcexRn1n8Xj+yb1QFmWLpf5lFKH3ZWoCzstgWWJ4X00o9qhU0mjLQ4a5ch0AIlK2OK9J0/Go/2EKUNlSPx8a69MimQS0mTJzLWC8N1FAFfQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T19:34:13.761Z",
+    "updatedAt": "2024-12-26T12:58:02.243Z"
+  },
+  {
+    "telegram": {
+      "id": 1733263922,
+      "username": "",
+      "firstName": "FULK",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 20,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19Oyasaq6FMZFBsAolmGWv1+sY1Mq8IPfQbfaMj9O2Pa9FT2m0c6LxegEnlJrsST8I7TrcxH75aNMlBXfpKDgbu7WxwdMtZmVQyLonIe31VJ68oPlKrzhNOmu05rCBUd38z88uAzlZZuQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-06T18:46:12.845Z",
+    "paidBumps": 240,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "9tSE4juJkyjTqR1ePwSVXugiNK9SugqQ4hSgRzCbpump": {
+        "createdAt": "2024-12-06T18:06:37.532Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T19:36:12.908Z",
+    "updatedAt": "2024-12-26T12:58:02.967Z"
+  },
+  {
+    "telegram": {
+      "id": 1063567820,
+      "username": "Natig_Ahmadov",
+      "firstName": "Natiq",
+      "lastName": "Əhmədov",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX187gBH+xtG5iy0oM8vtxaxbNI6BG7Z6Wnh6o98J2wza002cBtxNrQN7XSDvyj+lo1gbOSqimtmPJTnAo28NslozrKgvoGfZkeXVcuqepmwdV0fX6n0Uq3Viupbbrb28/8uzbudlnDzrjA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T19:42:01.822Z",
+    "updatedAt": "2024-12-26T12:58:03.619Z"
+  },
+  {
+    "telegram": {
+      "id": 1639499374,
+      "username": "ali_zzz_zzz",
+      "firstName": "Alex",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18T8/Rq+Ow1HYnp5kNGr5jTIPZymnrJF2Wt85d8VGfn6euFuJxJFJB0EYb7MEf0yKmVJ7wABYwS54TiWN5UYVRiuhHfnC1i/qKK2PCQAnTkb4oWXT95HHAMkR1wRmivrUw49e3mDMlgiA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T19:46:29.791Z",
+    "updatedAt": "2024-12-26T12:58:04.301Z"
+  },
+  {
+    "telegram": {
+      "id": 1254932405,
+      "username": "BeyondEveryone",
+      "firstName": "Bait - SpoofX",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+BNguMpYjCuZVyQIjyuMCT9IUNVADab7lbfSNNlvTCWxCa3oYUMhekqtyvRySPTMBNQ/eTVG/ltSEqN0nsqqcHYpMNQ20ziX3ntBLVK0RnniFAbAMR8lfI+pnGLm0K0Dw28zmf0ohFoQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T19:56:37.540Z",
+    "updatedAt": "2024-12-26T12:58:05.004Z"
+  },
+  {
+    "telegram": {
+      "id": 6126207961,
+      "username": "",
+      "firstName": "Robin",
+      "lastName": "Kovačić",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19D1GHFhnT+vg3hGjxUvZ7Bdqd+xstVoBvYovdZPaCeulvMXKs2VSSp1zrPzHFQiTdB0vr1f2P+iJVymEH1nouLouI4R3TwsTSm31bXTyWfswBJ8H7+11WrCVKcCMi/IvhyOOC3wOdfSg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T20:20:52.404Z",
+    "updatedAt": "2024-12-26T12:58:05.702Z"
+  },
+  {
+    "telegram": {
+      "id": 5509774801,
+      "username": "kitao11",
+      "firstName": "Kitao11",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/73Q5kV7Hd3PIokk84WgKarSu5vgWub7nxJRP81JS4F8J5CBlC8xAqtt7S0v9lwoTLDfX+UC6jRSQhjwOv/XQIvBffPWncFHMgRxg/M6A0SG2RC0DlIgAYtuCsCIWinDTuwqOP5YnSXQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T20:40:13.538Z",
+    "updatedAt": "2024-12-26T12:58:06.398Z"
+  },
+  {
+    "telegram": {
+      "id": 5896604803,
+      "username": "ReficeNFT",
+      "firstName": "Refice",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+J9warFB/Eyz2YDEq+xJWV6wWgrZCJoUOdUQejjYSy9GiFLAN9R/3S/iW270ugJ2RyCyG4httR+9aWQR6gXmM8h4J+J1xAgDkrp/yMsSVMlzXXMQ/NiVtifAbQfKGT0DyUaOJUyg/XaQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "DiwQmEHeD3xtbFTQvwPz39KeDEQMEaCBG39dp23MtJrN": {
+        "createdAt": "2024-12-03T21:00:22.665Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T20:57:07.702Z",
+    "updatedAt": "2024-12-26T12:58:07.071Z"
+  },
+  {
+    "telegram": {
+      "id": 7727394043,
+      "username": "",
+      "firstName": "Erkmen",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18UZ8NpRjaSoCBtaBd8e5PV3jQLiQXh70KQs6h5moiTKEx6uTJdqOmtP8tXf8I4GppWbldI1Q4dYuZ24OvUSxzXIdL+FG8DcPHg1pvWNJ50Mu+qNwgzHRmapsDOJcL+nH6PM0fOCykkNg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "DQY5jAfjGkAgDEtvcZBg61f5rUdbVUDAo6FAsuFzpump": {
+        "createdAt": "2024-12-03T21:16:36.591Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T21:14:20.638Z",
+    "updatedAt": "2024-12-26T12:58:07.734Z"
+  },
+  {
+    "telegram": {
+      "id": 2084401918,
+      "username": "cryptoshizzle1",
+      "firstName": "MasterOfCompliance",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18cAyov7pUXvpopzPZrzaV0IbAgZgKrq29dOGeEdWBrdjU4wyxJfp535HmhqbKAn2dkrpM10ncQuvgBecjXV/Rpa8vqWGKqgstRPQG+lnaD42XmfwLYQ6J/iORO+Zten8+4/XUmAN4Fxw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T21:23:12.083Z",
+    "updatedAt": "2024-12-26T12:58:08.438Z"
+  },
+  {
+    "telegram": {
+      "id": 7456341519,
+      "username": "kaylalovie",
+      "firstName": "Emma",
+      "lastName": "Reed",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.02,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19gKlpycgwfgcrxqvdQrCYrstU1BcRXyD3dsca7VR7JGpsg15/USWsLILewmgCY422WMSENgChiNslH+O9qSEXT5dGAzKsbtwobEaySqj9g4JrImo4MVRQhTc3Y9w2GH0tefItGk8a6bA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-03T21:56:30.950Z",
+    "paidBumps": 13,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "69KqFQsUzmSmXVM9XeFHRXETL5roy7LSsXq5hW39Fxza": {
+        "createdAt": "2024-12-03T21:52:36.135Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T21:43:56.131Z",
+    "updatedAt": "2024-12-26T12:58:09.320Z"
+  },
+  {
+    "telegram": {
+      "id": 6346977657,
+      "username": "pmantheballer",
+      "firstName": "Palmer",
+      "lastName": "Lindsley",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/0NHSUBdrFtxPvgX+zgsoBujrZ8vNrh+dBR2BaK4p2tNGOTgIVv/LPqWAtiEB/NpUyDjXamleYNEv+TwlV+2jTk76cKMs+701oFe4t81iiiHoNmuRnYTp1qDO5sGcvLva5DFJVTnuE7g==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "3fxGTrgGS4XjYTagLZfVxPP3fko5AC33wC9Z5XJ1pump": {
+        "createdAt": "2024-12-03T21:54:49.121Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T21:51:44.151Z",
+    "updatedAt": "2024-12-26T12:58:09.980Z"
+  },
+  {
+    "telegram": {
+      "id": 5870839715,
+      "username": "h4real02",
+      "firstName": "H",
+      "lastName": "A",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+JG9xBF7DTSaEJJWpMUrPYtTwAmep5dXIiTrzgn2layHUq8c/544KiOQ2318E7AP/GwG7rwL6yzKrOJ8Ye01RSXT/D7VrARy82UtqeLmbFuMUTDVQ3Y/jvbcAb/rB7tmZKEKad00xKMw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T22:08:16.464Z",
+    "updatedAt": "2024-12-26T12:59:03.618Z"
+  },
+  {
+    "telegram": {
+      "id": 737013929,
+      "username": "Ayos199924",
+      "firstName": "A",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX190irCw2NCunWDcieaAcGWPP8YJ6O7nXCzqtPBWO2qOY4s/xPdG45Kfw+oG9QEfjBesYOTGEAIYGTULj+ikzpA8CuNLliNC16QceAEAmrBGirTuBBAIg9XO9m5i1Kj6QkacCGCqiuTBFg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "Ag8t2uHN31cznzjCfy9G8YnSfmEAq9DXqsWqwLjajLgC": {
+        "createdAt": "2024-12-03T23:14:01.766Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T23:08:17.844Z",
+    "updatedAt": "2024-12-26T12:59:04.358Z"
+  },
+  {
+    "telegram": {
+      "id": 5623970363,
+      "username": "Cardyx_Admin",
+      "firstName": "CardyX",
+      "lastName": "Admin",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19vuHM0gM2/hLDJPhz3SVN74r6QEcebmldw6Us04xefhb595j/WF02un+Um3+DBaEOwVi93M9MruKU1rH7+ogwh7w1HBRvXuJbZajK+4aNoCyp2fury5RupXWyAtfxeohsst/BwYx4qRg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-03T23:41:26.025Z",
+    "updatedAt": "2024-12-26T12:59:05.046Z"
+  },
+  {
+    "telegram": {
+      "id": 1758892482,
+      "username": "dn1ureal",
+      "firstName": "dn1u",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/M+PO73ZdLYFKaDd/pwJyuyB8JXnIwLBdEbJg/l/7LR8H6OuMgxhFftn6hwmfSLW0qwm9tBAwVYYltCbt0E2w/9nwGpamRGwv5spSfW6N60S7wRGJ64tSV6LBipHHw2nTctoPolhctlQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "DiFqb8PwhTz6MXahxASM8rkDHwCiAw9LWTbFh6N4pump": {
+        "createdAt": "2024-12-04T00:29:13.285Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-03T23:43:35.518Z",
+    "updatedAt": "2024-12-26T12:59:05.701Z"
+  },
+  {
+    "telegram": {
+      "id": 437920746,
+      "username": "tmgbr22",
+      "firstName": "Equipe",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/PWzdTItgTTf3YwCY1UhKauY7iJaR31qA5+8WvXdMEHHbVsAqeyTtPHyxSGnRzXSAt4WveGujlDiq0MjU92yHVnWshw0fLEdBMrY6TlUkBDdNEVNXIxERc7I015j+V1kE+COv0B4KeUg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T01:22:15.239Z",
+    "updatedAt": "2024-12-26T12:59:06.415Z"
+  },
+  {
+    "telegram": {
+      "id": 1262697957,
+      "username": "fardinnnnnnnnnn",
+      "firstName": "fardin !",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18EPbPOs/KGHFcqM05gyg7Ni/1l+H0qhk+YvGvDH8SGCbo5coCxzrbQbx9b/Lutlqj+N6cbDTBslbTM5wMU+iXuDJ9gsW4xtOKgJ9hnC+gvhzaFVu2FQKNXQMKf2UwqUu8S9i+440PUig==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T01:54:57.180Z",
+    "updatedAt": "2024-12-26T12:59:07.111Z"
+  },
+  {
+    "telegram": {
+      "id": 6456958288,
+      "username": "dat_alone",
+      "firstName": "Anton",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19hMOTxfnXuckayzXs7tdh95lOt3xMpFQz3rYYq+pyaiGhopn0+qYx84oI+u0i7O0hYDk1Q16orDzeHGHO/Jr8kJhrZxP+eIvT21nxZTH0hOkZ2l8bzCCfRbscZW7PE76oT2QaBF/92hQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-04T06:54:37.870Z",
+    "paidBumps": 74,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "BVxnAoyFocYo1KrXfcKmew3jiNJtS1GXWsgFPZeTpump": {
+        "createdAt": "2024-12-04T06:22:30.652Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T05:56:27.165Z",
+    "updatedAt": "2024-12-26T12:59:07.753Z"
+  },
+  {
+    "telegram": {
+      "id": 275437013,
+      "username": "sivaram",
+      "firstName": "SIVARAM",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18/FS18yiyB7nbU2ipbDkQjTqvZH0je612O4fIVGK/ESB12uHC5iC0+8Mj1z5bCiwC3pksg6Xg/Q8lWcxOT2K2O41w0H/vYMQ0ox/rYGen51Fu9w+0W279Fm2VABXr0Uwfw1ttNNrbZSA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "CetDGfCg5tuVpXPnaQdCLK4BE8cnXrpJQsCkNjLhpump": {
+        "createdAt": "2024-12-04T06:09:19.485Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T06:07:45.730Z",
+    "updatedAt": "2024-12-26T12:59:08.423Z"
+  },
+  {
+    "telegram": {
+      "id": 2128860501,
+      "username": "pumppilotdev",
+      "firstName": "PumpPilot_bot",
+      "lastName": "Dev",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18tk2zfpHrj7GPpHNmdA7B1AFUDtyLpCDvVYa5seMtgtOBbQIUM/8pkmfy3gSTpYkI+wlU8TqdtcZD5o4NlNEAlK2eQrCyHFzBi+ySxPG+vBgR5zM/35neD9GjO1nNtExOU0oPtzrE+Ig==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T11:50:23.072Z",
+    "updatedAt": "2024-12-26T12:59:09.094Z"
+  },
+  {
+    "telegram": {
+      "id": 1033913902,
+      "username": "canercay",
+      "firstName": "Caner",
+      "lastName": "Cay",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+lzKp6x9X1IDXhkSf+7RWrO9nyVxhPVhR2mj58cEna1K3O9swrOcwu//5pB0BevNmN14NvrJ9HC5KYVVsH865U/zHXnvTAXRGj88oplH533naLETzrmAQ0MsGcxm+WQdjC1R5vWcexgA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "GomrtnYkbVVwVv3xdqwN2hcJN6wLmbMJ2YmVJWd7pump": {
+        "createdAt": "2024-12-04T11:55:34.628Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T11:53:21.600Z",
+    "updatedAt": "2024-12-26T12:59:09.791Z"
+  },
+  {
+    "telegram": {
+      "id": 1420383620,
+      "username": "fbk001",
+      "firstName": "fbk",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/s35RswOBEpAwOukhldRzlhfdnuCZ9q8ZwSOe2HN2HWeu694T55mIRvRtkPNfUlytveHfrE+gs96vqod/NQfq7JumWWbCANnR2DEGYib9XtDjqI8hO3tzKOAI/CmS3WbrlZ92vQSCTrA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T12:23:08.996Z",
+    "updatedAt": "2024-12-26T12:59:10.519Z"
+  },
+  {
+    "telegram": {
+      "id": 5083711268,
+      "username": "BogusBinted",
+      "firstName": "zUpper",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+QYBsgtn8fpHC+IjTOQsI7MGtnEGvFjsWldSCmNQI+Ek8FijpGDDZeqj/jhZMz3c+4/fD23/U9wWI7UBl16WMRyNRp+2q/PcMALFrGkkeGqMvF3M0vcdx/6Un482vlp16e0RNASOYueg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "EC4Q4gYFSMYK2QiHZrYWExwNAdfLL8aEteF4VYz1Z8Un": {
+        "createdAt": "2024-12-04T13:52:33.174Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T13:51:50.043Z",
+    "updatedAt": "2024-12-26T12:59:11.181Z"
+  },
+  {
+    "telegram": {
+      "id": 5791355521,
+      "username": "navodevs",
+      "firstName": "Navo",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX186I3Wvlll7vhzsgW6xoISg4mDt1V3D+O0YWhB4fJtALswJ98t9zNNS7CCD5kjhPxfjFKheLB5IOr8toFmP7hN+zVJcYA5GJKO3RBgaBnfKIV69+RB3l2UHDIWIgjEI3ce/zM5h1Z3jhQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T17:58:25.481Z",
+    "updatedAt": "2024-12-26T12:59:11.805Z"
+  },
+  {
+    "telegram": {
+      "id": 5028422681,
+      "username": "mtks57",
+      "firstName": "MTKS",
+      "lastName": "MTKS",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18Kc3GFVFpSuolXc+XuclswWr0z+CC/voD/lNwQaPQVRgeVHA5imMGGX62Ox/eXT8fdli8t39yqzzYLGSz8ZXsYGLiIOTfOlcMEwmfFE5vtlObr8paIte6+92HJ5nj8WsjihXs7QuECSQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T19:13:40.251Z",
+    "updatedAt": "2024-12-26T12:59:12.462Z"
+  },
+  {
+    "telegram": {
+      "id": 2020283087,
+      "username": "SmartFinancePK",
+      "firstName": "Patrick",
+      "lastName": "Klose",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1997OS2lPnVcE6pyPu7j00HFqRlI4Wkah1cXBUNoZd+/NdYdTgKKCQKGJD526Mvj46mm1545rrk+6M5Go1MylYiTnG8rGxddWhXlObtApx+C9Z4j45yZV2DF3vviE/0Qkt+sAU3T6Dx4Q==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T19:13:47.312Z",
+    "updatedAt": "2024-12-26T12:59:13.120Z"
+  },
+  {
+    "telegram": {
+      "id": 6294397967,
+      "username": "Suspecteded",
+      "firstName": "Unavailable 🐸🍅",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+RC8KOKGnpJsUEpY68Z3Hwe2trjyZoGBQIKNmxs4+tvyJBQz+/sgu+j7ikZtg2c4mgzu+fNTCBjLiGr+t6miDAMXqdMXLl/GBTOXztH2VNIs5QiLYxFwLbZD8Dhp0YHXxZCGOMftOORQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T19:15:06.889Z",
+    "updatedAt": "2024-12-26T12:59:13.856Z"
+  },
+  {
+    "telegram": {
+      "id": 7291464727,
+      "username": "zurply",
+      "firstName": "Zurply",
+      "lastName": "***CONFIDENTIAL***",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18LX3NH+7/0iaX8CkkpL7b6ligV3tXv0dVH/y8hPjPyTe8pn1vyButnTQsz6IcAtH0J+St74qkqrfus+faibF+TV6K5lYEvQobIstXOx9PGIT3ee6X+BwrV8i8NN2A+is7GFDXXXLaqww==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "2xRESSVMDZf6buXgw8TRnezYL7mCSQAPFGMFcVG9pZGk": {
+        "createdAt": "2024-12-04T19:27:17.976Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T19:25:29.595Z",
+    "updatedAt": "2024-12-26T12:59:14.524Z"
+  },
+  {
+    "telegram": {
+      "id": 1760151873,
+      "username": "DiorBeTrappin",
+      "firstName": "Dior",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18df9jQyrvouIr2Pl3cVZ5mt+F4ao0eC3NDrK11E/RlT7lk+WY0CrNVBfb6Cxz2wbum44v6ym70UinkEJwwxkvhj6B9ssUQXhfjttaG1NwhAO2gF5dQjRkKump/Ad6tduvK32XiIO+4nw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T19:35:20.023Z",
+    "updatedAt": "2024-12-26T12:59:15.201Z"
+  },
+  {
+    "telegram": {
+      "id": 1211758953,
+      "username": "MarkH073",
+      "firstName": "M",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19xVxyg2grSxMXxaOPlWQfr2bdEQVEKMkX1NLbaQffe5ieFDJIfyZPZ61zGM1hTBTQJHYksnOoxDSFTtt/4iIH86TR0fHbKjgKm/W9h1SQVgpQvirvBPfLGAhBYPNM7fqq6jyADPFtWuQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T20:13:20.886Z",
+    "updatedAt": "2024-12-26T12:59:15.864Z"
+  },
+  {
+    "telegram": {
+      "id": 6640492148,
+      "username": "KingoftheHeel",
+      "firstName": "King",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 50,
+      "slippage": 0.01,
+      "priorityFeeInSol": 0.00001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+FCuh9TXLBIc6P9U0jz+dtV41T9mBdJItCRx004GN5JVDuJOqPYPmPCvrbJvFE25F7s94wNbCx0y0VNyoJQNiS7M60Bs7xfEqhYAo77OK5TP/aGA+gSfUCvVua/lzyCnniswWI51f8cg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T20:38:30.560Z",
+    "updatedAt": "2024-12-26T12:59:16.566Z"
+  },
+  {
+    "telegram": {
+      "id": 6129332469,
+      "username": "koempelll",
+      "firstName": "y",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19SkFb+7XTxZwc9MP9KV60P/Ymt88MkaGUT3BVkwMaNB4kkW+5ePmcCEoIR5puav6bpGY709Fq3GjRIxAsCL17HKQM38IyCm0PydACR1ik7H9Mv9KYP6NAKprS/1YvGAsva2yBoHQWMoQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T21:14:03.636Z",
+    "updatedAt": "2024-12-26T12:59:17.199Z"
+  },
+  {
+    "telegram": {
+      "id": 1894696051,
+      "username": "",
+      "firstName": "BigD",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/YXuu9pM3kALvoV8W8KQnv2yjlju3N8bihiRn4eGvuIJfTH++FZFmrpRn67jyVuRvwkWrbGCa/JFtx612BAzY+jS38S6PTWOWrfZ0OOYhyOZJyGBpI/U6J4xvFxoI6lMAEnhd+EUEvJg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T22:07:17.729Z",
+    "updatedAt": "2024-12-26T12:59:17.833Z"
+  },
+  {
+    "telegram": {
+      "id": 8067078870,
+      "username": "",
+      "firstName": "Cade",
+      "lastName": "Sarkin",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19JLM/Jhp1/6HRgt6AcpDrRmeS384xnGMVlPzdVbSfgj/T/3nsc5fxeizsxmr4dJ9WOznNQE78LTEJY6aZfO030a5tVag3ptDp0UAezRh7eOUeLlHpT0UGmwwFP6U8ytZHYslv0bPYnlg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T22:14:54.379Z",
+    "updatedAt": "2024-12-26T12:59:18.535Z"
+  },
+  {
+    "telegram": {
+      "id": 7365497112,
+      "username": "",
+      "firstName": "E",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/X1fqmlQm1req2EkQUrR1UVjcSQYYBfH1u3yXFaFoKuPqzffzUt6lZ7/9EckO/yVql5fDo2wTi9FOd3QHFG6omMkh10qZG8TRgr+X/xgSjnlWbgUnPcvnJiTmLizHKOqmBnrymk1fdqQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-04T23:11:52.176Z",
+    "paidBumps": 60,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T22:27:02.115Z",
+    "updatedAt": "2024-12-26T12:59:19.196Z"
+  },
+  {
+    "telegram": {
+      "id": 7856117822,
+      "username": "",
+      "firstName": "Mason",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 2,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+jpEReUt7Wiw1POA5Xmya7PBGxV+KPdGIVQUi4ThDjqjiUMbZCpZUw8//EaYCv84STbsPcDbl/h+nBjeodADmqL5LiYVrK8PUG7h9225PUckGfKJ/el1wDK2vChqyiQnAT4a3hC7JosQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-04T22:35:32.481Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "9hSduTb7A7cgcQRCAM5QXknW2Fj5pPN95mhxdyeXpump": {
+        "createdAt": "2024-12-04T22:37:37.840Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T22:28:37.324Z",
+    "updatedAt": "2024-12-26T12:59:19.846Z"
+  },
+  {
+    "telegram": {
+      "id": 1458625555,
+      "username": "Leoong187",
+      "firstName": "Leon",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.04,
+      "intervalInSeconds": 3,
+      "limit": 5,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX180dWV0yn/ais+/Kud+AfRwVppctn1vB5LcaVQSi5oWxRdzrQRg1l738a/AwtzK7xEAaLfOfguhBARasK+oBBJDWEgFWjcNrDwdmqohj6rgOjYiuZTt/VZkriBtRxfeBuQ2y3kCcnMsWg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-04T23:11:24.158Z",
+    "paidBumps": 89,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "F16gSmDaGSuDFxGmkT4EntjnFoB4HHg1bEwhKQ6fpump": {
+        "createdAt": "2024-12-04T22:34:18.094Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T22:32:40.096Z",
+    "updatedAt": "2024-12-26T12:59:20.574Z"
+  },
+  {
+    "telegram": {
+      "id": 1300308012,
+      "username": "Merkasuelo",
+      "firstName": "Marco",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19aMt7vOei9bUYha1Ce2fgWjc3FnDa1DwWG5shHnO/7pKNgaGyqRRpvVZ86/Z9jSocKeqSO77LVIc9eUDrXBJwLlQTravsWFzdTGj0or4HLR2ijid4dt+VpnzMr/iACQbxduy71GPpdsg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T22:46:02.181Z",
+    "updatedAt": "2024-12-26T12:59:21.334Z"
+  },
+  {
+    "telegram": {
+      "id": 7160198489,
+      "username": "khanbon22",
+      "firstName": "Vi",
+      "lastName": "T",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+NsScQcpU9jsvEOXiPtt3kOFSfE43KBU/I3Aritvu00zMYgGP/zYZsUo27QZxBv2lEjIrZBK8ExjedNYXcaihPyaUOn5kozXwsEM1h2UIPZyuHsDKEZySW44wIoqjhviieQHk1+175dw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T15:23:54.397Z",
+    "paidBumps": 105,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "GEfTQyocxBXEVZMdpKenUL2ChEaLkmKaFFyD6ubnpump": {
+        "createdAt": "2024-12-04T22:53:15.885Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T22:52:18.903Z",
+    "updatedAt": "2024-12-26T12:59:21.992Z"
+  },
+  {
+    "telegram": {
+      "id": 5883575948,
+      "username": "",
+      "firstName": "...",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19c3NWwVAN0UijBqpw+xHW9PRzDIZ6nVW6hv8KZXCuW8Rwzc/+C5uhWeo4Npcbmgso08wWZX8gkalORZhrHFVaXaf6cVDDJVRfYPciZWIIyXCuCRbtauH5Vi/VhsUnfq8ORTxNo2D4byw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-04T23:02:19.885Z",
+    "updatedAt": "2024-12-26T12:59:22.632Z"
+  },
+  {
+    "telegram": {
+      "id": 7021857804,
+      "username": "ferre1raa",
+      "firstName": "ferre1ra",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.06,
+      "intervalInSeconds": 10,
+      "limit": 70,
+      "slippage": 0.04,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19ClJzNl3Pose6IBIvVLFD+oRbUXmnZ+4mkXU3NAGxUhyFOYGeEwUGbyfvYb6dNyUzcEY2K3x99GENXlGLaty9M7VRI+0ix3PxGRz7e8ES/ka+bmUNmMAT9UV+CAdS36N0mFM3L6HlQ1Q==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T11:24:50.499Z",
+    "paidBumps": 61,
+    "role": "USER",
+    "totalTokenPasses": 3,
+    "usedTokenPasses": {
+      "EUc8rZgXLzrjH4zXNtVSXkSgmXhXmjMEChUah2Uvpump": {
+        "createdAt": "2024-12-14T12:37:20.488Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-04T23:10:54.620Z",
+    "updatedAt": "2024-12-26T12:59:23.298Z"
+  },
+  {
+    "telegram": {
+      "id": 6319401629,
+      "username": "Deno677",
+      "firstName": "Dein Türke",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18VhWEdScV9HKh7eRHtISgHeNgEtD4GBeR1lIuW6LmPKJF1O4E1utKFKzgnqQY8sYHgsraUiiKw1GG4JjRyqDATuVjhc7Y2WNAdFfwZtPGtc9v6NqS3fBiGguNM0mMDPQ1TmdmbUUyZLw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "2Aqa4gdnJ8JXxiU2jk4myfzQcuTsZcT3e1jzr32JnRUs": {
+        "createdAt": "2024-12-05T00:03:43.402Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T00:02:57.187Z",
+    "updatedAt": "2024-12-26T12:59:23.968Z"
+  },
+  {
+    "telegram": {
+      "id": 6687898608,
+      "username": "ImCluckNorris",
+      "firstName": "Cluck Norris Ⓜ️ MEMES 🍅 $CASH 🐾",
+      "lastName": "📦 Bums 🎒",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 250,
+      "slippage": 0.01,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19qLdNSVI4/1DA9cm3EbwA8aiNor8ymWLNIFy1Ika7NhnyYyH0PzgeIxhj6QEfut0o3alF1dpiH8lco95O/EunhoX3agwDadG89O1PSSq6uz0ZwKozpY5+tByAIBBm/0MZiF8FYXzt4Lw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "YgrXBiTDnf5YEzRD5sxN8BS9wvNt2BajdA8yoxUpump": {
+        "createdAt": "2024-12-05T07:14:54.661Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T00:22:07.142Z",
+    "updatedAt": "2024-12-26T12:59:24.621Z"
+  },
+  {
+    "telegram": {
+      "id": 1202715772,
+      "username": "",
+      "firstName": "Tccyvji",
+      "lastName": "Kggk",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 60,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/X1ENvBsN00d2aotp4bUVBey0B8EkomXJWo9yYG+NkKOZTN8lBnBaO6x1askWSZJembulMo+6v9WOIaQCcnrUUItoRmWHbYV+Rgxd5KjUk8Phm+WnJB81X1Wipt/YgRy9gF0YYLXdSVA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "ATrhukCNgQSt2SmbbLNcDoMqLKxp3DEmmcS883eBpump": {
+        "createdAt": "2024-12-05T00:28:27.645Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T00:26:20.026Z",
+    "updatedAt": "2024-12-26T12:59:25.277Z"
+  },
+  {
+    "telegram": {
+      "id": 775196193,
+      "username": "nikitaexxx",
+      "firstName": "nikitaex",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+iJPfJDhmn2wvugXYn+RR/LCUioJv6qrObS/eIcbTnyTfVUkO/fnI5yLw7cKNLmDIT/I5B05D7t68QD9f9lmyzC1j6Ys1OJ8qs8rhHrGkgzCTtRjPgO0gZ2GmoWdv7o2AFR81Em7Y9cg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T00:36:21.277Z",
+    "updatedAt": "2024-12-26T12:59:25.941Z"
+  },
+  {
+    "telegram": {
+      "id": 6892291296,
+      "username": "eleawarner",
+      "firstName": "Elëa 🍸",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/qU1PoHjDOBIop1IFnQXQAuZVjlbvPy71cAb1mJN8gHYl0z6oE9uley4trAAKnJIHPYa1pQN2DnwtVEfyzbyJ83k6SsFYwX5amhFTP0TgSTZ8Sf01CmqHKfr/U6t3wCQHb9meRddFoGw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "EDdjvQnfVFjGjMN4zjZZDxGEzwWw7MSVU9uYp9y4pump": {
+        "createdAt": "2024-12-05T00:47:49.071Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T00:42:58.719Z",
+    "updatedAt": "2024-12-26T12:59:26.616Z"
+  },
+  {
+    "telegram": {
+      "id": 724897096,
+      "username": "gayborhoods",
+      "firstName": "dvd",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/WkJEveN6zl5RPd5JdK+xiMne5yCMFKNlQuH6odyJ0LKgx+4og7WN7a7emXzLQd8XT7VCMFB9zPtjuBHJg3PpTcpArAIEGEyAjhID7EP6DiaI+UN+n65x2xxPv8B1X2d3FhP8iQGJPuQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "7K1Nu8GffiWPgCgJ87YpmGAVKuYRUb6TPT2E65rCpump": {
+        "createdAt": "2024-12-05T01:42:16.403Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T01:38:52.410Z",
+    "updatedAt": "2024-12-26T12:59:27.271Z"
+  },
+  {
+    "telegram": {
+      "id": 1150352258,
+      "username": "binarybastard",
+      "firstName": "01010011",
+      "lastName": "0101100",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 6,
+      "limit": 200,
+      "slippage": 0.07,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+kCawXpdBN3p/FNSCbXOp5rsQwckp0yvcUqGzOOLlAWD42E0KqcyOuGSOkoAD9KSBIIR987VL9DuJjuEXJxdBePDo8QcTFY7ao2iGrv0iWTHOqhnEcQlbYwfwNknZRXwmHiZOtT784lQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T04:39:04.446Z",
+    "paidBumps": 1264,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "61A7fFFVWVrDG85cLXchiZCJqrJHMLMDEWw5T5cnpump": {
+        "createdAt": "2024-12-05T02:03:45.057Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T02:02:29.008Z",
+    "updatedAt": "2024-12-26T12:59:27.996Z"
+  },
+  {
+    "telegram": {
+      "id": 7518236657,
+      "username": "devinsane",
+      "firstName": "Dev",
+      "lastName": "Insane",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+PUgR5Nd/vcRbShDk3eJfD8UWZumcQzr5QxJfD8EOIUhIQ9GdH9LpP1eC1RtO19v8yr2CcsH4Y+6qisMMuHPOoby0jErVxNdd5pXPBatDlwNAWelkLXePlfHkhb0Kth5bolUrzgfrz3A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T02:11:56.742Z",
+    "updatedAt": "2024-12-26T12:59:28.656Z"
+  },
+  {
+    "telegram": {
+      "id": 989030572,
+      "username": "",
+      "firstName": "X",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+37Y90+8ciwTi+3WKVkSNNA3wB5UkvRiH77XSv3Zpt2+vlgBWSuT6sjdxBceD6bk+xhNTdKDMcApvjg8klIoh252iUB043C66M/2GtfKNPg9xzmGgCvwSo7v7yQQVrHSY/lPAgiYR35g==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T02:24:40.788Z",
+    "updatedAt": "2024-12-26T12:59:29.315Z"
+  },
+  {
+    "telegram": {
+      "id": 6738141343,
+      "username": "",
+      "firstName": "5ilver",
+      "lastName": "R",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.1,
+      "intervalInSeconds": 10,
+      "limit": 200,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+02mCuQksuisO6V3rwPCPBhPPJDweBl5ozRECin9zuQLykgSNTP2ZGRmPCLifpLO/u95NhRWE25Xhuc79BFpfiWKz32KqQyWzxdFcQ4SBqGfDJFpLmKHnLer+AY0hHlIsDdmLh0zVIKg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T03:46:20.642Z",
+    "paidBumps": 21,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "EXYzZHazgPZeVrqoomnvjR3dbikDU4aaCkQPU5Lcpump": {
+        "createdAt": "2024-12-05T03:16:01.054Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T03:14:01.711Z",
+    "updatedAt": "2024-12-26T12:59:29.989Z"
+  },
+  {
+    "telegram": {
+      "id": 7889754032,
+      "username": "",
+      "firstName": "EagleEye88",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18qPSbw8/03CKq8SY02B71xVNQRk7BRUlThzF8EGPhzUkolUxyBAIXDjgXEZodk9EpITCFS5SqTKY+gm8P8oL0TGpNyu/9g6eRv/WoEZTNvD1z7cydNaZChBQ/VfnhFinaj6x7h1uOD1A==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T03:41:01.977Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T03:25:43.724Z",
+    "updatedAt": "2024-12-26T12:59:30.651Z"
+  },
+  {
+    "telegram": {
+      "id": 6098414463,
+      "username": "flamenyc",
+      "firstName": "Flamenyc",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/NmGI4eQhofj3wxpNpIDT/GDVLBbWqcFFG6NOIgZIVkXAYfIc4QjJWfyERgPbv0t9HirQvUZy03/4DCh7UUMg4Nvig+qM/c3DqqC7mA4qYIjZrSB+gmeSMYrVYAXSi4SuIIRVDiY9pzg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-15T18:22:32.399Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "DNHBDVMbPcE3cpdxQXwfyubpev2cdXH6KgtnadzVpump": {
+        "createdAt": "2024-12-15T18:18:07.029Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T05:34:18.144Z",
+    "updatedAt": "2024-12-26T12:59:31.331Z"
+  },
+  {
+    "telegram": {
+      "id": 1629364374,
+      "username": "jayswishh",
+      "firstName": "Swish",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19qQKUSVp7YBVowaqnbK7w00k4TMK7FwpdaeHTVjtHn0p8bx1MZ766CWHd1eALhuCnN/WqlX7aQB7xPfnAtfbyY9l3WhalaDRTbJdRQQVTEaoAsRqrXtcCZvMz5dalRBY6pThs2Pl/hOQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "FFyCCcfs5HYrbKKQnAbKhcRDaVSJx6WpFGnCAoegpump": {
+        "createdAt": "2024-12-05T08:05:57.768Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T08:05:02.147Z",
+    "updatedAt": "2024-12-26T12:59:32.020Z"
+  },
+  {
+    "telegram": {
+      "id": 846024601,
+      "username": "teamfortressthree",
+      "firstName": "Jesse Pinkman",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.018,
+      "intervalInSeconds": 10,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/y4IKOAm6XO9j5O3De1dk+lh+F8MNTDe0TQ/drkTWYFXRBU/DKF5jRZcIoLMgnT2cLCue1IGORZrO1jIflJcWhUqf4hQiT73VnXr6X6qmb2yhBih5UYxTqjoWmrKIhZVY+6SCRXQ6k8w==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T10:22:31.933Z",
+    "paidBumps": 1,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "Bkroy5wdNFgqpzp3jpfcWhdEqCKaomsRBGT1W4Zspump": {
+        "createdAt": "2024-12-05T10:22:09.077Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T10:17:13.566Z",
+    "updatedAt": "2024-12-26T12:59:32.714Z"
+  },
+  {
+    "telegram": {
+      "id": 5578922458,
+      "username": "metkataa",
+      "firstName": "Metkata",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18EMFda2YMkC8zCqNHyjElyU9F5Z10vRXgJCBfnfXVaNR6BTD2IjU5QVwjQnGL50n36QY7uBub9pV4DMLW87rNSxG42X8gmIFiX0GGPvKC8NTujHQ4VWUQeCCCbugr4ywUVniVWdTeEfw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T11:15:27.334Z",
+    "updatedAt": "2024-12-26T12:59:33.419Z"
+  },
+  {
+    "telegram": {
+      "id": 1709283010,
+      "username": "Chridever",
+      "firstName": "Chrid",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+zfguZL7Z6OpfJyTvoqpWbxF5J3uWXJ5BzeRsLEBHJNszYQH91TUhw3B93bvlVhoxKVNOffvORgqsqZsgO5WD9w3waxk+A72ucwTbvRO//mQzfsdlBUKXcdvCaxfZzeKCcciiF7n8a9A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "memMnRSiU4BeHix4xAVKhiu5fVq5nEsWQ9xikZsBBq9": {
+        "createdAt": "2024-12-05T11:24:07.707Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T11:20:02.336Z",
+    "updatedAt": "2024-12-26T12:59:34.125Z"
+  },
+  {
+    "telegram": {
+      "id": 1190414904,
+      "username": "mishrask76",
+      "firstName": "SK MISHRA",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX183BYClSDXgdOOrKN2twThIqSOQPFxIEbIUGC07t6PkD72H/9gM2D506/l8PttRivBH9eRN0UnGSn3fzQC9MOuW9KDQ/LkUkGSTMQlsKWgYCv+rZHnTKsKPejeiRxDRfQ3ScD1CcWP+4w==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T11:33:33.452Z",
+    "updatedAt": "2024-12-26T12:59:34.802Z"
+  },
+  {
+    "telegram": {
+      "id": 6134749041,
+      "username": "faysalacibuca",
+      "firstName": "Faysal",
+      "lastName": "Acıbuca 🌙",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18VWC9hU20NzoaC6HYxNsbGm2TCOVPodBzoZVBJ2QnYMcVWrOxIbsyjGseRp71caaC0V1dRW1iCnLvqoEolKcVzoIEbQV9uLfbOU8xVrL3/mvJ2rnAYjb3Y9XeOWhIFI2ZjokLxXdv6Bw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T11:58:14.576Z",
+    "updatedAt": "2024-12-26T12:59:35.487Z"
+  },
+  {
+    "telegram": {
+      "id": 1498579228,
+      "username": "wajihano",
+      "firstName": "Waji",
+      "lastName": "Hano",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/Wy2niVZLJOu2cFXzBuGySvr/rzXQvwelAGU/jzH/fTJ/FlR43i2gITh9XwseHI+FdOzZ8yF6Qq+Pu8c2HK2XxOs9+SOe79Bjd8l7MFXfKobiW0qosQDxqY0omiR0COzAIskwuxAn+fw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T13:11:21.389Z",
+    "updatedAt": "2024-12-26T12:59:36.180Z"
+  },
+  {
+    "telegram": {
+      "id": 6187076022,
+      "username": "omc2204",
+      "firstName": "Om",
+      "lastName": "Chaudhari",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18eBAGvJYTkBE8i+4YDCiQ21Yecfq7O7fnLTWHOkJtrsWrxpayY9YN4Nc9ljahUl67vBRASjAmKkyDWIrptmPbW4/uE7EPlIZKGkNs3xk5kWHZHsHxohah/4ZPqXpN+CU8aIKIRXkIClg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T13:39:19.213Z",
+    "paidBumps": 4,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T13:34:04.128Z",
+    "updatedAt": "2024-12-26T12:59:36.881Z"
+  },
+  {
+    "telegram": {
+      "id": 5506519316,
+      "username": "respiro08",
+      "firstName": "VeniVidiVici",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.123,
+      "intervalInSeconds": 10,
+      "limit": 20,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0003
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+x//B0eGiL3r8YCa1nUMFqWkDJ648Rc1/sJh/J+Ntc19MBopiUQZyfeR+fg0W7CiZifTaIVo+bzUaTrx6kUCMEisYp6CmDIXJWe2hj7XlrXRnTsNO9c7o4alokImxfZ6WXuhIUonBGpQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T15:51:22.150Z",
+    "paidBumps": 20,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T13:38:40.701Z",
+    "updatedAt": "2025-02-22T12:35:52.120Z"
+  },
+  {
+    "telegram": {
+      "id": 999576620,
+      "username": "",
+      "firstName": "F",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/mqo85Bfoom8Al6a/hcAp3eG0wGJ/iwEG/hZa6gTGUUToU9WcP8PWkFuIoXXiSUWkKAPssko+b2Eyn0s+gwc2pWxI2nXNj5tB5uiCOiqpjm2SFUK+wLglJvrQv+1CB8RSMjZymAfySNw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T13:55:02.487Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "6GtnaNAbCipMn74dpo3m6TyX2MdkiZ396DU7S2x8pump": {
+        "createdAt": "2024-12-05T13:45:16.966Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T13:43:25.251Z",
+    "updatedAt": "2024-12-26T13:04:52.794Z"
+  },
+  {
+    "telegram": {
+      "id": 963808966,
+      "username": "Fitsummazingya",
+      "firstName": "Amen",
+      "lastName": "cher",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX184dLlzeZD8f3M07t1DB1rgURtN+rrqi3Pb/06+sh/LLxFLvCDOe429BoWN0Xp2MkkGwihX766mOgnTcAJJxvC1OuTTeePEwdMh0FMbVqq2Rwnl6rz6u2RCvPt/mWDnkSgGlJOpC5swsA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T14:02:02.870Z",
+    "updatedAt": "2024-12-26T13:04:54.393Z"
+  },
+  {
+    "telegram": {
+      "id": 655925462,
+      "username": "Tar2110",
+      "firstName": "...",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19Q7RpGM7Vn0EvUE8hFb3OPfK1kows6pEif0QJgzGQuEKdo+0kg8U9gOqzKAC2FoE3Co2cHVs6j+faFc0/CxqBi+zo9E1eM44iS0p3LFVeVNz1/OPRv8l/YsKz7KERo5gC16QNwo+jjsg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "5FAtNnNez6tcVcq5GB9J6Ck2n1Vw7LBiUjR3keg175RK": {
+        "createdAt": "2024-12-05T14:06:07.354Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T14:04:32.426Z",
+    "updatedAt": "2024-12-26T13:04:56.307Z"
+  },
+  {
+    "telegram": {
+      "id": 1062123105,
+      "username": "KRUSDT",
+      "firstName": "기웅",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19wuRXGaWIZ56N5pQZNuxLaws+7+ipG4cJcyMgNBmch6asShuOgkC7OpzHzarWoZyaf37HuW3InpPoQVPT/Q3PV11kgykuRqgmR3CdyGs5IJNvUbOgH4JwtM4EsimyefgNnykH9YXpfiw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "7tApPmo2HqAq556UdUTngNoG3YUcsa47rcMxgfUzpump": {
+        "createdAt": "2024-12-05T14:07:50.363Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T14:05:41.971Z",
+    "updatedAt": "2024-12-26T13:04:57.917Z"
+  },
+  {
+    "telegram": {
+      "id": 5013435950,
+      "username": "EmpirecoinUSA",
+      "firstName": "Empirecoin",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/U73mCwDDvyY5j5jFUa0NBFTqcXtgpDZeSfIAHJSlPdQMmiqhW2/jBMKSb7uNAb2NyJITCe6/APkt8n1Jm5pP200rpB9HHzvQg/typfs+czrd1gvP1smxJhCzoWUuIyCVyvy4IrK3ilA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "2tqHqybAkNjVh6nBTCCK6nAJHfJjHu6Svz1BjZ7Gpump": {
+        "createdAt": "2024-12-05T14:12:57.555Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T14:12:14.319Z",
+    "updatedAt": "2024-12-26T13:04:59.537Z"
+  },
+  {
+    "telegram": {
+      "id": 6833544040,
+      "username": "MoneyMakerCalls",
+      "firstName": "Caalls",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+FjEwoZmdL1C7+RD9Qx8WnT6S+cpfdog5X/5iQrTdVsRVWoVB7sq4QjpDfK2O8tlWjnWeC7TB0reF5d07NIspQEf4BJSJIzvKmo7DnMbSzOYNOQwO7yhEHXx2QnlTnTW4NoJnE+Fq20g==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T14:23:01.298Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T14:16:28.985Z",
+    "updatedAt": "2024-12-26T13:05:01.182Z"
+  },
+  {
+    "telegram": {
+      "id": 731532226,
+      "username": "the_unknown123615",
+      "firstName": "unknown 🐾 ▪️",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.02,
+      "intervalInSeconds": 60,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/sV459JN1ZeWM4cv24d9qmrFss0Kjw5IPZuUifK9O7KlPhfA8Gsoy/3NlAKNmJifTH3m1kZA2rzrqQS5R8yxPlpHV9mSnmOrk3XGqmXkQOm0u8ywLJ8WYf8asS5Xx2CrMqmea1QADB9g==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-05T14:55:12.051Z",
+    "paidBumps": 40,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "F8Ry3ZMUkENePSP2Jz4ktwLHBm9eRoPgskauyaa1pump": {
+        "createdAt": "2024-12-05T14:41:20.636Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T14:39:20.397Z",
+    "updatedAt": "2024-12-26T13:05:02.866Z"
+  },
+  {
+    "telegram": {
+      "id": 5870880790,
+      "username": "koreanbay",
+      "firstName": "bay",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/wzqyKQJ2Rk2KZjGeUzaDfjmb2wsDfZvOfVOeyJw5rGGvsJdkimBWIm14kFc5tbh06suuC/nNgIM/NiDuDC/6E+6jZX3CwH0FAaYNDbeVmlaeQXAMy1LHf8pa2kf05/M+rT/yo9MhZFw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-06T04:16:50.300Z",
+    "paidBumps": 40,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "EK7VwHNAuezEerbbiBzyN8tYmrMwMNQ9n7w2HTAcpump": {
+        "createdAt": "2024-12-05T15:15:58.641Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-05T14:43:09.597Z",
+    "updatedAt": "2024-12-26T13:05:04.464Z"
+  },
+  {
+    "telegram": {
+      "id": 7375533534,
+      "username": "genghiscrypto",
+      "firstName": "GENGHIS CRYPTO",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.05,
+      "intervalInSeconds": 10,
+      "limit": 5,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18skn2tqse9ZpYczLdVndGaByL7NfVpfygl92LxyYqW0gFk3TRFyyT+56+95iXkpkSH+Sfrr5I2k1U6BjwXMUy1vkwYETjRnZgTJZlh97ZqHsObgr+pXmd0W9ZHi8xxfBhcG/0DFOFfjA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T15:49:25.434Z",
+    "updatedAt": "2024-12-26T13:05:06.085Z"
+  },
+  {
+    "telegram": {
+      "id": 565580102,
+      "username": "theSantik",
+      "firstName": "Santi",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19eSMuJXc/NiesNJcasCfB670vd2ssgwww+gU8GriuxKs/zS0R11gMkH3c2SZ05LbmVQ3+FG49x1BgtRFaltYNZ0vpfWMAnptGs2eQAD3g1PsSM1YGiFr8DZ63FS7xLKXCSbjRAFEMPbw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T15:52:41.635Z",
+    "updatedAt": "2024-12-26T13:05:07.732Z"
+  },
+  {
+    "telegram": {
+      "id": 7129191933,
+      "username": "purity_chad",
+      "firstName": "purity",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19tli/JvWI0bYonH7Ez7BzuQbJEzra4DYp1oGJZgBj+bSq20xbA6+cc2zjtcIoVAagsGjxicfC/p5oV3q8mWKAgFxYQ5aBa+iEkEIT9g/wkfVFdktRfuzE19yWYo/ROcOHUKhXLhXlkhA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-05T16:01:22.409Z",
+    "updatedAt": "2024-12-26T13:05:09.416Z"
+  },
+  {
+    "telegram": {
+      "id": 7008861991,
+      "username": "Yessuh32",
+      "firstName": "Crypto",
+      "lastName": "Noob",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.015,
+      "intervalInSeconds": 7,
+      "limit": 100,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0005
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/72KpuZ9EP90rQt5Pz4s0OGP3/fWvKkXD/jsE3DN2Cvz5ODcQQHVY/9WchKA2PUoAbeCIySx3YEahUKHhc4NMplkcleemZTDvPyyDH80cRYYVBHKS2Soa6/Q+vRunOCv4OQDM1hM6q6Q==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-20T23:42:55.763Z",
+    "paidBumps": 280,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "JCfuUuEm9J6JAbKvPHkWRPfDzYZDiLPjmstm14DKpump": {
+        "createdAt": "2024-12-11T06:21:46.561Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-06T00:06:58.111Z",
+    "updatedAt": "2024-12-26T13:05:11.092Z"
+  },
+  {
+    "telegram": {
+      "id": 6634260303,
+      "username": "Adomshki",
+      "firstName": "Adomshki",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 100,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19k6Dt25hmtEo7gQKaJ9NZyJK0ZVtSvQVjG9UwFOg4+tuDJDKk5HtLsM1MVgzpVM3S4PM+EidXq2yDVGaq0KdN2cOcWfgFPPlAa3ZJWkLAkUNRdUsqSYhlrJ+EC1ad2uw3W+tKqbIHeTA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-18T02:07:29.420Z",
+    "paidBumps": 114,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "EX6Qxh8r3PvjNQg6QjVDQoFxEETYusQ9RXGFMMHtpump": {
+        "createdAt": "2024-12-06T01:56:06.792Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-06T01:38:18.615Z",
+    "updatedAt": "2024-12-26T13:05:12.752Z"
+  },
+  {
+    "telegram": {
+      "id": 1167430705,
+      "username": "Leo_CJ007",
+      "firstName": "Leo FLIES 🪰",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/bEumRZL6zzDreByaQ4VvvgIQ3rr5Xsa04UhiQCeK+X01O8ai+lZxQoKfZ2CWWiaNmAlXFOyx0/CISorQya6VJ4+yrRbLgyYRAw03SRtgDRLyEET+k8alWTf3eR4+QTh9ODcavjhjRxA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-06T11:20:03.890Z",
+    "updatedAt": "2024-12-26T13:05:14.452Z"
+  },
+  {
+    "telegram": {
+      "id": 6312255824,
+      "username": "camoka_33",
+      "firstName": "camoka_33",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19FT4qp/lfBNwXiDf3+KMFsyxI2SNhTKxWlw2sx5pqgDQoAnkseG/K7Q3JIP9WGvfT425/STTmAx710S6TpMcOUgCNMzYg4cGHIPESX9JKtftuUo9PAMvr6tHWReCRLQfx0SYOF6uqblA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-06T14:32:45.703Z",
+    "updatedAt": "2024-12-26T13:05:16.107Z"
+  },
+  {
+    "telegram": {
+      "id": 2028200821,
+      "username": "trapfonikadmin",
+      "firstName": "TRAPFONIK",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+RTWfAy7PcVtLln77BC76rfdQSToswHCmbhb+0LGLKDwb90YgQQRdoDfOaZqWhpub1Yaaaw2tGyQ13xCvWMocuSuSG8rkIA0U64U10dOrpmV4r4e3PLkjEuayhMlNXKEr7jFt6hyZUTA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-06T22:44:09.386Z",
+    "updatedAt": "2024-12-26T13:05:17.726Z"
+  },
+  {
+    "telegram": {
+      "id": 8194977923,
+      "username": "Sharpkills",
+      "firstName": "Sharpkills",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.092805,
+      "intervalInSeconds": 10,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/UA+JTjjWwnVWg06e3h2QQSA5LVvwPfRkWgNKA1zsjDuN8aPRl4axpDquOIvwc0gzFpoTWk2npfu2ZuVypeqG6BnUrytIERF0LRZSyccCD1M20leS6MdAuxVcW/jxC8Ptfz7bVorm8WA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-07T05:33:25.463Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "GvL2JNhmwitYxUrLWRtRW3jV8gZ6jMiKGNW2Lio1pump": {
+        "createdAt": "2024-12-08T02:00:57.368Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-07T05:29:31.728Z",
+    "updatedAt": "2024-12-26T13:05:19.483Z"
+  },
+  {
+    "telegram": {
+      "id": 5075506644,
+      "username": "Krimztrippin",
+      "firstName": "krimz",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/i2zUSW4znmTrhK/0zQ080Bk0Exk+m8c13sMDgAFYGjQDSGmgN1bvUQfrCRp9NIwuAGnadnpqYjstj2dNEhSJs14Aig8I/TlQSV3w3xlBV5PwyIx6UPmCSH7/+l2Lr3f1AO5knH0HOkw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-07T06:20:59.002Z",
+    "updatedAt": "2024-12-26T13:05:21.120Z"
+  },
+  {
+    "telegram": {
+      "id": 7637618506,
+      "username": "ezpumpsupport",
+      "firstName": "ezpump.fun",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 1,
+      "limit": 1,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18R9J+n+QjAmBFkqQ3nDmJFeiZc/LNRdcbN0RPMvx/kLMNVuFVgcuWEqE+lbzCbuoLYnHbtYzMdol5vsxKyE7bqxAbsd3gWQ4yFF54Ihmwn+wpQDw/O3SVyxiUepqpYn6F0D331Q3B8oQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-04T19:12:06.123Z",
+    "paidBumps": 7,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "ESMEvqKSs8qrdmAwkJvYD5TR9AmTZTWs1Trq8cwypump": {
+        "createdAt": "2025-01-04T18:22:10.884Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-07T08:16:37.157Z",
+    "updatedAt": "2025-03-03T19:24:26.729Z"
+  },
+  {
+    "telegram": {
+      "id": 5248542519,
+      "username": "",
+      "firstName": "Milosz",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19QatcD5MMz9TwY03XbxtpY+V68zc6JyRMm2927R3E0ZAQzEnAkeg6SN0mp329WbW1bgBYknCnvyQwITQLLfjgdqopx5f2xJFLGU/pWPql9esLg6+EBSkfTPqGSLZ26uy8clOVYG6wNRg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-07T16:56:50.238Z",
+    "paidBumps": 40,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-07T09:45:14.972Z",
+    "updatedAt": "2024-12-26T13:05:24.461Z"
+  },
+  {
+    "telegram": {
+      "id": 7367207378,
+      "username": "fahad94b",
+      "firstName": "Fahd",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 2,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19/49e8RWQ2WK1Y5aQL6jH+q/JjBMg1N3qDCfizRAWLNBB/Ls8pYHD6cVzZxYHxtT56Rb8rTxJ4hsqfOuba9TdCeQch6kEfyAXoyDLwS3eDDd+BlBdooXLMzHQxfo05oDOJseowj72Faw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-08T23:29:19.037Z",
+    "paidBumps": 599,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-08T08:12:18.436Z",
+    "updatedAt": "2024-12-26T13:05:26.135Z"
+  },
+  {
+    "telegram": {
+      "id": 5145236316,
+      "username": "jomalina",
+      "firstName": "jomana",
+      "lastName": "lina",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 200,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+dcf4hIIEM7mVGlQxkpqx2NwVrN7M6A9ym7MOzv5QKCfxKKPTO37l9mcoFC967xDz/z37mtoXwWvyjM9QBr4DRVyuWdyZA2ZOpyn4ofsSMKPPNAS6sZru2RjsMVaduN9Kpu2LHS8Joig==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-08T20:28:53.591Z",
+    "paidBumps": 70,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "7hUCVwufKBMv89MoXTp3c9xkfqVmBWWZPoxHX5dUpump": {
+        "createdAt": "2024-12-08T20:07:10.873Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-08T19:36:33.855Z",
+    "updatedAt": "2024-12-28T08:42:25.995Z"
+  },
+  {
+    "telegram": {
+      "id": 6625973867,
+      "username": "retroez",
+      "firstName": "retro",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+CSMsc/HmtBV1wB1T7wUTGwVLQg7w6p30l9SFVpGTjCAs+wxGnGOnEifpKuqGICrhMbJ+2AZQlA76H90zerjNFNa8wBKWNesEtjq9vRdap8S5e0wtgeHNud95AHy4YK1V5w7phjk4G/A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-09T05:07:00.874Z",
+    "updatedAt": "2024-12-26T13:05:29.437Z"
+  },
+  {
+    "telegram": {
+      "id": 6805071779,
+      "username": "The100xMooncaller",
+      "firstName": "100x Mooncaller",
+      "lastName": "| CHECK MY BIO TO JOIN 100X MOON CALLS|",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18J0ulg0kkKy7UGJqLQE8RNWri+qpqK+k1p46ajadFhumYUxyDMSk2w3T510lHHAz9IZy1EqKb5+m+Qj5EvqXcCMpS5UMaOti2jPZdH2ciwbNeLce1oasr3kmhjwc/dnxhXCI1ju3TNiQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-09T15:16:41.541Z",
+    "updatedAt": "2024-12-26T13:05:31.072Z"
+  },
+  {
+    "telegram": {
+      "id": 6719140502,
+      "username": "darkredroses251",
+      "firstName": "Achim",
+      "lastName": "Gehr",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19owNcsLT8k7ijHFtTjH77HikVkQrPI7ZI+XQoeMlUMwH1GsjWAufum0UDA5eRqm0Q/86dUTPpoa1sYkRysT01vmmF0So52etXFrbgvPEKvlN5bjP4ApIcR6iw+L/+FBFK43IZYdtRb5A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "4m4VYuV4kQK3thawv4M83ZEEZCmMjDEqxjkWSE9Dpump": {
+        "createdAt": "2024-12-09T19:39:16.905Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-09T19:38:30.645Z",
+    "updatedAt": "2024-12-26T13:05:32.743Z"
+  },
+  {
+    "telegram": {
+      "id": 8005331729,
+      "username": "",
+      "firstName": "Morgan",
+      "lastName": "Baughman",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/bMz/3NmNQkaLF/ga6jFwi9LGE1Svc7eO/ht1mN0vxYxOdVouBJea/v57jy/n+lzm1ASfPO1rxmxhNtvHoL3FBv7pPkSnEVm0O1355/gmOw4vs2SDq770ABZazNc8DwQuDaohmqe2F1A==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-10T03:28:08.855Z",
+    "paidBumps": 50,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "6J8h6SZRDS3cVTE7jzZsoDnfr6cpwQPj7zRrR7jSpump": {
+        "createdAt": "2024-12-10T02:56:04.217Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "35VPEWQ8hw76ixLgGfov3yX8bxcjMb5svhip1eV5pump": {
+        "createdAt": "2024-12-10T03:17:29.716Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-10T02:49:52.378Z",
+    "updatedAt": "2024-12-28T08:18:29.171Z"
+  },
+  {
+    "telegram": {
+      "id": 6557244740,
+      "username": "fernandosumitani",
+      "firstName": "Fernando",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1905Oj8lh27QleWlF068GjLjM9AAlThMLZ8KwPE6Mc9iTZCdbzmcMi2j6t7gDsgmdzDb16Ixr3lpIxwbv/ByLZ3yZCVMdt8WjEE1U3n4bqINXGe2F1LxLIlAD+ZSpgbNCGy2ZQ4kQLccA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-11T00:07:17.745Z",
+    "updatedAt": "2024-12-26T13:05:36.033Z"
+  },
+  {
+    "telegram": {
+      "id": 6258893495,
+      "username": "tikffftok",
+      "firstName": "tikfftok",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+WK+wG/meH1h9Ty7AJ1cC+uUAREKpfUwVv3hp73dXWSRhEE3akr9YwFVTJ6wOLQRa6G6Zp3PDXhiZPGuYS8rxa4UboIginUvr/3Y/+pEDyBlgsJwX/BPo7Wsgrzk0OW0JdN6w5Z7sq/A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-12T17:00:32.182Z",
+    "updatedAt": "2024-12-26T13:05:37.647Z"
+  },
+  {
+    "telegram": {
+      "id": 5189075533,
+      "username": "",
+      "firstName": "@hk100086",
+      "lastName": "银图",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19zyPIWUfv/i1esukgfpcZ4BiVwF+RZmb8inr4WO50rJbQw1y4Jk53t+IiQ9rW4XJQA89yeUZdRchj8JNPhhNY+rP4P9SL2It1AEbiYJXrbZy/pvVHrBV/ePJ0M5XJ6T6kFBxdfGHdxqw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-14T05:49:42.545Z",
+    "updatedAt": "2024-12-26T13:05:39.319Z"
+  },
+  {
+    "telegram": {
+      "id": 6375322829,
+      "username": "lucasdion",
+      "firstName": "lucas",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18ML744C+cOIYRuNkiI8AImDnx2iPHwL5xeJqIiFfqgREIRGEKjzz0kt7xbwb96DS+OlncU40FB86RyHvcNEJiwIXkAM6wqIQ+J2o/Ow1RIrLFocSa3SN7nah3QvvTUXqL3yhCFQQsgcg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-15T18:58:20.772Z",
+    "updatedAt": "2024-12-26T13:05:40.914Z"
+  },
+  {
+    "telegram": {
+      "id": 6535315414,
+      "username": "",
+      "firstName": "R",
+      "lastName": "Y",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 3,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/E9VBzgWxPRQ93tTc28OaKiZ/ZURFYlkq3snL74S9oSbj2NGHuRQUU/qN0yAl2yKDEo0w3A80lR0g5ApgcQdmMqPQCbCamwV8zGjBH54iif2aOB1tw8jP9VkAKoqTrCzNpk5+uFCO1ew==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-16T07:03:24.062Z",
+    "paidBumps": 15,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-16T06:27:28.888Z",
+    "updatedAt": "2024-12-26T13:05:42.551Z"
+  },
+  {
+    "telegram": {
+      "id": 6135719986,
+      "username": "khizerhayat",
+      "firstName": "Khizer",
+      "lastName": "Hayat",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/jtkWL5gm4jQdq+MfFxe43Mc5GLnY0khk6DKYsojZ06f6i9qfjrXLOlMApq4l3HLWy8B/xirt+A6uTbk/v1D/eIClL6tW+uTN2KHJuj2n3lwriyOOGEPtBw/i9bOcJpSpkU/uVvqCbpA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "2a7H7qFB8zj95R6tGbwK9u2oMq17pcGadAiN29Tkpump": {
+        "createdAt": "2024-12-16T13:34:29.733Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-16T13:33:26.167Z",
+    "updatedAt": "2024-12-26T13:05:44.213Z"
+  },
+  {
+    "telegram": {
+      "id": 1569894662,
+      "username": "dmglt",
+      "firstName": "Dmitrii Geletii",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/UaDg9uNCEVpDwSoWVFW3tO/ivgdNhkQIEDkjexo9QX0s/IgFIVBiDiS9wVFxLki49qiDq7WFbNDUYihQE7ogUgElkPbKdGRTaecdqy099dj+8CX/auf4n2JKS4LiByGca6IIu9VBVZg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-16T17:10:11.958Z",
+    "updatedAt": "2024-12-26T13:05:45.890Z"
+  },
+  {
+    "telegram": {
+      "id": 7576919166,
+      "username": "",
+      "firstName": "Ilhaan",
+      "lastName": "Shareef",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+0jHIMfXu14XA/3bQu+lhBbhMM8MY3YpqZTcTptyQbnuiwiRg8RjFXKVgJFj9/TLvici1fFscAHAlyFYTFN5lQH/qP1W6G9drlRvUU5LfulOWlPdDJH0uKuBIlam3CCxpPgX/UPuZOAg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-16T21:06:19.669Z",
+    "updatedAt": "2024-12-26T13:05:47.535Z"
+  },
+  {
+    "telegram": {
+      "id": 7715037804,
+      "username": "",
+      "firstName": "shaho",
+      "lastName": "Tibih",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19UHPfIxt6UT2+vdD3uA1DGpaM2vrdkwB7DIOtkKQj2VejJuEksfS5swSiHsczUKEQ5g9W0ox5Mn1KEZRwpHYAeW/MLDeplkNK4PgHpYGYMTfbReWC1qOaBMN7hjWOvIMMvlD2n7jubFw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-17T03:37:33.356Z",
+    "updatedAt": "2024-12-26T13:05:49.192Z"
+  },
+  {
+    "telegram": {
+      "id": 7883576496,
+      "username": "",
+      "firstName": "Almedia",
+      "lastName": "Walker",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/exacWWPzXEJmDGHbLBlWUi7a3wJkfv5Qz/Pm7/p1LmFX8bTkG0Y1VpkQGJ4KjLiQ/cGV7jf7AzpsLCo0gGQyfqwP5jDoWmzoJtRImFufghgi16PO/DIvfmoPc/y0Smm/eF8HCAlm+IQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-17T08:34:53.994Z",
+    "updatedAt": "2024-12-26T13:05:50.778Z"
+  },
+  {
+    "telegram": {
+      "id": 7966535920,
+      "username": "andyexplorer",
+      "firstName": "Andy",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+Y+WE0spHLYwHCtd+CpV9y9Lj7ahXMTw6eZSZ2VnU9Wb5AyMmVU4wHmcwjJr/3qMbkNdkyleST8GomnhlgLCUm2T30+ytzZNLsOF/imIlpM7MQ6oV4CzwVTUZ6rzHXIgOn5ktGmSGyWw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-17T13:21:56.274Z",
+    "updatedAt": "2024-12-26T13:05:52.516Z"
+  },
+  {
+    "telegram": {
+      "id": 1681291081,
+      "username": "FrostyMayne",
+      "firstName": "Frosty🍦",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18kKyylkBpBwvioBZ9bLbXl227grIGoDJVONwxQfZpUbmyI4IuolyYA8TG2gODkntFey9haufTwaZRfBUwKIgbE0sU/tRgW02o/979drSKUWus/CFbeoZj5sJAL3HRsRII4Hl29MK715w==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-18T21:55:27.747Z",
+    "updatedAt": "2024-12-26T13:05:54.120Z"
+  },
+  {
+    "telegram": {
+      "id": 5669721475,
+      "username": "Dodo_T7",
+      "firstName": "Dodo",
+      "lastName": "Toure",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19Aa8NYvmU+PLvsIn7pAR38pbCHxb/Uj4xckth0lRG1IhIvg+m0RRw3KGkaDFIVy4LamDD/yG+j8Ltjir4NDP1CVu5cmUEpqoiy7yjO7LOB8Xa7wjNJDPJ0CdNUf/ThM1JLc9QxpLFDlQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-19T11:54:32.445Z",
+    "paidBumps": 40,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "2UEsJTS7smYFMTsxtc5dM5c4Rs3fAAcaKgoSCDgppump": {
+        "createdAt": "2024-12-19T11:13:13.571Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-19T11:10:52.131Z",
+    "updatedAt": "2024-12-28T08:14:57.176Z"
+  },
+  {
+    "telegram": {
+      "id": 581303832,
+      "username": "",
+      "firstName": "J",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/nm4Rt383ACKyqmDYlKbrAYGFDwPXAYLsHcYVI+znZy62Kou8wxUQ2zyj1d2LtS9/s8+stvHjEtsmRY3Ahv3h7G2Z3t2FFIm8yv3WV3s6oF8euC5G+moxmsn6aUMBIIbIqpCmp2MNeBw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "ERbVtQfa887iiLVcM24J2AWyXsBtcB8d9Y5qYirzpump": {
+        "createdAt": "2024-12-19T16:54:38.313Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-19T16:53:37.601Z",
+    "updatedAt": "2024-12-26T13:05:57.350Z"
+  },
+  {
+    "telegram": {
+      "id": 7153631843,
+      "username": "wddev12",
+      "firstName": "$WHITEDIDDY",
+      "lastName": "Dev",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+6mae9eB6bOIZPw9PJsU7iBnpjXkQ0I/pfA4PWYQhXh3WhXsuTxKZ1RHC/cx9B6P07JkEIR0p2R1LDqZ8u8r5IDTPrGgWo1+sceC3YlkxuxkIM079VL+pTzPDZiHx057OCDUfQmdvMDA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-19T18:52:36.979Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "E79juTVfPE9QJuKUZRaiv7noyujkWd13tKdhvwDCpump": {
+        "createdAt": "2024-12-19T18:43:00.395Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-19T18:38:52.402Z",
+    "updatedAt": "2024-12-28T08:09:58.636Z"
+  },
+  {
+    "telegram": {
+      "id": 7358731040,
+      "username": "",
+      "firstName": "Mustafa",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+BHVxxFZVEMqg5T74RfY/Q2dxwfQGhnSw0mhIMODAN84sy9sZOjIdB3IushJt4VQkbduPoWYn9uUDBZRapsN+zWFhJagpeDJBd6Q1MBHbEe3/6ERzQ4vSTBRR71LIKnGpNFyC4CyzjRQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-21T06:40:08.208Z",
+    "updatedAt": "2024-12-26T13:06:00.909Z"
+  },
+  {
+    "telegram": {
+      "id": 471529946,
+      "username": "alim22222",
+      "firstName": "Alim",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX183JayEN0I+DrY/txW8IfVm0zxiANZUhL8L76Urgrcyx/qGLGvZSCZ2VAc32zIn85smyZRv6Kq4V7MKTFqkbTNYAfdallpb3s4B3zpzi9Sv0yoVb7BPXJlV57wbdDXrLEokBIi+x8ZEsw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-21T20:49:44.973Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "8f1sJg7UbwSBissd52LGPpweZWGz1BUS7aqNaZ3fBzs6": {
+        "createdAt": "2024-12-21T20:45:45.388Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-21T20:44:59.441Z",
+    "updatedAt": "2024-12-26T13:06:02.628Z"
+  },
+  {
+    "telegram": {
+      "id": 5468307590,
+      "username": "SOLLYBOYYY",
+      "firstName": "Br",
+      "lastName": "F",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 20,
+      "limit": 5,
+      "slippage": 0.01,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18MJepXO5rWUtnv2SFEIdcgQ48JhK32j8AB7uW0zCMLjkVV+aKHbgcP/hP6vVmhysx1SLt8iS/u078Q48gHXN3JJ06JZYoYXI9m32xNTokdD+tT+lOA6uBwKmWjN++trzkVGEvW2ToTgA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-22T14:57:15.539Z",
+    "paidBumps": 18,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-22T14:46:20.197Z",
+    "updatedAt": "2024-12-26T13:06:04.258Z"
+  },
+  {
+    "telegram": {
+      "id": 6713919404,
+      "username": "ubedagonza",
+      "firstName": "Ubedagonzalo 🍅🐾",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 5,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19r2+9NljY+FUexLmGjO7bO10mk7I/Wx11uBbypybJ/XyQ1TiTyqUIn9BIUD0EOd+ReE4zlKukOsNBzUqGYk5jkyYbNxHtJoXoOXyNrH/DVO/iSeWAik/ekFd3q08MAZZNVcpID6JRoHQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "2u9kFf6FBnBo8FFoJun1RBDiSEeZmwWscot12nDLpump": {
+        "createdAt": "2024-12-22T17:43:48.066Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-22T17:35:28.473Z",
+    "updatedAt": "2024-12-26T13:06:05.900Z"
+  },
+  {
+    "telegram": {
+      "id": 6583134638,
+      "username": "letsss_gett_ittt",
+      "firstName": "$LISTN",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.013,
+      "intervalInSeconds": 10,
+      "limit": 250,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/7zBSjcmd2GPzpqHaA6AmN3tsiISYJgVK8LHMmoahsismL+Ozex/GdP/pcc6mt2f4Mbibgfj9IlhT6RRIKIUwYBpVta6tbUmZck5omyUtya2I16xpF3w/WZH8Oo0sLg0DP7a6Oik5JVQ==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-06T00:59:16.778Z",
+    "paidBumps": 5214,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "Brq9svC25ZJHP21VvKtkG7qrkPyCjHubRPUhVwdYpump": {
+        "createdAt": "2025-01-05T07:54:39.420Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-22T22:05:18.671Z",
+    "updatedAt": "2025-01-06T00:59:16.870Z"
+  },
+  {
+    "telegram": {
+      "id": 1699395973,
+      "username": "antijakte",
+      "firstName": "antijaktage",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.02,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+T8njGk5QHAi1ynxCvOFn4thkceWGkfYLdIIYbVK7nI/s3auJRjKRptcRJZpkZo0OOVSQtKuY9GEiiiFFwyFR09N6LG2T2F1MYbzns4349JYqGtQrkIaOqkRafRZwPvUFZv/+EUWtxzw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-23T18:15:54.054Z",
+    "paidBumps": 676,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-23T00:08:24.504Z",
+    "updatedAt": "2024-12-26T13:06:09.139Z"
+  },
+  {
+    "telegram": {
+      "id": 1854327269,
+      "username": "ATLASAURELIUS",
+      "firstName": "ATLAS",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+82+Y4q20LJeeBY+QOBmM8jaQEHAgql3yNfJbi6reUdYaoJFbREbyKpzwKFezwbVdaezmzs+q9CNZx+p9M669tCClA/mxhUICVSIobny+IsoMcndGFrUSQAO40tCgauRkHHucCNp/2HA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-23T01:11:56.920Z",
+    "updatedAt": "2024-12-26T13:06:10.753Z"
+  },
+  {
+    "telegram": {
+      "id": 5316342011,
+      "username": "twixie_1i",
+      "firstName": "twixie",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.1,
+      "intervalInSeconds": 2,
+      "limit": 2,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX197DfAp+z0Ei6+pICbXEgcEwYVARxE7Bhxge+k/ePGC7KF/1mZEzNOCx3mv2VYQR6t+tVtIH0b+ikPx4LMnFcdmHIc+enfGWbIXQAD47qhiMGV1y4jemMo/a1OXoHKF7NioMYcwQXZRfg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-07T21:37:02.419Z",
+    "paidBumps": 67,
+    "role": "USER",
+    "totalTokenPasses": 2,
+    "usedTokenPasses": {
+      "8B8kqpunhcMxdn2r57Txp2ugBeyrLaDMfgqGFTWupump": {
+        "createdAt": "2024-12-31T02:32:13.278Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      },
+      "59L9M2BPs8Z3pNHiMT4XwF6HzCWfnPhGDEJnW1qhpump": {
+        "createdAt": "2025-01-07T21:37:47.754Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-23T17:55:35.062Z",
+    "updatedAt": "2025-01-07T21:37:47.780Z"
+  },
+  {
+    "telegram": {
+      "id": 7739101627,
+      "username": "sol_krypt",
+      "firstName": "Krypton",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 30,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/XcQSQ4CMAZTJhgZqK+VM1uDRW6o5x5sSGsAK/hQmvEPYzcjXFH90aouDaVzN8I2V7zX69GtmHOa68aWhLmmFeVvZWGmSXFt6vkqPANdQ04vlyJMHwtZbDd85Gk61KG9PjbcYOdJpkHw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-24T18:55:14.723Z",
+    "paidBumps": 20,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-24T18:38:46.517Z",
+    "updatedAt": "2025-01-17T01:46:39.217Z"
+  },
+  {
+    "telegram": {
+      "id": 5628511811,
+      "username": "skali28",
+      "firstName": "Ali",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 5,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX186cfskGPf4RgX0zGYHbThSP+aihrQROPw77Roq184NTMJ5UE/bmPyGpSYZBdGW6FcNQ/WhBLTv7V4zeDSVDsdlRkWmgFKvXwUiGhCKGSOWAGctm+nQNKpPzM/aLdKCJRuYpxE/WqYnHA==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "DqmLARAHbgKZQyhspf9g2peXHSuyj8PPo4beUE5vpump": {
+        "createdAt": "2024-12-24T22:26:01.758Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-24T22:24:05.512Z",
+    "updatedAt": "2024-12-26T13:07:00.797Z"
+  },
+  {
+    "telegram": {
+      "id": 7160068360,
+      "username": "marsWTF",
+      "firstName": "Mars",
+      "lastName": "WTF",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0127,
+      "intervalInSeconds": 60,
+      "limit": 201,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+igfDO6Rn69lNO+V9VPHcSpivOi2y7I3doLWAMkZS3upwTQAhV4V7PFGjk/Q/CP9gcz08MQP/1nMaP6pS/d0Sp8vZ95YEvpfiGB97gwBy1yPtQ2EFdwQqwElrriiBovjZd/7wUMI0GGw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-25T12:15:06.674Z",
+    "updatedAt": "2024-12-27T16:56:32.191Z"
+  },
+  {
+    "telegram": {
+      "id": 6322216348,
+      "username": "Falloofi",
+      "firstName": "Falloofi",
+      "lastName": "the Falafel",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+MO1B9aNng8X6O2Cgdx3eZ3S5ydq4/jQApZB5fwx/HFs6Z4WN7/F1y6sL3Gn5OXpF7rrbmt5syINm43oF1kP00A893xkefSFMsCsdvyt4lj8bE+utLTiTEK0yjYgkhFJC/cT8SHcnskw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-25T13:11:06.257Z",
+    "paidBumps": 20,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "81r2FFh1Bswmr7EhM9vVceaVxfJ3A3vfdWmY3TeNpump": {
+        "createdAt": "2024-12-25T13:02:33.777Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-25T13:00:56.953Z",
+    "updatedAt": "2024-12-27T14:58:22.690Z"
+  },
+  {
+    "telegram": {
+      "id": 1507806542,
+      "username": "BodenLoser",
+      "firstName": "Boden",
+      "lastName": "Loser",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/DSGHxO4FcBt/JL7VXm7RCSsnzr9iMZiVJa9LP93KfivH6ZUVFrmZI5aWv+OYGwC7uCxDupWVlnbdpQZcahioxu6xYxphrRdSwtDzoMZqJDsK+swcCgWb42FbnCjqmgPdN13ehLChAKg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-25T20:57:05.778Z",
+    "updatedAt": "2024-12-26T13:07:05.950Z"
+  },
+  {
+    "telegram": {
+      "id": 7694797759,
+      "username": "",
+      "firstName": "Kaua",
+      "lastName": "Beamer",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 250,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/72JQE5SxN172A39bzpzguDbDwxpapKqcfEKU0yZPLrXRcHkOpgJqQR25u7vxO8CDWY5sueTtjl4uPO3agu6PiViNweBQ81/+Q4BZNCPb4ozCPJZrzi9SMaXFZYkRWPy7NUoata+Rq+g==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2024-12-29T23:00:26.039Z",
+    "paidBumps": 500,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "AY9Q8rdsBxTNUwfrMXAgJfzkGBMcn9J4Qi62KhHkpump": {
+        "createdAt": "2024-12-26T10:01:44.979Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-26T09:58:53.060Z",
+    "updatedAt": "2024-12-29T23:00:26.110Z"
+  },
+  {
+    "telegram": {
+      "id": 725131694,
+      "username": "milantelg",
+      "firstName": "milan",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18uiMzFhrvU0bUFizfbhKOBLRcs2aXzRTpZPo6d1MGewxsrYSf9suE5tEpnXgQOaQ6RKgkgWZoKvkg+q7C6BtY04LErLz4IEofL0p8OCeaXdbx4eiCzNKkkOt/3nDML2XdLrK8UitoLfQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-26T12:28:32.381Z",
+    "updatedAt": "2024-12-26T13:07:10.787Z"
+  },
+  {
+    "telegram": {
+      "id": 725131694,
+      "username": "milantelg",
+      "firstName": "milan",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18Cl9C9XXfXMVPkz3WtYDgqxBxFcpzCnuJmoG9N2nY7zyv4N6ep8gn/5CLFHCxitYx39GsL9mzOIb8gRY4h45ssnJqcSVmZBZttkdAyQo7twAwKkqzdGcvcmZpV+mYQi6/3p6bNP2SeiA==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-26T12:28:33.123Z",
+    "updatedAt": "2024-12-26T12:28:33.123Z"
+  },
+  {
+    "telegram": {
+      "id": 5716382746,
+      "username": "bamsi_00",
+      "firstName": "Bamsi",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18/476kRtCNekTjkA9BMRxeJ+hou9IUksIHhWPPkIYcEM/MlXNuEP8OSMg6ViIOhl+dXAAxlE03WaMKgPV2RfpYG3XBGqVkG/sjIQzyF37s0ClGMXa9CZSbm1uAi1RUof0+LjVu9/lPCQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-27T14:27:01.601Z",
+    "updatedAt": "2024-12-27T14:27:02.149Z"
+  },
+  {
+    "telegram": {
+      "id": 6799268583,
+      "username": "CosmosNode",
+      "firstName": "🪐 Lunc | CosmosNode",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+GN3OpkidqQsEolSuzvAVzyke3ji8qGtyJ0d75WqDgcgzQQJRAV3jz3ghAUHeR/yqYIwFf7QpqsSUdkqpexucZmJtuIiNYqivFZpGCyu/Tx7DanMTQT0foyQAM5qQ/cbMXCwO4NlSCCQ==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "HCrMnppAEnnB3FQ7jf3r3ZaQtENRAPtbBnjuMAPypump": {
+        "createdAt": "2024-12-27T21:17:51.894Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2024-12-27T21:16:28.176Z",
+    "updatedAt": "2024-12-27T21:17:51.918Z"
+  },
+  {
+    "telegram": {
+      "id": 5170184430,
+      "username": "",
+      "firstName": "aauu",
+      "lastName": "jr",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+BG/GngREtzmtXuQmzhSFTFluBuMHnTITdWY/THj6Y9gDqDwH85iycvvuO/7I2OdUpc9DDIBliu8o7u3e8nZLXCvoi0yA/dOs1vmh9NrAGK/Vya4FNDypSR6SHiTU4VP45nOhBuT1l3A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2024-12-31T10:07:27.718Z",
+    "updatedAt": "2024-12-31T10:07:28.399Z"
+  },
+  {
+    "telegram": {
+      "id": 2132539686,
+      "username": "dietcok",
+      "firstName": "hoho",
+      "lastName": "dx",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19f8BJb7hqOlXYf8/Mf7c9yz77xmPS+fdHJn83YQhSIodO7on5ctT9st0vGpLGFmjRziC1aDDR8j0jbI5qLWBTZ29owGGaGgEk/86vupAhXB3Z+36AxHA9skpQZoRyUw4Q3XHCOspQFgA==",
+    "isPumpFunAccountSet": false,
+    "lastBumpAt": "2025-01-13T22:45:17.760Z",
+    "paidBumps": 179,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "Qw6sYAfVT9BnifeqVuZ1nDUci3x5pstihUEVUnspump": {
+        "createdAt": "2025-01-03T19:36:18.916Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2025-01-03T19:30:37.220Z",
+    "updatedAt": "2025-01-13T22:45:17.851Z"
+  },
+  {
+    "telegram": {
+      "id": 5721936764,
+      "username": "SunZuTika",
+      "firstName": "Sunzutika",
+      "lastName": "AoRa",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 60,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/O/wYSbPHTjm2YBAqYG+myiMXikVrXSKC/QC1qCPaTNrxw6gF1SGfZvs3zDv1Y6TbtzWoY4whUGMSz4OCCKTZO6wtnKF9tjBPkPzuGgV55tO9PvoLmQKrPOVtr9raQhSrU1YgeaOpmGQ==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-04T23:20:59.814Z",
+    "updatedAt": "2025-01-04T23:26:44.132Z"
+  },
+  {
+    "telegram": {
+      "id": 5825224622,
+      "username": "MichelBadour",
+      "firstName": "Michel",
+      "lastName": "Badour",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19SXdtfUp2U7yJYI74omx85Yw3M1Qs/ckNlxhS7bZdaoxX+pvExHe2BtbNBTPABGBYCWXu/wniFzG13xqohXRWKre810c5by3cP1VjU41F0+65hjqIzpG4HzKuIZ3vDPfArwjkFNfyusA==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-05T23:23:41.615Z",
+    "updatedAt": "2025-01-05T23:23:41.615Z"
+  },
+  {
+    "telegram": {
+      "id": 6060313905,
+      "username": "Whitewix",
+      "firstName": "WhiteWix",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19un3efaWpEn78LCqyiSyuYty/Q7DaAycvFjLGbLGVdR6JwrZXri6l+9jV4vWVFUjrWoMrzRjrNOT8mWwitDRf8k3pL7vTCAz5krlkXFPPdA5cy++YOWhLYLmd7X3lO5vfQr2+bbZiOFA==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-06T22:09:58.007Z",
+    "updatedAt": "2025-01-06T22:09:58.007Z"
+  },
+  {
+    "telegram": {
+      "id": 5873266981,
+      "username": "Elite0_0",
+      "firstName": "Elite",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 3,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/YAosCCESg5KNrJsLee9w/CpVrspZPKolO9qeBQCkuphzU0VwUD/o5HYZj8vJHqicHzjX/ekLOpZdSrxEcShEg7rvqONm83SVQAoY5TksEESNX+0hn64uL4iMPtYC3Z/6IQ6XMxBIC/g==",
+    "isPumpFunAccountSet": false,
+    "lastBumpAt": "2025-01-07T21:02:50.898Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "3ozBQNk5nrqpssVCDcbaHXT6B6E7SHSiYgnkTV1hpump": {
+        "createdAt": "2025-01-13T20:13:16.686Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2025-01-07T20:59:38.371Z",
+    "updatedAt": "2025-01-13T20:13:16.721Z"
+  },
+  {
+    "telegram": {
+      "id": 428134715,
+      "username": "Papitooo26",
+      "firstName": "Papitooo",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.013,
+      "intervalInSeconds": 8,
+      "limit": 250,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18oABjcCWUFlWIy5RN2BfpBN7hBLXA4n/Q3KgNEPK9mM7mo9WMWMhD4WwK+HXqR3H+D6KBkYBq0IjtQEf1dydL0sU6g8vzRJ1aKs0V+nqlzczT3iPPimBzfoMMdQb5lMQ5y3B9BiXpY/w==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-08T04:35:48.659Z",
+    "paidBumps": 350,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-08T02:37:59.453Z",
+    "updatedAt": "2025-01-08T04:35:48.765Z"
+  },
+  {
+    "telegram": {
+      "id": 1326604878,
+      "username": "RaymanChuang",
+      "firstName": "Rayman",
+      "lastName": "Chuang",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 250,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+fOOEtwA7a/fjXynP+prMeePb/tRZPxDaPrfIgMUEwiQSRbRMJVUrIt2JVtPKQhI7/680I9JsJ2k1heM2M7Ub1OEelx1BoJGuZOZ+PnmapO4rtbH8asaD991Gfsqdrfww6QMAFMYBUmg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-10T13:06:35.311Z",
+    "paidBumps": 965,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "7DN7Myw23svEfcdzywPUSnGEAC8Afyq4VroJqmThpump": {
+        "createdAt": "2025-01-10T12:10:42.532Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2025-01-09T08:13:48.760Z",
+    "updatedAt": "2025-01-10T13:06:35.412Z"
+  },
+  {
+    "telegram": {
+      "id": 5225292173,
+      "username": "MonoYang",
+      "firstName": "Mono",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.015,
+      "intervalInSeconds": 10,
+      "limit": 250,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX18Wh8hpVwczUTLOjtqEY4ghI6kxcnQrCdT0wXgcyLAhDLNwUP/Mi2w6iRIpX0SkM5wdBAiHRuPNCv3N5H/pUtz3NvwtyHTC37Qr4eHjRojoHQCUfTpRmn7Y1VznMF+OyyVQ3V5u59Hk1Q==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-09T08:41:57.450Z",
+    "paidBumps": 223,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-09T08:19:01.459Z",
+    "updatedAt": "2025-01-09T09:17:17.541Z"
+  },
+  {
+    "telegram": {
+      "id": 6251743626,
+      "username": "BreadGarlichouse69",
+      "firstName": "Bread Garlichouse",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0144,
+      "intervalInSeconds": 18,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+So9rzTSxoq/d3m0TQAAVXSyG/u3JwKyTx9OwIxL0j4HfcqjH+V0C30KxdpLRZfEKlUlHZdzh9QN66hjnWGzdYjhcTRz5dmpKBSUUXJ9hP9iqLHZnyBYR/AVRvo3UWmuvgp55svuXSJw==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-11T11:51:55.331Z",
+    "paidBumps": 103,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-10T23:55:00.953Z",
+    "updatedAt": "2025-01-11T11:51:55.434Z"
+  },
+  {
+    "telegram": {
+      "id": 795934615,
+      "username": "Khind1",
+      "firstName": "Kaleb",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 25,
+      "limit": 50,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1//YzLarhfrJPtvhJ6Qzc6guuwAhOPzMFUqKq8VhM71wGU+pjEWpGwDd9KxFQjqt/s1BV+ah+iZ88f7k44YQWNc2WSyKirHSLQqifd8kamsVlnMCkcHgTzXeJ2TTg8MsLFGsQ98MYRGPg==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-01-27T09:43:42.633Z",
+    "paidBumps": 242,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-24T14:38:45.352Z",
+    "updatedAt": "2025-02-23T05:43:25.295Z"
+  },
+  {
+    "telegram": {
+      "id": 2037965073,
+      "username": "jinhong3322605",
+      "firstName": "金洪",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+53rf8tWIO9ANI7n80wEavdxJaqJR7fOX5xh5O2L5CmZNoXB7qEvR54Am1QcxPCyAR/MwU8AVrO4iD743/aNRnrJq85S1nSA4oKR4xpDaJhODyY9t1zlP+5lGuZfeft/Eyg+3M1D0vrg==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-01-29T14:30:08.653Z",
+    "updatedAt": "2025-01-29T14:30:08.653Z"
+  },
+  {
+    "telegram": {
+      "id": 955224886,
+      "username": "Jaydee2123",
+      "firstName": "Julian",
+      "lastName": "Ducasse",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX195lRRcumkURbr+hTkaNnkcQiAbljnbTPR9OHa19cVCunbu3MuGo0VG+OCdetse4cApcY8zm6UKge/VrDk9HIGdvsorU7PsYEkzrUPofIqLwI2fZ2oKGNMwEqupci2Xy3z/0B0/tTZZkw==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {
+      "59zQwha662oQUWujVCwTmybsoz5rwTfzaqC2y3sxpump": {
+        "createdAt": "2025-02-01T20:20:56.850Z",
+        "updatedAt": "2025-03-10T17:36:16.248Z",
+        "bumps": 0
+      }
+    },
+    "createdAt": "2025-01-31T05:18:49.209Z",
+    "updatedAt": "2025-02-01T20:20:56.869Z"
+  },
+  {
+    "telegram": {
+      "id": 7999365875,
+      "username": "",
+      "firstName": "Rick",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19WMqcUvpX+tF299LM1FTkztsSYw959PnVBK1Pfl7NiDac3JMZRs8E9K/aA3b+b0RKA+c7PEPIQ5fWHqSdegMFUFWeyfxhKP318qAYeo7Hz6x+LbVTLzxjkNtf5I4n4EiWg5PPU/uDboQ==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-02-01T18:00:13.941Z",
+    "updatedAt": "2025-02-01T18:00:13.941Z"
+  },
+  {
+    "telegram": {
+      "id": 6633999867,
+      "username": "",
+      "firstName": "zzzzzzzzy",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/peBcvUSA+28JBhIOIFY2WvlmaZAfp1IrLU+lHsAQJ5aSp4AxGUAPh5xhOvlisJbqIvG6jMUxMsHPH2u+IHskqbRz9A6AepWP7dwOOrhPPhJiNXbOjwGm4yED0ODP5S/ByoB9ZaBuCqg==",
+    "isPumpFunAccountSet": false,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-02-03T14:00:48.820Z",
+    "updatedAt": "2025-02-03T14:00:48.820Z"
+  },
+  {
+    "telegram": {
+      "id": 969835299,
+      "username": "V1talikz",
+      "firstName": "Vit",
+      "lastName": "Zzzzz",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX191Wiu6tEOvPkwrPjBag5GIBmo2yZzO3gnIwdepC6Yh7A2lGOkyr1yllkixMesnwXwnRThyXJPLyPH1d6fZd6k2UJle0muLRPR1U1b3MPPLSn0N94k0Y1fx5+uHWBN9IjLr8815D32dZA==",
+    "isPumpFunAccountSet": true,
+    "lastBumpAt": "2025-02-08T04:00:57.010Z",
+    "paidBumps": 10,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-02-08T03:50:17.995Z",
+    "updatedAt": "2025-02-08T04:00:57.081Z"
+  },
+  {
+    "telegram": {
+      "id": 1540502698,
+      "username": "stubpath",
+      "firstName": "Nino",
+      "lastName": "",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.15,
+      "intervalInSeconds": 10,
+      "limit": 249,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1/b1mrwNnJB3LAqsdOJGGYoeJNG42csmWnvD5iUtApeOdFRFwAsWj1PXt+FPrWtFw35679A3qItsn8ckKUwhl8busxrZaC5k5i9Ro9u0LViNdTmrSYJQsO/tq7AF178Wzr6rBBnIclD/A==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-02-16T06:42:55.613Z",
+    "updatedAt": "2025-02-16T06:45:54.838Z"
+  },
+  {
+    "telegram": {
+      "id": 5249542370,
+      "username": "",
+      "firstName": "zihan",
+      "lastName": "2,",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX19UUSQd7qjFcXaRIskhie8S6c/OGk1cDf5H7R6d/vlIdxssyuSfh3HotUBAfvYTs6RJPU3iIeW7s21mAdkB/NLTFxoilgac69gF9XoNNvDhqafkS/qzchs6Xa3t2wCkiZyy8nTVy5mqvg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-03-01T03:59:08.892Z",
+    "updatedAt": "2025-03-01T03:59:19.453Z"
+  },
+  {
+    "telegram": {
+      "id": 1420465934,
+      "username": "Bangkong22",
+      "firstName": "EKO",
+      "lastName": "APRILIAN",
+      "isBot": false
+    },
+    "bumpSettings": {
+      "amountInSol": 0.0123,
+      "intervalInSeconds": 10,
+      "limit": 10,
+      "slippage": 0.02,
+      "priorityFeeInSol": 0.0001
+    },
+    "encryptedPrivateKey": "U2FsdGVkX1+Pd0TGohyDsc2yB1myfg1uDYU/JoFHP7fP3wGvvHYkjfc2c0vaPox86TMCdswbZUQuTrvdN04NDybhqZyh6P6JqSNRZimwnNYN4pmSTJelKGdjX72G0KYa40XXLet/a3OUzJuoczWuKg==",
+    "isPumpFunAccountSet": true,
+    "paidBumps": 0,
+    "role": "USER",
+    "totalTokenPasses": 1,
+    "usedTokenPasses": {},
+    "createdAt": "2025-03-08T08:59:17.664Z",
+    "updatedAt": "2025-03-08T08:59:28.365Z"
+  }
+]

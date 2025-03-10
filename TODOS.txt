@@ -1,0 +1,4 @@
+- Finish SETTINGS page.
+- Turn "Token Passes" page to something like "PLANS" or "BUY A PLAN" page that will consist of token-passes and service-passes.
+- Extend ConfigService for better typing.
+- Session data has a cleaning cache method for custom session data but it needs to clean stored scenes as well.
