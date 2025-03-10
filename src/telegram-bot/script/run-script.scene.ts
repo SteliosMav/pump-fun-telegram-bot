@@ -7,6 +7,9 @@ import { SolanaService } from "../../core/solana/solana.service";
 import { UserService } from "../../core/user/user.service";
 import { PumpFunService } from "../../core/pump-fun/pump-fun.service";
 import { toKeypair } from "../../core/solana";
+import { testPumpFunProfileUpdate } from "./scripts/test-pump-fun-profile-update";
+import { exportToFormattedJson } from "./scripts/migrate-database/export-to-formatted-json";
+import { insertToDb } from "./scripts/migrate-database/insert-to-db";
 
 @Scene(ScriptAction.RUN_SCRIPT)
 export class RunScriptScene {
@@ -25,21 +28,19 @@ export class RunScriptScene {
     const promptMsg = await ctx.reply(`Running script...`);
 
     // Run script
-    const privateKey = this.solanaService.createPrivateKey();
-    const keypair = toKeypair(privateKey);
-    const response = await this.pumpFunService.createProfile(keypair);
-    console.log(response);
-    const responseMsg = `
-*Public Key:*  \`${keypair.publicKey.toString()}\`
-*Private Key:*  \`${privateKey}\`
-`;
+    // const responseMsg = await exportToFormattedJson(this.userService);
+    // const responseMsg = await insertToDb(this.userService);
+    // const responseMsg = await testPumpFunProfileUpdate(
+    //   this.solanaService,
+    //   this.pumpFunService
+    // );
 
     // Finish
     await ctx.telegram.editMessageText(
       ctx.chat.id,
       promptMsg.message_id,
       undefined,
-      responseMsg,
+      "finished",
       {
         ...DEFAULT_REPLY_OPTIONS,
       }

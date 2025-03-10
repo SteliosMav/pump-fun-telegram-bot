@@ -2,11 +2,11 @@ import { Min, Max } from "class-validator";
 import { validationRules } from "../../../../shared/validation-rules";
 import { IsSol } from "../../../../shared";
 
-const { priorityFee } = validationRules.bumpSettings;
+const { priorityFeeInSol } = validationRules.bumpSettings;
 
 export class PriorityFeeDto {
   @IsSol()
-  @Min(priorityFee.min)
-  @Max(priorityFee.max)
-  priorityFee!: number;
+  @Min(priorityFeeInSol.min)
+  @Max(priorityFeeInSol.max)
+  priorityFeeInSol!: number;
 }

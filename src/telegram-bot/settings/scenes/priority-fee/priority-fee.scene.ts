@@ -11,8 +11,8 @@ import _ from "lodash";
 
 @Scene(SettingsAction.SET_PRIORITY_FEE)
 export class PriorityFeeScene {
-  private readonly min = validationRules.bumpSettings.priorityFee.min;
-  private readonly max = validationRules.bumpSettings.priorityFee.max;
+  private readonly min = validationRules.bumpSettings.priorityFeeInSol.min;
+  private readonly max = validationRules.bumpSettings.priorityFeeInSol.max;
 
   constructor(private readonly settingsService: SettingsService) {}
 
@@ -34,7 +34,7 @@ export class PriorityFeeScene {
     // Parse and validate input
     const decimalsToKeep = this.min.toString().replace(".", "").length - 1;
     const priorityFeeInput: PriorityFeeDto = {
-      priorityFee: _.floor(parseFloat(ctx.message.text), decimalsToKeep), // Keep 5 decimal digits
+      priorityFeeInSol: _.floor(parseFloat(ctx.message.text), decimalsToKeep), // Keep 5 decimal digits
     };
     const priorityFeeDto: PriorityFeeDto = plainToInstance(
       PriorityFeeDto,
@@ -52,7 +52,7 @@ export class PriorityFeeScene {
       // Update user's priorityFee
       await this.settingsService.updatePriorityFee(
         ctx.session,
-        priorityFeeDto.priorityFee
+        priorityFeeDto.priorityFeeInSol
       );
 
       // Render settings page

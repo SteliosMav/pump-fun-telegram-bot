@@ -65,9 +65,9 @@ export const createUserSchema = (cryptoService: CryptoService) => {
             },
             amountInSol: {
               type: Number,
-              default: validationRules.bumpSettings.amount.default,
-              max: validationRules.bumpSettings.amount.max,
-              min: validationRules.bumpSettings.amount.min,
+              default: validationRules.bumpSettings.amountInSol.default,
+              max: validationRules.bumpSettings.amountInSol.max,
+              min: validationRules.bumpSettings.amountInSol.min,
             },
             limit: {
               type: Number,
@@ -83,9 +83,9 @@ export const createUserSchema = (cryptoService: CryptoService) => {
             },
             priorityFeeInSol: {
               type: Number,
-              default: validationRules.bumpSettings.priorityFee.default,
-              max: validationRules.bumpSettings.priorityFee.max,
-              min: validationRules.bumpSettings.priorityFee.min,
+              default: validationRules.bumpSettings.priorityFeeInSol.default,
+              max: validationRules.bumpSettings.priorityFeeInSol.max,
+              min: validationRules.bumpSettings.priorityFeeInSol.min,
             },
           },
           { _id: false }

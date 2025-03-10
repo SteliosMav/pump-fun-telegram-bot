@@ -11,8 +11,8 @@ import _ from "lodash";
 
 @Scene(SettingsAction.SET_AMOUNT)
 export class AmountScene {
-  private readonly min = validationRules.bumpSettings.amount.min;
-  private readonly max = validationRules.bumpSettings.amount.max;
+  private readonly min = validationRules.bumpSettings.amountInSol.min;
+  private readonly max = validationRules.bumpSettings.amountInSol.max;
 
   constructor(private readonly settingsService: SettingsService) {}
 

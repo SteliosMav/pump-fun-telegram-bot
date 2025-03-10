@@ -2,7 +2,7 @@ import { Min, Max, IsNumber } from "class-validator";
 import { validationRules } from "../../../../shared/validation-rules";
 import { IsSol } from "../../../../shared";
 
-const { amount } = validationRules.bumpSettings;
+const { amountInSol } = validationRules.bumpSettings;
 
 export class AmountDto {
   /**
@@ -10,7 +10,7 @@ export class AmountDto {
    * input format is SOL.
    */
   @IsSol()
-  @Min(amount.min)
-  @Max(amount.max)
+  @Min(amountInSol.min)
+  @Max(amountInSol.max)
   amount!: number;
 }
