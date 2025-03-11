@@ -21,4 +21,4 @@ export const MIN_VALIDATOR_TIP_IN_SOL = 0.00001; // 1,000 lamports
 // === Config ===
 export const BOT_SERVICE_FEE_IN_SOL = 0.00019;
 export const BOT_TOKEN_PASS_PRICE_IN_SOL = 0.048;
-export const BOT_SERVICE_PASS_PRICE_IN_SOL = 0.48;
+export const BOT_SERVICE_PASS_PRICE_IN_SOL = 0.38;
