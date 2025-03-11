@@ -12,7 +12,6 @@ import { BotExceptionFilter } from "./bot-exception.filter";
 import { PricingModule } from "./pricing/pricing.module";
 import { InfoModule } from "./info/info.module";
 import { AdminModule } from "./admin/admin.module";
-import { ScriptModule } from "./script/script.module";
 
 @Module({
   providers: [
@@ -49,7 +48,6 @@ import { ScriptModule } from "./script/script.module";
     PricingModule,
     InfoModule,
     AdminModule,
-    ScriptModule,
   ],
 })
 export class BotModule {}
