@@ -1,10 +1,18 @@
 import { Keypair } from "@solana/web3.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
-import { PumpFunProfile, UserUpdateResponse } from "./types";
-import axios from "axios";
+import {
+  CreatePumpFunUserPayload,
+  CreatePumpFunUserResponse,
+  UpdatePumpFunProfilePayload,
+  UserUpdateResponse,
+} from "./types";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Injectable } from "@nestjs/common";
-import { BOT_DESCRIPTION, BOT_IMAGE } from "./constants";
+import { BOT_DESCRIPTION } from "./constants";
+import * as fs from "fs";
+import FormData from "form-data";
+import { generateUsername } from "./pump-fun-utils";
 
 @Injectable()
 export class PumpFunService {
@@ -24,14 +32,22 @@ export class PumpFunService {
     "Sec-Fetch-Site": "cross-site",
   };
 
-  async createProfile(keypair: Keypair): Promise<PumpFunProfile> {
+  async createProfile(keypair: Keypair): Promise<unknown> {
+    // Authenticate with pump.fun
     const authCookie = await this.login(keypair);
-    const updatedProfile = await this.updateProfile(authCookie, {
-      username: this.generateUsername(),
+
+    // Upload image
+    const profileImage = await this.uploadImageToPumpFun(
+      authCookie,
+      keypair.publicKey.toBase58()
+    );
+
+    // Create user
+    return this.createUser(authCookie, {
+      profileImage,
+      username: generateUsername(),
       bio: BOT_DESCRIPTION,
-      imageUrl: BOT_IMAGE,
     });
-    return updatedProfile;
   }
 
   private async login(keypair: Keypair): Promise<string> {
@@ -65,8 +81,8 @@ export class PumpFunService {
 
   private async updateProfile(
     authCookie: string,
-    update: PumpFunProfile
-  ): Promise<PumpFunProfile> {
+    update: UpdatePumpFunProfilePayload
+  ): Promise<UpdatePumpFunProfilePayload> {
     const updateRes = await axios.post<UserUpdateResponse>(
       `${this.origin}/users`,
       update,
@@ -85,23 +101,101 @@ export class PumpFunService {
     }
   }
 
-  private generateUsername(): string {
-    function generateCustomID(alphabet: string, length: number): string {
-      let result = "";
-      const characters = alphabet.split("");
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters[Math.floor(Math.random() * charactersLength)];
-      }
-      return result;
+  /**
+   * Uploads an image to Pump.fun's IPFS API.
+   * @param authCookie - The authentication cookie for authorization.
+   * @returns The API response containing the uploaded file details.
+   */
+  private async uploadImageToPumpFun(
+    authCookie: string,
+    address: string
+  ): Promise<string> {
+    const url = "https://pump.fun/api/ipfs-file";
+
+    // Prepare headers
+    const headers = {
+      accept: "*/*",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+      cookie: authCookie,
+      origin: "https://pump.fun",
+      referer: `https://pump.fun/profile/${address}`,
+      "sec-ch-ua":
+        '"Google Chrome";v="134", "Chromium";v="134", "Not:A-Brand";v="24"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      "user-agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+    };
+
+    // Create form-data with the image file
+    const formData = new FormData();
+    const filePath = "./images/user-profile-image.gif";
+    formData.append("file", fs.createReadStream(filePath));
+
+    // Merge form-data headers with custom headers
+    const combinedHeaders = {
+      ...headers,
+      ...formData.getHeaders(),
+    };
+
+    // Send the POST request
+    const response = await axios.post<{ fileUri: string }>(url, formData, {
+      headers: combinedHeaders,
+    });
+    return response.data.fileUri;
+  }
+
+  /**
+   * Creates a user on Pump.fun
+   * @param authCookie - The authentication cookie
+   * @param profileImage - The profile image URL (IPFS)
+   * @param username - The username (max 10 characters)
+   * @param bio - The user bio
+   * @returns The API response
+   */
+  private async createUser(
+    authCookie: string,
+    payload: CreatePumpFunUserPayload
+  ): Promise<CreatePumpFunUserResponse> {
+    const url = "https://frontend-api-v3.pump.fun/users";
+
+    // Headers
+    const headers = {
+      accept: "*/*",
+      "accept-encoding": "gzip, deflate, br, zstd",
+      "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,el;q=0.7",
+      "content-type": "application/json",
+      cookie: authCookie,
+      origin: "https://pump.fun",
+      priority: "u=1, i",
+      referer: "https://pump.fun/",
+      "sec-ch-ua":
+        '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"macOS"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+    };
+
+    const config: AxiosRequestConfig = {
+      method: "POST",
+      url,
+      headers,
+      data: payload,
+    };
+
+    const response = await axios(config);
+    if ("error" in response.data) {
+      throw new Error(response.data.error);
+    } else {
+      return response.data;
     }
-
-    const alphabet =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const id = generateCustomID(alphabet, 3);
-
-    const randomNumber = Math.floor(Math.random() * 10);
-
-    return `ezpump${randomNumber}${id}`; // The whole username must be max 10 characters
   }
 }
