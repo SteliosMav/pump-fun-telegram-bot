@@ -98,4 +98,11 @@ export class UserService {
       hasBannedBot: false,
     });
   }
+
+  updatePumpFunAccountStatus(
+    telegramIds: number[],
+    isSet: boolean
+  ): Promise<UpdateWriteOpResult> {
+    return this.userRepo.updateIsPumpFunAccountSet(telegramIds, isSet);
+  }
 }

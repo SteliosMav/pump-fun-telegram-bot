@@ -239,4 +239,15 @@ export class UserRepository {
       }
     );
   }
+
+  updateIsPumpFunAccountSet(
+    telegramIds: number[],
+    isSet: boolean
+  ): Promise<UpdateWriteOpResult> {
+    return this.UserModel.updateMany(
+      { [this.telegramIdPath]: { $in: telegramIds } },
+      { $set: { isPumpFunAccountSet: isSet } },
+      { runValidators: true }
+    );
+  }
 }
