@@ -21,7 +21,7 @@ export class PumpFunService {
    * @param keypair - The keypair to use for authentication.
    * @returns The API response containing the created user details.
    */
-  async createProfile(keypair: Keypair): Promise<unknown> {
+  async createProfile(keypair: Keypair): Promise<CreatePumpFunUserResponse> {
     // Authenticate with pump.fun
     const authCookie = await this.login(keypair);
 

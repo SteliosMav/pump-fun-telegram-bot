@@ -20,4 +20,5 @@ export async function createPumpFunProfileTask(
   console.log(res);
   console.log(`Private key: ${privateKey}`);
   console.log(`Public key: ${keypair.publicKey.toBase58()}`);
+  console.log(`Profile URL: https://pump.fun/profile/${res.address}`);
 }
