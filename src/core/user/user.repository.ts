@@ -9,6 +9,7 @@ import {
   UserRequiredFields,
 } from "./types";
 import { InjectModel } from "@nestjs/mongoose";
+import { UpdateWriteOpResult } from "mongoose";
 
 @Injectable()
 export class UserRepository {
@@ -61,18 +62,78 @@ export class UserRepository {
     }));
   }
 
+  /**
+   * Updates the telegram info of one or many users, partially.
+   */
   updateTelegramInfo(
     telegramId: number,
     updates: Partial<UserRaw["telegram"]>
-  ): Promise<UserDoc | null> {
-    return this.setNestedProperties(telegramId, "telegram", updates);
+  ): Promise<UserDoc | null>;
+  updateTelegramInfo(
+    telegramId: number[],
+    updates: Partial<UserRaw["telegram"]>
+  ): Promise<UpdateWriteOpResult>;
+  updateTelegramInfo(
+    telegramIdOrIds: number | number[],
+    updates: Partial<UserRaw["telegram"]>
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
+    const update: Record<string, any> = {};
+    for (const [key, value] of Object.entries(updates)) {
+      update[`telegram.${key}`] = value;
+    }
+
+    if (Array.isArray(telegramIdOrIds)) {
+      // Update multiple users
+      return this.UserModel.updateMany(
+        { [this.telegramIdPath]: { $in: telegramIdOrIds } },
+        { $set: update },
+        { runValidators: true }
+      );
+    } else {
+      // Update a single user
+      return this.UserModel.findOneAndUpdate(
+        { [this.telegramIdPath]: telegramIdOrIds },
+        { $set: update },
+        { new: true, runValidators: true }
+      );
+    }
   }
 
+  /**
+   * Updates the bump settings of one or many users, partially.
+   */
   updateBumpSettings(
     telegramId: number,
     updates: Partial<UserRaw["bumpSettings"]>
-  ): Promise<UserDoc | null> {
-    return this.setNestedProperties(telegramId, "bumpSettings", updates);
+  ): Promise<UserDoc | null>;
+  updateBumpSettings(
+    telegramId: number[],
+    updates: Partial<UserRaw["bumpSettings"]>
+  ): Promise<UpdateWriteOpResult>;
+  updateBumpSettings(
+    telegramIdOrIds: number | number[],
+    updates: Partial<UserRaw["bumpSettings"]>
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
+    const update: Record<string, any> = {};
+    for (const [key, value] of Object.entries(updates)) {
+      update[`bumpSettings.${key}`] = value;
+    }
+
+    if (Array.isArray(telegramIdOrIds)) {
+      // Update multiple users
+      return this.UserModel.updateMany(
+        { [this.telegramIdPath]: { $in: telegramIdOrIds } },
+        { $set: update },
+        { runValidators: true }
+      );
+    } else {
+      // Update a single user
+      return this.UserModel.findOneAndUpdate(
+        { [this.telegramIdPath]: telegramIdOrIds },
+        { $set: update },
+        { new: true, runValidators: true }
+      );
+    }
   }
 
   incrementTokenPassesLeft(
@@ -176,24 +237,6 @@ export class UserRepository {
         new: true,
         runValidators: true,
       }
-    );
-  }
-
-  private setNestedProperties<T extends keyof UserRaw>(
-    telegramId: number,
-    field: T,
-    updates: Partial<UserRaw[T]>
-  ): Promise<UserDoc | null> {
-    const update: Record<string, any> = {};
-
-    for (const [key, value] of Object.entries(updates)) {
-      update[`${field}.${key}`] = value;
-    }
-
-    return this.UserModel.findOneAndUpdate(
-      { [this.telegramIdPath]: telegramId },
-      { $set: update },
-      { new: true, runValidators: true }
     );
   }
 }

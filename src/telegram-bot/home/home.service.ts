@@ -17,6 +17,20 @@ export class HomeService {
     return this.solanaService.getBalance(toPublicKey(publicKey));
   }
 
+  async unmarkUserWhoBannedBot(session: BotSessionData): Promise<void> {
+    const telegramId = session.user.telegram.id;
+
+    const updatedUser = await this.userService.unmarkUserWhoBannedBot(
+      telegramId
+    );
+
+    if (!updatedUser) {
+      throw new Error(getUserNotFoundForUpdateMsg(telegramId));
+    }
+
+    session.user = updatedUser;
+  }
+
   async startBumping(session: BotSessionData, mint: string): Promise<void> {
     const { bumpingState: state } = session;
     const {

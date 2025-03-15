@@ -2,6 +2,7 @@ import { ConfigService } from "@nestjs/config";
 import { TelegramInfo, UserDoc, UserRaw, UserRequiredFields } from "./types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
+import { UpdateWriteOpResult } from "mongoose";
 
 @Injectable()
 export class UserService {
@@ -84,5 +85,17 @@ export class UserService {
     context: "paid" | "servicePass" | { tokenPass: string }
   ): Promise<UserDoc | null> {
     return this.userRepo.incrementBumps(telegramId, amount, context);
+  }
+
+  markUsersWhoBannedBot(telegramIds: number[]): Promise<UpdateWriteOpResult> {
+    return this.userRepo.updateTelegramInfo(telegramIds, {
+      hasBannedBot: true,
+    });
+  }
+
+  unmarkUserWhoBannedBot(telegramId: number): Promise<UserDoc | null> {
+    return this.userRepo.updateTelegramInfo(telegramId, {
+      hasBannedBot: false,
+    });
   }
 }
