@@ -7,7 +7,7 @@ import {
   UpdatePumpFunProfilePayload,
   UserUpdateResponse,
 } from "./types";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { Injectable } from "@nestjs/common";
 import { BOT_DESCRIPTION } from "./constants";
 import * as fs from "fs";
@@ -16,22 +16,6 @@ import { generateUsername } from "./pump-fun-utils";
 
 @Injectable()
 export class PumpFunService {
-  private origin = "https://frontend-api.pump.fun";
-  private headers = {
-    "Content-Type": "application/json",
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-    Accept: "*/*",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Accept-Encoding": "gzip, deflate, br",
-    Referer: "https://www.pump.fun/",
-    Origin: "https://www.pump.fun",
-    Connection: "keep-alive",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "cross-site",
-  };
-
   async createProfile(keypair: Keypair): Promise<unknown> {
     // Authenticate with pump.fun
     const authCookie = await this.login(keypair);
@@ -50,6 +34,12 @@ export class PumpFunService {
     });
   }
 
+  /**
+   * Logs into Pump.fun using the provided keypair. No registration is required.
+   * The user's keypair is sufficient for authentication even if it hasn't been used.
+   * @param keypair - The keypair to use for authentication.
+   * @returns The authentication string to be set as cookie (required for subsequent requests).
+   */
   private async login(keypair: Keypair): Promise<string> {
     const timestamp = Date.now();
     const message = `Sign in to pump.fun: ${timestamp}`;
@@ -67,9 +57,26 @@ export class PumpFunService {
       timestamp: timestamp,
     };
 
-    const loginRes = await axios.post(`${this.origin}/auth/login`, payload, {
-      headers: this.headers,
-    });
+    const loginRes = await axios.post(
+      `https://frontend-api.pump.fun/auth/login`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
+          Accept: "*/*",
+          "Accept-Language": "en-US,en;q=0.5",
+          "Accept-Encoding": "gzip, deflate, br",
+          Referer: "https://www.pump.fun/",
+          Origin: "https://www.pump.fun",
+          Connection: "keep-alive",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "cross-site",
+        },
+      }
+    );
 
     const setCookieHeader = loginRes.headers["set-cookie"];
     if (!setCookieHeader || !setCookieHeader.length) {
@@ -79,32 +86,10 @@ export class PumpFunService {
     return setCookieHeader.join("; ");
   }
 
-  private async updateProfile(
-    authCookie: string,
-    update: UpdatePumpFunProfilePayload
-  ): Promise<UpdatePumpFunProfilePayload> {
-    const updateRes = await axios.post<UserUpdateResponse>(
-      `${this.origin}/users`,
-      update,
-      {
-        headers: {
-          ...this.headers,
-          Cookie: authCookie,
-        },
-      }
-    );
-
-    if ("address" in updateRes.data) {
-      return update;
-    } else {
-      throw updateRes.data;
-    }
-  }
-
   /**
    * Uploads an image to Pump.fun's IPFS API.
    * @param authCookie - The authentication cookie for authorization.
-   * @returns The API response containing the uploaded file details.
+   * @returns The IPFS URI of the uploaded image.
    */
   private async uploadImageToPumpFun(
     authCookie: string,
@@ -117,7 +102,6 @@ export class PumpFunService {
       accept: "*/*",
       "accept-encoding": "gzip, deflate, br, zstd",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-      cookie: authCookie,
       origin: "https://pump.fun",
       referer: `https://pump.fun/profile/${address}`,
       "sec-ch-ua":
@@ -129,6 +113,7 @@ export class PumpFunService {
       "sec-fetch-site": "same-origin",
       "user-agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+      cookie: authCookie,
     };
 
     // Create form-data with the image file
@@ -152,10 +137,8 @@ export class PumpFunService {
   /**
    * Creates a user on Pump.fun
    * @param authCookie - The authentication cookie
-   * @param profileImage - The profile image URL (IPFS)
-   * @param username - The username (max 10 characters)
-   * @param bio - The user bio
-   * @returns The API response
+   * @param payload - The user creation payload
+   * @returns The API response containing the created user details
    */
   private async createUser(
     authCookie: string,
@@ -169,7 +152,6 @@ export class PumpFunService {
       "accept-encoding": "gzip, deflate, br, zstd",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,el;q=0.7",
       "content-type": "application/json",
-      cookie: authCookie,
       origin: "https://pump.fun",
       priority: "u=1, i",
       referer: "https://pump.fun/",
@@ -182,6 +164,7 @@ export class PumpFunService {
       "sec-fetch-site": "same-site",
       "user-agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
+      cookie: authCookie,
     };
 
     const config: AxiosRequestConfig = {
@@ -196,6 +179,42 @@ export class PumpFunService {
       throw new Error(response.data.error);
     } else {
       return response.data;
+    }
+  }
+
+  /**
+   * @deprecated This method has been replaced by the `createUser` method.
+   */
+  private async updateProfile(
+    authCookie: string,
+    update: UpdatePumpFunProfilePayload
+  ): Promise<UpdatePumpFunProfilePayload> {
+    const updateRes = await axios.post<UserUpdateResponse>(
+      `https://frontend-api.pump.fun/users`,
+      update,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
+          Accept: "*/*",
+          "Accept-Language": "en-US,en;q=0.5",
+          "Accept-Encoding": "gzip, deflate, br",
+          Referer: "https://www.pump.fun/",
+          Origin: "https://www.pump.fun",
+          Connection: "keep-alive",
+          "Sec-Fetch-Dest": "empty",
+          "Sec-Fetch-Mode": "cors",
+          "Sec-Fetch-Site": "cross-site",
+          Cookie: authCookie,
+        },
+      }
+    );
+
+    if ("address" in updateRes.data) {
+      return update;
+    } else {
+      throw updateRes.data;
     }
   }
 }
