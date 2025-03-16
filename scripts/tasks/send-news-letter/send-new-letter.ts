@@ -1,44 +1,28 @@
 import { INestApplicationContext } from "@nestjs/common";
 import { UserService } from "../../../src/core/user/user.service";
-import { Telegraf } from "telegraf";
-import { ConfigService } from "@nestjs/config";
-import { Configuration } from "../../../src/shared/config";
-import { DEFAULT_REPLY_OPTIONS } from "../../../src/telegram-bot/shared/constants";
-import { isBotBlockedError } from "./utils";
 import fs from "fs";
+import { BotV2ReleaseViewService } from "./views/bot-v2-release.view";
+import { BroadcastService } from "./broad-cast.service";
 
 export async function sendNewsLetterTask(appContext: INestApplicationContext) {
   // Dependencies
   const userService = appContext.get(UserService);
-  const configService = appContext.get(ConfigService);
+  const view = appContext.get(BotV2ReleaseViewService);
+  const broadcastService = appContext.get(BroadcastService);
 
-  // Initialize the bot
-  const botToken =
-    configService.get<Configuration["TELEGRAM_BOT_TOKEN"]>(
-      "TELEGRAM_BOT_TOKEN"
-    )!;
-  const bot = new Telegraf(botToken);
+  // Fetch news letter recipients
+  const userIds = [7637618506];
+  // const userIds = await userService.findNewsLetterRecipients();
+  console.log("Total user:", userIds.length);
 
   // Send message
-  const userIds = [7637618506];
-  const unreachedUsers = [];
-  for (const userId of userIds) {
-    try {
-      await bot.telegram.sendMessage(userId, "Test message", {
-        ...DEFAULT_REPLY_OPTIONS,
-      });
-    } catch (error) {
-      if (isBotBlockedError(error)) {
-        // User banned bot
-        console.log(`User: "${userId}", has blocked the bot.`);
-      } else {
-        // Unknown reason
-        console.error(`Failed to send message to user ${userId}:`, error);
-      }
-      unreachedUsers.push(userId);
-    }
-  }
-  console.log("Total user:", userIds.length);
+  const message = view.getMessage();
+  const buttons = view.getButtons();
+  const unreachedUsers = await broadcastService.sendMessageToUsers(
+    userIds,
+    message,
+    buttons
+  );
   console.log("Unreached users:", unreachedUsers.length);
 
   // Mark users who banned bot

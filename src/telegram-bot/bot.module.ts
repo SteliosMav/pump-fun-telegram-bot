@@ -6,12 +6,14 @@ import { SettingsModule } from "./settings/settings.module";
 import { HomeModule } from "./home/home.module";
 import { SessionService } from "./shared/middlewares/session/session.service";
 import { SessionModule } from "./shared/middlewares/session/session.module";
-import { validateContextMiddleware } from "./shared/middlewares/validate-context.middleware";
+import { createValidateContextMiddleware } from "./shared/middlewares/validate-context.middleware";
 import { APP_FILTER } from "@nestjs/core";
 import { BotExceptionFilter } from "./bot-exception.filter";
 import { PricingModule } from "./pricing/pricing.module";
 import { InfoModule } from "./info/info.module";
 import { AdminModule } from "./admin/admin.module";
+import { UserModule } from "../core/user";
+import { UserService } from "../core/user/user.service";
 
 @Module({
   providers: [
@@ -24,11 +26,12 @@ import { AdminModule } from "./admin/admin.module";
     // === Configuration ===
     ConfigModule.forRoot(),
     TelegrafModule.forRootAsync({
-      imports: [ConfigModule, SessionModule],
-      inject: [ConfigService, SessionService],
+      imports: [ConfigModule, SessionModule, UserModule],
+      inject: [ConfigService, SessionService, UserService],
       useFactory: (
         configService: ConfigService<Configuration, true>,
-        sessionService: SessionService
+        sessionService: SessionService,
+        userService: UserService
       ) => ({
         token:
           configService.get<Configuration["TELEGRAM_BOT_TOKEN"]>(
@@ -36,7 +39,7 @@ import { AdminModule } from "./admin/admin.module";
           )!,
         middlewares: [
           // === Middlewares ===
-          validateContextMiddleware,
+          createValidateContextMiddleware(userService),
           sessionService.getMiddleware(),
         ],
       }),

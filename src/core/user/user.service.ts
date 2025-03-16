@@ -12,7 +12,7 @@ export class UserService {
   ) {}
 
   getUserByTgId(telegramId: number): Promise<UserDoc | null> {
-    return this.userRepo.find(telegramId);
+    return this.userRepo.findOne(telegramId);
   }
 
   createUser(user: Partial<UserRaw> & UserRequiredFields): Promise<UserDoc> {
@@ -104,5 +104,9 @@ export class UserService {
     isSet: boolean
   ): Promise<UpdateWriteOpResult> {
     return this.userRepo.updateIsPumpFunAccountSet(telegramIds, isSet);
+  }
+
+  findNewsLetterRecipients(): Promise<number[]> {
+    return this.userRepo.findNewsLetterRecipients();
   }
 }

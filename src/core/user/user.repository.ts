@@ -25,14 +25,15 @@ export class UserRepository {
     return this.UserModel.create(user);
   }
 
-  find(telegramId: number): Promise<UserDoc | null> {
+  findOne(telegramId: number): Promise<UserDoc | null> {
     return this.UserModel.findOne({ [this.telegramIdPath]: telegramId });
   }
 
-  findNewsletterRecipients(): Promise<number[]> {
-    return this.UserModel.find({}, { [this.telegramIdPath]: 1, _id: 0 }).then(
-      (users) => users.map((user) => user.telegram.id)
-    );
+  findNewsLetterRecipients(): Promise<number[]> {
+    return this.UserModel.find(
+      { "telegram.hasBannedBot": { $ne: true } },
+      { [this.telegramIdPath]: 1, _id: 0 }
+    ).then((users) => users.map((user) => user.telegram.id));
   }
 
   updateOne(

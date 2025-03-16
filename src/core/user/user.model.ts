@@ -171,15 +171,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
       },
 
       // === Query helpers ===
-      query: {
-        hasUsedBot(hasUsed = true) {
-          return this.find({ totalBumps: hasUsed ? { $gt: 0 } : { $lte: 0 } });
-        },
-
-        hasBannedBot(hasBanned = true) {
-          return this.find({ hasBannedBot: hasBanned ? true : { $ne: true } });
-        },
-      },
+      query: {},
 
       // === Schema options ===
       timestamps: true,
