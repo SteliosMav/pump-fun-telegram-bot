@@ -12,7 +12,7 @@ export async function sendNewsLetterTask(appContext: INestApplicationContext) {
 
   // Fetch news letter recipients
   const userIds = [7637618506];
-  // const userIds = await userService.findNewsLetterRecipients();
+  // const userIds = await userService.findReachableUsers();
   console.log("Total user:", userIds.length);
 
   // Send message

@@ -61,11 +61,20 @@ export class UserService {
     return this.userRepo.updateBumpSettings(telegramId, { limit });
   }
 
+  addServicePass(telegramId: number, expiresAt?: Date): Promise<UserDoc | null>;
   addServicePass(
-    telegramId: number,
+    telegramIds: number[],
     expiresAt?: Date
-  ): Promise<UserDoc | null> {
-    return this.userRepo.addServicePass(telegramId, expiresAt);
+  ): Promise<UpdateWriteOpResult>;
+  addServicePass(
+    telegramIdOrIds: number | number[],
+    expiresAt?: Date
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
+    if (Array.isArray(telegramIdOrIds)) {
+      return this.userRepo.addServicePass(telegramIdOrIds, expiresAt);
+    } else {
+      return this.userRepo.addServicePass(telegramIdOrIds, expiresAt);
+    }
   }
 
   incrementTokenPassesLeft(
@@ -106,7 +115,7 @@ export class UserService {
     return this.userRepo.updateIsPumpFunAccountSet(telegramIds, isSet);
   }
 
-  findNewsLetterRecipients(): Promise<number[]> {
-    return this.userRepo.findNewsLetterRecipients();
+  findReachableUsers(): Promise<number[]> {
+    return this.userRepo.findReachableUsers();
   }
 }
