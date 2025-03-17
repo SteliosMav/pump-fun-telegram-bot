@@ -3,6 +3,7 @@ import { UserService } from "../../../src/core/user/user.service";
 import fs from "fs";
 import { BotV2ReleaseViewService } from "./views/bot-v2-release.view";
 import { BroadcastService } from "./broad-cast.service";
+import { ImageUrls } from "./constants";
 
 export async function sendNewsLetterTask(appContext: INestApplicationContext) {
   // Dependencies
@@ -21,7 +22,8 @@ export async function sendNewsLetterTask(appContext: INestApplicationContext) {
   const unreachedUsers = await broadcastService.sendMessageToUsers(
     userIds,
     message,
-    buttons
+    buttons,
+    ImageUrls.HAPPY_ROBOT_POINTING_UP
   );
   console.log("Unreached users:", unreachedUsers.length);
 

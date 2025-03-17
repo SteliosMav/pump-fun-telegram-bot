@@ -13,29 +13,30 @@ export class HomeViewService {
   getMessage(user: UserDoc, balance: number): string {
     return `${
       user.hasServicePass
-        ? `*💎   Enjoy ZERO service-fee bumps !*${
+        ? `*💎  Enjoy ZERO service-fee bumps !*${
             user.servicePass?.expiresAt
               ? `   -   _Until ${toYYYYMMDD(user.servicePass?.expiresAt)}_`
               : ""
           }\n\n\n`
         : ``
-    }💳   *Wallet:*   \`${user.publicKey}\`
+    }💳  *Wallet:*   \`${user.publicKey}\`
 
-💰   *Balance:*   \`${toSol(balance)}\`
+💰  *Balance:*   \`${toSol(balance)}\`
 ${
   user.hasServicePass
     ? ""
-    : `\n🎟️   *Token passes:*   \`${user.tokenPassesLeft}\`
+    : `\n🎟️  *Token passes:*   \`${user.tokenPassesLeft}\`
     
-💎   *Service pass:*   ❌\n\n`
+💎  *Service pass:*   ❌\n`
 }
+
 *To get started:*
 
-    1️⃣   Deposit some *SOL* into your wallet address shown above.
+    1️⃣  Deposit some *SOL* into your wallet address shown above.
 
-    2️⃣   Press the *${this.BUMP_WORDING}* button.
+    2️⃣  Press the *${this.BUMP_WORDING}* button.
 
-    3️⃣   Enter a meme coin's *CA* or *URL* and enjoy bumping!`;
+    3️⃣  Enter a meme coin's *CA* or *URL* and enjoy bumping!`;
   }
 
   getButtons(): InlineKeyboardButton[][] {

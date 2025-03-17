@@ -15,18 +15,31 @@ export class BroadcastService {
   async sendMessageToUsers(
     userIds: number[],
     message: string,
-    buttons: InlineKeyboardButton[][]
+    buttons: InlineKeyboardButton[][],
+    imageUrl?: string
   ) {
     const unreachedUsers: number[] = [];
 
     for (const userId of userIds) {
       try {
-        await this.bot.telegram.sendMessage(userId, message, {
-          ...DEFAULT_REPLY_OPTIONS,
-          reply_markup: {
-            inline_keyboard: buttons,
-          },
-        });
+        if (imageUrl) {
+          // Send with image
+          await this.bot.telegram.sendPhoto(userId, imageUrl, {
+            caption: message,
+            ...DEFAULT_REPLY_OPTIONS,
+            reply_markup: {
+              inline_keyboard: buttons,
+            },
+          });
+        } else {
+          // Send without image
+          await this.bot.telegram.sendMessage(userId, message, {
+            ...DEFAULT_REPLY_OPTIONS,
+            reply_markup: {
+              inline_keyboard: buttons,
+            },
+          });
+        }
       } catch (error) {
         if (this.isBotBlockedError(error)) {
           // User banned bot

@@ -30,9 +30,9 @@ export function createValidateContextMiddleware(
     // === Validate Message ===
     // Only text messages are supported for now. In the future, we can add support for other types.
     // Just create separate interfaces for each type of message like `TextContext`, `PhotoContext`, etc.
-    const isTextContext = ctx.message && "text" in ctx.message;
-    const isCallbackContext = ctx.callbackQuery && "data" in ctx.callbackQuery;
-    if (!isTextContext && !isCallbackContext) {
+    const isTextEvent = ctx.message && "text" in ctx.message;
+    const isCallbackEvent = ctx.callbackQuery && "data" in ctx.callbackQuery;
+    if (!isTextEvent && !isCallbackEvent) {
       // Event is not from text or message
       const telegramId = ctx.from.id;
       const isUserBannedBotEvent =
