@@ -80,12 +80,9 @@ export class DecryptPrivateToPublicScene {
 
     // Success response
     const keypair = toKeypair(privateKeyDto.privateKey);
-    await ctx.reply(
-      this.viewService.getPublicKeyMsg(keypair.publicKey.toString()),
-      {
-        ...DEFAULT_REPLY_OPTIONS,
-      }
-    );
+    await ctx.reply(this.viewService.getPublicKeyMsg(keypair.publicKey), {
+      ...DEFAULT_REPLY_OPTIONS,
+    });
     ctx.scene.leave();
   }
 }

@@ -18,6 +18,7 @@ import { BotSessionData } from "../bot.context";
 import { getUserNotFoundForUpdateMsg } from "../../shared/error-messages";
 import { calculatePumpFunFee } from "../../core/pump-fun";
 import { UserDoc } from "../../core/user/types";
+import { PublicKey } from "@solana/web3.js";
 
 @Injectable()
 export class PricingService {
@@ -29,8 +30,8 @@ export class PricingService {
     private readonly userService: UserService
   ) {}
 
-  getBalance(publicKey: string) {
-    return this.solanaService.getBalance(toPublicKey(publicKey));
+  getBalance(publicKey: PublicKey) {
+    return this.solanaService.getBalance(publicKey);
   }
 
   /**

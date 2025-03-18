@@ -1,4 +1,4 @@
-import { Keypair } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import {
@@ -28,7 +28,7 @@ export class PumpFunService {
     // Upload image
     const profileImage = await this.uploadImageToPumpFun(
       authCookie,
-      keypair.publicKey.toBase58()
+      keypair.publicKey
     );
 
     // Create user
@@ -98,7 +98,7 @@ export class PumpFunService {
    */
   private async uploadImageToPumpFun(
     authCookie: string,
-    address: string
+    publicKey: PublicKey
   ): Promise<string> {
     const url = "https://pump.fun/api/ipfs-file";
 
@@ -108,7 +108,7 @@ export class PumpFunService {
       "accept-encoding": "gzip, deflate, br, zstd",
       "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
       origin: "https://pump.fun",
-      referer: `https://pump.fun/profile/${address}`,
+      referer: `https://pump.fun/profile/${publicKey.toBase58()}`,
       "sec-ch-ua":
         '"Google Chrome";v="134", "Chromium";v="134", "Not:A-Brand";v="24"',
       "sec-ch-ua-mobile": "?0",

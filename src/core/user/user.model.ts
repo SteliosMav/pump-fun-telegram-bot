@@ -14,6 +14,7 @@ import {
 import { CryptoService } from "../crypto/crypto.service";
 import { toKeypair } from "../solana";
 import { validationRules } from "../../shared/validation-rules";
+import { PublicKey } from "@solana/web3.js";
 
 /**
  * @improvements Break down the schema into smaller schemas.
@@ -119,7 +120,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
       // === Virtual fields ===
       virtuals: {
         publicKey: {
-          get(): string {
+          get(): PublicKey {
             /**
              * @note For some reason the methods are not available in the virtuals
              * in order to reuse the this.getPrivateKey(). Typescript keeps complain.
@@ -127,7 +128,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
             const privateKey = cryptoService.decryptPrivateKey(
               this.encryptedPrivateKey
             );
-            return toKeypair(privateKey).publicKey.toString();
+            return toKeypair(privateKey).publicKey;
           },
         },
         tokenPassesLeft: {

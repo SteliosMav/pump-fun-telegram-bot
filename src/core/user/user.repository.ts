@@ -59,7 +59,7 @@ export class UserRepository {
         users.map(({ encryptedPrivateKey, ...rest }) => {
           const decryptedPrivateKey =
             this.cryptoService.decryptPrivateKey(encryptedPrivateKey);
-          const publicKey = toKeypair(decryptedPrivateKey).publicKey.toBase58();
+          const publicKey = toKeypair(decryptedPrivateKey).publicKey;
           return { ...rest, publicKey };
         })
       );

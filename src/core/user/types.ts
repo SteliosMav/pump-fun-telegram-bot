@@ -1,3 +1,4 @@
+import { PublicKey } from "@solana/web3.js";
 import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
 
 // Both required and default fields are mandatory, but default fields are
@@ -54,7 +55,7 @@ export interface ServicePass extends BasicPass {
 }
 
 export interface UserVirtuals {
-  publicKey: string;
+  publicKey: PublicKey;
   tokenPassesLeft: number;
   hasServicePass: boolean;
   isAdmin: boolean;

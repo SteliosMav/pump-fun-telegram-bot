@@ -19,7 +19,7 @@ export class HomeViewService {
               : ""
           }\n\n\n`
         : ``
-    }💳  *Wallet:*   \`${user.publicKey}\`
+    }💳  *Wallet:*   \`${user.publicKey.toString()}\`
 
 💰  *Balance:*   \`${toSol(balance)}\`
 ${
