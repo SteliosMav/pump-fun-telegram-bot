@@ -1,8 +1,8 @@
 import { ConfigService } from "@nestjs/config";
-import { TelegramInfo, UserDoc, UserRaw, UserRequiredFields } from "./types";
+import { UserDoc, UserRaw, UserRequiredFields } from "./types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
-import { UpdateWriteOpResult } from "mongoose";
+import { DeleteResult, UpdateWriteOpResult } from "mongoose";
 
 @Injectable()
 export class UserService {
@@ -117,5 +117,17 @@ export class UserService {
 
   findReachableUsers(): Promise<number[]> {
     return this.userRepo.findReachableUsers();
+  }
+
+  findPumpFunAccountsToUpdate(): Promise<
+    (Pick<UserRaw, "telegram" | "encryptedPrivateKey"> & {
+      [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
+    })[]
+  > {
+    return this.userRepo.findPumpFunAccountsToUpdate();
+  }
+
+  deleteDuplicates(): Promise<DeleteResult> {
+    return this.userRepo.deleteDuplicates();
   }
 }

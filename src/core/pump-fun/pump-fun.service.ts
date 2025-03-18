@@ -179,9 +179,9 @@ export class PumpFunService {
       data: payload,
     };
 
-    const response = await axios(config);
+    const response = await axios<CreatePumpFunUserResponse>(config);
     if ("error" in response.data) {
-      throw new Error(response.data.error);
+      throw new Error(response.data.error as string);
     } else {
       return response.data;
     }

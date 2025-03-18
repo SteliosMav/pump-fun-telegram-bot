@@ -9,7 +9,7 @@ import {
   UserRequiredFields,
 } from "./types";
 import { InjectModel } from "@nestjs/mongoose";
-import { UpdateWriteOpResult } from "mongoose";
+import { DeleteResult, UpdateWriteOpResult } from "mongoose";
 
 @Injectable()
 export class UserRepository {
@@ -32,10 +32,65 @@ export class UserRepository {
   findReachableUsers(): Promise<number[]> {
     return this.UserModel.find(
       { "telegram.hasBannedBot": { $ne: true } },
-      { [this.telegramIdPath]: 1, _id: 0 }
+      { _id: 0, [this.telegramIdPath]: 1 }
     ).then((users) => users.map((user) => user.telegram.id));
   }
 
+  /**
+   * @WARNING Need to include only `id` from `telegram` object
+   */
+  findPumpFunAccountsToUpdate(): Promise<
+    (Pick<UserRaw, "telegram" | "encryptedPrivateKey"> & {
+      [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
+    })[]
+  > {
+    return this.UserModel.find(
+      { isPumpFunAccountSet: false },
+      { [this.telegramIdPath]: 1, encryptedPrivateKey: 1, _id: 0 }
+    ).lean();
+  }
+
+  // findDuplicates(): Promise<number[]> {
+  //   return this.UserModel.aggregate([
+  //     { $group: { _id: "$telegram.id", count: { $sum: 1 } } },
+  //     { $match: { count: { $gt: 1 } } },
+  //     { $project: { _id: 1 } },
+  //   ]).then((results) => results.map((user) => user._id));
+  // }
+
+  /**
+   * Delete duplicates having the same createdAt and updatedAt fields as
+   * well as telegram ID. This issue can occur from a migration script.
+   */
+  async deleteDuplicates(): Promise<DeleteResult> {
+    const duplicates = await this.UserModel.aggregate([
+      {
+        $group: {
+          _id: {
+            telegramId: "$telegram.id",
+            createdAt: "$createdAt",
+            updatedAt: "$updatedAt",
+          },
+          ids: { $push: "$_id" },
+          count: { $sum: 1 },
+        },
+      },
+      { $match: { count: { $gt: 1 } } },
+      { $project: { _id: 0, ids: 1 } },
+    ]);
+    console.log("Duplicates:", duplicates.length);
+
+    // Flatten all IDs to be deleted (excluding one per group)
+    const toBeDeleted = duplicates.flatMap(({ ids }) => ids.slice(1));
+    console.log("To be deleted:", toBeDeleted.length);
+
+    return this.UserModel.deleteMany({ _id: { $in: toBeDeleted } });
+  }
+
+  /**
+   * It will update partially only root level fields. Nested ones will be
+   * overwritten.
+   */
   updateOne(
     telegramId: number,
     update: Partial<UserRaw>
@@ -47,6 +102,10 @@ export class UserRepository {
     );
   }
 
+  /**
+   * It will update partially only root level fields. Nested ones will be
+   * overwritten.
+   */
   updateMany(
     telegramId: number[],
     update: Partial<UserRaw>
