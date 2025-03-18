@@ -48,7 +48,7 @@ export class UserRepository {
   findPumpFunAccountsToUpdate(): Promise<
     ({
       [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
-    } & Pick<UserVirtuals, "publicKey">)[]
+    } & Pick<UserVirtuals, "keypair">)[]
   > {
     return this.UserModel.find(
       { isPumpFunAccountSet: false },
@@ -59,8 +59,8 @@ export class UserRepository {
         users.map(({ encryptedPrivateKey, ...rest }) => {
           const decryptedPrivateKey =
             this.cryptoService.decryptPrivateKey(encryptedPrivateKey);
-          const publicKey = toKeypair(decryptedPrivateKey).publicKey;
-          return { ...rest, publicKey };
+          const keypair = toKeypair(decryptedPrivateKey);
+          return { ...rest, keypair };
         })
       );
   }

@@ -122,7 +122,7 @@ export class UserService {
   findPumpFunAccountsToUpdate(): Promise<
     ({
       [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
-    } & Pick<UserVirtuals, "publicKey">)[]
+    } & Pick<UserVirtuals, "keypair">)[]
   > {
     return this.userRepo.findPumpFunAccountsToUpdate();
   }
