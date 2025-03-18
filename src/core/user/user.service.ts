@@ -1,5 +1,5 @@
 import { ConfigService } from "@nestjs/config";
-import { UserDoc, UserRaw, UserRequiredFields } from "./types";
+import { UserDoc, UserRaw, UserRequiredFields, UserVirtuals } from "./types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
 import { DeleteResult, UpdateWriteOpResult } from "mongoose";
@@ -120,9 +120,9 @@ export class UserService {
   }
 
   findPumpFunAccountsToUpdate(): Promise<
-    (Pick<UserRaw, "telegram" | "encryptedPrivateKey"> & {
+    ({
       [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
-    })[]
+    } & Pick<UserVirtuals, "publicKey">)[]
   > {
     return this.userRepo.findPumpFunAccountsToUpdate();
   }

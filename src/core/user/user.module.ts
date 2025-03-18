@@ -17,6 +17,7 @@ import { CryptoModule, CryptoService } from "../crypto";
           createUserSchema(cryptoService),
       },
     ]),
+    CryptoModule,
   ],
   exports: [UserService],
 })

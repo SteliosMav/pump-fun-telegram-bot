@@ -7,9 +7,12 @@ import {
   UserModelType,
   UserRaw,
   UserRequiredFields,
+  UserVirtuals,
 } from "./types";
 import { InjectModel } from "@nestjs/mongoose";
 import { DeleteResult, UpdateWriteOpResult } from "mongoose";
+import { CryptoService } from "../crypto";
+import { toKeypair } from "../solana";
 
 @Injectable()
 export class UserRepository {
@@ -19,7 +22,10 @@ export class UserRepository {
     return `${telegramKey}.${idKey}`;
   }
 
-  constructor(@InjectModel("User") private readonly UserModel: UserModelType) {}
+  constructor(
+    @InjectModel("User") private readonly UserModel: UserModelType,
+    private readonly cryptoService: CryptoService
+  ) {}
 
   create(user: Partial<UserRaw> & UserRequiredFields): Promise<UserDoc> {
     return this.UserModel.create(user);
@@ -37,26 +43,27 @@ export class UserRepository {
   }
 
   /**
-   * @WARNING Need to include only `id` from `telegram` object
+   * Includes virtual field `publicKey` in the response
    */
   findPumpFunAccountsToUpdate(): Promise<
-    (Pick<UserRaw, "telegram" | "encryptedPrivateKey"> & {
+    ({
       [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
-    })[]
+    } & Pick<UserVirtuals, "publicKey">)[]
   > {
     return this.UserModel.find(
       { isPumpFunAccountSet: false },
       { [this.telegramIdPath]: 1, encryptedPrivateKey: 1, _id: 0 }
-    ).lean();
+    )
+      .lean()
+      .then((users) =>
+        users.map(({ encryptedPrivateKey, ...rest }) => {
+          const decryptedPrivateKey =
+            this.cryptoService.decryptPrivateKey(encryptedPrivateKey);
+          const publicKey = toKeypair(decryptedPrivateKey).publicKey.toBase58();
+          return { ...rest, publicKey };
+        })
+      );
   }
-
-  // findDuplicates(): Promise<number[]> {
-  //   return this.UserModel.aggregate([
-  //     { $group: { _id: "$telegram.id", count: { $sum: 1 } } },
-  //     { $match: { count: { $gt: 1 } } },
-  //     { $project: { _id: 1 } },
-  //   ]).then((results) => results.map((user) => user._id));
-  // }
 
   /**
    * Delete duplicates having the same createdAt and updatedAt fields as
