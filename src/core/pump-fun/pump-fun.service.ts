@@ -63,7 +63,7 @@ export class PumpFunService {
     };
 
     const loginRes = await axios.post(
-      `https://frontend-api.pump.fun/auth/login`,
+      `https://frontend-api-v3.pump.fun/auth/login`,
       payload,
       {
         headers: {
@@ -182,6 +182,20 @@ export class PumpFunService {
     const response = await axios<CreatePumpFunUserResponse>(config);
     if ("error" in response.data) {
       throw new Error(response.data.error as string);
+    } else if (payload.profileImage && !response.data.profile_image) {
+      throw new Error(
+        `Pump.fun profile creation: Request succeeded but profile-image was not updated.`
+      );
+    } else if (
+      payload.username.toLocaleLowerCase() !== response.data.username
+    ) {
+      throw new Error(
+        `Pump.fun profile creation: Request succeeded but username was not updated.`
+      );
+    } else if (payload.bio && payload.bio !== response.data.bio) {
+      throw new Error(
+        `Pump.fun profile creation: Request succeeded but bio was not updated.`
+      );
     } else {
       return response.data;
     }
