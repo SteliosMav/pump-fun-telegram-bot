@@ -1,7 +1,8 @@
 import { ConfigService } from "@nestjs/config";
-import { TelegramInfo, UserDoc, UserRaw, UserRequiredFields } from "./types";
+import { UserDoc, UserRaw, UserRequiredFields, UserVirtuals } from "./types";
 import { UserRepository } from "./user.repository";
 import { Injectable } from "@nestjs/common";
+import { DeleteResult, UpdateWriteOpResult } from "mongoose";
 
 @Injectable()
 export class UserService {
@@ -11,7 +12,7 @@ export class UserService {
   ) {}
 
   getUserByTgId(telegramId: number): Promise<UserDoc | null> {
-    return this.userRepo.find(telegramId);
+    return this.userRepo.findOne(telegramId);
   }
 
   createUser(user: Partial<UserRaw> & UserRequiredFields): Promise<UserDoc> {
@@ -60,11 +61,20 @@ export class UserService {
     return this.userRepo.updateBumpSettings(telegramId, { limit });
   }
 
+  addServicePass(telegramId: number, expiresAt?: Date): Promise<UserDoc | null>;
   addServicePass(
-    telegramId: number,
+    telegramIds: number[],
     expiresAt?: Date
-  ): Promise<UserDoc | null> {
-    return this.userRepo.addServicePass(telegramId, expiresAt);
+  ): Promise<UpdateWriteOpResult>;
+  addServicePass(
+    telegramIdOrIds: number | number[],
+    expiresAt?: Date
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
+    if (Array.isArray(telegramIdOrIds)) {
+      return this.userRepo.addServicePass(telegramIdOrIds, expiresAt);
+    } else {
+      return this.userRepo.addServicePass(telegramIdOrIds, expiresAt);
+    }
   }
 
   incrementTokenPassesLeft(
@@ -84,5 +94,40 @@ export class UserService {
     context: "paid" | "servicePass" | { tokenPass: string }
   ): Promise<UserDoc | null> {
     return this.userRepo.incrementBumps(telegramId, amount, context);
+  }
+
+  markUsersWhoBannedBot(telegramIds: number[]): Promise<UpdateWriteOpResult> {
+    return this.userRepo.updateTelegramInfo(telegramIds, {
+      hasBannedBot: true,
+    });
+  }
+
+  unmarkUserWhoBannedBot(telegramId: number): Promise<UserDoc | null> {
+    return this.userRepo.updateTelegramInfo(telegramId, {
+      hasBannedBot: false,
+    });
+  }
+
+  updatePumpFunAccountStatus(
+    telegramIds: number[],
+    isSet: boolean
+  ): Promise<UpdateWriteOpResult> {
+    return this.userRepo.updateIsPumpFunAccountSet(telegramIds, isSet);
+  }
+
+  findReachableUsers(): Promise<number[]> {
+    return this.userRepo.findReachableUsers();
+  }
+
+  findPumpFunAccountsToUpdate(): Promise<
+    ({
+      [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
+    } & Pick<UserVirtuals, "keypair">)[]
+  > {
+    return this.userRepo.findPumpFunAccountsToUpdate();
+  }
+
+  deleteDuplicates(): Promise<DeleteResult> {
+    return this.userRepo.deleteDuplicates();
   }
 }

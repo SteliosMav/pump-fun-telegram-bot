@@ -17,7 +17,7 @@ This document outlines the key components, folder structure, and best practices 
 ### **Repository**
 
 - Encapsulates all database interaction logic.
-- Provides reusable methods (`find`, `update`, `increment`) for CRUD operations.
+- Provides reusable methods (`findOne`, `update`, `increment`) for CRUD operations.
 - Contains **no business logic or validation**.
 
 ### **Service**

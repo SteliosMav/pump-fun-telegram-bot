@@ -6,10 +6,16 @@ import { HomeAction } from "./constants";
 @Update()
 export class HomeUpdate {
   @Command(SharedCommand.START)
-  async onRenderStart(
+  async onRenderStartCommand(
     @Ctx() ctx: BotContext,
     @Next() next: () => Promise<void>
   ) {
+    ctx.scene.enter(SharedAction.RENDER_HOME);
+  }
+
+  @Action(SharedAction.RENDER_HOME)
+  async onRenderStartAction(@Ctx() ctx: BotContext) {
+    await ctx.answerCbQuery();
     ctx.scene.enter(SharedAction.RENDER_HOME);
   }
 

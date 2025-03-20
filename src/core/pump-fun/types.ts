@@ -46,8 +46,27 @@ export type UserUpdateResponse =
       bio: string;
     };
 
-export interface PumpFunProfile {
+export interface CreatePumpFunUserPayload {
+  username: string; // Maximum of 10 characters
+  bio: string; // Maximum of 250 characters
+  profileImage?: string;
+}
+
+export interface UpdatePumpFunProfilePayload {
   username: string; // Maximum of 10 characters
   bio: string; // Maximum of 250 characters
   imageUrl?: string;
+}
+
+export interface CreatePumpFunUserResponse {
+  address: string;
+  likes_received: number;
+  mentions_received: number;
+  username: string;
+  profile_image: string | null;
+  last_username_update_timestamp: number;
+  followers: number;
+  following: number;
+  bio: string;
+  updated_at: number;
 }

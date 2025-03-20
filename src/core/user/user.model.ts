@@ -14,6 +14,7 @@ import {
 import { CryptoService } from "../crypto/crypto.service";
 import { toKeypair } from "../solana";
 import { validationRules } from "../../shared/validation-rules";
+import { Keypair, PublicKey } from "@solana/web3.js";
 
 /**
  * @improvements Break down the schema into smaller schemas.
@@ -118,8 +119,8 @@ export const createUserSchema = (cryptoService: CryptoService) => {
     {
       // === Virtual fields ===
       virtuals: {
-        publicKey: {
-          get(): string {
+        keypair: {
+          get(): Keypair {
             /**
              * @note For some reason the methods are not available in the virtuals
              * in order to reuse the this.getPrivateKey(). Typescript keeps complain.
@@ -127,7 +128,19 @@ export const createUserSchema = (cryptoService: CryptoService) => {
             const privateKey = cryptoService.decryptPrivateKey(
               this.encryptedPrivateKey
             );
-            return toKeypair(privateKey).publicKey.toString();
+            return toKeypair(privateKey);
+          },
+        },
+        publicKey: {
+          get(): PublicKey {
+            /**
+             * @note For some reason the methods are not available in the virtuals
+             * in order to reuse the this.getPrivateKey(). Typescript keeps complain.
+             */
+            const privateKey = cryptoService.decryptPrivateKey(
+              this.encryptedPrivateKey
+            );
+            return toKeypair(privateKey).publicKey;
           },
         },
         tokenPassesLeft: {
@@ -171,15 +184,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
       },
 
       // === Query helpers ===
-      query: {
-        hasUsedBot(hasUsed = true) {
-          return this.find({ totalBumps: hasUsed ? { $gt: 0 } : { $lte: 0 } });
-        },
-
-        hasBannedBot(hasBanned = true) {
-          return this.find({ hasBannedBot: hasBanned ? true : { $ne: true } });
-        },
-      },
+      query: {},
 
       // === Schema options ===
       timestamps: true,

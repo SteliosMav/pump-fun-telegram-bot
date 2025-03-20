@@ -10,7 +10,7 @@
 ### Repository
 
 - Encapsulates all database interaction logic.
-- Provides reusable functions (e.g., `find`, `update`, `increment`).
+- Provides reusable functions (e.g., `findOne`, `update`, `increment`).
 - Contains no business logic or validation.
 
 ### Service
@@ -34,7 +34,7 @@
 
 ## Conventions
 
-- Function names: Use verbs like `create`, `update`, `find` to indicate intent.
+- Function names: Use verbs like `create`, `update`, `findOne` to indicate intent.
 - Error handling: Validate in the service layer; log and interpret errors there.
 
 ---

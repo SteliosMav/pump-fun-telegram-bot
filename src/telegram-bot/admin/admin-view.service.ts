@@ -1,6 +1,7 @@
 import { InlineKeyboardButton } from "telegraf/typings/core/types/typegram";
 import { Injectable } from "@nestjs/common";
 import { AdminAction } from "./constants";
+import { PublicKey } from "@solana/web3.js";
 
 @Injectable()
 export class AdminViewService {
@@ -36,9 +37,9 @@ _- What can I do for you?_`;
 \`${privateKey}\``;
   }
 
-  getPublicKeyMsg(publicKey: string) {
+  getPublicKeyMsg(publicKey: PublicKey) {
     return `_Public key extracted:_
     
-\`${publicKey}\``;
+\`${publicKey.toString()}\``;
   }
 }

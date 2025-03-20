@@ -1,3 +1,4 @@
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { HydratedDocument, Model, QueryWithHelpers } from "mongoose";
 
 // Both required and default fields are mandatory, but default fields are
@@ -54,7 +55,8 @@ export interface ServicePass extends BasicPass {
 }
 
 export interface UserVirtuals {
-  publicKey: string;
+  keypair: Keypair;
+  publicKey: PublicKey;
   tokenPassesLeft: number;
   hasServicePass: boolean;
   isAdmin: boolean;
@@ -74,8 +76,11 @@ export type UserQuery = QueryWithHelpers<
 >;
 
 export interface UserQueryHelpers {
-  hasUsedBot(this: UserQuery, hasUsed?: boolean): this;
-  hasBannedBot(this: UserQuery, hasBanned?: boolean): this;
+  /**
+   * @deprecated Query helpers are not used anymore
+   */
+  // hasUsedBot(this: UserQuery, hasUsed?: boolean): this;
+  // hasBannedBot(this: UserQuery, hasBanned?: boolean): this;
 }
 
 export type UserModelType = Model<

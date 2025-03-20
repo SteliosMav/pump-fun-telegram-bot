@@ -7,8 +7,12 @@ import {
   UserModelType,
   UserRaw,
   UserRequiredFields,
+  UserVirtuals,
 } from "./types";
 import { InjectModel } from "@nestjs/mongoose";
+import { DeleteResult, UpdateWriteOpResult } from "mongoose";
+import { CryptoService } from "../crypto";
+import { toKeypair } from "../solana";
 
 @Injectable()
 export class UserRepository {
@@ -18,22 +22,82 @@ export class UserRepository {
     return `${telegramKey}.${idKey}`;
   }
 
-  constructor(@InjectModel("User") private readonly UserModel: UserModelType) {}
+  constructor(
+    @InjectModel("User") private readonly UserModel: UserModelType,
+    private readonly cryptoService: CryptoService
+  ) {}
 
   create(user: Partial<UserRaw> & UserRequiredFields): Promise<UserDoc> {
     return this.UserModel.create(user);
   }
 
-  find(telegramId: number): Promise<UserDoc | null> {
+  findOne(telegramId: number): Promise<UserDoc | null> {
     return this.UserModel.findOne({ [this.telegramIdPath]: telegramId });
   }
 
-  findNewsletterRecipients(): Promise<number[]> {
-    return this.UserModel.find({}, { [this.telegramIdPath]: 1, _id: 0 }).then(
-      (users) => users.map((user) => user.telegram.id)
-    );
+  findReachableUsers(): Promise<number[]> {
+    return this.UserModel.find(
+      { "telegram.hasBannedBot": { $ne: true } },
+      { _id: 0, [this.telegramIdPath]: 1 }
+    ).then((users) => users.map((user) => user.telegram.id));
   }
 
+  /**
+   * Includes virtual field `publicKey` in the response
+   */
+  findPumpFunAccountsToUpdate(): Promise<
+    ({
+      [K in keyof Pick<UserRaw, "telegram">]: Pick<UserRaw["telegram"], "id">;
+    } & Pick<UserVirtuals, "keypair">)[]
+  > {
+    return this.UserModel.find(
+      { isPumpFunAccountSet: false },
+      { [this.telegramIdPath]: 1, encryptedPrivateKey: 1, _id: 0 }
+    )
+      .lean()
+      .then((users) =>
+        users.map(({ encryptedPrivateKey, ...rest }) => {
+          const decryptedPrivateKey =
+            this.cryptoService.decryptPrivateKey(encryptedPrivateKey);
+          const keypair = toKeypair(decryptedPrivateKey);
+          return { ...rest, keypair };
+        })
+      );
+  }
+
+  /**
+   * Delete duplicates having the same createdAt and updatedAt fields as
+   * well as telegram ID. This issue can occur from a migration script.
+   */
+  async deleteDuplicates(): Promise<DeleteResult> {
+    const duplicates = await this.UserModel.aggregate([
+      {
+        $group: {
+          _id: {
+            telegramId: "$telegram.id",
+            createdAt: "$createdAt",
+            updatedAt: "$updatedAt",
+          },
+          ids: { $push: "$_id" },
+          count: { $sum: 1 },
+        },
+      },
+      { $match: { count: { $gt: 1 } } },
+      { $project: { _id: 0, ids: 1 } },
+    ]);
+    console.log("Duplicates:", duplicates.length);
+
+    // Flatten all IDs to be deleted (excluding one per group)
+    const toBeDeleted = duplicates.flatMap(({ ids }) => ids.slice(1));
+    console.log("To be deleted:", toBeDeleted.length);
+
+    return this.UserModel.deleteMany({ _id: { $in: toBeDeleted } });
+  }
+
+  /**
+   * It will update partially only root level fields. Nested ones will be
+   * overwritten.
+   */
   updateOne(
     telegramId: number,
     update: Partial<UserRaw>
@@ -45,34 +109,95 @@ export class UserRepository {
     );
   }
 
+  /**
+   * It will update partially only root level fields. Nested ones will be
+   * overwritten.
+   */
   updateMany(
     telegramId: number[],
     update: Partial<UserRaw>
-  ): Promise<{ matchedCount: number; modifiedCount: number }> {
+  ): Promise<UpdateWriteOpResult> {
     return this.UserModel.updateMany(
       { [this.telegramIdPath]: telegramId },
       update,
       {
         runValidators: true,
       }
-    ).then((result) => ({
-      matchedCount: result.matchedCount,
-      modifiedCount: result.modifiedCount,
-    }));
+    );
   }
 
+  /**
+   * Updates the telegram info of one or many users, partially.
+   */
   updateTelegramInfo(
     telegramId: number,
     updates: Partial<UserRaw["telegram"]>
-  ): Promise<UserDoc | null> {
-    return this.setNestedProperties(telegramId, "telegram", updates);
+  ): Promise<UserDoc | null>;
+  updateTelegramInfo(
+    telegramId: number[],
+    updates: Partial<UserRaw["telegram"]>
+  ): Promise<UpdateWriteOpResult>;
+  updateTelegramInfo(
+    telegramIdOrIds: number | number[],
+    updates: Partial<UserRaw["telegram"]>
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
+    const update: Record<string, any> = {};
+    for (const [key, value] of Object.entries(updates)) {
+      update[`telegram.${key}`] = value;
+    }
+
+    if (Array.isArray(telegramIdOrIds)) {
+      // Update multiple users
+      return this.UserModel.updateMany(
+        { [this.telegramIdPath]: { $in: telegramIdOrIds } },
+        { $set: update },
+        { runValidators: true }
+      );
+    } else {
+      // Update a single user
+      return this.UserModel.findOneAndUpdate(
+        { [this.telegramIdPath]: telegramIdOrIds },
+        { $set: update },
+        { new: true, runValidators: true }
+      );
+    }
   }
 
+  /**
+   * Updates the bump settings of one or many users, partially.
+   */
   updateBumpSettings(
     telegramId: number,
     updates: Partial<UserRaw["bumpSettings"]>
-  ): Promise<UserDoc | null> {
-    return this.setNestedProperties(telegramId, "bumpSettings", updates);
+  ): Promise<UserDoc | null>;
+  updateBumpSettings(
+    telegramId: number[],
+    updates: Partial<UserRaw["bumpSettings"]>
+  ): Promise<UpdateWriteOpResult>;
+  updateBumpSettings(
+    telegramIdOrIds: number | number[],
+    updates: Partial<UserRaw["bumpSettings"]>
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
+    const update: Record<string, any> = {};
+    for (const [key, value] of Object.entries(updates)) {
+      update[`bumpSettings.${key}`] = value;
+    }
+
+    if (Array.isArray(telegramIdOrIds)) {
+      // Update multiple users
+      return this.UserModel.updateMany(
+        { [this.telegramIdPath]: { $in: telegramIdOrIds } },
+        { $set: update },
+        { runValidators: true }
+      );
+    } else {
+      // Update a single user
+      return this.UserModel.findOneAndUpdate(
+        { [this.telegramIdPath]: telegramIdOrIds },
+        { $set: update },
+        { new: true, runValidators: true }
+      );
+    }
   }
 
   incrementTokenPassesLeft(
@@ -152,48 +277,52 @@ export class UserRepository {
     );
   }
 
+  addServicePass(telegramId: number, expiresAt?: Date): Promise<UserDoc | null>;
   addServicePass(
-    telegramId: number,
+    telegramIds: number[],
     expiresAt?: Date
-  ): Promise<UserDoc | null> {
+  ): Promise<UpdateWriteOpResult>;
+  addServicePass(
+    telegramIdOrIds: number | number[],
+    expiresAt?: Date
+  ): Promise<UserDoc | null | UpdateWriteOpResult> {
     const update: Record<
       keyof Pick<UserRaw, "servicePass">,
-      Omit<NonNullable<UserRaw["servicePass"]>, "createdAt" | "updatedAt">
-    > = {
-      servicePass: {
-        bumps: 0,
-      },
-    };
+      Omit<
+        NonNullable<UserRaw["servicePass"]>,
+        "createdAt" | "updatedAt" | "bumps"
+      >
+    > = { servicePass: {} };
 
     if (expiresAt) {
       update.servicePass.expiresAt = expiresAt;
     }
 
-    return this.UserModel.findOneAndUpdate(
-      { [this.telegramIdPath]: telegramId },
-      update,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    if (Array.isArray(telegramIdOrIds)) {
+      // Update multiple users
+      return this.UserModel.updateMany(
+        { [this.telegramIdPath]: { $in: telegramIdOrIds } },
+        { $set: update },
+        { runValidators: true }
+      );
+    } else {
+      // Update a single user
+      return this.UserModel.findOneAndUpdate(
+        { [this.telegramIdPath]: telegramIdOrIds },
+        { $set: update },
+        { new: true, runValidators: true }
+      );
+    }
   }
 
-  private setNestedProperties<T extends keyof UserRaw>(
-    telegramId: number,
-    field: T,
-    updates: Partial<UserRaw[T]>
-  ): Promise<UserDoc | null> {
-    const update: Record<string, any> = {};
-
-    for (const [key, value] of Object.entries(updates)) {
-      update[`${field}.${key}`] = value;
-    }
-
-    return this.UserModel.findOneAndUpdate(
-      { [this.telegramIdPath]: telegramId },
-      { $set: update },
-      { new: true, runValidators: true }
+  updateIsPumpFunAccountSet(
+    telegramIds: number[],
+    isSet: boolean
+  ): Promise<UpdateWriteOpResult> {
+    return this.UserModel.updateMany(
+      { [this.telegramIdPath]: { $in: telegramIds } },
+      { $set: { isPumpFunAccountSet: isSet } },
+      { runValidators: true }
     );
   }
 }

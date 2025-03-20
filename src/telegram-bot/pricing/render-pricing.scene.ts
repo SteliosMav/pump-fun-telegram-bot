@@ -15,9 +15,7 @@ export class RenderPricingScene {
   @SceneEnter()
   async onSceneEnter(@Ctx() ctx: BotContext) {
     const user = ctx.session.user;
-    const balance = await this.solanaService.getBalance(
-      toPublicKey(user.publicKey)
-    );
+    const balance = await this.solanaService.getBalance(user.publicKey);
     const message = this.viewService.getMessage(user, balance);
     const buttons = this.viewService.getButtons();
 

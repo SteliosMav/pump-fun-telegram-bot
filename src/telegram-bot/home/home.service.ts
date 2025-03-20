@@ -5,6 +5,7 @@ import { BotSessionData } from "../bot.context";
 import { delay } from "../../shared/utils";
 import { UserService } from "../../core/user/user.service";
 import { getUserNotFoundForUpdateMsg } from "../../shared/error-messages";
+import { PublicKey } from "@solana/web3.js";
 
 @Injectable()
 export class HomeService {
@@ -13,8 +14,22 @@ export class HomeService {
     private readonly userService: UserService
   ) {}
 
-  getBalance(publicKey: string): Promise<number> {
-    return this.solanaService.getBalance(toPublicKey(publicKey));
+  getBalance(publicKey: PublicKey): Promise<number> {
+    return this.solanaService.getBalance(publicKey);
+  }
+
+  async unmarkUserWhoBannedBot(session: BotSessionData): Promise<void> {
+    const telegramId = session.user.telegram.id;
+
+    const updatedUser = await this.userService.unmarkUserWhoBannedBot(
+      telegramId
+    );
+
+    if (!updatedUser) {
+      throw new Error(getUserNotFoundForUpdateMsg(telegramId));
+    }
+
+    session.user = updatedUser;
   }
 
   async startBumping(session: BotSessionData, mint: string): Promise<void> {
