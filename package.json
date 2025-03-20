@@ -7,6 +7,7 @@
     "start:dev": "cross-env NODE_ENV=development npx nest start --watch",
     "start:prod": "cross-env NODE_ENV=production node dist/src/main.js",
     "start:script": "cross-env NODE_ENV=development npx ts-node scripts/main.ts",
+    "start:script:prod": "cross-env NODE_ENV=production npx ts-node scripts/main.ts",
     "draft": "ts-node-dev --require tsconfig-paths/register draft.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
