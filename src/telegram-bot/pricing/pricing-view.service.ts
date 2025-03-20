@@ -18,19 +18,19 @@ export class PricingViewService {
 
 💰  *Pay-Per-Bump*   -   _(${BOT_SERVICE_FEE_IN_SOL} SOL)_ 
         - No commitment, just pay per bump
-        - Ideal for casual users 
-
-
-💎  *Service Pass*   -   _(${BOT_SERVICE_PASS_PRICE_IN_SOL} SOL)_ 
-        - Unlimited bumps without service fees  
-        - Applies to all tokens
-        - Best for frequent traders & pumpers  
+        - Ideal for casual users  
 
         
 🎟️  *Token Pass*   -   _(${BOT_TOKEN_PASS_PRICE_IN_SOL} SOL)_  
         - No service fees for one selected token 
         - Limited to a specific token  
-        - Perfect for focused pumping
+        - Perfect for focused pumping 
+
+
+💎  *Service Pass*   -   _(${BOT_SERVICE_PASS_PRICE_IN_SOL} SOL)_ 
+        - Unlimited bumps without service fees  
+        - Applies to all tokens
+        - Best for frequent traders & pumpers
 
 
 _“The more you bump, the more you grow. Grab a pass and pump smarter!”_`;
