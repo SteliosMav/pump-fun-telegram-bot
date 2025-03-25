@@ -54,7 +54,7 @@ export const createUserSchema = (cryptoService: CryptoService) => {
         default: "USER",
       },
       paidBumps: { type: Number, default: 0 },
-      totalTokenPasses: { type: Number, default: 1 }, // New users get 1 free token pass
+      totalTokenPasses: { type: Number, default: 0 },
       bumpSettings: {
         type: new Schema<BumpSettings>(
           {
