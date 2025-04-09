@@ -2,6 +2,12 @@
 
 This project is a Telegram bot that interacts with the **Pump.fun** ecosystem — specifically designed to **boost token volume and visibility** through automated transactions.
 
+🌐 **Live Links**  
+- Website: [ezpump.fun](https://www.ezpump.fun/)  
+- Telegram Support: [@ezpumpsupport](https://t.me/ezpumpsupport)  
+- Twitter: [@EzPumpFun](https://x.com/EzPumpFun)  
+- Contact: [info@ezpump.fun](mailto:info@ezpump.fun)
+
 ---
 
 ## 🛠 What’s a Volume Bot?
