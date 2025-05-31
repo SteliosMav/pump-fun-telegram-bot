@@ -34,3 +34,5 @@ export const DEFAULT_REPLY_OPTIONS: {
     is_disabled: true,
   },
 };
+
+export const MIGRATION_IMAGE_PATH = "images/ez-pump-merge-with-micro-pump.png";

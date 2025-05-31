@@ -14,6 +14,7 @@ import { InfoModule } from "./info/info.module";
 import { AdminModule } from "./admin/admin.module";
 import { UserModule } from "../core/user";
 import { UserService } from "../core/user/user.service";
+import { createMigrationBarrierMiddleware } from "./shared/middlewares/migration-barrier.middleware";
 
 @Module({
   providers: [
@@ -41,6 +42,7 @@ import { UserService } from "../core/user/user.service";
           // === Middlewares ===
           createValidateContextMiddleware(userService),
           sessionService.getMiddleware(),
+          createMigrationBarrierMiddleware(),
         ],
       }),
     }),

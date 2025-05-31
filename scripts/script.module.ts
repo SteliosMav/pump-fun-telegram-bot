@@ -10,6 +10,7 @@ import { CryptoModule } from "../src/core/crypto";
 import { BotV2ReleaseViewService } from "./tasks/send-news-letter/views/bot-v2-release.view";
 import { Telegraf } from "telegraf";
 import { BroadcastService } from "./tasks/send-news-letter/broad-cast.service";
+import { MigrationViewService } from "./tasks/send-news-letter/views/migration.view";
 
 @Module({
   providers: [
@@ -27,6 +28,7 @@ import { BroadcastService } from "./tasks/send-news-letter/broad-cast.service";
       inject: [ConfigService],
     },
     BotV2ReleaseViewService,
+    MigrationViewService,
   ],
   imports: [
     LoggerModule,
