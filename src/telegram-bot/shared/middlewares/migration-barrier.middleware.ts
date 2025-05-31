@@ -1,5 +1,5 @@
 import { MiddlewareFn } from "telegraf";
-import { DEFAULT_REPLY_OPTIONS } from "../constants";
+import { DEFAULT_REPLY_OPTIONS, MIGRATION_IMAGE_PATH } from "../constants";
 import { BotContext } from "../../bot.context";
 
 const MIGRATION_MESSAGE = `*🚀   The Next Chapter for EZPump*
@@ -21,19 +21,23 @@ export function createMigrationBarrierMiddleware(): MiddlewareFn<BotContext> {
 
     // For all other users, block and inform
     if (ctx.from) {
-      await ctx.replyWithMarkdown(MIGRATION_MESSAGE, {
-        ...DEFAULT_REPLY_OPTIONS,
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "🔗  Continue to MicroPump Bot",
-                url: "https://t.me/micropump_bot",
-              },
+      await ctx.replyWithPhoto(
+        { source: MIGRATION_IMAGE_PATH },
+        {
+          caption: MIGRATION_MESSAGE,
+          ...DEFAULT_REPLY_OPTIONS,
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "🔗  Continue to MicroPump Bot",
+                  url: "https://t.me/micropump_bot",
+                },
+              ],
             ],
-          ],
-        },
-      });
+          },
+        }
+      );
     }
     // Do not call next() for non-admins
   };
