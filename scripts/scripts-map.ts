@@ -1,5 +1,5 @@
 import { INestApplicationContext } from "@nestjs/common";
-import { sendNewsLetterTask } from "./tasks/send-news-letter/send-new-letter";
+import { sendNewsLetterTask } from "./tasks/send-news-letter/send-news-letter";
 import { giveUsersServicePassTask } from "./tasks/give-users-service-pass/give-users-service-pass";
 import { createPumpFunProfileTask } from "./tasks/create-pump-fun-profile/create-pump-fun-profile";
 import { updatePumpFunProfilesTask } from "./tasks/update-pump-fun-profiles/update-pump-fun-profiles";
