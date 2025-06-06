@@ -42,7 +42,7 @@ import { createMigrationBarrierMiddleware } from "./shared/middlewares/migration
           // === Middlewares ===
           createValidateContextMiddleware(userService),
           sessionService.getMiddleware(),
-          createMigrationBarrierMiddleware(),
+          // createMigrationBarrierMiddleware(),
         ],
       }),
     }),
